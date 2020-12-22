@@ -51,7 +51,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
         job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python; python /groups/pupko/noaeker/positions_sampling/current_code/MSA_positions_sampling.py {job_ind} {curr_job_folder} {job_msa_paths_file} {job_csv_path} {spr_log_path} {general_log_path} {job_status_file} {max_n_sequences} {n_random_starting_trees} {only_evaluate_lasso}\t{jobs_prefix}{str(job_ind)}'
         with open(cmds_path, 'w') as cmds_f:
             cmds_f.write(job_line)
-        if not LINUX_LOCAL:
+        if not LOCAL_RUN:
             os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path}')
         else:
             msa_code_location = MSA_CODE_LOCATION
