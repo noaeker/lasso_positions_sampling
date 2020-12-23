@@ -1,9 +1,9 @@
 import subprocess
 import re
-from  config import *
-from help_functions import *
+from  code.config import *
+from code.help_functions import *
 import os.path
-from spr_prune_and_regraft import compute_tree_divergence
+from code.spr_prune_and_regraft import compute_tree_divergence
 
 
 

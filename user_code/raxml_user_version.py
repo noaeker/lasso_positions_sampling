@@ -1,7 +1,7 @@
 import subprocess
 import re
-from user_config import *
-from help_functions_user_version import *
+from user_code.user_config import *
+from user_code.help_functions_user_version import *
 import os.path
 
 

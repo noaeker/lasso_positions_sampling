@@ -1,5 +1,5 @@
-from help_functions import *
-from config import *
+from code.help_functions import *
+from code.config import *
 import subprocess
 import sys
 import time

@@ -3,6 +3,7 @@ import pandas as pd
 import shutil
 import logging
 
+
 def extract_file_type(path, change_format=False, ete=False):
     filename, file_extension = os.path.splitext(path)
     if change_format:
@@ -20,8 +21,6 @@ def delete_file_content(file_path):
         pass
 
 
-
-
 def extract_alignment_files_from_dir(dir):
     files_list = []
     if os.path.exists(dir):
@@ -33,14 +32,15 @@ def extract_alignment_files_from_dir(dir):
 
 def extract_dir_list_and_orig(dir_list_csv_path):
     df = pd.read_csv(dir_list_csv_path)
-    df.sort_values(by='nchars',ascending=False,inplace=True)
+    df.sort_values(by='nchars', ascending=False, inplace=True)
     dir_list = list(df["path"])
-    logging.debug("Number of paths in original csv = {n_paths}".format(n_paths = len(df.index)))
+    logging.debug("Number of paths in original csv = {n_paths}".format(n_paths=len(df.index)))
     if "orig_ntaxa" in df:
         take_orig = list(df[["orig_ntaxa", "ntaxa"]].apply(lambda x: abs(x[0] - x[1]) > 0, axis=1))
     else:
-        take_orig = [False]*len(df.index)
+        take_orig = [False] * len(df.index)
     return zip(dir_list, take_orig)
+
 
 def extract_alignment_files_from_general_csv(dir_list_csv_path):
     files_list = []
@@ -56,6 +56,7 @@ def extract_alignment_files_from_general_csv(dir_list_csv_path):
             logging.error("Following MSA dir does not exist {dir}".format(dir=dir))
     logging.debug("Overalls number of MSAs found in the given directories is: {nMSAs}".format(nMSAs=len(files_list)))
     return files_list
+
 
 def alignment_list_to_df(alignment_data):
     alignment_list = [list(alignment_data[i].seq) for i in range(len(alignment_data))]
@@ -79,6 +80,7 @@ def delete_dir_content(dir_path):
             return False
     return True
 
+
 def create_or_clean_dir(dir):
     if os.path.exists(dir):
         delete_dir_content(dir)
@@ -97,21 +99,20 @@ def unify_text_files(input_file_path_list, output_file_path):
             with open(fname) as infile:
                 outfile.write(infile.read())
 
+
 def add_csvs_content(csvs_path_list, unified_csv_path):
     existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
     existing_df_size = pd.read_csv(unified_csv_path).size if os.path.exists(unified_csv_path) else 0
     logging.info(f'Existing df size is: {existing_df_size}')
-    combined_df = pd.concat([pd.read_csv(f) for f in csvs_path_list]+ existing_df,sort=False)
+    combined_df = pd.concat([pd.read_csv(f) for f in csvs_path_list] + existing_df, sort=False)
     combined_df_size = combined_df.size
     logging.info(f'Combined df size is: {combined_df_size}')
-    combined_df.to_csv(unified_csv_path,index=False)
+    combined_df.to_csv(unified_csv_path, index=False)
     return combined_df
+
 
 def remove_empty_columns(csv_path):
     if os.path.exists((csv_path)):
         df = pd.read_csv(csv_path)
         df = df.dropna(how='all', axis=1)
-        df.to_csv(csv_path, index = False)
-
-
-
+        df.to_csv(csv_path, index=False)

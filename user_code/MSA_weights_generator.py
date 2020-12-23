@@ -1,6 +1,6 @@
 import argparse
 from sklearn import linear_model
-from raxml_user_version import *
+from user_code.raxml_user_version import *
 
 
 

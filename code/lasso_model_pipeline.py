@@ -1,6 +1,6 @@
 
 from sklearn import linear_model
-from raxml import *
+from code.raxml import *
 
 
 def evaluate_lasso_performance_on_test_data(lasso_model, curr_msa_stats, n_iter):
@@ -25,23 +25,11 @@ def generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_trai
          sitelh_training_df], axis=1, ignore_index=True, sort=False)
     training_sitelh_df_prediction.to_csv(
         os.path.join(curr_msa_stats["curr_msa_version_folder"], "training_sitelh_df_prediction.csv"))
-    simple_scatter_plot_with_regression_line(y_training, training_predicted_values,
-                                             "Training log likelihood predicted values vs. true values",
-                                             "Training true log likelihood",
-                                             "Training predicted log likelihood",
-                                             os.path.join(curr_msa_stats["curr_msa_version_folder"],
-                                                          "training_scatter_plot.png"), 1)
     test_sitelh_df_prediction = pd.concat(
         [y_test.rename("y_test"), pd.Series(test_predicted_values).rename("y_test_predicted"), sitelh_test_df], axis=1,
         ignore_index=True, sort=False)
     test_sitelh_df_prediction.to_csv(
         os.path.join(curr_msa_stats["curr_msa_version_folder"], "test_sitelh_df_prediction.csv"))
-    simple_scatter_plot_with_regression_line(y_test, test_predicted_values,
-                                             "Test log likelihood predicted values vs. true values",
-                                             "Test true log likelihood",
-                                             "Test predicted log likelihood",
-                                             os.path.join(curr_msa_stats["curr_msa_version_folder"],
-                                                          "test_scatter_plot.png"), 2)
 
 
 def apply_lasso_on_data_and_update_stats(curr_msa_stats):
