@@ -136,7 +136,7 @@ def create_or_clean_dir(dir):
 
 def create_dir_if_not_exists(dir):
     if not os.path.exists(dir):
-        os.mkdir(dir)
+            os.mkdir(dir)
 
 
 def unify_text_files(input_file_path_list, output_file_path):

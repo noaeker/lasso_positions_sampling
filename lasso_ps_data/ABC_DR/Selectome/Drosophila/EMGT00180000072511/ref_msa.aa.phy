@@ -1,0 +1,338 @@
+ 12 1267
+0001  MAVQLKNAYH HLPLTITPIL -------CQP -L-------- L-TP------
+0002  MAVQLKNAYH HLPLTITPIL -------CQP -L-------- L-TP------
+0003  MAVQLKQSYH HLPLTITPIL -------QQT HI-------- L-QQ------
+0004  MAVQLKQSYH HLPLTITPIL -------QQT HI-------- V-QQ------
+0005  MAVQLKQSYH HLPLTITPIL -------QQT HL-------- LPQQ------
+0006  MAVQLKQSYH HLPLTITPIL -------QQT HL-------- LPQQ------
+0007  MAVQLKQSYH HLPLTITPIL -------QQT HL-------- LPQQ------
+0008  MAVQLTQSYH HLPLTITPIL GSKPDHQQQQ HLQQQQQQQH L-QQQQQQQQ
+0009  MAVQLKHNYH HLPLTITPIL -------CQP -V-------- L-KP------
+0010  MAVQLKHNYH HLPLTITPIL -------CQP -V-------- L-KP------
+0011  MAVQLKNAYH HLPLTITPIL -------CQP -L-------- L-TP------
+0012  MAVQLKHNYH HLPLTITPIF -------SA- --QQQQQQQQ V-IA------
+
+      ------APTP -P-------- ---------- ----KPEPPD LTFHCMCCAE
+      ------APTP -P-------- ---------- ----KPEPPD LTFHCMCCAE
+      ------APNP -P--QQPQ-- ---------- ----PPKPPD LTFHCMCCAE
+      ------APNP -P--QQPQ-- ---------- ----PPKPPD LTFHCMCCAE
+      ------APNP -P-Q---Q-- ---------- ----QPQPPD LTFHCMCCAE
+      ------APNP -P-Q---Q-- ---------- ----QPQPPD LTFHCMCCAE
+      ------APNP -P-QQQPQ-- ---------- ----QPQPPD LTFHCMCCAE
+      LQQQQQ---- ---QQQPQLQ FLNEPQSNPP PNPPQPQPPD LTFHCMCCSE
+      ------APVP -P-------- ---------- ----KPEAPD LTFHCMCCSE
+      ------APVP -P-------- ---------- ----KPEAPD LTFHCMCCSE
+      ------APTP MPL------- ---------- ----KAEPPD LTFHCMCCAE
+      ------APS- ---------- ---------- -------QPD LTFHCTGCSE
+
+      YFVHPLALYQ HMNSKHPND- --STPQQQQ- ---QQQQ--- ---H--E---
+      YFVHPLALYQ HMNSKHPNE- --ATPQQQQ- ---QQEQ--- ---A--A---
+      FFVHPLALYQ HMNTLHPNEP SNG------- ---QQEQESP G---------
+      FFVHPLALYQ HMNTLHPNEP SNG------- ---QQEQESP G---------
+      FFVHPLALYQ HMNTLHPHEP GNG------- ---QQKQESP G---------
+      FFVHPLALYQ HMNTLHPHEP GNG------- ---QQEQESP G---------
+      FFVHPLALYQ HMNTLHPHEP GNG------- ---QQEQESP G---------
+      FFVHPLALYQ HMNTVHPNE- --G------T NVVQAEKE-P G---------
+      YFVHPLALYQ HMNSRHPNEP A--------- ----QEQK-P GESQ--E---
+      YFVHPLALYQ HMNSRHPNEP A--------- ----QEQK-P GESQ--E---
+      YFVHPLALYQ HMNSKHPNE- --TTPQEQQ- ---QQQQ--- ---QHEE---
+      YFVNPWALYQ HMNNKHP--- ---------- ----QE---- -----EEIKP
+
+      ---------- QEQAAE---- EDSTDYSWIF EPVCELEVAA DAAPLRSD--
+      ---------- Q-QAAE---- DDSTDYSWIF EPVCELEVAA DAAPLRSD--
+      ---------- ----DEG--- E---DYSWIF EPVCELA--- -------E--
+      ---------- ----DEG--- E---DYSWIF EPVCELA--- -------E--
+      ---------- ----DEG--- E---DYSWIF EPVCELA--- -------E--
+      ---------- ----DEG--- E---DYSWIF EPVCELA--- -------E--
+      ---------- ----DES--- E---DYSWIF EPVCELA--- -------E--
+      ---------- ----ADGQED E---DYSWIF EPVCELA--- -------E--
+      ---------- Q-QVEEG--- E---DYSWIF EPVCELE--- -------E--
+      ---------- Q-QVEEG--- E---DYSWIF EPVCELE--- -------E--
+      ---------- Q-QFAE---- DDSTDYSWIF EPVCELEVAA DAMASRSD--
+      ENINDDDKCP Q--------- DDGEDYSWIF EPLCELQ--- -------ENE
+
+      ---------- ---------- --DD-SDSNS DEE-AEEGSE AD-SDN-DSD
+      ---------- ---------- --DD-SDSNS DDE-AEEGSD AE-SDN-DSD
+      ---------- ---------- --DG-SDS-S DGS------- -DSSGS-DSS
+      ---------- ---------- --DG-SGS-S DGS------- -DSSGS-DSS
+      ---------- ---------- --DG-SDS-S DGS------- -DSSGS-DSS
+      ---------- ---------- --DG-SDS-S DGS------- -DSSGS-DSS
+      ---------- ---------- --DG-SDS-S DGS------- -ASSGS-DSS
+      ---------- ---------- --DGSSSS-S DDN------- -DSSDD-DSD
+      ---------- ---QEQQSQP ASDD-SDS-S DED------- -D-SDD-D-D
+      ---------- ---QEQQSQP ASDD-SDS-S DED------- -D-SDD-D-D
+      ---------- ---------- --EE-SDSNT DDEAAEEGTD AD-SDNDDSD
+      EITESVESAD SST------- --EE-QDS-S DDD------- -D-DDDDDDD
+
+      S--------- ----SSSSNN SSSGSSS--S STTTSS--SG ----------
+      S--------- ----SSSS-N SSSTSSS--S S---NS--SS ----------
+      SSS-DDDDDD DDDDSSSS-S SSSNSST--S S---SSVPTT ----------
+      SSS--DDDDD DDDDSSSS-S SSSNSS---S S---SSVPTT ----------
+      SSS-DDDDDD DDGSSSSS-S SSSNSSS--S S---SSVPTT ----------
+      SSS-DDDDDD DDDSSSSS-S SSSNSSS--S S---SSVPTT ----------
+      SSSDDDDDDD DDDSSSSS-S SSSNSSS--S S---SSVPTT ----------
+      SS----DDSS DDDSSSSG-S SSSNSSS--S S---SSRPTS ----------
+      SS----DDDD DD--SSSS-S SSSNSSS--S T---SSMPSS ----------
+      SS----DDDD DD--SSSS-S SSSNSSS--S T---SSMPSS ----------
+      S--------- ----SSSS-N S---SSS--S S---SS--SS -----TTNT-
+      ------DDDD DE--SSSS-S SSSSSSSTTS S---SQ--SS ASTLPTTNAN
+
+      ---------- GRGGAMGGTN SNSNTQPSL- ---------- ----------
+      ---------- GAGG--GGVN SNSNTQQSL- ---------- ----------
+      ---------- ---------- SNSNTQQSQ- ---------- ----------
+      ---------- ---------- SNSNTQQSQ- ---------- ----------
+      ---------- ---------- SNSNTQQSQ- ---------- ----------
+      ---------- ---------- SNSNTQQSQ- ---------- ----------
+      ---------- ---------- SNSNTQQSQ- ---------- ----------
+      ---------- ---------N SNSNTQQSQ- ---------- ----------
+      ---------- ---------T SNSTTQQSQS ---------- ----------
+      ---------- ---------T SNSTTQQSQS QSQEPMESLS KGVGVSYGEL
+      -----TTNGH ---------N SNSNTQLSL- ---------- ----------
+      TINTINTNST ---------N SNSSK----- ---------- ----------
+
+      DSGAYLEVGS TQPMRGLLPG LQPNE----- -----YQLQT ADPRESTSII
+      ENGAYVEVTS THPMRGLLPG SQPNE----- -----YQLQT ADPRESTSII
+      E--------S AAPLRGLVAG PGYNE----- -----FQLQM ADPRESTSIF
+      E--------S AQPLRGLVAG PGYNE----- -----FQLQM ADPRESTSIF
+      E--------S VQPIRGLVAG SGFNE----- -----FQLQI SDPRESTSIF
+      E--------S VQPIRGLVAG PGYNE----- -----FQLQM SDPRESTSIF
+      E--------S VQPLHGLVAG PGYNE----- -----FQLQM TDPRESTSIF
+      D--------W VQPMRGLIQT PNPNE----- -----FQLQT ADPRESTSII
+      ---------- ---------- -----VCGRT ASKTKFHLQM ADPRESTSII
+      E--------S AHPMRCLLAG PHPNE----- -----FHLQM ADSRESTSII
+      ENGAYVEVTS TQPMRTLL-- --PNE----- -----YQLPT ADPHESTSII
+      ---------- TEPLRGLIAS SKPNE----- -----FHLQI NDPRESTSII
+
+      LLKPSLSITP VP---VVP-- -----L--PV MQPQVAPPLP SLPPQ---P-
+      LLQPTLSITP VPALAVV--- ---------- ---------- ----Q---A-
+      MVQPTVSVT- -------P-- -----L---- ---------- ----------
+      MVQPTVSLT- -------P-- -----L---- ---------- ----------
+      MVQPTVSVT- -------P-- -----L---- ---------- ----------
+      MVQPTVSVT- -------P-- -----L---- ---------- ----------
+      MVQPTVSVT- -------P-- -----L---- ---------- ----------
+      LLQPEMS-T- -------PSM GVPESL---- ---------- ----------
+      LLQPSMSIT- -------P-- -----THTPV SQPH------ --PPP---P-
+      LLQPSMSIT- -------P-- -----LSTPV SQPH------ --PPP---P-
+      LLRPTLSITP VTA-AAA--- ---------- ---------- ----P---PS
+      LLKPEMSIIA IPP-AMT--- ---------- ---------- ----PLVTP-
+
+      ---------- -----PL--P --TL------ ---------S LE-PAPIK--
+      ---------- -----PLLQP --TL------ ---------S LE-PATIK--
+      ---------- ---------- ---QQLLPPA PTASL--GHS LQ-STPIK--
+      ---------- ---------- ---QQLLPPA PTAGL--GLS LQ-STPIK--
+      ---------- ---------- ---QQLLPPA PTVSP--GFG LQ-STPIK--
+      ---------- ---------- ---QQLLPPA PTVSP--GFG LQ-STPIK--
+      ---------- ---------- ---QQLLPPA PTVSP--GLG LQ-STPIK--
+      ---------- ---------- ---IQ----- ---SLGGGFT LAPSAPIK--
+      ---------- -----PL--P PMSI------ ---------S LE-PAPIK--
+      ---------- -----PL--P PMSI------ ---------S LE-PAPIK--
+      AQRSALRPTA AAVTTPLLLP --TL------ ---------H LE-PSTIK--
+      ---------- -----PT--P ---------- ---------- ---PSPIAAI
+
+      ----RRRGRR SKTN------ -----AS--- ----SDGQGA ---AAAAVAQ
+      ----RRRGRR SKAN------ -----VN--- ----SEGQGA ---AAAAVAQ
+      ----RRRGRR S--NIGAAVM ------D--- ----P----A LNGN------
+      ----RRRGRR S--NIGAPVM ------D--- ----P----A LNGN------
+      ----RRRGRR T--NIGAPVM ------D--- ----P----A LNGN------
+      ----RRRGRR T--NIGAPVM ------D--- ----P----A LNGN------
+      ----RRRGRR S--NIGAPVM ------D--- ----P----A LNGN------
+      ----RRRGRR SKANV--PLL DS--ATD--- ----P----A ---A------
+      ----RRRGRR SKANN--PML DSALAAN--- ----P----A ---A------
+      ----RRRGRR SKANN--PML DSALAAN--- ----P----A ---A------
+      ----RRRGRR SKAN------ -----VV--- ----TDSHGA ---AAAAVAQ
+      AQNPKRRGRR S--------- -----VVPNP SINAT----L ---Q------
+
+      LGANGQKCFQ CTHCEASFPN AGDLSKHVRS HISNKPFQCS ICQKTFTHIG
+      LGANGQKCFQ CTHCEASFPN AGDLSKHVRS HISNKPFQCS ICQKTFTHIG
+      -----QKCFQ CTHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CTHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CTHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CTHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CTHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CSHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CSHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      -----QKCFQ CSHCEASFPN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+      LGANGQKCFQ CTHCEASFPN AGDLSKHVRS HISNKPFQCS ICQKTFTHIG
+      -----PKCFQ CSHCEASFLN AGDLSKHVRS HITNKPFQCS ICQKTFTHIG
+
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHAVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHAVR KPHQCLQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHSVK KPHQCLLCDK
+      SLNTHIRIHS GEKPYKCEIC PKAFTQSSSL MVHMRSHAVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCEIC PKAFTQSSSL MVHMRSHAVR KPHQCVQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHAVR KPHQCLQCDK
+      SLNTHIRIHS GEKPYKCELC PKAFTQSSSL MVHMRSHAVR KPHQCLQCDK
+
+      GFINYSSLLL HQKSHSAPVE SFVCPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKSHSAPVE SFVCPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHIAPTE TFICPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHIAPTE TFICPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHIAPTE TFICPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHIAPTE TFICPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHIAPTE TFICPECERE FKAEALLDEH MRMHTQELVY
+      GFVNHSSLLL HQKTHAEPTE TFVCPECERE FKAEALLDEH MRMHTQELVY
+      GFVNYTSLLL HQKTHTAPTE TFACPECERE FKAEALLDEH MRMHTQELVY
+      GFVNYTSLLL HQKTHTAPTE TFACPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKSHAAPVE SFVCPECERE FKAEALLDEH MRMHTQELVY
+      GFINYSSLLL HQKTHSTPEE LFICPECEKE FKAEALLDEH MLMHTQELVY
+
+      QCAICRQAFR ASSELVQHMK CHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICRQAFR ASSELVQHMK CHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR ASSELVQHMK NHLGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR VSSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICREAFR VSSELVQHMK NHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICRQAFR ASSELVQHMK CHMGEKPFTC SLCDRSFTQS GSLNIHMRIH
+      QCAICRQAFR ASSELVQHMK CHLGEKPFTC NLCDRSFTQS GSLNIHMRIH
+
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPFPCHICG KAYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPFPCHICG KAYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGEKPFHCKL CAKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGVKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+      TGEKPFQCKL CEKCFTQASS LSVHMKIHAG EKPFPCHICG KSYSQQAYLN
+      TGEKPFQCKL CEKCFTQASS LSVHMKIHAG EKPFPCHICG KSYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPFPCHICG KAYSQQAYLN
+      TGEKPFQCKL CDKCFTQASS LSVHMKIHAG EKPYPCPICG KSYSQQAYLN
+
+      KHVQAHAM-D A--------- -------TPA ---RQMM--- --PAM-----
+      KHIQAHAM-D A--------- -------TPA ---RQAM--- --PVM-----
+      KHIQAHQMAS ATSA------ ------SS-- ---------- ----------
+      KHIQAHQMAS AASA------ ------SS-- ---------- ----------
+      KHIQAHQMAS SASA------ ------ST-- ---------- ----------
+      KHIQAHQMAS AASA------ ------ST-- ---------- ----------
+      KHIQAHQMAS AASA------ ------ST-- ---------- ----------
+      KHIQAHQT-S AARA------ -PPPEIPT-- ---------- ----------
+      KHIQSHN--- --RADSVPGV T-----PTP- ---------- ----------
+      KHIQSHN--- --RADSVPGV T-----PTP- ---------- ----------
+      KHIQAHAM-D A--------- -------TPP PVLRQAAPPP PPPAR-----
+      KHIQNH---- ---------- ---------- ----QQS--- --PELMHQIK
+
+      ---SAMP--- --PAP----- --------AK ETLVCIVCGA LHADATALAQ
+      ---------- --PAP----- ---------K ETLVCIVCGA LHADATALAL
+      -----SPGLL VAKQP----- ---------H ETLVCIVCGS LHADATALAN
+      -----SPGLL VAKQP----- ---------H ETLVCIVCGS LHADATALAS
+      -----SPGLL VAKQP----- ---------H ETLVCIVCGS LHADATALAT
+      -----SPGLL VAKQP----- ---------H ETLVCIVCGS LHADATALAS
+      -----SPGLL VAKQP----- ---------H ETLVCIVCGS LHADATALAS
+      -----MP--- --QQP----- ---------R ETLVCIVCGS LHADATALSQ
+      -----VP--- --MQR----- ---------H ETLVCIVCGS LHADATALAL
+      -----VP--- --MQR----- ---------H ETLVCIVCGS LHADATALAL
+      ---------- --PAPCPPFT TPVIIAAQ-K ETLVCIVCGA LHADATALAL
+      QEE------- --P-P----- ---------K ETLVCIACGS LHPDATSLAL
+
+      HVTREHTALL DNMKQ----- ---ATIP--- ---------- --QAPM--AT
+      HVTREHTALL DNMKQ----- ---ATLP--- ---------- --PAPL--AA
+      HVHTQHAALL DTMKQ----- ---SGMN--- -----TAQGG AIS------E
+      HVHSQHAALL DTMKQ----- ---SGLN--- -----TAQGG AIS------E
+      HVHSQHAALL DTMKQ----- ---SGMN--- -----TAQGG AIP------D
+      HVHSQHAALL DTMKQ----- ---SGMN--- -----TAQGG AIP------D
+      HVHSQHAALL DTMKQ----- ---SGMN--- -----TAPGG AIP------D
+      HVITQHAALL DTMKQQPPEG GFMSGV---- ---------- ----------
+      HVTSQHAALL DNIKH----- ---TAMP--- -----T---- --PAPL---D
+      HVTSQHAALL DNIKH----- ---TAMP--- -----T---- --PAPL---D
+      HVTREHTALL DNIKQ----- ---ATMP--- ---------- --AVPIASAA
+      HVTQQHAQLL NSVKD----- -----MPLPS TQPFA----- --PLPL---P
+
+      G------KCS AVERQAQQQA YMVR-VQSML QQMN----QQ QQQ-------
+      G------KCS AVERQAQQQA YMQR-VQSML QQMN----QQ QQQ-------
+      G------RCS AV----EQQA YMER-VQCVL QQMNHQQQHQ QQQQ------
+      G------MCS AE----EQQA YMER-VQCVL QQMNHQQQHQ QNQQ------
+      G------KCS AE----EQQA YVER-VQCVL QQMNHQQQHQ QQQQQHP---
+      G------KCS AE----EQQA YVER-VQCVL QQMNHQQQHQ QQQQQHPQQQ
+      V------KCS AE----EQQA YVER-VQCVL QQMNHQQQHQ QHQQQPP---
+      ---------- -Q----EQEA YMQR-VQTVF QQMN----QQ QQQQ------
+      G------KCS LI----QQQA YMQR-VQSML QQMS----QQ QQQ-------
+      G------KCS LI----QQQA YMQR-VQSML QQMS----QQ QQQ-------
+      G------KCS AVERQAQQQA YMQR-VQSML QQMN----QQ QQQ-------
+      NPQQLDTKCS -------QQL TPQRLVPSLI -QM-----QQ ----------
+
+      ---------- ---------- ---------- ---------- ---QPAMDSA
+      ---------- ---------- ---------- ---------- ---LPAMDSA
+      ------PQ-- -------HQQ QQQ------- ----QMQLPQ QPKLSAMDST
+      ---------- --------QQ QQQ------- ----QMQLPQ QPKLQAMDST
+      -QQQQHPQ-- -------QQQ QQQ----HLQ QQPHQMQLPL QPKLPAMDST
+      QQQQQHPQQQ QQQQQHPQQQ QQQ----HLQ QQPHQMQLPQ QPKLPAMDST
+      ---------- QQQQQHPQQQ QQQ----HLQ QQPHQMQLPQ QPKLPAMDST
+      ------PS-- -------QQQ QQQVAPV--- ----Q----- ----PAIDST
+      ---------- ---------- ---------- ---------- ---LPAMDST
+      ---------- ---------- ---------- ---------- ---LPAMDST
+      ---------- ---------- ---------- ---------- ---LPAMDSA
+      ---------- ---------- ---------- ---------- -------DSA
+
+      GEDEEEL-DD EDEL------ DED------- ---------- ----------
+      GEDEEEL-DD DDEL------ DED------- ---------- ----------
+      GEDEEEP-DE AE--EPPD-E EEE------- ---------- ----------
+      GEDEEEP-DE AE--EPPD-E EEE------- ---------- ----------
+      GEDEEEP-DE AE--EPPDEE EAE------- ---------- ----------
+      GEDEEEP-DE AE--EPPDEE EAE------- ---------- ----------
+      GEDEEEP-DE AE--EPPDEE EEQ------- ---------- ----------
+      GEDEEEPEDE GDDRETPE-E DGE------- ---------- ----------
+      GEDEEDP-EE EEDL------ EEE------- ---------- ----------
+      GEDEEDP-EE EEDL------ EEE------- ---------- ----------
+      GEDEEEL--D DDEL------ DEDEEGDDDV EPIEQIDVQQ LENDGNNDDE
+      GEDEE---DD EDEL------ ---------- ---------- ----------
+
+      ------EAVD QNETQQMASI DDDDE----- ---DEEE--- --DD------
+      DE-QLVEAAD QNEAQQVAN- ---------- ---------- --ND------
+      DEPE------ ---------- ----QAAEVK TEVLEAE--- --DP---LTN
+      DEPE------ ---------- ----EAAEVK TEVLGAD--- --DT---LTN
+      DEAE------ ---------- ----EPAEVK TEVLAAE--- --DA---LTS
+      DEPE------ ---------- ----EPAEVK TEVLAAE--- --DA---LTS
+      DEPE------ ---------- ----EPAEVK TEVLAAE--- --DA---LTN
+      DE-E------ ---------- ----E----- ---LEEEEKP MSDD---LE-
+      EE-E------ ---------- ----S----- ---LPEA--- --DD---CE-
+      EE-E------ ---------- ----S----- ---LPEA--- --DD---CE-
+      DE-D------ ---------- ----E----- ---DEEI--- --DDENV---
+      ---------- ---------- ---------- ---------- ----------
+
+      ---------D DDIDDGD--D ED---EDDDD DDAVDDDDDD D-DDGDEQQL
+      ---------H DDIDDDD--D ED-------- ---VDDDDDD D-D----QQL
+      SDYPILGLQ- ---------- ---------- ---------- ------EDHI
+      PGYPIPGLQ- ---------- ---------- ---------- ------EEHI
+      PRYPILGLQ- ---------- ---------- ---------- ------EEQI
+      PGYPILGLQ- ---------- ---------- ---------- ------EEQI
+      PGYPILGLQ- ---------- ---------- ---------- ------EEQI
+      ---PFLGVQ- ---------- ---------- ---------- ------EEAI
+      ---PSVSAS- ---------- ---------- ---------- ------EQET
+      ---PSVSAS- ---------- ---------- ---------- ------EQET
+      ---------D DDIDEDDVVD EDDDV----- ---VDNDDDD DVG----QQL
+      -------AG- ---------- ---------- ---------- ------EEPM
+
+      ITDTDMYYDM PGDFADMEVG CEEEVCGDFI ENDDYAAEEE VYTED--L--
+      ITDADMYYDM PVDFADMEVG CEEEVCADFI ENDDYAAEEE VYTED--I--
+      LLDSDMYYE- --DFADMDVG CQEEVFGDFV VN-----EEE VYTDA-LI--
+      LLDSDMYYE- --DFADMDVG CQEEVFGDFA VN-----EEE VYTDE-LI--
+      LLDSDMYYE- --DFADMDVG CQEEVFGDFV VN-----EEE VYTDA-LI--
+      LLDSDMYYE- --DFAVWDVG CQEEVFGD-- ---------- --------SF
+      LLDSDMYYE- --DFGDMDVG CQEEVFGDFV VN-----EEE VYTDA-LI--
+      LMDSDIYYD- --DFADMDVG CQEEVCGDYV LN-----EEE VCTEE-LI--
+      VMDSDMYYE- --EFADMDVG CQEEVCGDYV DN-----EEE VCTEE-FI--
+      VMDSDMYYE- --EFADMDVG CQEEVCGDYV DN-----EEE VCTEE-FI--
+      VTDADMYYDM PGDFADMEVG CEEEVCADFI ENDDYAAEEE VYTED--I--
+      ----DMFYDM P----DMDVG YQEEVCGDFT E-DDYAAEEE VYTEEA-N--
+
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      QSTRRRFTPM RSSRSRY
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------

@@ -1,6 +1,7 @@
 from ete3 import *
 import logging
 
+
 def prune_at_internal_node(tree_root_pointer, pruned_internal_node_name):
     main_tree_root_pointer_cp = tree_root_pointer.copy()  # working with a copy of the original tree
     pruned_node_pointer = main_tree_root_pointer_cp.search_nodes(name=pruned_internal_node_name)[0]
@@ -127,12 +128,12 @@ def compute_tree_divergence(tree_path):
 
 
 
-# t = Tree('(((A:1.828378,B:0.750678):0.0150676,C:0.82589):0.232357,D:0.464714,E:0.707315);', format=1)
+#t = Tree('(((A:1.828378,B:0.750678):0.0150676,C:0.82589):0.232357,D:0.464714,E:0.707315);', format=1)
 # A=t&"A"
 # B=t&"B"
 # E=t&"E"
 # add_internal_names(t)
-# print(t.get_ascii(attributes=['name'],  show_internal=True))
+#print(t.get_ascii(attributes=['name'],  show_internal=True))
 # pruned_node_parent_name, pruned_subtree_pointer, tree_root_pointer_cp = prune_at_internal_node(t, "N4")
 # print("pruned subtree:")
 # print(pruned_subtree_pointer.get_ascii(attributes=['name'],  show_internal=True))

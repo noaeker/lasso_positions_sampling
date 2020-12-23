@@ -9,7 +9,6 @@ import argparse
 
 def create_clean_environment(current_run_results_folder):
     current_run_results_folder = os.path.join(PROJECT_FOLDER, current_run_results_folder)
-    create_dir_if_not_exists(ALL_RUNS_BACKUP_FOLDER)
     create_dir_if_not_exists(PROJECT_FOLDER)
     create_or_clean_dir(current_run_results_folder)
     logging.info("Creating clean environment for current run:\n current run results folder: {results_folder}".format(
@@ -69,8 +68,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_prefix', action='store', type=str, default=CURR_RUN_PREFIX)
     parser.add_argument('--jobs_prefix', action='store', type=str, default=CURR_JOBS_PREFIX)
-    parser.add_argument('--n_MSAs', action='store', type=int, required=True)
-    parser.add_argument('--n_jobs', action='store', type=int, required=True)
+    parser.add_argument('--n_MSAs', action='store', type=int, default = N_MSAS )
+    parser.add_argument('--n_jobs', action='store', type=int, default = N_JOBS)
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=1000)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)

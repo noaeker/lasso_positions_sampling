@@ -1,0 +1,436 @@
+ 108 182
+Q9RTC4_DEIRA  GLALLRLVLG VVFV-AHGLQ AMAWG----- ---------- -DLGP-----
+Q9RC47_BACHD  GILLLRLFLG VTFF-IHGLV KFQD------ ---------- -GIGQ-----
+Q812S4_BACCR  GNLIIRIVLG VTFF-MHGLT KFQS------ ---------- -GIDN-----
+YFID_BACSU    GTLLLRVITG IIFF-VHGLS KFQ------- ---------- -GMEG-----
+Q831Y6_ENTFA  GIQVIRIWLG VTML-IHGVM KVT------- ---------- -SLED-----
+Q89FZ6_BRAJA  AALVLRVTLG ALFL-AHAGL KLFVF----- ---------- -TPAG-----
+Q8PGB0_XANAC  GTALLRISLG VLFL-VHGLT KLLVF----- ---------- -TPAG-----
+Q7NZE1_CHRVO  AALVLRVALG LMYL-SHGAL KLFVF----- ---------- -TPAG-----
+Q7VTR5_BORPE  AVLLLRLALG VMYL-AHGLT KLLVF----- ---------- -TLPG-----
+Q8NT59_CORGL  AFLIARILLG VILI-AHGWD KFAIT----- ---------- -GLEG-----
+Q8FSC2_COREF  ALLLSRVLLG VILI-AHGWD KFQIT----- ---------- -GLEG-----
+Q8FR06_COREF  ALLLFRVVLG IIFV-AHGWE KLFIS----- ---------- -GTTA-----
+Q88KH7_PSEPK  GLSVIRILVG IIFM-AHGAQ KLFGL----- -------FGG YGLEG-----
+Q883U2_PSESM  GLTLLRVIVG IAFI-AHGSQ KLFGA----- -------FGG YGLEG-----
+Q87K55_VIBPA  SALALRIPIG IIFM-AHGAQ KLFGW----- -------FGG YGLEG-----
+Q8EC25_SHEON  APLALRIPIG IILM-AHGAQ KLFGW----- -------FGG YGLEG-----
+Q82WY1_NITEU  VILLLRITTG GVFM-AHGAQ KLFSW----- -------FGV NGLEA-----
+Q9HZY2_PSEAE  GLAILRIVTG LTLM-SHGSQ KLFGM----- -------FGG AGLNG-----
+Q812I5_BACCR  GLLIIRLIIG ITFM-GHGAQ KLFGW----- -------FGG YGLKG-----
+P96694_BACSU  GLLLIRIMIG VVFL-FYGTQ KLFGW----- -------FGG YGIKG-----
+Q82PS9_STRAW  GILLLRLAVG LLLA-GHGAQ KLFGI----- -------FGG PGLSA-----
+Q82AZ6_STRAW  GLLLLRLGTG GVLA-AHGAQ KLFGW----- -------FGG AGLEG-----
+O05565_MYCLE  GLLILRLVLG LTLA-AHGYN KF-------- -------FCG GRIPG-----
+Q7X1H0_9BACT  SAMVLRLGLA GVIL-PHGFG KLLGW----- -------FGG FGFSG-----
+Q8F8N5_LEPIN  GSLILRLVAG IVIF-PHGAQ KLLGW----- -------FGG YGFSG-----
+Q8F8V4_LEPIN  SPLLLRLGLS ICIF-PHGAQ KLLGW----- -------FGG AGYEA-----
+Q8P8R3_XANCP  ALLMLRLAGG GFLL-PHGLG KLLGW----- -------FNG PGLAG-----
+Q8UIR4_AGRT5  VETILRVAAG LLLV-THGFG KIV------- ---------- -NPFG-----
+Q7NPD1_GLOVI  GLLVLRVFAG LTMA-VHGLG KVP------- ---------- -PNEG-----
+Q9HYW2_PSEAE  APLALRLYLA PVFW-MAGSQ KLA------- ---------- -DMPA-----
+Q8EDN3_SHEON  APLALRLYLA PVLM-QAGYN KLT------- ---------- -HFDD-----
+Q89M65_BRAJA  LLSLFRFITG LLLF-QYGIA KLFKF----- -------PAL PYFAD-----
+Q9JR31_NEIMA  LLSVLRIVTA YLFL-LHGTS KIFAF----- ----PIEMGS GSPGG-----
+Y886_HAEIN    FLAFLRIVVA YMFI-LHGTA KFLEF----- ----PISMTG GNGAV-----
+Q98K39_RHILO  ALGVLRIMTA LQFV-EHGSQ KLFNF----- ----PASAEP HVLTG-----
+Q8UCZ3_AGRT5  ALGALRIMTA LLFI-SHGTQ KLFGF----- ----PASQMD GSLPT-----
+Q9KY40_STRCO  VLGLFRIVVS LLFA-CHGAA SLFGV----- -LGgA-AMTG GTIDA-----
+Q82B81_STRAW  AIGLFRIVVG LLFA-CHGAA SLFGV----- -LGgAMGSNG GTIPA-----
+Q9K461_STRCO  VIALFRIVVG LLFA-CHGAA TLFDA----- -LGgP---HG PAPGF-----
+O86323_MYCTU  VLSLFRLVYG LLFA-GYGSM ILFGWPVtsa qPVeF----- ----------
+Q82V34_NITEU  GKLTLRLTVG VLIL-LHGVH KIFNPG---- ---------- -SLDY-----
+Q8KEE1_CHLTE  GKLLIRLCVG GLML-FHGVY KLIH------ ---------- -GYGF-----
+Q7VYL1_BORPE  GKLILRLALG ILVI-MHGLA KLSS------ ---------- -GVGG-----
+Q7MRA2_WOLSU  SALLLRLALG GLML-MHGIH KLKN------ ---------- -GIGG-----
+Q7VHA8_HELHP  GKLIVRLCVG GLML-FHGVN KITN------ ---------- -GVSG-----
+Q7V0B0_PROMP  ALLILRVITG TVLI-HHGFE KLAN------ ---------- ----------
+Q7U687_SYNPX  GLLLLRVFTG SLLI-HHGYE KLAN------ ---------- ----------
+Q8Y2U2_RALSO  GLLFLRVAGS ALLLyVHGLP KVLH------ ---------- ----------
+Q7US51_RHOBA  GLLALRVAFG CFML-VHGLQ KVI------- ---------- -GFST-----
+Q7UE97_RHOBA  GMLGLRIAFG CFML-VHGIQ KLM------- ---------- -GFTA-----
+Q8A9J9_BACTN  FLLAVRIIFG ILLM-NHGIQ KWS------- ---------- -NFQE-----
+Q7VDS1_PROMA  SIFVLRVVFS LFMI-HHGLE KLQ------- ---------- -DPQG-----
+Q7V328_PROMP  SIFILRIGFS VLMI-HHGLE KLQ------- ---------- -DPQG-----
+Q7TUM8_PROMM  GILILRLGVS ILMV-HNGLE KLQ------- ---------- -NPEG-----
+Q8NR01_CORGL  GLLIIRAVIG VYLI-VRGVF TFFTL----- -------GGS AGLAG-----
+Q8FPX7_COREF  GLLIIRATVG LYLI-LRGVS AFFAI----- -------GGS DGLAG-----
+O53252_MYCTU  GLLILRVGLG AVLI-AHGLQ KLFGW----- -------WDG QGLAG-----
+O33110_MYCLE  GLLVLRVGLG VVLA-AQGLH KLFGW----- -------WGG QGLTG-----
+Q82HN4_STRAW  ALLPLRVFLG VTFI-YAGLD KLTNS----- ---------A FMSES-----
+Q88P63_PSEPK  LCLVARFGIA SIFF-LSGRT KVEGF----- ---------- LTLTP-----
+Q9A3E7_CAUCR  LTLVARLGVA AIFF-QSGRT KVDGL----- ---------- LHITD-----
+Q7VUY8_BORPE  IALLGRCSIA ATFW-LSGQT KVEGFAVnal aGE--FDLGW PRLSE-----
+Q7NA66_PHOLL  LPLLARISLA ATFW-LSGQS KVVGLNIdil eTRtPWQLGI PRVTD-----
+Q92W39_RHIME  AQLALRLALA VPFW-RSGLG KWDGF----- ---------- LELND-----
+Q87KG0_VIBPA  LLLFCRLWVA WVFF-NSGLI KIASW----- ---------- ----D-----
+Q8DDM4_VIBVU  VLLFCRLWVA WVFF-NAGLS KITSW----- ---------- ----D-----
+Q8XR31_RALSO  ILLIARAYLF YVFF-RSGLT KLHDW----- ---------- ----P-----
+Q7NSB1_CHRVO  VLLLLRLWLL DVFF-RSGLT KIDDW----- ---------- ----D-----
+Q88K91_PSEPK  ADVPLRVFLA WEFF-ESGLE KFNGS----- ---------- NWFAD-----
+Q9HWS4_PSEAE  ADLSLRLFLA WEFF-ESGWE KWNGE----- ---------- NWFGD-----
+Q9JWV2_NEIMA  AMLVLRLFAA YEFL-ESGLQ KWNGE----- ---------- NWFSE-----
+Q9CP47_PASMU  GLLGLRLFLA WEFF-ESGKE KWKGE----- ---------- NWFME-----
+Y1602_HAEIN   SLLILRFFLA WEFF-ESGLE KWNGQ----- ---------- NWFAE-----
+Q83BV7_COXBU  HLTFIRMYIG YDLI-AHFAE KLFAGPV--- ---------- -SFQG-----
+Q7W6U9_BORPA  QLTLIRVYIG LDFT-HHFAE KFG------- ------LLGA QAYAD-----
+Q9KYL5_STRCO  LRLAGRPMLA SMFV-AGGLQ SLR------- ---------- -RPQDvapaa
+Q89SK7_BRAJA  LILIGRVLLA WVFV-GSAYG AIS------- ---------- -DFSG-----
+Q88G88_PSEPK  IILIARVLLM VLFV-LSGWA KLT------- ---------- -GFDG-----
+Q8XWH4_RALSO  LILLGRVLMM LLFL-ISGWG KLT------- ---------- -GFSA-----
+YPHA_ECOLI    LLLIARIAVV LIFI-IFGFP KMM------- ---------- -GFDG-----
+Q8GA66_ECOLI  LLLLARLMLA CLYM-ISGVP KLL------- ---------- -SFTG-----
+Q82UE4_NITEU  SQFVARLFLG QIFL-LAGIS KIS------- ---------- -SYAG-----
+Q7N096_PHOLL  ALLLARILMP ILFI-VAGYG KLGD------ ---------- -SYAG-----
+YQJF_ECOLI    GVLVARILMP ILFI-TAGWG KIT------- ---------- -GYAG-----
+Q8CZQ7_YERPE  GLLVARILMP IIFI-VAGYG KMGD------ ---------- -AYAG-----
+Q983U8_RHILO  LLLVSRLLFA LMFV-PSGFQ ALA------- ---------- -NIAG-----
+Q983U6_RHILO  TILLGRILLA VIFL-LSGFG KLT------- ---------- -AISG-----
+Q8FX91_BRUSU  ATLIIRVFLS VLFI-IAGYN KLT------- ---------- -ALDG-----
+Q92SD1_RHIME  IVLIGRILLS IIFI-TSGFG KLT------- ---------- -DPSA-----
+Q8UHK0_AGRT5  LVLIARILLS FIFI-YSGFG KLT------- ---------- -DPAG-----
+Q92TK3_RHIME  LALIGRLLLA AMFI-LSGFG KLG------- ---------- -DPSG-----
+Q83CN9_COXBU  AALIGRILIS LIFI-ISGIH KIT------- ---------- -GFDA-----
+Q8YSN3_ANASP  IPLVARSFLA VIFI-YAGVN KVF------- ---------- -NFAQ-----
+Q98JF9_RHILO  TLLAGRLLMS FIFL-HEGVT LAT------- ---------- -HFDG-----
+Q89MP6_BRAJA  FVTFGRILFA VLFI-YTGAT KLFAIQAtad fIAtKVVVPD IIAPY-----
+Q98JU3_RHILO  ALLIARLIFA AVFL-MAVTF KFM------- ---------- -GMGA-----
+Q98K48_RHILO  LLFLGRLLLG GAFV-VAGLR NIQ------- ---------- ----------
+Q7VBT6_PROMA  LDFLGRVFLA STFV-VAIPS KFL------- ---------- -NYPV-----
+Q7V7V3_PROMM  VDFIGRLCLS AVFV-VAVPS KIT------- ---------- -KFSS-----
+Q99V56_STAAM  GMLLIRWMLA TSFL-VHGTL KFV------- ---------- -DLDG-----
+Q97VC6_SULSO  GLLIFRILYG IALI-PHGTA KANKN----- --------LN SQFKG-----
+Q8EZJ9_LEPIN  LVDFLRIYLG GVLI-YKGLE FLY------- ---------- -DTDA-----
+Q89EW4_BRAJA  LWHAARLALV SAYL-LGGFI KLL------- ---------- -DFAG-----
+Q92Y87_RHIME  FLAL--LALC SAYI-QGPLM KIY------- ---------- -DFEG-----
+Q8U4Y0_AGRT5  TVAL--LALC SAYI-QGPLT KIF------- ---------- -DFPG-----
+Q9HWH6_PSEAE  LWLTARICLA LMFV-ASGLA KLF------- ---------- -DYQA-----
+Q8KW46_9RHOB  AVTAINVGIT CPFW-ASAFV KAA------- ---------- -DFEG-----
+Q984Q4_RHILO  VQALGALLIG GVFV-WAGVE HFV------- ---------- -KFKP-----
+
+              -----LVEQF R----AWHIP H--------- -------PLL AAPLVATIET
+              -----TVGFF D----SIGI- ---------- -------PGF LAYVVAIVEL
+              -----IAGWF T----SIGL- ---------- -------PGG LAYGVATFEL
+              -----TIQFF G----SIGL- ---------- -------PSF MAYVIAAIEL
+              -----TLAFF A------SIG L--------- -------PSL FVYGVAAIEL
+              -----TAKFF G----SLGF- ---------- -------PPE LAYLIMTVEV
+              -----TVAYF Q----SLGL- ---------- -------PGA LAYVSMALEL
+              -----TAGYF A----SLGL- ---------- -------PGF VGYFAILIEI
+              -----TAQFF A----KVGF- ---------- -------AGW LAYPVTYFEI
+              -----VTGFF D----SLGIP A--------- -------AGI AAIAAAVVEL
+              -----VSGFF A----SLGIP A--------- -------AGV VAPLVGAIEL
+              -----TTGQF S----AWGVP Q--------- -------PTL SVWIAAVAEL
+              -----TGQWM E----SIGLA P--------- -------GYL MALLSGSAEF
+              -----TAQYM E----SLGLT P--------- -------GYL MALMSGSAEF
+              -----TGQWM A----SIGLG P--------- -------GVL MAFLAGSAEF
+              -----TGQWM A----SIGLT P--------- -------GYL MALMAGSSEF
+              -----TGQWM N----SIGPN P--------- -------GYL MALLAGSGEF
+              -----MAQWF E----SIGLT P--------- -------GYL LATLAGSAEF
+              -----TGGWM E----SIGLR P--------- -------GVF MAFMAGATEL
+              -----TGQWF E----SIGVK P--------- -------GNV AAALSGLGEL
+              -----TGKGF A----DMGYR P--------- -------GDF FAGLAGASEF
+              -----TGQFM E----SVGYA P--------- -------GKA SATAAGLAEA
+              -----TARWF E----SIGMK P--------- -------GTF HATVAATTEI
+              -----TMGFF T----QKLHV ---------- -------PAP VAFLVIIGES
+              -----TMGYF I----GQGI- ---------- -------PAP IAFLVIIGES
+              -----SMDYL V----NTAQF ---------- -------PAT LSILAIMSEF
+              -----FAAEL Q----QFGLP A--------- -------TAP LPLLLALVQS
+              -----AVGMV E----SLGFH P--------- -------GVF WSPLLAATEF
+              -----LVETV A----SLGFP A--------- -------PVF FAWSAGLAEL
+              -----TIEWF GNpDWGLGLP F--------- -------PEL LAWLAALSEA
+              -----TVAWF ANpDWGLGLP M--------- -------PTL MAALAAGTEF
+              ---------- ---------- ---------- -------IPP LIYAAGTLEL
+              ---------- ---------- ---------- ---------- LLLLAGILEI
+              ---------- ---------- ---------- -------GDP MLLVAGVIEI
+              ---------- ---------- ---------- ---------- LTTAAGILEF
+              ---------- ---------- ---------- ---------- MLLVAALLEA
+              ---------- ---------- ---------- -------GTW PGWYAAVIQL
+              ---------- ---------- ---------- -------GTW PGWYAAVIQL
+              ---------- ---------- ---------- -------AAW PGWWAAVVQL
+              ---------- ---------- ---------- -------GSW PGWYAGVIEL
+              -----ISTLL A----NVNL- ---------- -------PQI LAYGVYLGEV
+              -----IAGKL K----AAHL- ---------- -------PVW LVAGVPVGEV
+              -----IAGML S----SHGL- ---------- -------PGF LAYFAYVGEI
+              -----IEKML V----NNGL- ---------- -------PEF MAYGTYIGEI
+              -----IEGFM E----SHGL- ---------- -------PTL FAYGAYIGEV
+              -----IDNFA DAfVRPLHLP F--------- -------PIF LSYVAAFSEI
+              -----IENFA DAfVRPLHLP F--------- -------PIL LSYVAAFSEV
+              -----YSQEL ARiEDPFRLG ---------- -------AAP TLLLAILSET
+              -----ISEGF P----DPLGM G--------- -------HQL SLVCAIATEV
+              -----MAESF P----DPLGM G--------- -------HQL SLLCAIGAEV
+              -----LSTAF P----DPIGL G--------- -------SSI SLGLAIFGEL
+              -----FAEFV VGkYFTFLPG D--------- -------PII WTFAAGLTQI
+              -----FGEFV VGkYFPFLPG D--------- -------PVL WTYGAAITQL
+              -----FSEFV ISqHLNFLPG D--------- -------PML WTYAAALTEI
+              -----LEAEF A--------- --------Gy qw-----PEI LAILLPSIEL
+              -----LEADY A--------- --------Gy qw-----PEV LAILLPSLEL
+              -----FQNSL S----DIGYQ H--------- -------AEI LAYVSAGGEI
+              -----FKNSL T----QVGYQ H--------- -------ADI LAYVSAGGEA
+              -----GAGSI G----DMMRT VRDssaiPAl vdlalknPVG FGYAIALGEL
+              -----GTYEL FRtEYALPLL S--------- -------PWL AAHLAAYAEH
+              -----GTYAL FEtEYALPLI P--------- -------PDL AAHAATYSEH
+              -----SAISL FRdEYQVPLL P--------- -------PEL AALLAASVEH
+              -----SSVSL FTnEYKLPLL P--------- -------PDV AAVMAATAEH
+              -----VAVLL FTsEFQLHLP GGPypfpA-- -------PAA TAFVVAFAEV
+              -----STLYL FEfEYQVPLL P--------- -------WEF AAYSGTFAEL
+              -----STLYL FElEYQVPIL P--------- -------WEL AAYLATAAEL
+              -----TTVLL FSeEYKVPLL P--------- -------PAL AAALGTFGEL
+              -----ITLAL FTdEYHVPLL P--------- -------PAV AAVMATCGEL
+              -----LQSSF P---FPFNLL P--------- -------AEL NWQLSMWAEL
+              -----IQSAF P---FPFDRL P--------- -------AAF NWELSLWAEL
+              -----INDQF P---FPFNLL P--------- -------DAL NWNLAMYAEL
+              -----IQESF P---FPFNVI P--------- -------SDL NWTLAMGAEL
+              -----IQDRF P---FPFNLI P--------- -------ADI NWHVAMGSEL
+              -----DVKAF L----GLGIT N--------- -------PDF LVRLAGLCEL
+              -----VLHYF S------TVT AN-------- -------PQS MLLLAGLCEF
+              epvvrPVADR V----PVLPD S--------- -------TEQ LVRLNGAVHV
+              -----SVGYF R----SLHLP A--------- -------PEL FTMTNIALEV
+              -----TVGYM T----SLGAP A--------- -------PML AAGIAVIMEF
+              -----TVGYM G----TVGAP M--------- -------PML AAIVAVIMEF
+              -----TVQYM A----SLGAP M--------- -------PML AAIIAVVMEV
+              -----TIDKM A----SLGLI F--------- -------PAI TAAIVVLVEI
+              -----TQGYM D----AMGV- ---------- -------PGT LLPLVIALEI
+              -----TQQYM N----AMGV- ---------- -------PSF LLPLTILLEL
+              -----TQQYM E----AMGV- ---------- -------PGF MLPLVILLEF
+              -----TQQYM Q----AMGV- ---------- -------PGF FLPLTILLEF
+              -----TSDYF A----GLGLP L--------- -------PTL AAWGTGLFEL
+              -----TAAYF G----GLGLP V--------- -------PTV TAVVVGLIEL
+              -----TADYF A----SIGLP M--------- -------PIV TAVVVGLIEF
+              -----TAGMI T----GAGWP A--------- -------ATA LAYLAGLFEL
+              -----TAGMI A----GAGMP A--------- -------ATA LAYLAGLFEL
+              -----TIGYI A----SAGLP L--------- -------PPV AYAVALAVEI
+              -----TVSTL A----QTGLP S--------- -------PQW LSILSIIFEL
+              -----TSESM A----KAGLP I--------- -------VGV LLIFTIAFQI
+              -----AARAM A----ALGV- ---------- -------GLP LFVATIALQL
+              -----AKQIE T----ATAMT T--------- -------PQL LAIAVGALEI
+              -----TAGFI A----AAGFP F--------- -------PLF LAWCAAILEV
+              -----NAAFL TGlMAARGVP Q--------- -------ARL ALWAGIVLQM
+              -----VLNTI I----QKGIP ETQ------- -------ANI LLVAAIFLLI
+              -----VVEAI S----GQGIP ESL------- -------APF LLLAAIACLI
+              -----TIHFL G----SLGL- ---------- -------PPT IAVLMSIGEV
+              -----YMRQL G--------- V--------- -------PPI FVDLSMLVEI
+              -----LIRLM E----MNNAP MA-------- -------STL LAHYIVIAHI
+              -----AVAEQ E----HFGLY P--------- -------GWL WATAAIVVEL
+              -----AIAEM N----HFGLT P--------- -------APL FAVGVIVFEL
+              -----AIAEM N----HFGLQ P--------- -------AAA FAVFVIIFEL
+              -----SLEEM R----AAGLE P--------- -------AWL FNIATAVTLL
+              -----TIAEV A----AIGLP A--------- -------PVF VAAMIILVQA
+              -----MTEYL A----ARQFP A--------- -------PAF LLAAGSALEI
+
+              VGGVLLFLGL AAR----TVA FLLSCIMFGA I----WYVHW ----------
+              VGGLAVLLGV GTK----YVS ILFAIIMVGA I----ATVKW ----------
+              VGGLLLILGL GVR----YIG LLFALVMVGA I----VKVKW ----------
+              IGGVLVFFGL ATR----IVG VLFALTLIGA I----ITVKL ----------
+              IGGLFMIIGF LIP----LVS VGFIAVLVGA I----FSFGL ----------
+              LSGVALILGV WTR----YAA LAGIPILLGA I----FTVHG ----------
+              GLGVSLLLGL YAR----WVA LLGVPLLLGT I----VSVHG ----------
+              GGGLLLLAGL QAR----WVA LLLIPQLLGA I----VLVHG ----------
+              VGGVLLILGI YPR----WVA AIAAVQLLAA A-----TVHA ----------
+              LGGILIILGV FTR----IVA AFVAIDMLFA A----LFAHV ----------
+              IGGIMILLGV FTR----YVS AVVAVVMLGA A----LSAHV ----------
+              LGGAFLVVGL LTT----FVA GALALLMLAA V----YFVHL ----------
+              FGGLALVVGL LAR----PAA LALTVTLIVA I----VSVHI ----------
+              FGGVGLLLGL LAR----PAA VVVIVLLLVA I----FTVHI ----------
+              FGGLFILLGL LTR----PAA VALSFTMVVA I----ISVHF ----------
+              FGGLLIIIGL LTR----PTA LVLSFTMVVA I----FSVHI ----------
+              FDGLALL--- ---------- ---------- ---------- ----------
+              FGGLALVIGL LVR----PAS VVVGFTMIVA I----FSVHI ----------
+              LGGFLFASGI FIV----VGS LFIVGTMLMA I----FTVHG ----------
+              VSGILFILGV FLP----LGA AIITIIMLGA I----VKVHG ----------
+              LGGLGLAVGL LTP----LAA AAVVGVMINA M----ATT-A ----------
+              GGGTLLALGL ATP----AAG AAAAGAMVGA A-----AVHA ----------
+              SAGLGLAAGL LTP----IPA AGFVSLMMVA A----WMVHR ----------
+              LGSVALLMGF LTR----FVA VSFVMIMVGA I----FLVHI -------qNG
+              LGALGLIFGF LTR----LSA FGIGIIMIGA A-----LIHL -------pNG
+              FGSIAILLGF CTR----LSA FGITCTLAVA G-----WTHK -------eIG
+              LSGVAVLIGL WTRasaaLAA AFIATTVVIA IpKGwFWMHG ----------
+              FGGILVAIGL FTR----PAS FAAMIVLLVT V--------- ----------
+              VGGILLAVGL LTR----PAA AAVLFTMLVA G----FILHG ----------
+              GGAVLLLCGL AVR----WIS LPLMVTMLVA I----FAVHW ----------
+              FGAILLLLGL ATR----LIS IPLMITMLVA A----FTVHW ----------
+              VLGAALMLGL FTR----ITA FILSGEMAFA Y----FMGHM ---------L
+              VGGILLVLGL FAR----PAA FVLSGQMAVA Y----FMAHA ----------
+              VGSILLILGL FTR----QAA FILSVEMAYA Y----FFLHV ----------
+              AGGILLALGL FTR----PVA FLLAGEMAIA Y----FMAHY ----------
+              VGGLLVLVGL FTR----PVA FILSGQMAVA Y----FMAHG ----------
+              VGGGLVLLGL GTR----PAA VICSGSMAYA Y----FKVHQ ----------
+              VGGSLVALGL GTR----AAA FISSGSMAYA Y----FDVHQ ----------
+              VGGTLVLCGL ATR----TAA VLCSGSMAYA Y----FVEHQ ----------
+              VAGLLIATGL FTR----AVA FVASGEMAVA Y----FWMHQ --------PY
+              IAPLMIILGI FSR----IGG LLVFGNTVFA I----GLAHR ----------
+              FAPLLIVLGI YTR----PAA LVEAFLMGVA V----WLVHM ----------
+              VGPLLIILGI YCR----LGA LLVVLNMVVA I----LLAHM ----------
+              FSPALLILGL YTR----LNA LVIALTMVVA I----YVAYG ----------
+              LAPLMIIVGY QVR----IAA ALEAFTMLVA I----YVATG ----------
+              GGSWLLILGL ATR----FGA LAIVGTISVA IyHAlVTSGF ----------
+              IGSWLLITGL LTR----MGA MAIAGTITVA IyHAiVTAGF ----------
+              VCPLLIALGM LAR----LAC LPIVFLLLVA L----LVVHR ----------
+              GCSILLILGL GTR----VAV SGLAFTMFVA L----FLVHG ----------
+              GCSVLLILGL GTR----FAV LNLAFTMCVA L----FLVHG ----------
+              VCSMGFIFGF LYR----LAM IPMIFTMIVA F----FVIHA ----------
+              ICPIGLALGV LTR----LAA LGLLNTMLFA LyFHfVDTGL ---------E
+              VCPLGLALGV FAR----LSS LGLFSTMAFA VyFHlLDTGL ---------E
+              ICPIGIAFGL ATR----LCA LGLLSTMAFA ItYHlFDTGL ---------Q
+              AAGVFLLLGL MTP----VAA AVATVATSFT TlHQvNTHEG ----------
+              AAGVFLLLGL MTP----VAA AVATVATSFT AlHQiNVHDG ----------
+              VAGVLLVLGL FTP----LAA AGALAFLING LlAGiSAQHS ----------
+              VAGVLLVLGL FAP----VVA AGALAFLING L----LAAWP ----------
+              AVGIGTLIGL LTR----LAA LGGALISLSL W----LTVSW ----------
+              LFPLLLVLGL MTR----LSA LALLGMTLVI E----VFVYP ----------
+              LFSILLVLGL FTR----MSA LAFLGMTAVI Q----VFVYP ----------
+              ILPVLLILGL ATR----WSA LGLLLMTLVI Q----VFVYP ----------
+              LFPLLLIVGL ATR----FSA LALMVMTLVI Q----IFVYP ----------
+              MLPIFLALGL ATR----LAA LGLLAMAIVI Q----LTVPD ----------
+              VLPVFLALGL FTR----PMA AMLFVFNIIA VlSY-PLLWE ----------
+              SLPILLALGV FTR----ITS LVLFAFNAMA ViSY-PLLWE ----------
+              VFPSLMLIGI VPR----LAA AGLFFVNLVA VgSYwASLSA ----------
+              GLSALLALGL GGR----FAA AGLFILNAVA ViSY-PALTD ----------
+              VLPLLLLLGL GTR----LAS LGLMVVTVVA I----VAVHW pahwsglaEL
+              LGALFLLLGL GTR----LTA LVLIVVTLVA T----AAVHW paewsslaEL
+              LLPVLLLLGL ATR----LSA LGLMVVTAVA W----AAVHA ----------
+              LLPFFLILGF FTR----CSA LSLTILTAVA W----YSVHA ----------
+              IFPFLLIFGV LTR----FSA LSLTILISVA W----YSIHA ----------
+              GGAIAIGLGF LTR----LGS LGITLYLIIT T----VLGNH ----------
+              AAFIGFTFGL FTR----VAA AGTAAYLVIA L----FIGNH ----------
+              VGGIMLGLGR CPR----LAA LALAVTLVPT T----LAAHR -------yWE
+              LISVGLILGV GTR----YCA ILTFVFVVAA T----AIAHR -------yWE
+              LVAILLILGF YTR----PLA FLFALFVLGT A----LLGHP --------FW
+              GVGIALLIGF WTR----PLA LLMALFVLGT A----LIAHT --------YW
+              PAAILIVLGF FTR----PLA VLFIFYTLGT A----VIGHH --------YW
+              VGALMIVFGF FTR----PVS IILCLYTVFA S----FLGHA --------FW
+              GGGLAIIAGW QTR----LTS IALAVFTLAA A----AIFHN ----------
+              GGGLAVLFGL LTR----TTA LFTFGFCVLT A----ILFHS ----------
+              GGGLAILFGF LTR----TTA LFTAGFTLLT A----FLFHS ----------
+              GGGLAILFGF LTR----TTS LFIAGFTLLT A----FIFHT ----------
+              IAGLLILIGF QTR----IVA LQLAAFCVVA G----FIGHH -------gQG
+              LGGLAILVGF QTR----IAA WVLAIFTVAT G----LVAHT ----------
+              VGGLAILFGF KTR----IAA VIVGLFTLGA T----LVAHM ----------
+              VAGLAILVGF QTR----IAS YLLAAFCVVT A----FVFHS gainvpdfPP
+              VAGLAILAGF QTK----IAA WALAVFCVFT G----LVFHS gtvavpgwPE
+              GAGILLVLGY RAR----WVA LILAAFTLAS A----IGFHT ----------
+              GGGILVFFGL FTR----FGA FLLLVFVLLV T----FVFHR --------FW
+              LGGLSIILGY KAE----IGA ILLIIFLIPA T----IVFHN ----------
+              GAGLSVASGL LTR----LGG IGLGLFCLAT A----LLFHT ----------
+              IAGLMIALNF GAR----FFA MLLIVYVAVA T----VLFYD --------FW
+              ALVLCFLSGA FFT----QAA LIAAAYVLFL G----FAFHG ----------
+              IAGVLVMAGL WTA----LAC AVLVLFLIVA T----PMFHN --------FW
+              SGSLALVFGK DQK----IGA IFLLIFLVPT T----IIFHL ----------
+              VGSVLLLFGK SQK----LGA SLLLIFLVPT T----VIFHA ----------
+              VGGLALIIGF LTP----YVN VFYICVMLGS I----FTLKL ----------
+              LGGLLVMIGA ISL----IVS AVLILFFLGT I----VVSH- ----------
+              CGGVLLLSGL LTR----FAA ILQVPVLIGA V----LFIHA ----------
+              GGSLLVVVNR FVW----LGA GGLGILTFVA M----LTANA --------FW
+              AMSALILLGI FRK----VAA LCLAVFTVAA T----FLAFR -------fWE
+              TASAMVVTGV LRW----VGA LALSGFTLLA T----FIALR -------fWE
+              AGSALVLLDR KLW----LGA GALAVFLLLT I----LIVHT --------FW
+              GGSISLITGL FAP----LGA AALVIFSLAA S----FLVHP --------FW
+              VAGLLVAVGI AVP----FAA GALVVFTLAV N----MLLLR ----------
+
+              ----GRSFFA PAGLELPLLL LGGSLAIMFG GP
+              ------PAGF LGGYELDVAL LAISVYFALA KT
+              -SAGLLGDGK NPGFELELAL LAMGAYLFVA KA
+              ------KAPF MGNAEFDYLL LLTSIHLALT GS
+              -------ASG FSGYEYELFL AITSLAILVS YA
+              -AAGFFFTNP KGGWEYPAFW AIALAAQALL GD
+              -ANGFGFSNP GGGWEYPALW AVLLIVQALL GD
+              -AKGWMFTNE GGGWEYPAFL IAASLALFLL GQ
+              -GNGWAFGNP GGGWEYPVFL AVGAAALALL GN
+              ---SSGIFVT NNGWELTGAI GAGALLLIAV GA
+              ---SAGIYVT NGGWELVGAI GAGMLALIAA GA
+              ---DAGFFVS TNGLEFPLLI IVSLMMIVVF GS
+              ---GNGLFMS NNGYEFALAL LAGTVAVMIE GA
+              ---HNGFFMA NNGYEYALAL LGGALAVLIE GA
+              ---ENGLFMA NNGYEFGLAL LAASVSLAFS GA
+              ---GNGLFLS NNGYEFGLAL FAATLSLTIS GA
+              ---------- ---------- ---------- SP
+              ---GNGFFIT DNGYEYALTL LMISVALLID GA
+              ---KNGYWVT QNGYEYNLML IAVAVGVALI GP
+              ---AKGFANG AGGFEYNLVL IAVSIGVALI GS
+              ---PKGLWAE KGGLEYPLCL AVAAIAIAAV GP
+              ---PNGFFAQ SGGYEYAATL ALLGAGLAVT GP
+              ---PNGFFIV KEGWEYNLVL ATGAVVVATL GA
+              FFMNWYGTKA GEGYEYHLLV IAMAVSLLFS GG
+              LFMNWFGNQQ GEGYEFHLLF IAISLALLVK GG
+              FFMNWFGNQN GEGFEYHILS VSMGLSLLLF GG
+              ---------- --GMEYPLMW ALVLLALVCA GG
+              YFHGIVKAEG LGGAEKSILW AAIFLFFAVR GG
+              -------SQP FAEKELALLY AAVSFAFLLV GA
+              ---------- PNGWQAIADP SAPFANAQVL EA
+              ---------- PNGWLAIADG RSWLANDRVL EA
+              KTGSPVFLPL LNGGTAAILF CFACLYLSAA GG
+              --SGNALFPI ANGGESAVLF CFVFLYIAAA GG
+              AGKGNLFFPI ANGGELALLY SLLFLYFVFS GA
+              ---PRDFFPV NNSGDSAISF CFIFLYLVFA GA
+              ---PKSFFPA LNGGDAAILF CFIFLYLVFA GA
+              ---PDALWPM ENGGEAPAMF CWAFLLLAFT GS
+              ---SAALWPI QNGGELSALF SWSFLLLVFT GS
+              ---PDGLFPI ENGGESAAMF CWSFLLLAAL GP
+              ALWPIGGPPD GNGGTPAILF CFGFFLLVFT GG
+              SELFAFTDHG GYALELQAFF LLTGLAVFFL GS
+              GQLTALDQHG GYALELQAFY FFGSIAIFFL GA
+              GQLFSISNTG GWALKLQGMF LFGALALAFM GA
+              SKLLALTPQG GLLIELPLLF LVGAIALILM GG
+              FEIFTLDNHG AWVIELHLLY MLPCIALIFM GG
+              ---------N IFLLELLLLY FASATSIALT GP
+              ---------N IYLLELLGLY FAAAVAVLAC GP
+              -------EWS IADAQFGWLL LILFVTVLIA GP
+              -------SDP WKAKELAAVY LAVYTVIFIT GP
+              -------SDP WKVKELAAVY LAVYAVIFVT GP
+              -------NDV FAVKELAFIY LVVFVLMYIA GP
+              GFPLAVVEGH NYIFELSAIY AAISLYFLCA GP
+              GFPLAVVEGH NYAFELSFIY GAISLYFLCA GP
+              GFPFAVVENH SYAFELSGVY ATTFFYLLCA GP
+              -----GWGEL SEPLMLALIL TIVVVGLQFT GP
+              -----GWGEL DEPIVLAVVL TLVVIGLQFT GP
+              ---RPVAYFL QDGHEYQITL VVMAVAVILS GP
+              -HSPLFSFFL PDGNEHQITL IVMDVTVILC GP
+              -------ASD PYYYGNDLAY LMAWLPLVLA GA
+              ---------- -DAWPTHLTW AGLLLLLVAR GA
+              ---------- -DAWPTHLSW AGLLLVLIAR GG
+              ---------- -DAYATHGVW ATVLLYLVAR GP
+              ---------- -DAWPVHATW LTAQLYLMTY GG
+              ---------- --GWPIHLTW AAMALGLITW GA
+              ---------- -KGFHDHQLW GLMILIVTLW GA
+              ---------- -KGFYDHQLW GLMLLMTFLW GA
+              ---------- -SAVEFHFVW GVLIAIVATV GP
+              ---------- -ATRQFHYFW GAQLLVLLSF GP
+              AQGYAITDQG FGNYKLPLIY LVALLPLLLK GA
+              ARGYSITDHG FGNFKLPAIY LAALLPLLLA GA
+              ---GSGYNVC DNGYKMALIY IVVLIPLLFQ GA
+              ---GAGYNVC NNGYKMALIY IVTLLPLITQ GA
+              ---DSGYNVC DNGYKLPLIY VVTLLILITQ GA
+              FQKGFIWANP GGGWEYPVMW AVLLLSFCVL GA
+              QHLGFTWANP GGGWEFPAMW AFICLSFVLS GG
+              AEDPSDRAQQ RIHFLKNLSM MGGLLIAADD TG
+              YPAGAQQIGQ YNHFLKNISI MGGAMLIFVT GA
+              NMVDPERSAN MTQFLKNLSI MGGLLLLAVS GP
+              NVEGAMQTAN MVQFYKNLSI MGGLILLSVT GA
+              DMTGDAVGPN MINFWKNVSI AGAFLLLAIT GP
+              TMPAELAHGN MIHFYKNICI SGGFLALVVS GP
+              ---NLADQTQ MIMFMKNIAI AGGFMLLAVH GA
+              ---NFAEGMN QTMFLKNLTI GGGYLLLAII GP
+              ---NFAEGVN SLMFMKNLTI SGGFLLLAIT GP
+              ---DFTDSTN QLMFMKNLSI AGGFLVLAMA GP
+              GDDAMLAFLH QQMLMKDIAI SGGFLALAMA GA
+              ---GWADQMQ MIQFLKNLAI TGGFLLLASS GA
+              ---DFAEGMN LLIAQKNLAI AGGLFLLFLH GA
+              AANGLLTVFN QIMMMKNITI AGAFLVLAGF GP
+              PALGWINTLN GIMMMKNITL AGAYILLATF GA
+              ---DFADQNQ MIHFMKNLAI TGGFLQIAAF GA
+              VHEPSDMLNQ MHHFMKNFSI IGALLYIMAF GA
+              ---PFADPSQ FNNFFKNLSI IGGLLLILAY GS
+              ---NFASQNE LLHFEKDLAI SGGMFVLAAV GA
+              NLAAPDNAKM LVDALKNLSI IGALCMIIGY GR
+              PSHWAGNQAE FGFFVDHFSF MAGLLFAAVH GP
+              DHQGPDRAAR INGFVGNVAL GGGFLTLIAQ SL
+              ------KPFQ PQAFFMNTGL TGALILAITR SQ
+              ---------- -----FPFQP KALFMNLGLT GG
+              --------TR GYVSGYEFEI IHIVMNLACI SS
+              RMKKPLATGM NPGMDLDILF LAGAIILLLL GP
+              ---KEGFMAP GSNLPYAAMI LLLLFHFSLY GS
+              TMGGHERFMA TNAFFEHLGL IAGLVIVSIL SN
+              LPSGMERMMA TNGFFEHLGL AGGFVLVAWH DL
+              MAPGMDRMMA TNAFFEHLGL AGAFVIVAAI DL
+              SKTGVEAKLA MFFALEHIAV IGGLIATAIA SA
+              TMPPGAFLPN FAAFTANMGL IGGLIAAAIL TT
+              -------FWA CEGLERQTLR SAFLVNFAVI GG

@@ -1,0 +1,105 @@
+ 14 302
+Q04093_YEAST  PEKPVHLVIM THGIFSNI-- -------GCD M--------L YMKDKIEEMT
+Q12103_YEAST  MSQKSHLVIL THGFQSNV-- -------SAD M--------E YLMEEIYK--
+YGO4_YEAST    PQKKKHLVVL THGLHSNV-- -------STD L--------V YIMEQIYK--
+YE7A_SCHPO    HSKNSHLVVL THGMHSNV-- -------GAD M--------E YLKEKLIESS
+Q8RWD3_ARATH  KNEPDHLLVL VHGILAS--- -------PSD W--------L YVEAELKR--
+Q949V0_ARATH  SSSADHLVVM VHGILGS--- -------TDD W--------K FGAEQFVK--
+Q8GWA3_ARATH  AEKPDHLVVM VNGIVGS--- -------AAD W--------K YAAEQFVK--
+Q8X0U2_NEUCR  NIEADHLCVL VHGLWGN--- -------PNH M--------A SVAKALRA--
+Q08448_YEAST  TSDK-HLFVL IHGLWGN--- -------YTH M--------E SMRTILST-T
+Q8IIK5_PLAF7  KLKNPHYFIF QHGLTAS--- -------VHD F--------Q NIFNSLLT--
+Q9W0I1_DROME  SPNGMHLVIC VHGLDGN--- -------SAD L--------R LVRTYLEL--
+Q8BXS8_MOUSE  E-DGVHLIVC VHGLDGN--- -------SAD L--------R LVKTYIEL--
+O80590_ARATH  R--ELKIVVF VHGFQASIFl MFsECgHHLD L--------R LIRNQWLLID
+O01731_CAEEL  SKNKTHLVVF VHGLEGS--- -------QED LvpfrcgldQ AIAAHYHCIQ
+
+              FPMDESINP- -NIIVRGFMG NVGKSGHGIH CLGVRVGKYV LETVDKLNKK
+              -AQMNNPNE- -RLVIKGYMK NACETEKGIK FLGVGLANYI IDELYDDSVG
+              -AQKNYPHE- -QIVVKGYRG NVCQTEKGVK YLGTRLAEYI IQDLYDESIR
+              KSVKE----- -LVVVRGFTG NYCQTEKGVR WLGKRLGEWL LDITGWGSAS
+              ----RLGRR- -FLIYASSSN TFTKTFGGID GAGKRLAEEV RQVVQKSKSL
+              ----KMPDK- -VFVHCSEKN VSALTLDGVD VMGERLAAEV LDIIQRKPNI
+              ----KFPDK- -VLVHRSESN SATLTFGGVD KMGERLANEV LGVVKHRSGV
+              ----QYPRD- KLNILVAKRN AGSFTYDGIE LGGERVCNEI EEELQAVESK
+              LKKEDVNDD- -MIYFLPKQN AMFKTFDGIE IIGYRTLIEV CEFIRDYKDG
+              ------KYP- -HVFVYVTYS NQGHTFEGVD VGTERICTEL NCLFKIINDK
+              ----GLPGV- -NLEFLMSER NQGDTFSDFD TMTDRLVTEI LYHIDSCALN
+              ----GLPGG- -RVDFLMSER NQNDTFADFD CMTDRLLDEI IQYIQIYSLT
+              P--------- -KIEFLMSEA NEERTHGDFR EMGQRLAQEV VSFFKRKKDK
+              MEGRDFDEEp WAFEYLMSSA NRSQTWADIT TMAHNLLSEV REYVEEARND
+
+              YK-----VD- RISFIGHSLG GPTQSMAVRY ISIKR----- ----------
+              ---------- KISFIGHSLG GLTQTFAICY IK-------- ----------
+              ---------- KISFVGHSLG GLIQAFAIAY IY-------- ----------
+              FP-----RYS HISVVAHSLG GLVQTYAVGY VHA------- ----------
+              ---------K KISFLAHSLG GLFSRHAVAV LYSAAMAQVS DVAVSQSgns
+              ---------C KISFVAHSLG GLAARYAIGK LYKPANQEDV KDSVADSs-q
+              ---------K KISFVAHSLG GLVARYAIGK LYEQPGEVDS LDSPSKEk--
+              GG-----KIK KISIAGYSLG GLVARYAIGL LYAR------ ----------
+              KI-----T-- KLSVMGYSQG GLVARFMIGK ML-------- ----------
+              ---------I NISMIGHSLG GILNRSVLLN LNRK------ ----------
+              --------PA RISFVAHSLG TIIVRSALAR PQMRPLLP-- ----------
+              --------VS KISFIGHSLG NLIIRSVLTR PRFKYYLS-- ----------
+              HArygrlKNI KLSFVGHSIG NVIIRAAIA- --DSLMDPYR K---------
+              --------IQ RISFLAHSLG GVIVRSAVGL APEVEMQWMI D---------
+
+              PDFFDAVKGV KPVNFITLAS PFIGVIGDFP F--------- -YLSVPLDMG
+              TKYPYFFKKV EPINFISLAS PLLGIATSTP N--------- -YVKMSLSMG
+              EVYPWFFKKV NPINFITLAS PLLGIVTDNP A--------- -YIKVLLSFG
+              KTHGAFFQAI HPVFFVTLAT PWLGVAGEHP S--------- -YIGKALSYG
+              NLLRGRIAGL EPINFITLAT PHLGVRGRKQ LPFLLGVPIL EKLAAPIAPF
+              ETPKGTICGL EAMNFITVAT PHLGSMGNKQ VPFLFGFSSI EKVAGLIIHW
+              SARGGEIAGL EPMNFITFAT PHLGSRGHRQ FPILCGLPFL ERTASQTAHL
+              ----GVLDNL ECMTFTAFAS PFLGVRTPLR G-------WP NHVWNVLGAR
+              TEFKELFEDI EPQLFITMAT PHLGVEFYNP TGIAYKSALY SALRT-LGST
+              ----KIFKNK KLINFITFAC PHIGVHENMA I--------M KVLSTYLGAH
+              ---------- RLHTFLSLSG PHLGTLYNTS GLVNMGMWFM QKWKKSGSLL
+              ---------- KLHTFLSLSG PHLGTLYNSS ALVNTGLWFM QKWKKSGSLL
+              ---------- YFHTYISLSG PHLGYLYSSN SLFNSGLWLL KKLKSTQVIH
+              ---------- RCYTLMTINS PHLGLAYVQK H-IHWGVQFV KWWKKSRSME
+
+              ALGLTGRDLN LKytpltskd glyaddEVYP EHSKYILEIL PQAPAKKVFE
+              IIGTTGQELG LK-------- ------DGNY GDKPLLYLL- ---SEESLIS
+              VIGKTGQDLG LE-------- ------NDVE VGKPLLYLL- ---SGLPLIE
+              IIGKTGQDLS LT-------- ------PLNH SIESRPFLVL MSDPSTPFFQ
+              FVGRTGSQLF LT-------- ------DGKA DKPPLLLRMA SDGEDLKFLS
+              IFKRTGRHLF LK-------- ------DEEE GKPPLLRRMV EDTDDCHFIS
+              AAGRTGKHLF LV-------- ------DNDD GNAPLLIRMA TDSDDLKFIS
+              TLCMSGRQLF GI-------- ------DHFR DTGKPLLAVL ADPKSIFMCG
+              ILGKSGREMF IA-------- ---------N SSNNILVKLS QGE----YLE
+              TI-------- ---------- ------DDLN NKTTLLLKIA SVES----IN
+              QLCMR----- ---------- ------DTTD MRNSFLYRLS QRST------
+              QLTCR----- ---------- ------DHSD PRQTFLYKLS NKAG------
+              QLTLT----- ---------- ------DDPD LQNTFFYKLC KVEKDVNISS
+              QLSFR----- ---------- ------DSVD FASSFVYKT- ---S---LNN
+
+              S--------- -F-------- -----KRRTI YANVMDDGIV PLRT-----A
+              V-------LA RF-------- -----KRRTL YANAVNDGIV PLYS-----S
+              I-------LR RF-------- -----KRRTV YANAINDGIV PLYT-----A
+              A-------VS FF-------- -----EKRIL FANTTNDYIV PFGTSAMEVS
+              A-------LG AF-------- -----RSRII YANV------ ---------S
+              A-------LR AF-------- -----KRRVA YSNV------ ---------G
+              A-------LN AF-------- -----KRRVA YANV------ ---------N
+              --------LA KF-------- -----KRRIL YTNIVNDRSA VYYT-----T
+              A-------LS LF-------- -----KWRIA FANVKNDRTV AFYTAFITDC
+              I-------LK KF-------- -----ENIIF YGNTQSDWLV GIRTSLILPY
+              --------LH HF-------- -----KNILL CGSS-QDRYV PAHSARLELC
+              --------LH YF-------- -----KNVVL VGSL-QDRYV PYHSARIEMC
+              RsCtivtnRP LFfgsemlvl klfsaKDVVQ FQ---EYNSP VFASARIESC
+              A-------CG KF-------- -----KNILL VG-TPHDQLV PYMSSLLVPS
+
+              AL
+              SL
+              SL
+              SL
+              YD
+              HD
+              FD
+              GI
+              DP
+              TL
+              KA
+              KT
+              QP
+              KI

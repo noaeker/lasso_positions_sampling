@@ -1,0 +1,84 @@
+ 11 313
+0001  MS-AAGWLD- MNAALQNLDS PPESVK---- -------KVK T------KR-
+0002  MS-AAGWLD- MNAALQNLDS PPESVK---- -------KVR T------KR-
+0003  MS-AAGWLD- MNAALQNLDS PPESVK---- -------KPR N------KR-
+0004  MS-AAGWLD- MNAALQNLDS PPESVK---- -------KSR S------KR-
+0005  MS-AAGWLD- MNAALQSLD- --ESAAE--- -PKPNS-RPR A------KR-
+0006  M-------D- MRGAKKAPD- --EAVP---- -------NLR P------KR-
+0007  M-------D- MRGAKKSPD- --EAVP---- -------NPR P------KR-
+0008  MS--GGWLDM MSAATASAS- --VAAAEKRI KPKPKP-KP- S------KRI
+0009  MSA-A-LLD- MTAA-QSTS- --VATAA--- -SASDA-WL- SARQKANKR-
+0010  MS--A-FLD- VTAA-QSV-- ---------- ----DASRL- SARQKASKR-
+0011  M--------- M-GA-QSTS- --V--AE--- -TAFEA-KL- SARQRADKR-
+
+      RSSYAGR--- -SSSTAGVH- -GR---GSIG TI---SSGII KSFRERFLS-
+      RSSYAGR--- -SSSAAGVH- -GR---GSIG TI---SSGII KSFRERFLS-
+      RSSYAGR--- -GASAAGVH- -GR---GSIG TI---SSGII KSFRERFLS-
+      RSSYAGR--- -SASTTGVH- -GR---GSIG TI---SSGLI KLFRERFLS-
+      RSSYAGR--- -SASTTGVH- -GR---GSIG SV---SAGLY KAFRDRFLS-
+      RSSYAGR--- -TAPVAAIH- -GR---GSIG SIGSVSAGIY KAFRERFLS-
+      RSSYAGR--- -TAPVAAIH- -GRGSIGSIG SIGSVSAGIY KAFRERFLS-
+      RSHEAGK-IR HTATSAGIH- -PS------- ---SVSSNLY KVFRERFLD-
+      RSH-GGR--- -TAATAAIHG LGR---SSIA SV---GAGLY KSFRDRF--G
+      RSQ-SRRN-- -AAATAAIH- -GR-----IA SV---GAGLY KSFRGRFKSS
+      RRY-GGR--- -SAAAAGIHG HGR---SSIG SV---SAGII KSFHDRFMSS
+
+      -SSSGDSGKY RKLRQRDAES GRM-ASASS- ------SSGE DE-D------
+      -SSSGDSGKY RKLRQRDAES GRM-ASASS- ------SSGE DE-D------
+      -SSSGDSGKY RKLRQRDAES GRMEASASS- ------SSGE DE-D------
+      -SSSGDSGKY RKLRQRDAES GRLGASASS- ------SSGE DE-D------
+      -SD--ESGDY RKLRQRDAEA GRVGANASS- ---STESSGE EA-D------
+      -SD--DSGDY RKLRQRDAEA GQQGLDPYQ- ---SSGSSGE EG-E------
+      -SD--DSGDY RKLRQRDAEA GQQGLDPYQ- ---SSGSSGE EG-E------
+      -TD--GAGNY HKLTQRDAES GQV-VN---- ----SDSSDE KS-Q------
+      GSS--GVGDY RALRQRDAET GN-----IQK DLASSDSSDE ESLQSS----
+      ASS--SEADY RPLRQRDVEA GK-----SQK DLNSSDSSDV ESLQSSDPGS
+      AVS--DASDY RVLRQRDAES GM-----TRL DLDSSGSSDV ESLQGN----
+
+      ---------P SSS-SSVEDL FANEA-ERR- N-WHR---K- -TSE------
+      ---------P SSS-SSVEDL FANEA-ERR- N-WHR---K- -TSE------
+      ---------P SSS-SSVENL FASEA-ERR- K-WHR---K- -TSE------
+      ---------P SSS-SSVEDL FANEA-ERR- K-WHR---K- -TSE------
+      --------LP SSS-SSVEDL FAKET-ERR- K-WQR---K- -SSE------
+      ---------P SSS-SSVEDL FASET-ERR- Q-WRR---R- -SAG------
+      ---------P SSS-SSVEDL FASET-ERR- Q-WRR---R- -SAG------
+      --------L- -TS-SSVEDL FTQET-KHR- S-WRS---R- VSSN------
+      --------GS DGDSSSAEDI F-------TA KPGRR---QG -RRKKPVPRA
+      GSGSGSGIGS DSD-SSVENL FDNETEERT- K-WRR---Q- -RKTTTAPMA
+      --------IS SSS-SSVEDL FSNQT-ERE- K-LRRKLPE- -RKT------
+
+      K-R------- ---------- RR---NAR-- -------K-- -K---H----
+      K-R------- ---------- RR---NAR-- -------K-- -K---H----
+      Q-R------- ---------- RR---TAR-- -------K-- -K---H----
+      Q-R------- ---------- RR---TSR-- -------K-- -K---H----
+      Q-R------- ---------- RR---AAR-- -------R-- -K---H----
+      H-R------- ---------- RR---GPG-- -------R-- -K---K----
+      H-R------- ---------- RR---GPG-- -------R-- -K---KLLAP
+      QPRDRPKKGP SLFQSYRACE RQ---GPQ-- -------R-- -PSIYY----
+      R-R------- ---------- RRR------- -------RV- ----S-----
+      R-R------- ---------- RRKVSG-QLN SLCRPLMRA- ----A-----
+      R-R------- ---------- KRKVSD-Q-- -------RAV DPSIS-----
+
+      ----E----- ---------L SHGKL----- ---------- ----------
+      ----E----- ---------L SHGKL----- ---------- ----------
+      ----E----- ---------M SHGKL----- ---------- ----------
+      ----E----- ---------L SHGKL----- ---------- ----------
+      ----E----- ---------V SHENL----- ---------- ----------
+      ----VSVSTS VFPAKPLGWL ----L----S ---------- ----------
+      VLLLV----- ---------L ----L----A ---------- ----------
+      ----V----- ---------A ----LKTFAD ---------- ----------
+      ---------- ---------- ---------A ---------- ----------
+      ---------- ---------- ---------A AFHF----TD SSTYIFKYSN
+      ---------- ---------- ---------A AFRFRRYHT- --IYI-----
+
+      ---------- ---
+      ---------- ---
+      ---------- ---
+      ---------- ---
+      ---------- ---
+      -----ILISD SAN
+      ---------- ---
+      ---------- ---
+      ---------- ---
+      QFGNR----- ---
+      ---HM----- ---

@@ -1,0 +1,476 @@
+ 13 1655
+0001  MGDQRPQDRP --SSPGMDST PWYCDKPPSK YFAKRKHRRL RFPPVDTQNW
+0002  MGDQRPQDRP --SSPGMDSK PWYCDKPPSK YFAKRKHRRL RFPPVDTQNW
+0003  MGDQGPQDRP --RSPGMDSK PWYCDKQLSK CFAKRKHRRL RFLPMDPRNR
+0004  MGDRRPQDRP --RSQGMDSK PWYCDKPPSK YFAKRKHRRL RFPPVDTQNW
+0005  MGDRRPQDRP --RSQGMDSK PWYCDKPPSK YFAKRKHRRL RFPPVDTQNW
+0006  MGDRRPQDRP --RSQGMDSK PWYCDKPPSK YFEKRKHRRL RFPPMDTRNQ
+0007  MGDQRRLDRP --RPPGTDSK SSSCDKQPSK CFAKRKHRRL RFPPMDPRNR
+0008  MGDQRPQDWL --RSSGMDSK PWYCNKRPSK CFAKHKHRRL KFPPMDTQNW
+0009  MGDQRLQDWL --RSPGMDSK PWYCNKRPSK CFAKCKHRRL RFPPMDTQNW
+0010  MGDQRPQDRP --KSPGMDFK PWYCDKPPSK CIAKRKYRRL RFPPMDTQNW
+0011  MGDQRPRDRP --RSPGMDCK PWYCDKPPSK YIAKRKHRRL RFPPMDTQNW
+0012  MGDQRRQDWP NYR--GMDST PWYCDTSPSK RFGK-----L KLPPTNTENW
+0013  MGDQRRQDWP NYR--GMDST PWYCDTSPSK RFGK-----L KLPPPNTENW
+
+      VFVTEGMDDF RYGCQSPEDT LVCRRDEFLL PKISLRGPQA DPKSRKKKLL
+      VFVKEGMDDF RYGCPSPEDT LVCRRDEFLL PKISLRGPQA DPKRGQKKLL
+      VFVTQGMDDF RYGCPSPEDT LVCRCDEFLL LKISLRGPQA DPKSRKKKLR
+      VFVTEGMDDF RYACQSPEDT LVCRRDEFLL PKISLRGPQA DRKSRKKKLL
+      VFVTEGMDDF RYGCPSPEDT LVCRRDEFLL PKISLRGPQA DPKSRKKKLL
+      VFVTEGMDDF RCGCPSPEDT LVCRHDEFLL PKISLRGPQA DPKSRKKKLF
+      VFVTEGVDDF RYGCRSPEGT LVCRRDEFLL PKISLRSPQA DPKGKKKKLR
+      VFVKEGMDDF RYGCPSPEDT LVCRRDEFLL PKISLRGPQA DPKRAQKKLL
+      VFVKEGMDDF RYGCPSPEDT LVCRRDEFLL PKISLRGPQA DPKSGQKKLL
+      VFVTEGMDDF RYGCPSPEDT LICRRDEFLL PKICRRGPQT DPKSGQKKLL
+      VFVKESMDNF HYGCPSPEDM LICSLNEFLL PKISHRGPQA DPKSRQKKLL
+      IFMKWGMDDY SNHSQSPEDS LVCGRDEFLL PKISSRDAYA DPQSRPKKPL
+      IFMKGGMDDY SNDSPSPKDW LVCGRDEFSL LKICNRGTYA DPQSRPKKPL
+
+      KKAALFSKLS PAQPARKAFV EEVEAQLMTK HPLAMYPNLG EDMPPDLLLQ
+      KKAALFSKLS PAQLARKAFV EEVEAQLMAK HPLAMYPNLG EDMPPDLLLQ
+      KKAALFSKLS QAKPARKTFV EGVEAQLTAK PPLAMNYNLG EDMPPDLLLQ
+      KKAALFSELS PVQPARKAFV EEVEAQLMTK HPLAMYPNLG KDMPPDLLLQ
+      KKAALFSELS PAQPARKAFV EEVEAQLITK HPLAMYPNLG EDMPPDLLLQ
+      NKTALFSELS PAQPARKAFV KEVEAQPMTK HPLAMYPNLG KDMPPDLLLQ
+      KKAALFSELS PAQPTTKAFV EGVEAQLTAK PPLAVNSNLG EDMPPDLLLR
+      KKAALFSKLS PAQLARKAFV EEVEAQLMAK HPLAMYPNLG EDMPPDLLLQ
+      KKAALFSKLS PAQLARKAFV EQVEAQLMAK HPLAMYPNLG EDMPPDLLLQ
+      KKAALFSKLS PAQLARKTFV EEVEAQLTAK HPLAMYPSLG EDMPPDLLLQ
+      KKVALFSKLL PAQPARKAFI E--EAQLMAK HPLAMYPNLG EDMPPDLLLQ
+      KEA------- -ARLARKVSL EEVEDRFTAE CSLAMDPNLG EDMPPDLLRQ
+      KEAALFSKLS PARLARKVSL EEVEDQLTAE CFLARSRSPR EDTPPDLLRQ
+
+      VLKPLDPERK LEDAGS-CEG QEKTTDEPTE PGKYPCGEFS PRPPETRVSC
+      VLNPLDPERK LEDAGA-CEG QEKTTDEPTE PSKYPCGEFS SRPPETRVSC
+      VPKPLDPERK LEDACA-CEG QGTTTDEPME PGKYPCREFS PRPPETRVSC
+      VLKQLDPERK LEDAWARCEA REKTTEVPTE SGKYPCGESC PRPPETPVSR
+      VLKQLDPERK LEDAWARCEG REKTTEVPTE SGKYPCGESC PRPPETPVSR
+      VLKQLDPERK LEDAWARCEA REKTTEVPTE PGKYPCGESC PRPPETPVSH
+      VLKPLDPERK LEDTCA-CKG REKTTEVPTE PGKYPCGEFC PRPPETPVSH
+      VLKQLDPERK LEDAWARCEA QEKTTEVPTE PGKYPCGEFC PRPPETPVSH
+      VLKHLDPERE LEDAWACCET QEKTTEVPTE PGKHPCGEFC LKPPETPVSH
+      VLKLLDPERK LEDVWARCEA REKTTEVPTE SGKYPCGELC SKLPETPVSH
+      VLKPLDPERK LEDAWVR-EG WKKTTKAPTE PGKYPCGEFC QRPPETQVFH
+      VLKVLDPERK LEVS------ -EKATKEPSK PGKYPCGEFS PWPSETPLLH
+      VLKPQDPERK LEGTWACCED WEKATKEPTE PGKYPW-EFY PWPPETRVPH
+
+      LPPEPPK--- ---------T PVSSL----- ---------R PEPPETGVSH
+      ---------- ---------- ----L----- ---------R P---------
+      LHPEPPK--- ---------S PVSSL----- ---------C PEPPETGVSH
+      ---------- ---------- ----L----- ---------R P---------
+      ---------- ---------- ----L----- ---------R P---------
+      ---------- ---------- ----L----- ---------R P---------
+      ---------- ---------- ----L----- ---------R L---------
+      ---------- ---------- ----L----- ---------R P---------
+      ---------- ---------- ----L----- ---------L P---------
+      ---------- ---------- ----L----- ---------R ----------
+      LHPEPPK--- ---------T PVSSL----- ---------- PEPPETGVSY
+      LCPEPLKILL SILKPYRSVT EESYLCQ--- ---------- ----------
+      LCPEPPK--- ---------T PVSHLHQGPP KTCWMSHFC- PEPPETCVSP
+
+      LRPQPPKTQ- VSSLHLEPPE TGVSHLRPEP PKT-QVSSLH LEPPETGVSH
+      ---------- ------EPPE TGVSHLRPEP PKT-QVSSLH LEPPETGVSH
+      LRPEPPETQ- VSSLHLEPPK TGVSSLLPEP PET-QVFSLH LEPPKTGVSN
+      ---------- ------QLPK TPVSSRRPEP PKT-RVSS-- ----------
+      ---------- ------QLPK TPVSSRRPEH PKT-RVSS-- ----------
+      ---------- ------QLPK TPVSSLRPEP PKT-RVSS-- ----------
+      ---------- ------ELPK TPVSSLRPEP PKT------- ----------
+      ---------- ------ELPE TGVSHLSPEP PKT------- ----------
+      ---------- ------EPPE TGVSHLSPEP PKT------- ----------
+      ---------- ---------- -------PEP PKT------- ----------
+      LCPEPPKTHW VSSLCPEPPK TAVSHLCAEP AKTRRVSS-- ----------
+      ---EPPKTH- ASHLRLEPLE VAVSHIYPEP PES-GVSHLH LEPPETHISH
+      LRLEPPKTG- VSHLCLEPPK TGVSHLHPEP PEI-GVSHLR LEPPYTH---
+
+      LYLEPPGTGV SHLCPEPPKT RVSH------ -----LHREP ----------
+      LYPEPPETGV SHLCPEPPKT CTSH------ -----LHPEP ----------
+      LLPEPPETGV CHLCPEPPKT SVSR------ -----LHPEP ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      LLPEPLETGV SHLCPEPPGT RVSH------ -----LCPEP ----------
+      VRPETPETGV SQLSPEPPKT PVSH------ -----IHPDP ----------
+      ------QTGV SHLCLEPPET AVSHHPEPPD PGVSYLHPEP IESRLSHLHP
+
+      --PET-GVPD LCLEPPKSRV SHLR-----P EPSETGVSH- ----------
+      --PET-GVPD LCPEPPKTRV SHLR-----P EPSETGVSH- ----------
+      --PVT-GVPD LCPEPPKTGV SH-G-----P EPPETGVSH- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      --PKTLQVSS LCPEPPKTR- ---RMSSLHP EPSKTGVSHP HLSPKTRGVS
+      --LKT-GVSH LLLEPPKTC- ---QVSSLHS ETPRT----- ----------
+      ELLET-RVSS LLLEPPKTR- ---QMSSLYP EPPKTGVSH- ----------
+
+      -LHPEPPKT- ---------- ---LVSSLHP EPPETGVSH- ----------
+      -LHPEPPKT- ---------- ---QVSSLHP EPPETGVSH- ----------
+      -LHPEPPKT- ---------- ---RVSSLHP EPPETGVSH- ----------
+      -LRPEPPKT- ---------- ---RVSSLHP EPPETRASH- ----------
+      -LRPEPPKT- ---------- ---RVSSLHP EPPETRASH- ----------
+      -LHPEPPET- ---------- ---RVSSLHP EPPETRASH- ----------
+      ------PKT- ---------- ---RVSSLRP EPPKTGASH- ----------
+      ------P--- ---------- ----VSSLRP EPPETGVSH- ----------
+      ------P--- ---------- ----VSSLRP EPPETGVSH- ----------
+      ------P--- ---------- ----VSSLHP EPPESGVSH- ----------
+      SLLPEPPKTR RVSSLCPEPP KTRRVSSLCP EPPKTAVSHL HLEPPKTRRV
+      --------C- ---------- ---QVSSLHP EPPETGVSH- ----------
+      -LYLEPPKT- ---------- ---RVSHLHP EPPETGVSL- ----------
+
+      --LCPEPPET ---------- ---------- ---------- ----------
+      --LCQEPPET ---------- ---------- ---------- ----------
+      --L------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      SRLCPEPPKT GQM------- ---------- ---------- ----------
+      --LCLEPPKT RQMF------ ---------- ---------- ---------S
+      --LCPEPPNT RQVLHPESPK TLVSSLCPDP TKRSGVSSEP PESRRVSSVS
+
+      ---------- ---------- ---------- --------RV SPLRQLPPEA
+      ---------- ---------- ---------- --------RV SPLRQLPPEA
+      ---------- ---------- ---------- --------R- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- -----SSVR- ----------
+      LQP------- --------KL ---------- ---------- ----------
+      LEPPESHRGS SVSSEPPESL VSSDHPEKPP KSRRVSSVS- ----------
+
+      GVSHLCPEPP KT-RVPPLRP ETPKNG---- ---------- ----------
+      GVSHLCPEPP ET-RVPPLHP ETPKNG---- ---------- ----------
+      ------PEPP KT-RVPPLRP EPPENG---- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ------PEPP KNRRVSSLCP EPPKTAVSHL RPKTQRVSTL H--PEP----
+      ---------- ---------- --PETGVS-- ---------- H--P------
+      ------SKPP KNRQVSSVCP EPPEPGVS-- ---------- HVLPEPPDMQ
+
+      -----VSPLF PEPPKT-RIS NLRSEPPKIG VSH-LCLEPP KT-RGSHLRP
+      -----VSPLF PEPPKT-RVS NLRLEPPKTG VSH-LCPEPP KT-RGSHLRP
+      -----ASLLS PEPAKT-RVS NLRPEPPETG VSH-LRPEPP KT-RVSSLRR
+      ---------- ---------- -LRVDPPETG VSH-LCPEPP KT-LVSSVHP
+      ---------- ---------- -LRADPPETG VSH-LRPEPT KT-LVSSVHP
+      ---------- ---------- -LHADPPETG VSH-LRPEPP KT-LVSSVRP
+      ---------- ---------- -LRPEPPKTG ASH-LRPEPP KT-RVSSLCP
+      ---------- ---------- ---------- ---------- -------LHP
+      ---------- ---------- ---------- ---------- -------LRP
+      ---------- ---------- -----P---- -----RPEPP KT-PVSSLHP
+      TKIRWVSSLC PEPPKTHRVY SLRPEPPKMQ VSS-LQPEPP KT-EVSSVCP
+      ---------C PEPPKTCRVS SLHPEPPETG VCHFHL-EPP KTRRKSSLHP
+      -----VSSVC LEPPKPHRVS SLFPEPAETG VSHVLR-EPP SARRTSSVHP
+
+      EPPETGVSHL RPEP--PKT- RVSSLHLEPP ETGVSHLCPE PPEKDVSHL-
+      EPPETGVSHL RPEP--PKT- RVSSLHLEPP E--------- ----------
+      EPPETGVSHL RPGP--PKT- RVSS------ ---------- --------L-
+      ---------- ---------- -------EPP D--------- ----------
+      ---------- ---------- -------EPP D--------- ----------
+      ---------- ---------- -------EPP D--------- ----------
+      ---------- ---------- -------EPP K--------- ----------
+      EPPETGVPHF RPGP--PITR RRSS------ ---------- --------LL
+      EPPETGVSHI RPGP--PITR RRSS------ ---------- --------LL
+      EPPETGVSHL --GPEHPNTR RVSS------ ---------- --------LL
+      EPPEIGVSHL HPEP--PNTH RVSS------ ---------- --------LL
+      EPPETGVSHL HPEL--PNSR RSSS------ ---------- --------L-
+      KSPKTRVSSL YSEP--PGSR RVSS------ ---------- --------L-
+
+      ---------- ---------- ---------- ---------- --RP------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- --RP------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      RQLLKLDSER KLEDARAPCE GREKTTDEPT EPGKYPCGEF CPRP------
+      RQLLKLDSER KLEDARAPCE GREKTTDEPT EPGKYPCGKF CPRP------
+      RQLLKLDSER KLEDARARCE GREKTTNEHT EPRKYPCGEF CPRP------
+      --L------- ---------- -------EPT EPGKYPCGEF CTRP------
+      ---------- ---------- ---------- ---------- --RP------
+      ---------- ---------- ---------- ---------- --CPESPETT
+
+      ---------- --------EP PDTGVSHLCP EPPKT-RVSH LRPEPSETGV
+      ---------- ---------- ---------- ---------- ----------
+      ---------- --------EP PETGVSHLRP EPPKT-PVSS LRPEPPETGA
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- -------FET P---VSHLRQ EPPKT-PVSS LRPEPPETRE
+      ---------- -------FET P---LSHLRQ EPPKT-PVSS LRPEPPETGE
+      ---------- -------FET P---LSSLRS DPPET-GGSR LRPEPPKTGV
+      -------PES QVSHLCL-EP PKTPVSSLRL GPPKT-GVSH LCPGPPKTGV
+      ---------- --------EP PKTEVSHVHP EPPNSRRSSS LRPELPKTEV
+      GVSHLPS--- --------EP PETGVSHVLP EPPKIRRVSS LHPESPKTQV
+
+      SHLRPEPPK- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      SHLRPEPPK- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      SHLRLEHSK- ---------- ---------- ---------- ----------
+      SHLRLEHSK- ---------- ---------- ---------- ----------
+      SHLRLEPPK- ---------- ---------- ---------- ----------
+      SHLCPEPPK- ---------- ---------- ---------- ----------
+      SHVQPEPPKT QGSIPSPEPP DTSVASNLLL EILKMLDSQK KLKDVWARCE
+      SSVSSEPPK- ---------- ---------- ---------- ----------
+
+      ---------- ---------- ---------- ---------- ----ILVSSL
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ARVKPKEKPT EFDKYTTKNI FHRLPDFLQV YEVHLENLRE KPLG------
+      ---------- ---------- ---------- ---------- ----------
+
+      HQAPPESSVS H---LRPEPP ETG-VSHLRP EPPKTRM-YS LRPEPPDTGV
+      ---------- ---------- ---------- ---------- ----------
+      ------TRVS R---LRPEPP ETG-ASRLRP EPPKTRV-SR LRPEPPETGV
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ------TR-- RGSSLRSEPS ETG-VSHLRL VPPKTRRASS LYLEPSETGV
+      ------TR-- RGSSLRSEPS ETG-VSRLRL APPKTRRGSS LHAEPSKTGV
+      ------TR-- RGSSLHSDPS ETG-ASHLRL APPKTRRGSS LHSEPSETGG
+      ------TRVS S---LPPEPP ETG-VSHLHP EPLKTRM-YS LHLEPPETGV
+      ------TR-- RGSSLRPVHQ KTRWGSRLHP KHPKTRRGSR LHAE------
+      ------TR-- RVSSLCPEPP KTHWVSSLHP GPPKTRQGSS LH--------
+
+      SHLCPEPPKT -RVSSLPPEP PETGVSHLCP EPPET-RVS- ----------
+      ---------- ---------- ---------- ---------- ----------
+      SDLRPEPPET -CVSHLRLEP PDTGVSHLCP EPPKI-RVS- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      SHLSPELPKT -EVSHLHPVP PKTGVCHLRL EPPDTSQVS- ----------
+      SHLSPEPPKT -EVSHLHPVP PKTGVCHLRL EPPDTSQVS- ----------
+      SHLRPEPPKT -EVSHLQSVP PKAGASHLRP EPPDTSRVS- ----------
+      SHLCLEPPKT -LVSSLRPGP PETGVSYLCL QPPKT-PVS- ----------
+      --L----PKT RRGSSLRPEP PKTEVSHLHP EPPKA-PVSQ Q---------
+      ---------- -------PEP PKTGVSHLHP ESPKA-PVSH QDPEPLKQER
+
+      --HL------ ---------- ---------- ---------- ------RPEP
+      ---------- ---------- ---------- ---------- ----------
+      --HL------ ---------- ---------- ---------- ------CPES
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      --NLLLYMLK VLDSGRTLKD VWDRCEARVK KTEEPTEPDK SPCGEPCLQP
+      --NLLLYILK VLDSGRTLKD VWDRCEARVK KTKEPTEPHK SPCGEPCLQP
+      --NLLLYMLK VLDSGRTLKD VWARCEARVK KTEEPTEPDK FPCGEPCLQP
+      --SL------ ---------- ---------- ---------- ------CPGP
+      ---------- ---------- ---------- ---------- ----------
+      VPHL------ ---------- ---------- ---------- ------CPEP
+
+      PET---GVSH LRPEPPKT-R MYSLRPEPPN TGVSHLCPEP PKTRVSSLPP
+      ---------- ---------- ---------- TGVSHLCPKP PKTRVSSLPQ
+      PET---GASH LRPEPPKT-P MYSLHLEPPE NGVSHPCPES PKTRVSSLHP
+      ---------- ---------- ---------- TGASHLCPEP PETR------
+      ---------- ---------- ---------- TGVSHLCPEP PETR------
+      ---------- ---------- ---------- TGASHLCPEP PETN------
+      ---------- ---------- ---------- TGVSHLCPEP PETA------
+      PET---QVSH PHPEHPKTRR RSSLH----- -------PQP PKTR------
+      PET---QVSH PHPEHPKTRR RSSLH----- -------SQP PKTR------
+      PET---QVSH LHPEPPKTRR ASSLH----- -------PQP PKTR------
+      PKT---GVSH LCPEPPKT-L VSSLRLGPPE TGVSHLCPEP PKTRLSSLCP
+      ---------- ---------- ---------- ---------- ----------
+      PKTCQM--SH LCPEPPET-C VSPLRLEPPK TGVSHLCLEP PETPVSHLHP
+
+      EPPETGVSHL ---------- --CPEPPET- RV-------- ----------
+      GPPETGVSHL ---------- --CREPTET- RV-------- ----------
+      EPLETGASHL RPEPPKTQVS SVRPEPPET- RV-------- ----------
+      ------VSH- ---------- ---------- ---------- ----------
+      ------VSH- ---------- ---------- ---------- ----------
+      ------VSH- ---------- ---------- ---------- ----------
+      ------VSHL ---------- --CPLPPET- PV-------- ----------
+      ---------- ---------- ---------- RT-------- ----------
+      ---------- ---------- ---------- RT-------- ----------
+      ---------- ---------- ---------- RA-------- ----------
+      ERPETGVSHL ---------- --CPEPPETH RV-------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      EPPETGVSHL ---------- --CPEPPDTH RVCKPTEYAE YPCGRFCPRP
+
+      -----SHLRP EPPETGVSRL HPEPPKT-R- ---VSSLHAE PPESRVSHLC
+      -----SHLRP EPPETGVSRL HPEPPKT-R- ---VSSLH-- ----------
+      -----SHLRP EPSETGVSHL RSEPPKT-P- ---VSSLRPE PPETGVSHLC
+      -------LHP EPPETGVSHL RPEPSKT-Q- ---VSSLCPE PPEAGVSHLC
+      -------LHP EPPETGVSHL RPEPTKT-Q- ---VSSLCPE PPEAGVSHLC
+      -------LHL EPPETGVSHL RPEPPKT-Q- ---VSSLCPE PPEAGVSHLC
+      -----SSLRP EPPETGESHL RPEPPKS-Q- ---VSSLRPE PPETGASNLC
+      -----SS--- ---------L RSEPPKTHR- R--------- ----------
+      -----SS--- ---------L RSEPPKT-R- R--TSSLR-- ----------
+      -----SS--- ---------L RSDPPKT-R- RRV------- ----------
+      -----SS--- ---------L RPEPRKM-R- ---VSS---- --------LC
+      ---------- ---------- ---------- ---------- ----------
+      FETPMSY--- ---------F RLESPKT-RP ---VST---- --------LC
+
+      PEPPETGVSH LRPEPPKPRV SSLRPEPL-- ---------- ---------E
+      PEPP------ ---------- ---------- ---------- ---------E
+      PESP------ ---------- ---------- ---------- ---------E
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      PEPPKTVVFH LRPEPPNLRV SSL----LLQ MLKLLDPENQ GTHLCLRLPE
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+
+      TRVSHLRPEP PETGVSH--- ---------- ---------- ----------
+      TRVSHLRPEP PETGVSH--- ---------- ---------- ----------
+      THVSHLCPEP PETGVSHLSP ETPNTRRLCG ESNPRPFESR VSHLPLVPPK
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      TRASHLC--- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+
+      ------LHPE LPKP-RVS-- --SL------ ---------- ----------
+      ------LHPE PPKP-QLS-- --SL------ ---------- ----------
+      TRRVSKLRPE PPKTRRVS-- --SF------ ---------- ----------
+      --------LE PPNTHRVS-- --SFLLQVLK LDSEKKLEDA RARCEGQEMT
+      --------LE PPNTHRVS-- --SFLLQVLK LDSEKKLEDA RARCEGQEMT
+      --------LE PPNTHRVS-- --SFLLQVLK LDSEKKLEDA LARCEGQEMT
+      --------PE PPNTRPVS-- --SLLLQLLK LDSDRKLEDA QARCEGRETT
+      ---------- -------S-- --SL------ ---------- ----------
+      --------SE PPKTRRTS-- --SL------ ---------- ----------
+      ---------- -------S-- --SL------ ---------- ----------
+      --------PE PPKTRQVS-- --SL------ ---------- ----------
+      ---------- ---------- -LS------- ---------- ----------
+      --------PK PPKTRLVSDR FL-------- ---------- ----------
+
+      ---------- -------HL- EP-------- -PKTRRVSSL RLEPPKTGRV
+      ---------- -------HR- EP-------- -PKSRRVSSL CLAPPKTHRV
+      ---------- -------RP- EP-------- -PRTRRVSSL RLEPLKTRRV
+      TEELTKPGKY HFWESCPRPF ESRMPHLRLV LPITRRMASL CLKPPKTRRV
+      TEELTKPGKY HFWESCPRPF ESRMPHLRLV LPITRRMASL CLEPPKTRRV
+      TEELTKPGKY HFWESCPRPF ESRMPHLRLV LPKTRRMSSL RLAPPKTHWV
+      TEELTKPSKY FFWESCPRPF ESRMPHLRLV LPKTRRMSRL CLEPPKTRRA
+      ---------- -------GL- EP-------- -PKT------ -------RRV
+      ---------- -------GP- EP-------- -PKTRRVSSL RPELPKSRRV
+      ---------- -------RP- EP-------- -PKTRRVSSL RPELPKTRRV
+      ---------- -------RP- EP-------- -PKT------ --------RV
+      ---------- ---------- EP-------- -TNI------ ----------
+      ---------- ---------- EP-------- -PNI------ --------GV
+
+      SSLCPEPTKT GASH------ ------LKEL FQEGTSSTME CVSDSLQR--
+      SSLCPEPTKT GASH------ ------LKEL FQEGISSTME CVSDSLQR--
+      SSLCPETTKT GVSH------ ------LKEL FQEDTPNTTE CVSDSLQH--
+      SSLCPEPTKT GASH------ ------LKEL FQEDTPSTME CVSDSLQR--
+      SSLCLEPTKT GMSH------ ------LKEL FQEDTPSTTE CISDFLQH--
+      SSLCPEPTKT GVSH------ ------LKEP FQEDTLSTTE CISDSLQH--
+      SSLCPEPTKT GVSH------ ------LKEL FQEDTPSTME CISDSLER--
+      SSLHPEPPKS PESHQFSEPP KIRASYIKEL LQEDTPSTKE CVSDSLQY--
+      SSLHPEPPKA PESHQFSEPP KIRASYIKEL LQEDTPSTKE CVSDSLQY--
+      SSLRAEPPKA PVSHQFSESP KIRASYIKEL FHEDTPSTTE CVSDSLQY--
+      SHLSPEPPKA PVSHHFLEPP KIRVSCLKEL LQEDTPSTTE CVSDSLQH--
+      ---------- ---------- --QAAFLKAL FPEDTPSTRK G---------
+      SHLCPEPP-- ---------- --RASYLKEQ LQEDTPSTTE GVSDSLQPEY
+
+      -----RHTSR KLRD-FKWAG DLGVNEESIS SLFDFTPEC- ---RATYQDQ
+      -----RHTSR KLRD-FKWAG DLGVDEESIS SLFDFTPEC- ---RATYQDQ
+      -----RYTSR KLRD-FKWAG DLGVDEESIS SLFDFTPEC- ---KADYQDQ
+      -----RHTSR KLRD-FKWAG DLGVNEESIS SLFDFTPEC- ---RTTDQDQ
+      -----RYTSS KLRD-FKRAG DLGVDEQPIS SLFDFTPEC- ---RTTDQDQ
+      -----IYTSR KLRD-FKRAG DLGVDEEPIS SLFDFTPEC- ---RITYQDQ
+      -----RFTSR KLRD-FKWAG DLGVDAESIS SLFDFTPEC- ---RATSQDE
+      -----RYTSE KLREFFKWAG DLGADEESIR NLFDFTPKY- ---RATHEDQ
+      -----RYTSE KLREFFKWAG DLGADEESIR NLFDFTPKY- ---RATHEDQ
+      -----RYTSE KLREFFKWAA DLGADEESIR NLFDFTPKY- ---RTTYYDQ
+      -----RYTSR KMHD-FKWAR DMGVDEESIR NLFDFTPKW- ---RATYEDQ
+      SP-KFRYTSE KLRDFFKWVK DMGVDEESIR DFFDFTPEC- ---KPTCDQQ
+      TPRKF---SE ----FFKWAQ DMGIDEKRIR HLY----ECI HGDRATYEDQ
+
+      KNKKANECSS GLKYSMELDE MDEVKFFSQE KDLDGKIQNA PNSHS----A
+      KNKKANECSS GLKYSVELDE MDEVKFFSQE KDLDGKIQTA PNSYS-----
+      KFKTVNECSS GLKCSMELDD MDEVKFFSQK KDLDGKIHTA SNSYS----A
+      KIKKANECAS RLMYGMELDD MDEVE-FLRI KYWDRRRRAA PHSYS----A
+      KIKKANECAS RLMYGMELDD MDEVE-FLRI KYWDRKRRAA PHSYS----A
+      KIKKANECAS RLKYGMELDD TDEVE-FLRI KYWDRRLRAA PHSYS----A
+      NIEKANECSS ELKYSMELDD MDEID-FSQI KEWDRKLQAA PNSYS----A
+      KVKKVKECSS ELKYSMELDE KDEDKFFSQE KYWGRKFHTP SNSYT----A
+      KFKKVKECSS ELKYSMELDE KDEDKFFSQE KYWGRKFHTP SNSYT----A
+      KLKKVKECSS ELKYSMELDE KDEAKFFSQE KYWGRKFHTP SNSYA----A
+      QIKKIKEWVS ELQYTIKLDE MDEVESFSQE KDWDRKLQMA PNSST----A
+      KTKKINECHS ELKYSMELSE KDEVKFFSQE QVWNRKTPKP PNSYT----A
+      QNKKINQCAT ELQYDIELDE MDEVELFSQE KDWDKKTE-- ----TTLNFS
+
+      QHVKMGYGA- WYLKPKLGKK LRSDEPLIDP KLVLEKPDEP DILDGLYGPI
+      -------GA- WYLKPKLGKK LRSDEPLIDP KLVLEKPDEP DILDGLYGPI
+      EHVNMGYGA- WYLKPKLGQK LRSDEPLNDP KLLLEKPDEP DILDGLYGPI
+      QRGRIRYGP- WYFEPKLGKK LRSDEPLIDP KPVLEKPDEP DILDGLYGPI
+      QRGRLRYGP- WYFKPKLGKK LRSDEPLIDP KPVLEKPDEP DILDGLYGPI
+      QRGTIRYGP- WYFEPKLGKK LRSDEPLIDP KPVLEKPDEP DILDGLYGPI
+      QGVKMRYGP- WYFKPKLGKK LRSDEPLIDP KLVLKKPDEP DILDGLYGPI
+      QPVKMKYGA- WYLKPKLWKK LRSDEPLIDP KLLLKKPDEP DVLDDLYGPI
+      QRVKMKYGA- WYLKPKLWKK LRSDEPLIDP KLLLKKPDEP DVLDDLYGPI
+      QRVKMKYGA- WYLKPKLWKK LRSDEPLIDP KLLLEKPDEP DVLDELYGPI
+      QCVKMRYGV- WYLKPKLWKK LRSDQPLIDS KLLLEKPDEP DVLDDLYGPI
+      QPVKMRYGA- WYLKPKLWRK LRSDEPLIDP KLLLKNPEES NILDELYGPI
+      QPAKMRHGGP WHLKPKLCEK LTSDETSIDP KSLLKKPDEP DILDNLYGPI
+
+      AFKDFILSKG YEMPGIIQRL FARRGWTYDS VKTPIQRAMQ VYKYKEDVTD
+      AFKDFILSKG YEMPGIIQRL FARRGWTYDS VKTPIQRAMQ VYKYKEDVTD
+      AFKDFILSKG YEMPGIIQRL FARNGWTYDS VKTPIQRAMQ VYKYEEDVTD
+      AFKDFILSKG YRMPGVIEKL FAKKGWTYDS VKTPIQRAVQ VYKYKEDVTD
+      AFKDFILSKG YRMPGVIEKL FAKKGWTYDS VKTPIQRAMQ VYKYKEDVTD
+      AFKDFILSKG YRMPGVIEKL FARKGWTYDS VKTPVQRAMQ VYKYKEDVTD
+      AFKDFILSKG YRMPGILERL FAKKGWTYDS VKTPMQRAMQ VYKYKEDVTD
+      AFKDFILSKG YEMPGILERL FARKGWTYDS VKTPIQRATI FYKYKE-IAE
+      AFKDFILSKG YEMPGIIQRL FARRGWTYDS VKTPIQRAMI FYKYKE-IVE
+      AFKDFILSKG YEMPGILERL FARKGWTYDS VKTPIQRAIR FYKYKE-NAD
+      AFKDFILSKG YEMPGIIERL CARRGWTYDS VKTPIQRAMI FYK-KEDVTD
+      AFKDFILSKG YEMPVLIERL FTRMGWKYDA VKTPMERVTK YFKYKQEDTD
+      AFKDFILSKG YEMPGIIERL FTRKGWTYES VKTPMQRAIQ VYKYKEDDTD
+
+      ASEED
+      ASEED
+      ASEED
+      ASKED
+      ASKED
+      ASKE-
+      ASKED
+      ASEED
+      ASEED
+      ASEED
+      VSEED
+      VSEEN
+      ALEKD

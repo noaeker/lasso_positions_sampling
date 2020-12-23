@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import os
 
-LINUX_LOCAL = True#True
+LOCAL_RUN = True#True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -22,18 +22,18 @@ CSV_COLUMNS = ["job_id","file_ind","dataset_id","alignment_type",
 
 
 #Default values
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = 1000
 WAITING_TIME_CSV_UPDATE = 10#86400
-NJOBS =50
+N_JOBS = 50
 RANDOM_TREES_TEST_SIZE = 100
 DELETE_SPR_FILES = True
 DELETE_CSV_IF_EXISTS = True
 EPSILON = 0.1
 USE_BACKUP_CSV_FILES_IF_EXISTS = False
 UPDATE_BACKUP_IF_EXISTS = False
-MSA_EXTRACTION_METHOD = "FOLDER"  # MSA_EXTRACTION_METHOD = "FOLDER"
+MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 CURR_RUN_PREFIX= "test"
 CURR_JOBS_PREFIX = "test_job"
@@ -53,25 +53,23 @@ IGNORE_COLS_IN_CSV = ["alignment_data", "lasso_coeffs", "lasso_chosen_weights", 
 
 
 
-if not LINUX_LOCAL:
+if not LOCAL_RUN:
     # PATH CONFIGURATION
     ALIGNMENT_CSV_PATH ="/groups/pupko/noaeker/positions_sampling/ABC_DR/sampled_datasets.csv"
     BASELINE_FOLDER = "/groups/pupko/noaeker/"
     PROJECT_FOLDER = BASELINE_FOLDER +"positions_sampling/"
     RAXML_SOURCE_CODE_PATH = BASELINE_FOLDER + "standard-RAxML"
-    RAXML_NG_EXECUTABLE_PATH = os.path.join(BASELINE_FOLDER , "raxml-ng/raxml-ng --threads 1")
+    RAXML_NG_EXECUTABLE_PATH = os.path.join(BASELINE_FOLDER , "raxml-ng/raxml-ng --threads 8")
     ALIGNMENTS_FOLDER_PATH = BASELINE_FOLDER + "Alignment_files"
-    ALL_RUNS_BACKUP_FOLDER = PROJECT_FOLDER + ("backup_files")
     MSA_FILES_PREFIX_TO_REMOVE = "/groups/pupko/noaeker"
 
-elif LINUX_LOCAL:
-    BASELINE_FOLDER ="/home/noa/"
-    RAXML_NG_EXECUTABLE_PATH = BASELINE_FOLDER +"raxml-ng/bin/raxml-ng"
-    ALIGNMENTS_FOLDER_PATH = BASELINE_FOLDER + "positions_sampling/Alignment_files"
-    PROJECT_FOLDER = BASELINE_FOLDER + "positions_sampling"
-    ALL_RUNS_BACKUP_FOLDER = PROJECT_FOLDER + ("backup_files")
-    MSA_FILES_PREFIX_TO_REMOVE = BASELINE_FOLDER
-    MSA_CODE_LOCATION = "/mnt/c/Users/n1234/PycharmProjects/Current_column_sampling/MSA_positions_sampling.py"
+elif LOCAL_RUN:
+    BASELINE_FOLDER ="/Users/noa"
+    RAXML_NG_EXECUTABLE_PATH = os.path.join(BASELINE_FOLDER ,"Programs/Raxml/raxml-ng")
+    PROJECT_FOLDER = os.path.join(BASELINE_FOLDER , "Workspace/lasso_ps_results")
+    ALIGNMENT_CSV_PATH = os.path.join(BASELINE_FOLDER , "Workspace/lasso_ps_data/sampled_datasets.csv")
+    MSA_FILES_PREFIX_TO_REMOVE = ""
+    MSA_CODE_LOCATION = "/Users/noa/Workspace/lasso_positions_sampling/MSA_positions_sampling.py"
 
 
 

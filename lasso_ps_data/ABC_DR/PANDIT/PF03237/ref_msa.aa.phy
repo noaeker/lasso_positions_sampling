@@ -1,0 +1,319 @@
+ 28 527
+Q9PQX4_UREPA  EFVAKKLPIP FNE---INLL G------GRS SGKTFATLDF LSSLVAIKQQ
+Q928Y6_LISIN  PKQQDTITFP FQNVTLEVNE G------TPR SGKTTADIFK MAYIYSISED
+Q9KKC3_BORHE  KQCEVLKLIE NNNQSKIILS G------GIA SGKTFWACYL YLKMLIKNRH
+O86121_BORBU  KQKNVIKSIQ KNNEKKIILS G------GLA SGKTYLACYL FLKSLIENKK
+O50924_BORBU  KQKEVLFDIE SNNYSKVIFS G------GIA SGKTFLASYL LVKKLIENKS
+Q9G005_9CAUD  KQQEVWNCFI NDKPKVLIAS G------AKR AGKTYVFILL FLMHIATYKD
+O34057_9CAUD  RQLEVLNYIW NHDWFICGLH G------AKR AGKTVVNNDT FVTELSRVRK
+Q98MS1_RHILO  TIVEDEIRFW ----NGSRIY L------CHC KDEKDRFKYQ GAEIHVLLID
+Q984H6_RHILO  AQPRSAPDLS WTFPAGATVS F------AHL EHEKTIYNWQ GAQIPLICFD
+Q8TJF9_METAC  AIPRESDLLW YFPVSGNSIK F------AHL EHEKSKHNYQ GAQICYIGFD
+O80226_9CAUD  GIPHEQKMTI TFP-SGATIK F------TYL ELEKHAEGHQ GIEYSAIYFD
+O80199_9CAUD  AEWNEQKKRW TFP-SGAALQ F------GHM EHEKDRYRYQ GSSYHYIAFD
+Q92B19_LISIN  LGYNEEWAEI ---------- ---------- -TKKTVGSRT WASLYQQRPR
+Q835C2_ENTFA  AIAEDDDLLG RKP--GEALA P------EIG KDEEWAAKTK AVTGSRG---
+Q87CS2_XYLFT  ASPDTPIIVI MQRLAQDDPT G------FIQ SG-GFPGAWE CIEIPALIDD
+Q7Y5U7_9CAUD  NSQTVRDSIW --DWYTTTLY TrlspksGVL LGMTRWHEDD LAGRLIK---
+Q9A4P0_CAUCR  EPLIHQLASP FSPWSTWLML G------GRG AGKTFAGARW ITWNALAYPS
+Q8YG12_BRUME  IRARDAQLPP DGDWRVWLIM G------GRG SGKTRAGAEW VSGMALGLPP
+Q8UGT4_AGRT5  LPQQAPEGEW ----RTWLLI G------GRG SGKTRAGAEW VHAVASA---
+Q94MS5_9CAUD  RAPPTVARFL RSNAFVRCIV G------PVG SGKSSGCVVE IPRRAAEQAP
+Q92NY5_RHIME  YAKQREFHAA GAAFRERLFM A------GNQ LGKTLAGAAE AAMHLTGRYP
+Q8HAE4_BPST6  YSKQREFIDA GHDYPERCFM A------GNQ LGKSFTGAAE VAFHLTGRYP
+Q8H9R7_9CAUD  YGWQEKFIAA SSNCAQLLAM T------GNR CGKTYTGAFI MACHLTGRYP
+Q7TTC2_BORBR  NQPQARFLAL --PHKFRAFV A------GFG SGKTWVGGAG LCRHAWEFPR
+Q7Y448_9CAUD  RDYQKDMLKI MHENRMSAHK L------SRQ LGKTTAVAIF LAHYVCFNKD
+Q7Y4X0_BPR69  RDYQRDMLKI MSSKRMTVCN L------SRQ LGKTTVVAIF LAHFVCFNKD
+Q8LTT3_9VIRU  RPYQKEMLEV ADRSRFSIFL L------PRQ LGKTTIMGIF LAHYLVFNED
+Q53884_SPICI  NIPNAPWKEI YNPADEYNEI G------SRY SAKTFMIKDN VVAKCCAISL
+
+              NA-------- ---------- ---------- ---------- ----------
+              QN-------- ---------- ---------- ---------- ----------
+              FY-------- ---------- ----KQDTNN FILGNSQKSL EINVLGQFEk
+              LY-------- ---------- ----SSDTNN FIIGNSQRSV EVNVLGQFEk
+              FY-------- ---------- ----EQDTNN FIIGNSIGLL MTNTVKQIEk
+              KG-------- ---------- -------LNF IIGGATQASI RRNILDDME-
+              IA-------- ---------- -----DRMAI DEPIYILAGT SSTAIQNNVl
+              EL-------- ---------- ---------- ---------- ----THFTEv
+              EL-------- ---------- ---------- ---------- ----THFSAk
+              EL-------- ---------- ---------- ---------- ----CHFSEg
+              EG-------- ---------- ---------- ---------- ----THFSAs
+              EL-------- ---------- ---------- ---------- ----TEFMEt
+              PA-------- ---------- ---------- ---------- ----------
+              -W-------- ---------- ---------- ---------- ----------
+              AYvSGLPEqv qgqvvrdvQD QdGRYSYWPY KEPLAELLAL EATDRYVFSg
+              EA-------- ---------- ----ENGGDQ WRIVKFPAIA EEDEEFRKE-
+              QA-------- ---------- ---------- ---------- ----------
+              FA-------- ---------- ---------- ---------- ----GKPSG-
+              -G-------- ---------- ---------- ---------- -----KQSDl
+              GP-------- ---------- ---------- ---------- ----------
+              DW-------- ---------- ----WQGRRF DRPIVMLAGS ESYELTRDGv
+              GTkGYPAD-- --------GK YgGEWKGKRF YEPVVFWVGG ETNETVTKTt
+              EW-------- ---------- ----WTGRKF DKPVNCWAAG ISTDTTRDIl
+              VNsGYFAP-- --------TY GqIRDIFYPT IEEVAHDWGL AAKINESNKe
+              KA-------- ---------- ---------- ---------- ----------
+              KA-------- ---------- ---------- ---------- ----------
+              KE-------- ---------- ---------- ---------- ----------
+              LV-------- ---------- ---------- ---------- ----------
+
+              ---------- ---------- --------IY VFRQNISDAK KIFS-DYLNF
+              ---HLVTAYN QEQAFRLFMD GDGFGLMHIF GNLAEMKHDE H---------
+              IASMLRVPFT PKFSNTSYFE IDSLRVNLYG GDKASDFERF RGSN-SALIY
+              LCKLLKIPYI PRHTNNSYIL IDSLRINLYG GDKASDFERY RGSN-SALIF
+              ICSLLGIDYE KKKSGQSFCK IAGLKLNIYG GKNRDAFSKI RGGN-SAIIY
+              LILGRELTLD KSNAVKIF-- --GNKVYVFD GQNSDAWKKA RGFT-SAGAF
+              QELYNKYGFE PKYDKHGSFV FCGVKVVQVY TGSISGLKRA RGFT-AFGAY
+              IYRFLRNRVR -MVGIKLPAK YAGRFPRILC GANPGGIGHQ FVKA-TFIDG
+              QFWYMLSRNR SMCGVRPY-- -----VRATC NPDADSWVAE FISW-WIDQE
+              QFFYLLSRNR STCGVKPY-- -----MRATC NPDPDSWVAD FIAW-WIDQE
+              QISYLQTRLR SGAEGDSY-- -----MKISM NPDRDHFIYD WVEP-FLDEE
+              QYRFMFRSLR KEVNDHIP-- -----LRVRA TSNPGGIGHE WVKT-RFITG
+              ---------- ---EGAIF-- ---------- ---------- -------KEK
+              ---------- ---------- ------AALY QQRPTPAGGN I-----FKRS
+              QY-------- ---------- ---------- QQRPSPLGGG IIKGdQFGRY
+              GEPLHPERFD LERLNKIRQA VGSQAWNALY QQRPSNKGGG IIKGsWFGRY
+              ---LIGPTLH DVREVMIEGP SGLKAMGGPA YRPRWEASRR RLVW-PNGAV
+              HIALVGETFN DAREVMVDGP SGILSVSRL- VRPRYEASRR RLIW-DNGAV
+              RIALVAETLG DAREVMIDGI SGICRIARR- HRPAFEVSRR RLLW-PNGAM
+              ---------- ---------- ---------- ---------- ----------
+              QRLLIGPPLN EEEWGTGFLP KAAIKATTRR AGASGALDSV TVRH-----V
+              QRILCGRIEE NDEPGYGSIP KEDIISWKKS PFFPNLVDHL LVKHhTPEGV
+              QSELLGDWKN PEAFGTGMIP KEDIVKTERR EGKPGCVQAV MVRH-----V
+              VHLFAGRKYR GTVICRSMEK PGDIVGFKIG KGLIDELDVM KTDK------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+
+              LDQKQLLKFA KINHSERTVI INGWTVMFEA LNETRNNINK GAKVGFRLW-
+              ---------- ---------- --GDHLLIHS PNGPKKIYYK GGGKINSVG-
+              VNEATTLHKE TLIECLKRLR VGMETIIFDT NPDSPEHFFK TDYIDNKKT-
+              VNEATTLHKQ TLEEVLKRLR CGQETIIFDT NPDHPEHYFK TDYIDNIAT-
+              VNEATVIHRE TLLEVIKRLR KGKEIIIFDT NPESPAHYFK TDYIENTDV-
+              LNEGTALHNM FIKEVFSRCS YKGARILIDT NPENPMHPVK KDYIDKSGQr
+              VNEASLANEL VFKEIISRCS GDGARVVWDS NPDNPNHWLN RDYIGKNDG-
+              ---------- ---------- ---------- -ATAMKVYTT EASEGGMRR-
+              TGFAIPERAG VIRWFIRIGD TIIWASSREE LAHHVNP-ID GEPIPPKSV-
+              TGYPIPERSG VIRYFVRHLD HIYWADTKTE LREQTKDIIP EEDFHPQSF-
+              -GYPDPEKCG RIRWYVMNDG VMVSDWERDK ILEMFPLEI- -----PQTY-
+              ---------- ---------- ---------- ---------- -------EK-
+              WLRYYVPSEE FRKKYNLGED VAILPRLFDK SAQSWDMAFK DTKKSDFVA-
+              WIKFYVPTLS KKIELSLGDD VVILPRLFDR QAQSWDCTFK DTETSDYVS-
+              TVLPRILSRT VYGDTAQKTA ERNDYSVFQL WGLG------ ----------
+              KVPPIIKVKA IYADTAQKTK QHNDYSVFIV AGKG------ ----------
+              AYAFSAEDPE SLRGPQFHAA WADEFCAWPK PAETLAMLRF GLRLGEDPR-
+              ATLFSSEDPD SLRGPQFDAA WCDELAKWKN PQETWDMLQF GLRLGDNPR-
+              AQVFSSEDPE SLRGPQFHLA WSDELGKWKY PQETWDMLQF GLRLGEMPR-
+              ---------D GVRRTRFAVI RNTYRELKDT TRKTFEQWVP ALSGRWHEQ-
+              SGRASTLLFK AYEQGRAKWQ ANTVDYVWFD EEPPEDVYFE GITRTNATR-
+              EDGISICYFK PYSQGRARWQ GDTIHGVWFD EEPPYSIYGE GLTRTNKYG-
+              SGGLSSLIFK SYEMSQDKFM GTAIDVIWLD EECPKDIYTQ CVTRTATTG-
+              ---AALAWRK IIARLRHTAP GLINGVDVTT TPEGFKFVYQ QFVKQVRER-
+              ---------- ---VGILAHK GSMAVEVLER TKQAIELLPD FLQPGIVEW-
+              ---------- ---VGILAHK GSMSAEVLDR TKQAIELLPD FLQPGIVEW-
+              ---------- ---AGILAHK GSMSMEVLER VKNVIENLPD FLQPGIEEW-
+              -------GKP IFIIAVMKMN KDIRNGVFKN IQNTLNDMNI NYKVNLS---
+
+              ------TQAR YVFAFF---- ---------- ---------- ----------
+              ------AITG MSLGTVTFL- ---------- ---------- ----------
+              ------YATY NFTTYDNELI SKEFIKTQEE IYRDMPTYKA RVLLGEWVAS
+              ------FKTY NFTTYDNVLL SKGFVETQEK LYKDIPSYKA RVLLGEWIAS
+              ------FKTY NFTTYDNPLN SADFIQTQEK LYRRFPAYRA RVLYGEWILN
+              lsngrlNIKA FQFTLFDNTF LDEEYIESII ASTPTGMFTD RDIYGKWVS-
+              ------KIID FSFKLDDNTF LSKRYIDSIK AATPKGKFYD RDILGLWTV-
+              ------QFIP AQLEDNPSMN DNDPGYENRL MGLGSESLVR AMRYGDWDV-
+              ------TFIP AKLSDNALLM AADPGYLANL MAQPTVER-E RLLGGNWKIR
+              ------TFIA AKLEDNPALT TKDPGYRGRL LALPLVER-E RLLGGNWKIR
+              ------TFIS GTIDDNPILD FLEPKYRGKL ENNTPVNV-A RLRFGNWKAR
+              ------TFIP STWRENPYLN RDE--YEEAL NMLDHVTR-R QLKDGDWDVT
+              ------GHVW NR-------- ---------- ---------- ----------
+              ------GQVW GK-------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ------LVVT TTPKPHRALK TLMAEPGVAL TRAGTSA--- ----------
+              ------QVVT TTPRAVPLLK ALLTDRTVSM THMRTAE--- ----------
+              ------QLVT TTPRPIPLLK ALLSDPTSRV ARMPTAM--- ----------
+              ------DFTF T--------- ---------- ---------- ----------
+              ------GAIA VTFTPLRGLS AVVARYLMEK SPDRAVITMT IE--------
+              ------QFSI LTFTPLMGMS DVVTKFLKNP SKSQKVVNMT IY--------
+              ------GIVY LTFTPEHGLT EIVKDFLQDL KPGQFLIHAS WE--------
+              ------PDLV ALYGLVQAST YE-------- ---------- ----------
+              ------NKKS IVLENGSSIG AYASSPDAVR GNSFSFIYI- ----------
+              ------NKGS IQLDNGSSIG AYASSPDAVR GNSFAMIYI- ----------
+              ------NKGN ITFDNGCKLG AYASGSDAVR GKSFSMIYV- ----------
+              ---------- ---------- ---------- ---------- ----------
+
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              yDSIF----- ---------- ---------- ---------- ----------
+              tDSIF----- ---------- ---------- ---------- ----------
+              eSTLF----- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              pAAGLLFQRg WCEVVDav-- ---------- ---------- ----pagVTw
+              hTAGTMFRTd WFTFIDrsev pekmkilnig epeilsldne yrkrkgkMRk
+              aEGSNYWQRq WCEIVDsl-- ---------- ---------- ----pedVFd
+              lQGG-VFKRe WFEVIDspp- ---------- ---------- ----nglVMs
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+              ---------- ---------- ---------- ---------- ----------
+
+              ---------- ---------- ---------- EEASQLDFNL VKNSQQSLRG
+              ---------- ---------- ---------- EINLLHKDFI EECFRRTFAA
+              ---------- ---------- ---------- TNINLTSNHE FKAPIAYLDP
+              ---------- ---------- ---------- TQINITDDYV FTSPIAYLDP
+              ---------- ---------- ---------- NEMIFNQDYE FKSPIMYIDP
+              ---------- ---------- ---------- AEGVVYKDFK EKVHYIKEEE
+              ---------- ---------- ---------- AEGAIYADYD SKIHVVDELP
+              ---------- ---------- ---------- VEGAYFDNFE RRRHVVKPFT
+              MRGWDLAST- PKvEGNDPDG TAGTKIGK-l PDGRYI--VG HHVKDFLSPA
+              VRWWDTAATe PSsENKDPDW TAGLLMGE-- LDGRFY--IL DLKHDRKSPA
+              VRAWDLAATl PSeINPNPDW TAGVKMGKsk KDGCYY--II DVVRFRDRPS
+              VRYWDFAAT- KPdGANDPDY TVGLLLGV-d KEDYYY--VL DVRRFRESPG
+              ---------- ---------- ---------- KKADFF--FI DRIHDRMGLP
+              ---------- ---------- ---------- KRADFY--LL DRHHERMGIV
+              ---------- ---------- ---------- EDKRLY--LL DMIRGKWEAP
+              ---------- ---------- ---------- ADGKAY--IL DLIRGKWEAP
+              ---------- ---------- ---------- NAGNLAPAFL RTLASLYGGT
+              ---------- ---------- ---------- NAGNLAEGFM QTIARRYAGT
+              ---------- ---------- ---------- NAQNLSPGFL KAMQERYGGT
+              ---------- ---------- ---------- VDKPLSDGTH MHCEVLFRAL
+              ---------- ---------- ---------- DAEHYTPQER QRVIDSYPAH
+              ---------- ---------- ---------- DAEHYTDEQK EQIIASYPEH
+              ---------- ---------- ---------- DAPHLSPEVK EQLLSVYSPA
+              ---------- ---------- ---------- NGKNLPEDYI PSLRASYPPQ
+              ---------- ---------- ---------- DECAFIQNWT DCFLAIQPVI
+              ---------- ---------- ---------- DECAFIPNFI DSWLAIQPVI
+              ---------- ---------- ---------- DECAFVPGFD DFWKATFPVI
+              ---------- ---------- ---------- ENSFTLDNGT YIICKGLHSQ
+
+              TKDTQVVSI- -------FAS NPWTSEHWYI ENFNNHLAEN EFSI----QQ
+              KNRFHLAEL- ---------- NPPAPNHPVL EIFSQYEKSG RYKW----RH
+              A--------- -------YSI GGDNTALCVL ERVDQKYYAF IFQE----KL
+              A--------- -------FSV GGDNTALCVM ERVDDKYYAF VFQD----QR
+              A--------- -------FSV GGDNTAICVL ERTFEKFYAY IYQD----QK
+              FKTKQIKRK- ---YAGVDWG YEHYGSIMVV AEDFDGNKYV IEEH----AH
+              EMKRYFGGI- -------DWG YTHYGSIVIV GEGVDNNFYL VDGV----AA
+              I--------- ---------- ----PDHWIR FRAGDWGSAK PFAF----GW
+              GVERLIKNT- -------AEA DGRNAKISLP QDPGQAGKSQ VANL----VK
+              GVEEMLKTT- -------AET DGKEVDIGME VEPGSAGKRE ADRL----KR
+              GVETQINLT- -------AES DGKRTGIFIP QDPGAAGKSY ATSL----IR
+              KVKSKVLRT- -------AEE DGREVIIAKE EEPGSSGKIV TDYL----RS
+              ETLNAVRRL- -------TIK HPLAIAKYIE EKANGPAVMQ TLK-----GE
+              ETMKAIDAM- -------AAK WPKARGIYIE DKANGTAVIE MLK-----NE
+              ELKRRAIDFW NAHRAYDHKV SAPIRQMKIE DKSSGTGLIQ DIARggagQG
+              ELEQTLKDVW AKHKA--KKE TGILTRANVE DKASGTSLIQ TIRR----NN
+              RLAAQELDG- --------VV VETDGGLFRA EDLARCRAAR PARL----DR
+              RLGRQELDG- -------ELV EERPGALWSR DRIEQCFEEN PPPL----AR
+              RLGRQEIGG- -------ELI DEREGALWKR ADLEAIIEAA HEPL----SR
+              DRPEHVKKLL SLELTGAYVN EARQVPKAIL DVLCSRVGRY PSKA----QG
+              EREARTRGVP ALGSGRIFPV TEESIRIDPF EIPKHWVQIG GLDF----GW
+              EREARARGIP TMGSGRIFQI PEETIKCQPF ECPDHFYVID AQDF----GW
+              ERRMRAEGIP MLGSGVVFPI LEEKFVCEPF DIPDHFHRII GIDL----GF
+              LIAAYLRGQ- -------FTN LTSGSVYPNF DRRLHHTDAA EEPH----EE
+              SSGRESKMI- ---------- -----MTTTP NGLNHFYDIW QSAI----DG
+              SSGRRSKII- ---------- -----ITTTP NGLNHFYDIW TAAV----EG
+              SSGEESKVV- ---------- -----LTSTP NGLNHYHDMW NAAV----AG
+              TKREKLKAFA DLNKYEFAIE WREEADQLTK DDMSELDYAV RGAK----RK
+
+              KPYYEYSVVD KKLFLRSTYR ANKFTSQQEI EQF-EWWKDI DYSKYRVISL
+              WTAKDNPALS DERKQEIY-- ---------- ----NEVKHS AYLLQRDWYG
+              PVSDPRVLNT IKTILTNLNV HTLYVEDRDD TSG-HGNVTK TFLKLRAGMN
+              PANDPYIMNM VKTVIENFNV HTLYLEDRDN TKG-AGGLTR EYILLRNNIS
+              PVSDSLMLAS IQVLIENFNV NTVYIEERDS TKG-DGILTK TILFLRNKSS
+              RHKEIDDWVA IAKGVIKRHG DILFYCDTAR PEH-IERFRR EKIKARYADK
+              QFKEIDWWVE QARKLTGIYG NIPFYADSAR PEH-VARFEN EGFDIMNANK
+              YV-----VAS DDT------- ---------- ---------- ----------
+              LL--IGFDAR ATP------- -----ESGDK ---------- ----------
+              TIF-SGYTFR GER------- -----STGDK ---------- ----------
+              KLAEKGYRAR AKP------- -----TNKDK ---------- ----------
+              LL--QGYTFR ADR------- -----VTGDK ---------- ----------
+              ITGMIGVEPE GGK------- ---------- ---------- ----------
+              LSGIIAVNPE GGK------- ---------- ---------- ----------
+              RIPVTGIARV TDK------- ---------- ---------- ----------
+              QIPITPIQVD ADK------- ---------- ---------- ----------
+              VVVAVDPPAT ATG--DACGI VVVGRRDD-- ----RAFVLA DETARGLSPA
+              IVVAVDPPAS SGKASDACGI VVAGIDAEG- ----VGHVLA DESMTMAKPH
+              IVVAVDPPAG VGE--NSCCG ---IVVAGLG MSG-RLVVLA DCSVEGETPA
+              GATWFGVWMD TNPWHTGHWG YKLFTKALPE ---------- ----GYELFE
+              DHPFAAVGCA WDRDADVFHV TKIYREREAT PIIhAAA--- ----------
+              NHPQAHIQLW WDKDADVFYL ARVWKKSENT AVQaWGAVKS WANKIPVAWP
+              DHPNAIACVA WDAEKDKYYL YDERSESGET LGMhADAIYL KGGHQI----
+              LHIGMDFNVL NMTATVNVIR AGLPLTVGEL TKVrDTPEMA RMLKERFKDK
+              KSGYVPYEAV WHSVKERLYN KADIFDDGYE WSSqAIAGSS LEQFLQEHNA
+              KSGFEPYTAI WNSVKERLYN DEDIFDDGWQ WSKqTISASS LTQFRQEHTA
+              VSTFEPYTTT WRAVQNRLYK DGEFDDGEAF KSE-TIGNTS REAFSQEHLC
+              FIINSSNPES LKRYIIKYCN EIMPFDEEIL SSEyPDQIGK FKINYYEKNE
+
+              GLSGSVEGAI Y-ARSLSVM- H----EPYGE Y---DNYAMQ FFGGMDWG--
+              KRVLPAGIIY E-TFDVEAN- Q----IKKMQ G---HPIEMV FFGDGGQQDA
+              HEFRIAPIKP I-SNKFTRI- A----TLIGP F---ASSNLS IMYYSSKSAI
+              QYFRIVPVKP K-FNKFSRI- T----TLITP F---NYKKLY ITKYSSFFVF
+              HYFKVAPIKP L-SNKFKRI- C----ALIPL F---ESRKIE FLKIISKNVI
+              AVIAGIEVIS R-LFKLNKI- F----IIKE- ------KVSL FKEEIYNYVW
+              SVIAGIELIA K-LFKEKKL- Y----VKRG- ------FVPR FFDEIYQYRW
+              --IIAPGVVV P-RGAL---- --------VK Y---REWYGV KIDKSGKF--
+              --VTRFSPFS A-QAEAGNV- M----VLRA- -----PWNEA WFSALEGF--
+              --VTRAKPFS A-ACENGLV- Y----VVRA- -----PWNHE YLNDLINF--
+              --VTRFAGFS A-ASEAGLV- K----VLRG- -----SWNEA YFQELEGF--
+              --VTRALPVS S-YAESGRI- K----VLRA- -----SWTRA FLDELEAF--
+              --ETRAYAVT P-LFESGNV- Y----FPHPL Y---APWISD VIEEMLAF--
+              --EVRANAVA P-IWEAGNV- Y----LPHPL V---CPWVDD FINELVAF--
+              --LTRVMDVV S-YIDAGWV- V----IPEQ- ----AGWVKD FVAECEAF--
+              --YTRVLGVQ G-YIESGYV- M----LPES- ----APWIAD FINECEAF--
+              GWAGRAVAAA R-AWTADAL- V----AEANQ G---GDMVRS VLAQADPPCR
+              QWARRAIALY H-THEADAI- V----AEVNQ G---GEMVAA VLAAEDPSVP
+              GWARAVVAAF R-RHEADRV- V----AEVNQ G---GEMVRA MLQSIDANLP
+              QPSGRAPDAE N-LENLPVG- Y----YERQV AgkdAEWVAE YIDSKYPS--
+              --LKPWGAAM PwAWPHDGL- Q----HDKGS G---EQLAAQ YRAQGLAL--
+              HDGHQHEKGG G-EQLKTQY- A----DAGFS M---LPEHAT FPDGGNSVES
+              ---------- -------PV- V----VPHD- -----AFKHD GATSGRRF--
+              GHGVTIYPDA S-GGNTSSK- N----ASESD L---SILRKA GFTVRVNS--
+              EFFGSSGTLI R-ATTLSRL- S----FIDVV N---DNGFYQ FEKPKEGRKY
+              AFEGTSGTLI S-GMKLAILd Y----IEVTP D---SHGFHQ FKKPEEGHKY
+              NFLGTAGTLI N-GFKLSKM- KgqdiVKDH- -----DGWYV YKQPEENHKY
+              KFTKTVIIHY S-SWRLNSY- L----DVDVK R---KQLILE KLDTERARVW
+
+              -------DGT SSSSSDTACL FGSISKE
+              TVCECYVITE HEAEGGYTYN LNQVATY
+              SDIYKYKGDG KSADDSLDSL SAAYMLL
+              NDIYSYKGDN KTHDDAFDAM FAAYLML
+              SDIYSYKGDG KTKDDALDSL ANAYLLL
+              KDN--ADEPV KLNDDTLDAL RYAVYTA
+              KENSTKDEPL KEFDDVLDSV RYAIYSD
+              ----LPDVGL KLHAEAVGAG VRQRDYD
+              --------PE AAHDDDADST SRAFNAL
+              -------PNP KYHDDCVDVS SAAHEYL
+              ------CGDG KTKDDQVDAT SDAFNSL
+              -------PME GVHDDQVDAF SGAFNIL
+              --------PN GEHDDDVDAM TQALVKL
+              --------PN AEHDDDVDSM TQILNKM
+              -----SADGT HAHDDQIDPM VDAINDL
+              -----TATDS HAHDDQVDAL VMAISDI
+              VKLVRASLGK RARAEPVAAL YEQGRVL
+              VLKRRASRGK WLRAEPVAAL YEQGRVR
+              LTLVRASRGK FTRAEPVAAL YEQGRVR
+              ------HDKG SIYGDLLAAL EARGGIC
+              -------LPE RATFDDGTNG VEAGLSD
+              GIGELRDLML EGRFKVFNTC EPFFEEF
+              -------VDL LKDDHNLNVV YEPFSNP
+              -------RNP AVKDRINAVN GMLLNDE
+              VATLDCSEGR GQDYHALQII DITEFPY
+              IATLDCSEGR GQDYHAMHII DVTTDKW
+              ILTVDTSEGR GQDYHALHMI DVTSYPF
+              SWGLPGNTSG SIFARYLDIM QATDIIQ

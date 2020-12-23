@@ -1,0 +1,104 @@
+ 7 633
+0001  --MPGSGIPR SSHT------ -LQQGNQGSA TPPWWSVIEI LGRTK-----
+0002  --MPG----- SSHT------ -LQQGHQGSA TPPRWSVIEI LSRTK-----
+0003  --MPGSGIPR SRQA------ -LQQDHQVSP TPTWWSLIEK LSRTE-----
+0004  --MPG----- SSHT------ -LQQGHQGSA TPPRWSVIEI LSRTK-----
+0005  MPMPESGIPR SSHA------ -LQQEHQVSA TPTWWSLIEI LSRTE-----
+0006  --MQQ----- RRHGHVQHQQ QHQQQHQSVA --YLWA---- -SRVQQQQAQ
+0007  --M------- ---------- -HSRQSQSIA --YFWA---- -PNRE-----
+
+      --PG------ ERPSR-IGGK CLRCQSSDS- IISSI----- --SN------
+      --PG------ KRPSR-TGGK CLRCQSSDS- ISSSI----- --SN------
+      --RA------ ERPSRSVGGK CLKCQSGDS- ISSSI----- --SN------
+      --PG------ KRPSR-TGGK CLRCQSSDS- ISSSI----- --SN------
+      --RT------ ERPSR-SGGK CLRCQSSDS- ISSSI----- --SN------
+      QGKGQHQQQQ QRKQE-SGNK CLTC--PHS- IRHSI----- --LNPFPYPF
+      --R----EQQ EPKTS-S--- --TSSSSSSN ILHKICRTCQ NGSN------
+
+      --------AT GS-------- GGE------- ---------- ----------
+      --------AT GS-------- GGE------- ---------- ----------
+      --------AT GS-------- GGE------- ---------- ----------
+      --------AT GS-------- GGET------ ---------- ----------
+      --------AT GS-------- GGESVSSSSV PSAPAQ---- -----SAVYS
+      PSPYPPEPSA GR-------- G--AAESEEV PQQQKQKQKQ KKRHKSVVNS
+      --------SI QRTEAYRKHI G--SAASGNI ASGNA----- -----SSVYS
+
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      GS--A----- -ILCSVNSA- NNTRKLNLIL -------SK- --SQQKRGER
+      -S--A----V EVFFSVNSAN NNTRKLNLIL GKLLPQNNK- --KEERRNER
+      -AYDATRLR- -VSHSVNSA- NN--KLDLII -------KRI GSSQSK----
+
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- -------FAV --------GT NLQNKLP--A SSADCHLSPS
+      ELQEEEQQEE QQEEEQHLVV --------GT NLQNKLP--A SSADCHLSPH
+      ---------- ---------V LPKHNSLPAA NLPNKLPTTA TTA----TAA
+
+      ---------- ---------- ---------- -S------PI ----------
+      ---------- ---------- --------SE TS------PI ----------
+      ---------- ---------- ---------- ---------I ----------
+      ---------- -D-------- -----PPR-- -S------PS C---PP----
+      AETNIRTTTA AD-------- -----PPR-- -S------PF C---PP----
+      TRTRTRT--- ---------- -------R-- -SRCRCRAP- CVPAPPGGTA
+      TTTTTTTTTT TGTQTETRVY QPVPPPPP-- -S------P- PAPAP-----
+
+      ---------- ---------- ------LRDP R--------- ----------
+      ---------- ---------- ------HRDP R--------- ----------
+      ---------- ---------- ------QV-P R--------- ----------
+      --------CP YSHLHFHRHW HRHRHRHR-P RHSQQHHRHY RHRG-CRCRC
+      --------CS YSHLHHRRHW HRHRHRHR-P RHSQHHQRHY RHRGKC-CRC
+      TVHSPPLACS WP--HHHLHL HLH------- ---------- -HRCRC-CRC
+      ---------- ---------- ---------- ---------- ---GR-----
+
+      ---------- ---------- ---------- ---------- ---P--VRRV
+      ---------- ---------- ---------- ---------- ---P--VRRV
+      ---------- ---------- ---------- ---------- ---QIFVRRV
+      ----RDASQS -----ASA-- ---------- ---SPA-SML LPYQINQR--
+      ----RDASQS -----ASA-- ---------- ---SPA-SML LPYQINQR--
+      CRCRRDASHS TGGGVASA-- --------SA SRVSPASSML LPYQINQR--
+      ---RRAASHS TDVGVAAVAV VAPATAFG-- ---SPA-SMF LPYQINQR--
+
+      HIVIFIFIFI VIGIGIASVL ---------V -IAS-TIIVI IVIVVVVVVV
+      HIVIFIFIVI GIGIGTAIVL ---------V -IAS-SIIVI IVI--VVVVV
+      HIAISI-IVT GIGIAIAIVL ---------V -IAS-TINVI IVI--VVVVV
+      ---------- ------ATLL --QHSATATT -TAT-T---- ----------
+      ---------- ------ATLL --QQSATAAT -T-------- ----------
+      ---------- ------ATLL QRQQ---AAS -S-------- ----------
+      ---------- ------ATLL --Q-----AT KTATAT---- ----------
+
+      VVATRRSLHP -HR----PPI CNSNSN-NSS NNINYIATCA RG--------
+      VVATRRSLHP -HR----PPL CNSDNNCNNG NNINYIATCA RG--------
+      VVATRRTLHP -HR----PPI C------NSS NNINYMATCA RG-----SSS
+      --ATISTTLP -HV----P-- ---------- ---------- -G--------
+      -----STTLP -HV----P-- ---------- ---------- -GAAAAR---
+      -----TTTLP SHVPVPGP-- ---------- ---------- -G--------
+      --ATIAT--P -HV----P-- ---------- ---------- -R--------
+
+      --SSNN--KR IS--AYP--- ---------- ---------- ----TTASPL
+      --SNNK--KR IS--ACP--- ---------- ---------- ----TTASPL
+      KSSNNS--K- ------P--- ---------- ---------- ----TTASPL
+      --AATT--KN VSLRAVP--- ---------- -RIFKRKRDT VQTATTASPL
+      --AATT--AN VSLRAVP--- ---------- -RIFKRKRDT VQTATTASPL
+      --AATTPRQ- ------P--- ---------- -RIF--KRDT IQTATTASPL
+      --ATTT--T- ------TTTT TKTRNTLHAA HRIF--NRDI VRTATTASPL
+
+      TPQQ---HPT --AAAATSAT STTTTRRSRL EFILYTEVYQ VEEDL-----
+      TPQQ---HPT --VAA---AT STTTTRRSRL EFILYTEVYQ VEEDS-----
+      TPQQ---HPT --VAAATSAT STTTTRRSRL EFILYTEVYQ VDEDS-----
+      TPQQ---HPT --VAA---AT STTTTRRSRL EFILYTEVYQ VEEDS-----
+      TPQQ---HPT --VAAATSAT STTTTRRSRL EFILYTEVYQ VDEDS-----
+      TPQQ---QLQ RLLAT---AA STTTAATPRL EFILYTEVY- -EEDS-----
+      TSQQQHKQQQ --PAT---ST TSTTTTTARV EFILYTEIY- -EENSHFDTN
+
+      ---VSPSDLN PQSNVGSDE- P-----FWEN YGK
+      ---VSPSDFN PQSNVGSDD- P-----FWQN YGK
+      ---VSTSDFH PKSNVGSDE- P-----FWQN YGK
+      ---VSPSDFN PQSNVGSDD- P-----FWQN YGK
+      ---VSSSDFH SKSNVGSDE- P-----FWQN YGK
+      -IAVAPSDSD SESKTLAEEL PLDSDTFWQK YGE
+      F--VTDSGKN RSSKS----- ------FWQK YGE

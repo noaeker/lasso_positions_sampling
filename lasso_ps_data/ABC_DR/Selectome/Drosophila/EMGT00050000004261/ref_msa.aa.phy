@@ -1,0 +1,150 @@
+ 9 729
+0001  M--------- ---------- ------KPTC CQ----INS- KN----V-LI
+0002  M--------- ---------- ------KPTR CQ----INS- KN----V-LI
+0003  M------VQ- ---NSLLIIF CYSFLG---- -Q----INS- KN----V-LI
+0004  M------AG- ---G------ -----G---- -Q----VNS- KN----V-LI
+0005  A--------- ---------- ---------- -Q----IKA- KN----V-LI
+0006  M------EQT YRLN------ -----L---- -QHSHNTNAT KN----V-LI
+0007  M--NLNLNR- ---N------ -----L---- -Q----QTQT KNGLSRVSLV
+0008  MNLNLNLNL- ---N------ -----L---- -Q----QNQT KNGLSRVSLV
+0009  M--NLNLNR- ---N------ -----P---- -H----QNHT KNGLSRISLV
+
+      RSQSSGKL-- S-SNEAK--- -S---AKPAA S---TSTTT- -TLRAAKLKI
+      RSQSSGKL-- S-SNEAK--- -S---AKPAA S---TSTTT- -TLRAAKLKI
+      RSQSSGKL-- S-SNEAK--- -S---AKQTA T---TSTTT- -TLRAAKLKI
+      RSLSSGKL-- --SNEVD--- -S---IKAAA AARDSKTTT- -TLRAAKLKI
+      RSQSSGKL-- S-RNEAE--- -STTTATTTA TAKTTKATT- RT-----LKI
+      KSQSSGKLIT K-SNEVE--- -T---GISTT SATTTPTTT- -TLRAAKLKI
+      KSQSSGKL-- SHSNEAPKAA ATTTTTTTTA AATT--TTTN -SLRAAKLKI
+      KSQSSAKL-- SHSNEVATAA AATAAATAAA TATT--TTT- -SLRAAKLKI
+      KAQSSGKL-- SHCNEADTSA TTATKATTTQ A-----TTT- -SLRAAKLKI
+
+      GAMQQQKQQH QQQQ-QQQQQ QHQATS---- ---------- -----G-G-N
+      GAMQQQKQQH QQQQKQQQQQ QHQVTS---- ---------- -----G-G-N
+      GAMQQQKQQH QQQH-QQNLQ QHQATS---- ---------- -----G-G-N
+      GAMQQQ---- QQKQ-QLQQQ QHQPAS---- ---------G ---VGG-S-N
+      GAMQQK---- QL-------- --QPPN---- ---------G ---VNA-S-N
+      EAMQQK---- QQQQ-QQLQ- -----N---- ---------G TTNTSS-S-N
+      EAMQQ----- QR-------- ---------- ---------- ---NTGNTGN
+      EAMQQ----- QRG------- --------SS NSNSSSSSSG SNNNSGSS-N
+      EAMQQ----- QQQQ-HKLL- -----NTISN NNN------- NNNSSSNS-N
+
+      -IILLRGTRN ENGQIIIQNK QDILSLLSEQ QQQQQ----- --QEK----S
+      -IILLRGTRN ENGQIIIQNK QDILSLLSEQ QQQQQ----- --QEK----S
+      -IILLRGTRN ENGQIIIQNK QDILSLLSE- -QQQQ----- --QEK----S
+      -IILLRGTRN ENGQIIIQNK QDILSLLSEQ QQQQQQQQQQ QHQDK----N
+      -IILLRGTRN ENGQIIIQNK QDILTLLNE- -QQQH----- --QEKAAQAA
+      -IILLRGTRN ENGQIIIQNK QDILSLLQS- -GEQQ----- --QDK----G
+      -IILLRGTRN ENGQIIIQNK QDILSLLSEQ QQQQQ----- --QDK-----
+      -IILLRGTRN ENGQIIIQNK QDILSLLSEQ QQE------- ----K-----
+      SIILLRGTRN ENGQIIIQNK QDILSLLSEQ QQN------- ----K-----
+
+      HSSTAITLNQ LPTATTVARK TIVQ---GSS GSG---SSSS --------S-
+      HSSTAITLNQ LPTATTVARK TIVQ---GSS GAG---CSSN --------S-
+      HSSAAITLNQ LPTATTVARK TIVQ---GSS GA-----SSN --------S-
+      HTSTAITLNQ LPTTTTVARK TIVQ----SS TAGNSSSTSN --------S-
+      QASTAITLNQ LPTTTTVARK TIVQ----SS G---SSTTST --------S-
+      TA-TAITLNQ LPTATTVARK TILQ----S- ----SSQTAA --------A-
+      -A-TALTLNQ LPTTTTVARK TIVQ------ -------TTP NNNNNNNGSN
+      -A-TALTLNQ LPTTTTVARK TIVQ----SN S---NSSSSS NSSSSSNGSN
+      -A-TALTLNQ LPTTTTVARK TIVQTTT--- -------TTT NNNNSSNNS-
+
+      ---------- ---STISIVA N-SNN----- ---KEAS--S NTILLQTPIN
+      ---------- ---STISIVA N-SNN----- ---KEAS--S NTILLQTPIN
+      ---------- ---STISIVA N-SSN----- ---KEAS--S NTILLQTPIN
+      -NSS------ -SNSTISIVA S-GNN----- ---KEAS--S NTILLQTPIN
+      ---------- ---STISIVA S-SSSSSSSG VGAKDAA--S NTILLQTPIN
+      -ISAGQN--- -ANSTISIVA SGSGN----- ---KDSSGNT NTILLQTPIN
+      ---------- ---NSISIVA S-SG------ ---KD----S NTILLQTPIN
+      IINSCSNASN SSSGSISIVA S-SG------ ---KD----T NTILLQTPIN
+      -ISSSGN--- -SGGSISIVS S-SG------ ---KD----S NTILLQTPIN
+
+      ASQLESVLKA QERS----KQ A--------- --------NA T-QTKMVERP
+      ASQLESVLKA QERS----KQ A--------- --------NA T-QTKMVERP
+      ASQLESVLKA QERS----KQ A--------- --------NA T-QTKMVERP
+      ASQLESVLKA QERS----KQ A--------- --------NG T-QTKLVERP
+      ASQLESVLKA QERT----KQ A--------- --------NG SAQTKLIERP
+      ASQLESVLKA QERN----K- ---------- ---------- --QTKLIERP
+      ASQLESVLKA QVNSNSSKSN SSNNSNNNNS SNSSNNKNNN N-ATKLIERP
+      ASQLESVLKA QVNS----SN S--------- --------NN N-ATKLIERP
+      ATQLESVLKA QVNS----S- ----SNNNNS T-------NN N-A-KLVERP
+
+      FMLKHATRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST----ASS
+      FMLKHATRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST----ASS
+      FMLKHATRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST----ASS
+      FMLKHASRSL SSESNGDTKS PFVLQTLKRL EKSQSILVIR NST----TSS
+      FLLKHATRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST------S
+      FMLKHASRSL STESNADSKS PFVLQTLKRL EKSQSILVIR NSTAATPASS
+      FMLKHASRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST----STS
+      FMLKHASRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST----S--
+      FMLKHASRSL SSESNCDSKS PFVLQTLKRL EKSQSILVIR NST-------
+
+      SATNT-SMAT --SPP--NGN SLA------- ----TSS--- --------IL
+      AASNT-SMAT --SPP--NGN SLA------- ----TSS--- --------IL
+      SATNT-SMAT --SPQ--NGS SLA------- ----NSS--- --------IL
+      G--ST-SMAT --SPP-ANGS QLS------- ----TAS--- --------IL
+      G--STSSMAV --SPP-VNVS ASV------- ----SSN--- --------VL
+      S--ATISMAT --TPPLAKVS TSV-S----N ASSNSSN--- --------IS
+      TATAT-SAAA --TP---QVS GKS-SSSNNN NNNNGPQ--- ----QQTHVL
+      --------AA NNTPPL-QLS SSSNSSSNKS NNANSSN--- --VTQQTHLL
+      TATAA-AAAT --T------- TAA-SSSNNN NNSSSSNNKS NVVAQQPHVL
+
+      SVTRTTKAAK GVAGALHKLK --------AA AATTATSG-- GSA--SA-GA
+      SVTRTSKAAK GVAGALHKLK --------AA AATTATSG-- GAA--SA-GA
+      SVTRTTKAAK GVAGALHKLK --------AA AATTATSG-- GAA--SA-AA
+      SVTRTTKTAK GVAGSLHKLK --------AA ---------- -AA--SAVAA
+      SVTRTSKAAK GMAGALHKLK --------AA ATAAAAAG-- --A--GA-GA
+      SIARTTKAAK GMAATLHKLK LATAAVSATA ATATTTTGAV GAA--AA-GG
+      SVSRSSKTSK AVAATLQKLK --------AP ---------- ------A-GA
+      SVSRSSKAPK AVAATLQKLK --------AP ---------- -AA--AA-AA
+      SVTRSSKAPK AVAAALQKLK --------AP ---------- -AATVAA-AA
+
+      T---SST--- ATTILRLGKS ---------- -----ATTVA IN--GA-SKL
+      T---SST--- ATTILRLGKS ---------- -----ATTVA IN--GA-SKL
+      T---SST--- GTTILRLGKS ---------- -----ATTVA IN--GG-SKL
+      TPS-SSA--- GTTILRLGKS ---------- -----ATTLA INGAGG-NKV
+      APSASST--- GTTILRLGKS ---------- -----ATTLA INGAGGSSKM
+      ATT-SST--- ATTILRLGKS ---------- -----ATTLA IN--GG--KV
+      -------AAG GTTILRLSKQ VATTAATATT T--TAATTTT ----------
+      -------AAG GTTILRLSKS VNKQVATATT TAVTAAAATA ----------
+      ATT-TTTAAA ATTILRLSKS VNKQV----- ---TAATTTA ----------
+
+      EATT-ST--- -TTAVPV-PV TTTTSNKLSN AVTSE----Q QQQQ--QSTT
+      EATT-SK--- -TTAAPV-PV TTTTSNKLSN AVTSE---QQ QQQQ--QSTT
+      EATT-ST--- -TTAVSA-PA TTTTSNKLSN AVTTE----- QQQQ--QSTT
+      EAAANST--- -ATSVGA--A ATTTSNKLSS AVTSEPAN-- NQTP--QSTT
+      EAAA-AA--- -AAA-TA--T TTSTANKLSN TVTSE----Q QQQQ--QSTT
+      E----TT--- -AAT-TT--A TPTTSNKLSS TVTTE----Q QQQQQLQSTA
+      TATA-AT--- -AAA-TT--T TT---NKVS- ---M------ --PQ------
+      TAAT-ATTTV VAAA-TTV-A TT---NKLS- ---ME----Q QQPQ------
+      AAAA-AS--- -AA----V-A AT---NKLS- ---IE----- -QPQ------
+
+      T-QTNVPLGN ----G----- ---------- ---------- ----------
+      M-QTNVPLGN ----G----- ---------- ---------- ----------
+      T-QTNVPLGN ----G----- ---------- ---------- ----------
+      T-QTNVPLGN ----GLKLIS ILVFSFNGRR LLVSLICQAL DVAGRGMTSN
+      T-QTNVPLGN GKSLG----- ---------- ---------- ----------
+      T--TNVPLGN ----G----- ---------- ---------- ----------
+      ---TNVPLGT ---------- ---------- ---------- ----------
+      ---TNVPLGN ---------- ---------- ---------- ----------
+      -A-TNVPLGN ---------- ---------- ---------- ----------
+
+      ---------- ---------- ---------- ---------- -V-AAAA--A
+      ---------- ---------- ---------- ---------- -V---AA--A
+      ---------- ---------- ---------- ---------- -VAAAAA--A
+      YSIKSRSIFN APSGFRLHSA VNGYCSHPSI DFHAQFEVSS LV---AS--V
+      ---------- ---------- ---------- ---------- -F---ASWRA
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+
+      FA-------- -S-------- ---GPKNKA
+      FA-------- -S-------- ---GPKNKA
+      FA-------- -S-------- ---GPKNKA
+      FA-------- -S-------- ---------
+      FP-------- -Q-------- ---------
+      -D-------- -T-------- ---------
+      -GKSDSH--- TMPDSRVKGA WGR------
+      -AK---HLLD TL-------- ---------
+      -V-------- -I-------- ---------

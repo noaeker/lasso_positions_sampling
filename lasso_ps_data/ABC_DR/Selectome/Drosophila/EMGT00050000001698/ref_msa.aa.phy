@@ -1,0 +1,117 @@
+ 8 617
+0001  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGA---AAA SS-SSSG---
+0002  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGA---AAA SS-SSSG---
+0003  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGA---AAA SS-SSSG---
+0004  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STG----AAA SS-SSSG---
+0005  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STG----AAA SS-SSSG---
+0006  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGAGASAAA SSAASTS---
+0007  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGA---AAA SS-SSSSAAA
+0008  MKLSVSAYRA HASAHKKILS SGYHSQLNYG STGA---AAA SS-SSSSAAA
+
+      -TTATGLYTM EAHEHE--AG KFVKDVARQV H---DCNSDT DVISPTGTSS
+      -ATATGLYTM EAHEHE--AG KFVKDVARQV H---DCNSDT DVISPTGTSS
+      -TTATGLYTM ETHEHEHGAG KFVKDVARQV H---DCNSDT DVISPTGTSS
+      -ATATGLYTM ETHDHEHGAG KFVKDVARQI H---DCNSDT DVISPTGTSS
+      -ATATGLYTM ETHDHEHGAG KFVKDVARQI H---DCNSDT DVISPTGTSS
+      -ATVTGLYTM DTHEHEH--G KFPKDMARKM QQHGECNSDT DVISPTGTSS
+      AATATGLYTM ETHEHG---G KFPKDMAR-- L---DCNSDT DVISPTGTSS
+      AATATGLYTM ETHEHG---G KFAKDMAR-- F---DCNSDT DVISPTGTSS
+
+      SGGGGGG-GG -GGGA--GGA -GGSGGAGG- ----HSDGGY HKR---HHK-
+      S---GGG-GG -GGGA--GGA -GGSGGAGG- ----PSDGGY HKR---HHK-
+      SGGGGGG-GG PSGGAPGGGA DGGGGGAG-- -------EGY HKR---HHK-
+      S---GGGAGG ASGVA--GGA ------AAG- ----ESSGGY HKR---HHK-
+      S---GGGAGG ASGVA--GGA ------AAG- ----ESSGGY HKR---HHK-
+      S---GGG-GG -------GGG -GGGGGSGS- ---VPSGDGY HKRHHHHHKA
+      S---GGG-GG ---------- ---------A SNA-PTDGGH HKR---HHK-
+      S---GGG-GG -------GGG -GGGGGGGSS SNA-PADGTH HKR---HHK-
+
+      ---------- -------MV- --RDDDNNSA AHSSDSKSPS QRSGSSS---
+      ---------- -------MV- --RDDDNNSA AHSSDSKSPS QRSGSSS---
+      -S-S------ ------AMV- --HDDDNNSA AHSSDSKSPS QRSASSS---
+      ---------- -------MA- --HDDDNHSA PHSSDSKSPS QRSASSSQ--
+      ---------- -------MA- --HDDDNHSA PHSSDSKSPS QRSASSSQ--
+      M--------- -------MAL ANNDDDNNSA VHSSDSKSPS QRSANSSQIC
+      -SGSASAAAA AAAAAAALA- --NDDDNNSA AHSSDSKSPS QRSGNSS---
+      -S-SGSAAAA AAAAAAKLA- --NDDDNNSA AHSSDSKSPS QRSANSS---
+
+      --LASSQLNH CGCTTTTTTT SLR-YTERDR LILTPAQPHP HPHT--HPHT
+      --LASAQLHH CGC---TTTT SLR-YTERDR LILTPAQPHP HPHTHPHPHP
+      --LASSQNHH CGC---SATT SLR-YTERDR LILTP----- ---------S
+      --MA------ CGC----AHS SLG-YTEKDR LIVTP----- ---------G
+      --MA------ CGC----AHS SLG-YTEKDR LIVTP----- ---------G
+      ADLSNSSNSN C-------TT SLR-YTERDR LILTT----- ---------G
+      --LTSGQ-SN CRC-----TN SLRLYTERDR LILTA----- ---------E
+      --LTSAQ-SN CRC-----TN SLRMYTERDR LILTS----- ---------E
+
+      ---------- ---------- ---------Y PHPHQARQRR Q-----VRLH
+      ---------- ---------- ---------Y PHPHQARQRR Q-----VRLH
+      ---------- ---------- ---------H PHPHQARQRR Q-----VRLH
+      QGQRQ----- ---------- --------QH P-----RQRR Q-----VRLL
+      QGQRQ----- ---------- --------QH P-----RQRR Q-----VRLL
+      E---Q----- ---------- --------EQ P-----RQRR HRGGKMVRLH
+      Q---QQQQQQ QQQEQQRQQL ETLPHRHGQH P-----RQRR Q-----VRLH
+      Q---QQQQHT ---------- DSLHHRQGQH A-----RQRR Q-----VRLH
+
+      VNSPSSD--- ----QSASTP L-----GH-- ---------- ------R-PL
+      VNSPSSD--- ----QSASTP V-----GH-- ---------- ------R-PL
+      LNSPSSD--- ----QSAYTP V-----GS-- ----APNPNP CPNPNPR-PL
+      QNSPSSD--- ----QSNGTL V-----AQ-- ---------- ------R--L
+      QNSPSSD--- ----QSNGTL V-----AQ-- ---------- ------R--L
+      LNSPSSDCSL QPTLQGNG-- ---------- ---------- ------R--V
+      LNSPASD--- ----GSCHSL A-----GQGE AGGS------ ------RG-L
+      LNSPSSD--- ----GSCYSL AMAGLGGQGA AGGS------ ------R---
+
+      ------P--- --AMKTLSSF ISEHPEDLV- ---------- AAEDHARSGA
+      ------P--- --AMKTLSSF ISEHPEDLV- ---------- AAEDQVRSGA
+      ------P--- --AMKTLSSF ISEHPEELL- ---------- ----H-----
+      INSGSST--- --KMKTLSSF ISEHPEELV- ---------- ----Q-----
+      INSGSST--- --KMKTLSSF ISEHPEELA- ---------- ----Q-----
+      LSSSSSSIQL HHRTKTLSSF ISEHPEELM- ---------- ----------
+      MSSASCT--- --QVKTLSSF ISEHPEELV- --------SS ----H-----
+      ------T--- --QVKTLSSF ISEHPEELVS NHSHHSNHSS ----H-----
+
+      F----ASSSA --SA---T-- ---AN----A NA-------S --NG------
+      FAFSSASASA --SA---S-- ---AT----A NA-------S --NG------
+      ------GSSA IGSE---SVG GDRANGGGYG NG-------S -GNG------
+      ------QCRV --QA---N-- ---PN----A PG-------N -GNG------
+      ------QCRV --QA---N-- ---PN----A TG-------N -GNG------
+      ---------- -------I-- ---AK----A DG----ILVD --NG---TAQ
+      ------SNSS --SN---N-- ---NN----S NS-------N K-NGAN----
+      ------SNSH --SNSHSN-- ---SH----S NSSNNH---N K-NDSNP---
+
+      ---------- ---------- ---------- -QQQTTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- -QQQTTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- --QQTTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- --QQTTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- --QQTTKWKS LRAVMAYYCS
+      TFHQDQQQQQ QQQQQQQQQQ QQQQQQQQQQ QQQQLTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- -QNQTTKWKS LRAVMAYYCS
+      ---------- ---------- ---------- -SNQTTKWKS LRAVMAYYCS
+
+      LRRIKRN--- ---V------ ---------- -ATHKSHFQC FRIAYPRFAS
+      LRRIKRN--- ---V------ ---------- -ATHKSHFQC SRIAYPRFAS
+      LRRIKRN--- ---V------ ---------- ---------- ----------
+      LRRIKRN--- ---V------ ---------- ---------- ----------
+      LRRIKRN--- ---V------ ---------- ---------- ----------
+      LRRIKRN--E RIIF------ ---------- ---------- ----------
+      LRRIKRNGA- ---FQALTYS TRTQLTKLNY N--------- ----------
+      LRRIKRNGA- ---FTAFTYS TRTQLTKLNS N--------- ----------
+
+      V----N---- ---------- ---------- ---------- ----------
+      V----N---- ---------- ---------- ---------- ----------
+      VLSFMS---- ---------- ---------- ---------- ----------
+      A----H---- ---------- ---------- ---------- ----------
+      A----H---- ---------- ---------- ---------- ----------
+      I----HISKI YIYKKINKER IAICKRIFIY IYTIYFSLVY IFCILYVRRR
+      L----N---- ---------- ---------- ---------- ----------
+      ---------- ---------- ---------- ---------- ----------
+
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      ---------- -------
+      TTVCACVCVC VCVKINP
+      ---------- -------
+      ---------- -------

@@ -1,0 +1,99 @@
+ 10 420
+0001  M------ANA GNNPSLKDEA CGVYDLLSAS PTCLKFCSPA NRSQKRTLTL
+0002  M------ANA GNNPSHEDEA CGVYDLLSAS PTCLKFCSPA NRSQKRTLTL
+0003  M--------- --EP------ ------LVTI PQILVFNAPY NRLQSQEMTL
+0004  M--------- --EP------ ------LVTI PQILVFNAPY NRLQSREMTL
+0005  M--------- --EL------ ------LSVG PQVLTFYPPY DDRQRRMVTL
+0006  M--------- --EL------ ------LSVG PQVLTFYPPY DDRQRRMVTL
+0007  M--------- --EL------ ------LSVS PQLLTFYAPY GHSQWRMMTL
+0008  M--------- --EL------ ------LSVS PQLLNFYAPY DRRQRRILTL
+0009  MAHKSNS--- --DL------ ------FCVS PRNMIFYSPY DRVQKRLITL
+0010  MSRKINS--- --EL------ ------VSVS PKKMIFYAPY DRTQRRLISI
+
+      LNTFQQPVIF K--------- ---------- -MKTNA-ADQ YHVTPFFGRI
+      LNTFQQPVIF K--------- ---------- -MKTNA-ADQ YHVTPFFGRI
+      INNTEQVLMF K--------- ---------- -LKTNN-AQH YIVKPTVGLV
+      INNTEQVLMF K--------- ---------- -LKTNN-AQH YVVKPTVGLV
+      LNPTDRRVLF K--------- -------LLL QVTSNA-WLN YTVNPNTGRI
+      LNPTDRRVLF K--------- -------LLL QVTSNA-WLN YTVNPNTGRI
+      LNPTDRKVLF KVRSNTSFLG ISIYNFQLLF QVKSNA-WRH YTVNPSTGRL
+      LNPTNSVVLF K--------- ---------- -VTSNA-WKH YRVSPIAAKI
+      LNPTGERLLF K--------- ---------- -VLTNAPWQ- YNAIPNCGFI
+      MNPTANSLLY K--------- ---------- -IRSNAPWK- YSASPNCGFI
+
+      EPFSCLEVVV RLNGAEPKAD CQF---P--- --HHF---SV YSTIAPAAGV
+      EPFSCLEVVV RLNGEEPKAD CQF---P--- --HHF---SV YSTIAPAAGV
+      EPYSTSKVLI SL-------- CRFDFQPRTC YQHRFIVESF Y--I-PVEGL
+      EPYSTSKVLI SL-------- CRFDFQPRTC YQHRFIVETF Y--I-PVEGL
+      GPYSSSEIII SL-------- KSFDFNTDER YNHHFVIKSM F--E-PQD--
+      APYSSSEIII SL-------- KSFDFNTDER YNHHFVIKSM F--E-PQD--
+      EPYSSSEVII SL-------- KCFDFHEEGR YNHLFIIISM I--A-PQD--
+      EPYDTQEVSI SL-------- SYFDFDENKK YAHRFRIQSM Y--D-PPD--
+      DPYNISEVCI SL-------- HHFEFERDKE YSHRVCIQCI L--A-PQ--T
+      EPYGISEINV SL-------- NYLDFHADQE YCHRFCVQCI P--A-PP--I
+
+      QG-NKQSILA IFKDIPVARL AVVRINVEYE AEPAVA---- ------P---
+      QG-NKQSILA IFKDIPVARL AVVRINVEYE AEPAVA---- ------A---
+      QQCDREAPKA FFKRTPRSDM GVVRIRVRLE ATPALP---- ------QKER
+      QQCDREAPKA FFKRTPRSDM GVVRIRVRLE ATPALP---- ------PKER
+      -HKNGQTILA IFRDVSRRDI SSNSLLVRLE AQP-FP---- ------L---
+      -HKNGQTILA IFRDVSRRDI SSNTLLVRLE AQP-FP---- ------L---
+      -HINGQTILE IFRGASRRDI SSNCLPVRLE ARP-YP---- ------L---
+      -RCKSEKVLA IFLKASRCDI STLALPVNLE AKP-IS---- ------L---
+      EYLNNQTILC IFKKVRRSQI HSVRVPIELK PEP-ICIPQH ELEGILQ---
+      QQLQNQSILC IFKQTGRSMI HNVRVPVELQ PEP-IRIPQQ ELDTLLP---
+
+      -A--PA---- ---PANPLRT AA-------V SE-------I RSAAERMIAS
+      -AVEPA---- ---PSKPLRT AA-------V AE-------I RSAAERMIAS
+      LA--DV---- ---PAQ---- -A-------V AE-------- ----------
+      LA--DV---- ---PTQ---- -A-------V AE-------- ----------
+      -D--CHGLDS LCDFSK---- -T-------S VNTEL-QLR- ----------
+      -D--CHGLDS LCDFSK---- -S-------S VNTEL-QLR- ----------
+      -A--ISGLDS LRGFVK---- -N-------A VDKEL-QLR- ----------
+      -S--NS---- ---YVK---- -STPCLKKIA VERNE-KLR- ----------
+      -N--D----- ---------- ---------- VQKLIWDLR- ----------
+      -Y--D----- ---------- ---------- VQKLLWNLR- ----------
+
+      QVVSCVSSGR YSASNAASAA NQSIAPCPTC DPLDSP-PLN -L--E-----
+      QVVSCVSSGR YSASNAASAA NQSIAPCPIC DPLDSP-PLN -L--E-----
+      ---------- ---------- -------PL- --LDKQ-P-A -L--EEPQ-K
+      ---------- ---------- -------PL- --LGKQ-P-A -L--EEPQ-K
+      ---------- ---------- -------QLY ----ENCA-N RL-EEAPA-K
+      ---------- ---------- -------QLY ----ENCA-N RL-EEAPA-K
+      ---------- ---------- -------QLC ----PICA-N KL--EVPV-G
+      ---------- ---------- -------PLC ----SECP-T RL--KMYK-N
+      ---------- ---------- -------PIN ----TDYM-A QLK-EVTM-R
+      ---------- ---------- -------PLG ----SDYI-D HLK-QVTMLK
+
+      ---------- ------TSVR VSLNDIAIPS VLQMVIVGAA LAGVLFLIA-
+      ---------- ------TSVR VSLNDIAIPS ILQMVIVGAA LAGVLFLIA-
+      AKRLRGPRSW ---FLWT--- ---------- ---LLI---- LA---FVVA-
+      AKRIRGPRSW ---FLWT--- ---------- ---LLI---- LA---FVVA-
+      QKTPS--GSR ---HLSK--- ---------- ---IVIIG-S LTLV-VLTAF
+      QNTPS--GSR ---HLSK--- ---------- ---IVIIG-S LTLV-VLTAF
+      QKKPK--RSR ---HLSK--- ---------- ---LVIMG-S LTLV-FLTAY
+      TKNSE--KKG ---FLSK--- ---------- ---LVLVG-S LMGV-FLTAY
+      GPKKR--CSW VRILLGP--- ---------- ---LILIS-- -TG---LAA-
+      SQKKR--RGW ARLLMTS--- ---------- ---LIIIS-- -T----LTG-
+
+      MDPKKLDGVF KMLLGCLNLD -SSEIIQCGK SDNTSPASAY --ASGPSATC
+      MDPKKLDGVF KMLLGCLNMD -SSEIIQCGK SDNTSPASAY ASASGPSATC
+      -------GIF R------NED -TS------K DSSHSP---- ----------
+      -------GIF R------NED -TS------K ASSHSP---- ----------
+      V-QRKL--MF ETL-----MD ---------- ----TQ---- ----------
+      V-QRRL--MF ETF-----MD ---------- ----TQ---- ----------
+      M-QR----MF ETL-----LG ---------- ----NF---- ----------
+      L-QRQM--MQ ELL-----MN ---------- ----NL---- ----------
+      -------G-- ---------E ---------- ----NE---- ----------
+      -------G-- ---------K V--------- ----KP---- ----------
+
+      NMPDCCQG-- ----D----- 
+      NMPDCCQG-- ----D----- 
+      -VLD--NG-- ----N--LSI 
+      -VLD--NV-- ----N--LSI 
+      -YAD--I--- --HFQ----- 
+      -YAD--I--- --HFQ----- 
+      -YSY--M--- --EFLEY--- 
+      -FPD--QGEP EDDFEEF--- 
+      ---------- ----K----- 
+      ---------- ----K----- 
