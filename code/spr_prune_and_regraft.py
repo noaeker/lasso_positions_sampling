@@ -129,7 +129,7 @@ def compute_tree_divergence(tree_path):
 
 
 #t = Tree('(((A:1.828378,B:0.750678):0.0150676,C:0.82589):0.232357,D:0.464714,E:0.707315);', format=1)
-# A=t&"A"
+#A=t&"A"
 # B=t&"B"
 # E=t&"E"
 # add_internal_names(t)

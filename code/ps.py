@@ -53,7 +53,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
         if not LOCAL_RUN:
             os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path}')
         else:
-            msa_code_location = MSA_CODE_LOCATION
+            msa_code_location = MAIN_CODE_PATH
             theproc = subprocess.Popen(
                 [sys.executable, msa_code_location, str(job_ind), curr_job_folder,
                  job_msa_paths_file, job_csv_path, spr_log_path, general_log_path,
@@ -86,7 +86,7 @@ def main():
     all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
     logging.info('#Started running')
     if MSA_EXTRACTION_METHOD == "CSV":
-        file_path_list = extract_alignment_files_from_general_csv(ALIGNMENT_CSV_PATH)
+        file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
     else:
         file_path_list = extract_alignment_files_from_dir(ALIGNMENTS_FOLDER_PATH)
     logging.info("There are overall {nMSAs} available ".format(nMSAs=len(file_path_list)))
