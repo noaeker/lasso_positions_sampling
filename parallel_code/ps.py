@@ -4,13 +4,13 @@ import subprocess
 import sys
 import time
 import shutil
-import argparse
 
 
-def generate_results_folder(current_run_results_folder):
-    current_run_results_folder = os.path.join(PROJECT_FOLDER, current_run_results_folder)
-    create_or_clean_dir(current_run_results_folder)
-    return current_run_results_folder
+def generate_results_folder(curr_run_prefix):
+    create_dir_if_not_exists(RESULTS_FOLDER)
+    curr_run_prefix = os.path.join(RESULTS_FOLDER, curr_run_prefix)
+    create_dir_if_not_exists(curr_run_prefix)
+    return curr_run_prefix
 
 
 
