@@ -1,8 +1,8 @@
 import subprocess
 import re
-from parallel_code.help_functions import *
+from help_functions import *
 import os.path
-from parallel_code.spr_prune_and_regraft import compute_tree_divergence
+from spr_prune_and_regraft import compute_tree_divergence
 
 
 

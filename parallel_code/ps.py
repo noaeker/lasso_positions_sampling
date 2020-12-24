@@ -1,5 +1,5 @@
-from parallel_code.help_functions import *
-from parallel_code.config import *
+from help_functions import *
+from config import *
 import subprocess
 import sys
 import time

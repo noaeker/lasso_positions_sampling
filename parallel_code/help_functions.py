@@ -6,7 +6,7 @@ from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import random
-from parallel_code.config import *
+from config import *
 import argparse
 
 def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
