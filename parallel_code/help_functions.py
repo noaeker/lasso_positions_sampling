@@ -6,6 +6,7 @@ from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import random
+from parallel_code.config import *
 
 def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
     proper_file_path_list = []
@@ -79,25 +80,21 @@ def extract_alignment_files_from_dir(dir):
     return files_list
 
 
-def extract_dir_list_and_orig(dir_list_csv_path):
+def extract_dir_list_from_csv(dir_list_csv_path):
     df = pd.read_csv(dir_list_csv_path)
     df.sort_values(by='nchars',ascending=False,inplace=True)
-    dir_list = list(df["path"])
+    dir_list = [os.path.join(MSAs_FOLDER,path) for path in list(df["path"])]
     logging.debug("Number of paths in original csv = {n_paths}".format(n_paths = len(df.index)))
-    if "orig_ntaxa" in df:
-        take_orig = list(df[["orig_ntaxa", "ntaxa"]].apply(lambda x: abs(x[0] - x[1]) > 0, axis=1))
-    else:
-        take_orig = [False]*len(df.index)
-    return zip(dir_list, take_orig)
+    return dir_list
 
 def extract_alignment_files_from_general_csv(dir_list_csv_path):
     files_list = []
     logging.debug("Extracting alignments from {}".format(dir_list_csv_path))
-    dir_list_and_type = extract_dir_list_and_orig(dir_list_csv_path)
-    for dir, take_orig in dir_list_and_type:
+    dir_list = extract_dir_list_from_csv(dir_list_csv_path)
+    for dir in dir_list:
         if os.path.exists(dir):
             for file in os.listdir(dir):
-                if (file.endswith(".phy") or file.endswith(".fasta")) and ((take_orig == False) or "orig" in file):
+                if (file.endswith(".phy") or file.endswith(".fasta")):
                     files_list.append(os.path.join(dir, file))
                     break
         else:

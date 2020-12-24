@@ -1,5 +1,5 @@
-from code.help_functions import *
-from code.config import *
+from parallel_code.help_functions import *
+from parallel_code.config import *
 import subprocess
 import sys
 import time
@@ -7,12 +7,9 @@ import shutil
 import argparse
 
 
-def create_clean_environment(current_run_results_folder):
+def generate_results_folder(current_run_results_folder):
     current_run_results_folder = os.path.join(PROJECT_FOLDER, current_run_results_folder)
-    create_dir_if_not_exists(PROJECT_FOLDER)
     create_or_clean_dir(current_run_results_folder)
-    logging.info("Creating clean environment for current run:\n current run results folder: {results_folder}".format(
-        results_folder=current_run_results_folder))
     return current_run_results_folder
 
 
@@ -64,6 +61,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
     return csv_path_to_status_path_dict
 
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_prefix', action='store', type=str, default=CURR_RUN_PREFIX)
@@ -75,20 +73,17 @@ def main():
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true')
     args = parser.parse_args()
-    all_jobs_results_folder = create_clean_environment(args.run_prefix)
+    all_jobs_results_folder = generate_results_folder(args.run_prefix)
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
     logging.info(
-        "Program input: \n n_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nonly_evaluate_lasso={}".format(
+        "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nonly_evaluate_lasso={}".format(
             args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq, args.n_random_starting_trees,
             args.only_evaluate_lasso))
     all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
     all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
     logging.info('#Started running')
-    if MSA_EXTRACTION_METHOD == "CSV":
-        file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
-    else:
-        file_path_list = extract_alignment_files_from_dir(ALIGNMENTS_FOLDER_PATH)
+    file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
     logging.info("There are overall {nMSAs} available ".format(nMSAs=len(file_path_list)))
     if os.path.exists(all_jobs_backup_csv) and os.path.os.stat(all_jobs_backup_csv).st_size > 0:
         shutil.copy(all_jobs_backup_csv, all_jobs_csv)

@@ -1,9 +1,9 @@
 
-from code.raxml import *
+from parallel_code.raxml import *
 import numpy as np
 import shutil
 from scipy import stats
-from code.spr_prune_and_regraft import *
+from parallel_code.spr_prune_and_regraft import *
 
 
 def write_spr_log_message(spr_log_file_object, rgrft_path, best_ll, ll, best_topology_path):

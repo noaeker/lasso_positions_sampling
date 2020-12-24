@@ -1,8 +1,8 @@
-from code.lasso_model_pipeline import *
-from code.generate_SPR import *
+from parallel_code.lasso_model_pipeline import *
+from parallel_code.generate_SPR import *
 from sys import argv
 from shutil import copyfile
-from code.raxml import *
+from parallel_code.raxml import *
 
 
 def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
@@ -152,33 +152,22 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
 
 def generate_site_lh_data(curr_msa_stats, n_iter):
     curr_sitelh_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"], "sitelh")
-    backup_sitelh_folder = os.path.join(curr_msa_stats["msa_backup_folder"], "sitelh")
     create_dir_if_not_exists(curr_sitelh_folder)
-    create_dir_if_not_exists(backup_sitelh_folder)
-    backup_csv_path = os.path.join(backup_sitelh_folder, curr_msa_stats.get("file_name") + ".csv")
     curr_csv_path = os.path.join(curr_sitelh_folder, curr_msa_stats.get("file_name") + ".csv")
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    if os.path.exists(backup_csv_path) and USE_BACKUP_CSV_FILES_IF_EXISTS and len(
-            pd.read_csv(backup_csv_path).index) == curr_msa_stats["n_random_starting_trees"]:
-        copyfile(backup_csv_path, curr_csv_path)
-        sitelh_df = pd.read_csv(curr_csv_path, index_col=False)
-        logging.info("Using backup sitelh data in {path}".format(path=backup_csv_path))
-    else:
-        logging.info(
-            "Computing sitelh data on " + local_file_path + " from beggining,since no such csv path found " + curr_csv_path)
-        logging.info("Generating " + str(n_iter) + " random trees ")
-        sitelh_ll_list = []
-        for i in range(n_iter):
-            curr_site_lh = raxml_compute_per_site_ll_on_a_random_tree(local_file_path, i, curr_msa_stats)
-            sitelh_ll_list.append(curr_site_lh)
-        sitelh_df = pd.DataFrame(sitelh_ll_list, columns=list(range(len(sitelh_ll_list[0]))),
-                                 index=list(range(len(sitelh_ll_list))))
-        logging.info(
-            "Writing sitelh data to  " + curr_csv_path)
-        sitelh_df.to_csv(
-            curr_csv_path, index=False)
-        if (not os.path.exists(backup_csv_path) or ((os.path.exists(backup_csv_path) and UPDATE_BACKUP_IF_EXISTS))):
-            copyfile(curr_csv_path, backup_csv_path)
+    logging.info(
+        "Computing sitelh data on " + local_file_path + " from beggining,since no such csv path found " + curr_csv_path)
+    logging.info("Generating " + str(n_iter) + " random trees ")
+    sitelh_ll_list = []
+    for i in range(n_iter):
+        curr_site_lh = raxml_compute_per_site_ll_on_a_random_tree(local_file_path, i, curr_msa_stats)
+        sitelh_ll_list.append(curr_site_lh)
+    sitelh_df = pd.DataFrame(sitelh_ll_list, columns=list(range(len(sitelh_ll_list[0]))),
+                             index=list(range(len(sitelh_ll_list))))
+    logging.info(
+        "Writing sitelh data to  " + curr_csv_path)
+    sitelh_df.to_csv(
+        curr_csv_path, index=False)
     logging.info(
         "Sitelh file is of shape {shape} and stored in {path}".format(shape=sitelh_df.shape, path=curr_csv_path))
     curr_msa_stats["sitelh_df"] = sitelh_df
@@ -297,9 +286,6 @@ def main():
         logging.info(' #running on file ind ' + str(file_ind) + " path=" + str(original_alignment_path))
         curr_msa_stats = generate_msa_general_stats(
             original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences,n_random_starting_trees)
-        msa_backup_folder = os.path.join(ALL_RUNS_BACKUP_FOLDER, curr_msa_stats["dataset_id"].replace(os.path.sep, "_"))
-        create_dir_if_not_exists(msa_backup_folder)
-        curr_msa_stats["msa_backup_folder"] = msa_backup_folder
         try:
 
             logging.info("Computing raxml result on full data:")

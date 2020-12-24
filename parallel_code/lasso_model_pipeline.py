@@ -1,6 +1,6 @@
 
 from sklearn import linear_model
-from code.raxml import *
+from parallel_code.raxml import *
 
 
 def evaluate_lasso_performance_on_test_data(lasso_model, curr_msa_stats, n_iter):
