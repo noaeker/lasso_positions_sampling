@@ -34,6 +34,7 @@ EPSILON = 0.1
 USE_BACKUP_CSV_FILES_IF_EXISTS = False
 UPDATE_BACKUP_IF_EXISTS = False
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
+N_THREADS = 1
 
 CURR_RUN_PREFIX= "test"
 CURR_JOBS_PREFIX = "test_job"
@@ -51,16 +52,16 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-
+N_THREADS = 1
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_EXECUTABLE_PATH = "/groups/pupko/noaeker/raxml-ng/raxml-ng"
+    RAXML_NG_BASIC_COMMAND = "/groups/pupko/noaeker/raxml-ng/raxml-ng --threads {} ".format(N_THREADS)
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
 elif LOCAL_RUN:
-    RAXML_NG_EXECUTABLE_PATH = "/Users/noa/Programs/Raxml/raxml-ng"
+    RAXML_NG_BASIC_COMMAND = "/Users/noa/Programs/Raxml/raxml-ng --threads {} ".format(N_THREADS)
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
