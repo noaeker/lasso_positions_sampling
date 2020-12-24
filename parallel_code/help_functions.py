@@ -7,6 +7,7 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import random
 from parallel_code.config import *
+import argparse
 
 def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
     proper_file_path_list = []
@@ -160,3 +161,15 @@ def remove_empty_columns(csv_path):
 
 
 
+def ps_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run_prefix', action='store', type=str, default=CURR_RUN_PREFIX)
+    parser.add_argument('--jobs_prefix', action='store', type=str, default=CURR_JOBS_PREFIX)
+    parser.add_argument('--n_MSAs', action='store', type=int, default=N_MSAS)
+    parser.add_argument('--n_jobs', action='store', type=int, default=N_JOBS)
+    parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
+    parser.add_argument('--n_random_starting_trees', action='store', type=int, default=1000)
+    parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
+    parser.add_argument('--only_evaluate_lasso', action='store_true')
+    args = parser.parse_args()
+    return args
