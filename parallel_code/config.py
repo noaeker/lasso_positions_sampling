@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import os
 
-LOCAL_RUN = True#True
+LOCAL_RUN = False#True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -65,7 +65,5 @@ elif LOCAL_RUN:
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
 
-MSAs_CSV_PATH = "/groups/pupko/noaeker/sampled_datasets.csv"
-MSAs_FILES_PREFIX_TO_REMOVE = ""
 MAIN_CODE_PATH = "MSA_positions_sampling.py"
 

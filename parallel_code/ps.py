@@ -44,7 +44,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
         logging.info("job number {} will run on files {}".format(job_ind, job_msa_paths))
         cmds_path = os.path.join(curr_job_folder, str(job_ind) + ".cmds")
         job_log_path = os.path.join(curr_job_folder, str(job_ind) + "_tmp_log")
-        job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python; python /groups/pupko/noaeker/positions_sampling/current_code/MSA_positions_sampling.py {job_ind} {curr_job_folder} {job_msa_paths_file} {job_csv_path} {spr_log_path} {general_log_path} {job_status_file} {max_n_sequences} {n_random_starting_trees} {only_evaluate_lasso}\t{jobs_prefix}{str(job_ind)}'
+        job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python; python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py {job_ind} {curr_job_folder} {job_msa_paths_file} {job_csv_path} {spr_log_path} {general_log_path} {job_status_file} {max_n_sequences} {n_random_starting_trees} {only_evaluate_lasso}\t{jobs_prefix}{str(job_ind)}'
         with open(cmds_path, 'w') as cmds_f:
             cmds_f.write(job_line)
         if not LOCAL_RUN:
