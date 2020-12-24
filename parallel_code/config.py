@@ -55,14 +55,17 @@ IGNORE_COLS_IN_CSV = ["alignment_data", "lasso_coeffs", "lasso_chosen_weights", 
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_EXECUTABLE_PATH = "/Users/noa/raxml-ng/raxml-ng"
+    RAXML_NG_EXECUTABLE_PATH = "/groups/pupko/noaeker/raxml-ng/raxml-ng"
     PROJECT_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling"
+    MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
+    MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
 elif LOCAL_RUN:
     RAXML_NG_EXECUTABLE_PATH = "/Users/noa/Programs/Raxml/raxml-ng"
     PROJECT_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling"
+    MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
+    MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
 
-MSAs_CSV_PATH = os.path.join(PROJECT_FOLDER, "data/sampled_datasets.csv")
-MSAs_FOLDER = os.path.join(PROJECT_FOLDER, "data/ABC_DR")
+MSAs_CSV_PATH = "/groups/pupko/noaeker/sampled_datasets.csv"
 MSAs_FILES_PREFIX_TO_REMOVE = ""
 MAIN_CODE_PATH = "MSA_positions_sampling.py"
 

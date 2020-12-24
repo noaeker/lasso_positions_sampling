@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/generate_SPR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ps.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/ps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/raxml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +33,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
+            <state relative-caret-position="171">
               <caret line="79" column="25" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -52,10 +43,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/log_file.log">
+        <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="141">
+              <caret line="60" column="48" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,18 +78,6 @@
               <caret line="170" column="4" selection-start-line="170" selection-start-column="4" selection-end-line="170" selection-end-column="4" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,6 +122,7 @@
         <option value="$PROJECT_DIR$/code/ps.py" />
         <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
         <option value="$PROJECT_DIR$/parallel_code/ps.py" />
+        <option value="$PROJECT_DIR$/parallel_code/config.py" />
       </list>
     </option>
   </component>
@@ -160,11 +143,6 @@
             <path>
               <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
               <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -488,16 +466,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -505,9 +473,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/log_file.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
+        <state relative-caret-position="171">
           <caret line="79" column="25" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
@@ -515,10 +490,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/log_file.log">
+    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="141">
+          <caret line="60" column="48" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
