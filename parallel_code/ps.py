@@ -9,7 +9,7 @@ import shutil
 def generate_results_folder(curr_run_prefix):
     create_dir_if_not_exists(RESULTS_FOLDER)
     curr_run_prefix = os.path.join(RESULTS_FOLDER, curr_run_prefix)
-    create_dir_if_not_exists(curr_run_prefix)
+    create_or_clean_dir(curr_run_prefix)
     return curr_run_prefix
 
 

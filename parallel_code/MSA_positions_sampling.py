@@ -1,8 +1,8 @@
-from parallel_code.lasso_model_pipeline import *
-from parallel_code.generate_SPR import *
+from lasso_model_pipeline import *
+from generate_SPR import *
 from sys import argv
 from shutil import copyfile
-from parallel_code.raxml import *
+from raxml import *
 
 
 def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
