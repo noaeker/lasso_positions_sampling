@@ -48,7 +48,7 @@ def calculate_rf_dist(rf_file_path,curr_run_directory):
     rf_prefix = os.path.join(curr_run_directory, "rf")
     rf_command = (
            "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
-        raxml_exe_path =RAXML_NG_EXECUTABLE_PATH, rf_file_path=rf_file_path, prefix=rf_prefix)
+        raxml_exe_path =RAXML_NG_COMMAND_PREFIX, rf_file_path=rf_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command)
     rf_log_file_path = rf_prefix+".raxml.log"
     relative_rf_dist = extract_param_from_log(rf_log_file_path, "rf_dist")
@@ -58,8 +58,8 @@ def calculate_rf_dist(rf_file_path,curr_run_directory):
 def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
     check_validity_command = (
-           "{raxml_exe_path} --check --msa {msa_path} --model WAG+G --prefix {prefix}").format(raxml_exe_path =RAXML_NG_EXECUTABLE_PATH,
-        msa_path=full_file_path, prefix=check_validity_prefix)
+           "{raxml_exe_path} --check --msa {msa_path} --model WAG+G --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                               msa_path=full_file_path, prefix=check_validity_prefix)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
     execute_commnand_and_write_to_log(check_validity_command)
     if os.path.exists(reduced_file):  # and not os.path.exists(result_tree_full_file):
@@ -68,8 +68,8 @@ def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_d
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     parsimony_tree_generation_command = (
-           "{raxml_exe_path} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_EXECUTABLE_PATH,
-        msa_path=full_file_path,n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix)
+           "{raxml_exe_path} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                                                                  msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix)
     execute_commnand_and_write_to_log(parsimony_tree_generation_command)
     parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     msa_stats["raxml_parsimony_tree_path"]=parsimony_tree_path
@@ -77,8 +77,8 @@ def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_d
     parsimony_divergence = compute_tree_divergence(parsimony_tree_path)
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
     parsimony_tree_alpha_evaluation_command = (
-         "{raxml_exe_path} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_EXECUTABLE_PATH,
-        msa_path=full_file_path,parsimony_tree_path=parsimony_tree_path ,prefix=  parsimony_model_evaluation_prefix)
+         "{raxml_exe_path} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                                                              msa_path=full_file_path, parsimony_tree_path=parsimony_tree_path, prefix=  parsimony_model_evaluation_prefix)
     execute_commnand_and_write_to_log(parsimony_tree_alpha_evaluation_command)
     parsimony_log_path = parsimony_model_evaluation_prefix+".raxml.log"
     check_file_existence(parsimony_log_path, "Parsimony log")
@@ -101,8 +101,8 @@ def raxml_extract_sitelh(sitelh_file):
 
 def generate_random_tree(alpha, original_file_path, random_tree_generation_prefix):
     random_tree_generation_command = (
-            "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n_random_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_EXECUTABLE_PATH,
-        msa_path=original_file_path,alpha=alpha,n_random_trees=1,prefix=random_tree_generation_prefix)
+            "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n_random_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                                                                            msa_path=original_file_path, alpha=alpha, n_random_trees=1, prefix=random_tree_generation_prefix)
     execute_commnand_and_write_to_log(random_tree_generation_command)
     random_tree_path = random_tree_generation_prefix + ".raxml.startTree"
     check_file_existence(random_tree_path,"random tree")
@@ -131,9 +131,9 @@ def raxml_compute_per_site_ll_on_a_random_tree(original_file_path, i, curr_msa_s
 def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     compute_site_ll_run_command = (
-            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_EXECUTABLE_PATH,
-        alpha=alpha, msa_path=full_data_path, tree_file=tree_file,
-        prefix=compute_site_ll_prefix)
+            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                                                               alpha=alpha, msa_path=full_data_path, tree_file=tree_file,
+                                                                                                                               prefix=compute_site_ll_prefix)
     execute_commnand_and_write_to_log( compute_site_ll_run_command)
     sitelh_file = compute_site_ll_prefix + ".raxml.siteLH"
     check_file_existence(sitelh_file,"Sitelh file")

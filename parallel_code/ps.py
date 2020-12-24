@@ -6,6 +6,7 @@ import time
 import shutil
 
 
+
 def generate_results_folder(curr_run_prefix):
     create_dir_if_not_exists(RESULTS_FOLDER)
     curr_run_prefix = os.path.join(RESULTS_FOLDER, curr_run_prefix)

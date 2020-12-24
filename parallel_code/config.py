@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import os
 
-LOCAL_RUN = False#True
+LOCAL_RUN = True#True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -56,12 +56,12 @@ N_THREADS = 1
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_BASIC_COMMAND = "/groups/pupko/noaeker/raxml-ng/raxml-ng --threads {} ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng/raxml-ng --threads {} ".format(N_THREADS)
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
 elif LOCAL_RUN:
-    RAXML_NG_BASIC_COMMAND = "/Users/noa/Programs/Raxml/raxml-ng --threads {} ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng --threads {} ".format(N_THREADS)
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
