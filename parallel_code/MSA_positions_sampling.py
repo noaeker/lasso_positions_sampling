@@ -280,8 +280,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                              args.n_random_starting_trees, args.only_evaluate_lasso
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size, args.only_evaluate_lasso
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -317,7 +317,7 @@ def main():
                 curr_msa_stats)
         curr_msa_stats["spr_log_path"] = spr_log_path
         curr_msa_stats["current_job_results_folder"] = curr_job_folder
-        generate_site_lh_data(curr_msa_stats, RANDOM_TREES_TRAINING_SIZE)
+        generate_site_lh_data(curr_msa_stats, random_trees_training_size)
         # curr_msa_stats["raxml_parsimony_tree_path"]
         apply_lasso_on_data_and_update_stats(curr_msa_stats)  # calculating positions_weight
         if only_evaluate_lasso:
