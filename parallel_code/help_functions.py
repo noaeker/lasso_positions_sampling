@@ -184,6 +184,7 @@ def job_parser():
     parser.add_argument('--curr_job_folder', action='store', type=str)
     parser.add_argument('--max_n_sequences', action='store', type=int)
     parser.add_argument('--n_random_starting_trees', action='store', type=int)
+    parser.add_argument('--random_trees_training_size', action='store', type=int)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default = False)
     args = parser.parse_args()
     return args

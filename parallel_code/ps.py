@@ -56,8 +56,8 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
             msa_code_location = MAIN_CODE_PATH
             theproc = subprocess.Popen(
                 [sys.executable, msa_code_location, "--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder,
-                 "--max_n_sequences", str(max_n_sequences), '--n_random_starting_trees',
-                 str(n_random_starting_trees)] + only_evaluate_lasso_arg)
+                 "--max_n_sequences", str(max_n_sequences), '--n_random_starting_trees', str(n_random_starting_trees),'--random_trees_training_size',
+                 str(random_trees_training_size)] + only_evaluate_lasso_arg)
             theproc.communicate()
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}

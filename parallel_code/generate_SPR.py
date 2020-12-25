@@ -45,10 +45,10 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
                 logging.debug("i=" + str(i) + " j=" + str(j))
                 if DETAILED_SPR_LOG:
                     spr_log_file_object.write("j = {} ; Refraft node name = {}".format(j, rgft_node.name) + "\n")
-                rgrft_folder = curr_run_directory + SEP + "_i_" + str(i) + "_j_" + str(
-                    j) + "_iter_" + str(iteration_number)
+                rgrft_folder = os.path.join(curr_run_directory , "_i_" + str(i) + "_j_" + str(
+                    j) + "_iter_" + str(iteration_number))
                 create_or_clean_dir(rgrft_folder)
-                rgrft_path = rgrft_folder + SEP + rgft_node.name
+                rgrft_path = os.path.join(rgrft_folder , rgft_node.name)
                 if not os.path.exists(rgrft_path):
                     regrafted_tree = regraft_as_sister_of_given_internal_node(rgft_node.name,
                                                                               pruned_subtree, remaining_tree)
@@ -137,11 +137,11 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         else:
             curr_iter_starting_tree_object = starting_tree_object
         while True:
-            curr_iter_run_directory = curr_run_directory + SEP + "iter_" + str(spr_iterations_performed_so_far)
+            curr_iter_run_directory = os.path.join(curr_run_directory , "iter_" + str(spr_iterations_performed_so_far))
             create_or_clean_dir(curr_iter_run_directory)
-            curr_iter_starting_tree_path = curr_iter_run_directory + SEP + "curr_iter_starting_topology_" + phase_name
+            curr_iter_starting_tree_path = os.path.join(curr_iter_run_directory , "curr_iter_starting_topology_" + phase_name)
             shutil.copy(curr_iter_starting_tree_topology, curr_iter_starting_tree_path)
-            curr_iter_best_topology_path = curr_iter_run_directory + SEP + "curr_iter_best_topology_" + phase_name
+            curr_iter_best_topology_path = os.path.join(curr_iter_run_directory , "curr_iter_best_topology_" + phase_name)
             shutil.copy(curr_iter_starting_tree_topology, curr_iter_best_topology_path)
             spr_log_file_object.write("iteration number:" + str(spr_iterations_performed_so_far) + "\n")
             logging.info("iteration number: " + str(spr_iterations_performed_so_far))
@@ -255,7 +255,7 @@ def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_di
         return (full_data_SPR_result)
     else:
         logging.info("Starting SPR analysis on sampled data")
-        sub_curr_run_directory = curr_run_directory + SEP + "_use_sampled_MSA"
+        sub_curr_run_directory = os.path.join(curr_run_directory , "_use_sampled_MSA")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
             #        first_optimized_tree_object, first_optimized_tree_path, ll_comparison_df, true_vs_sampled_ll_per_iteration_list_first_part,
@@ -272,7 +272,7 @@ def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_di
         use_sampled_true_starting_tree_ll = first_optimized_param_dict["current_starting_tree_true_ll"]
         tree_newick_first_phase = first_optimized_param_dict["best_topology_newick"]
         ll_comparison_df = first_optimized_param_dict["ll_comparison_df"]
-        ll_comparison_df.to_csv(curr_run_directory + SEP + "ll_comparison_df.csv")
+        ll_comparison_df.to_csv(os.path.join(curr_run_directory , "ll_comparison_df.csv"))
         prediction_rho_pearson, prediction_pval_pearson,mistake_cnt = analyze_ll_comparison_df(ll_comparison_df)
         overall_SPR_steps_list = [first_optimized_param_dict["spr_moves"]]
         first_optimized_tree_path = first_optimized_param_dict["curr_iter_best_topology_path"]
@@ -286,7 +286,7 @@ def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_di
         logging.info("Continue SPR analysis using full data")
         # Use previous tree as a starting tree
         full_msa_path = curr_msa_stats["local_alignment_path"]
-        sub_curr_run_directory = curr_run_directory + SEP + "_continue_with_full_MSA"
+        sub_curr_run_directory = os.path.join(curr_run_directory ,"_continue_with_full_MSA")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
         # SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path,starting_tree_object, curr_run_directory, phase_name,
