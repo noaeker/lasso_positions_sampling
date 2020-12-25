@@ -170,6 +170,6 @@ def ps_parser():
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=1000)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
-    parser.add_argument('--only_evaluate_lasso', action='store_true')
+    parser.add_argument('--only_evaluate_lasso', action='store_true',default=False)
     args = parser.parse_args()
     return args

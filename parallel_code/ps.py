@@ -68,6 +68,7 @@ def main():
     all_jobs_results_folder = generate_results_folder(args.run_prefix)
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
+    logging.info("boolean data type is "+str(type(args.only_evaluate_lasso)))
     logging.info(
         "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nonly_evaluate_lasso={}".format(
             args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq, args.n_random_starting_trees,
