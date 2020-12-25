@@ -161,15 +161,36 @@ def remove_empty_columns(csv_path):
 
 
 
-def ps_parser():
+
+
+def main_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_prefix', action='store', type=str, default=CURR_RUN_PREFIX)
     parser.add_argument('--jobs_prefix', action='store', type=str, default=CURR_JOBS_PREFIX)
     parser.add_argument('--n_MSAs', action='store', type=int, default=N_MSAS)
     parser.add_argument('--n_jobs', action='store', type=int, default=N_JOBS)
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
-    parser.add_argument('--n_random_starting_trees', action='store', type=int, default=1000)
+    parser.add_argument('--n_random_starting_trees', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default=False)
     args = parser.parse_args()
     return args
+
+#job_ind, curr_job_folder, job_msa_paths_file, job_csv_path, spr_log_path, general_log_path, curr_job_status_file, max_n_sequences, n_random_starting_trees,only_evaluate_lasso
+def job_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--job_ind', action='store', type=int)
+    parser.add_argument('--curr_job_folder', action='store', type=str)
+    parser.add_argument('--max_n_sequences', action='store', type=int)
+    parser.add_argument('--n_random_starting_trees', action='store', type=int)
+    parser.add_argument('--only_evaluate_lasso', action='store_true',default = False)
+    args = parser.parse_args()
+    return args
+
+def get_job_related_files_paths(curr_job_folder, job_ind):
+    job_status_file = os.path.join(curr_job_folder, str(job_ind) + "_status")
+    job_csv_path=os.path.join(curr_job_folder, str(job_ind) + ".csv")
+    job_msa_paths_file = os.path.join(curr_job_folder, "file_paths_" + str(job_ind))
+    spr_log_path = os.path.join(curr_job_folder, "job_" + str(job_ind) + "_spr_log.log")
+    general_log_path = os.path.join(curr_job_folder, "job_" + str(job_ind) + "_general_log.log")
+    return {"job_status_file" : job_status_file, "job_csv_path":job_csv_path, "job_msa_paths_file" : job_msa_paths_file, "spr_log_path": spr_log_path , "general_log_path": general_log_path}

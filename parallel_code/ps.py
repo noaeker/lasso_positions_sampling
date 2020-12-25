@@ -6,7 +6,6 @@ import time
 import shutil
 
 
-
 def generate_results_folder(curr_run_prefix):
     create_dir_if_not_exists(RESULTS_FOLDER)
     curr_run_prefix = os.path.join(RESULTS_FOLDER, curr_run_prefix)
@@ -14,10 +13,8 @@ def generate_results_folder(curr_run_prefix):
     return curr_run_prefix
 
 
-
-
 def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_sequences,
-                              n_random_starting_trees, jobs_prefix,only_evaluate_lasso):
+                              n_random_starting_trees, jobs_prefix, only_evaluate_lasso):
     jobs_csv_path_list = []
     status_file_path_list = []
     files_per_job = int(len(path_list) / n_jobs)
@@ -28,47 +25,50 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
         create_or_clean_dir(curr_job_folder)
         first_msa_ind = files_per_job * job_ind
         last_msa_ind = files_per_job * (job_ind + 1)
+        job_related_files_paths = get_job_related_files_paths(curr_job_folder, job_ind)
         job_msa_paths = path_list[first_msa_ind:last_msa_ind]
-        job_msa_paths_file = os.path.join(curr_job_folder, "file_paths_" + str(job_ind))
-        job_csv_path = os.path.join(curr_job_folder, str(job_ind) + ".csv")
-        jobs_csv_path_list.append(job_csv_path)
-        job_status_file = os.path.join(curr_job_folder, str(job_ind) + "_status")
-        status_file_path_list.append(job_status_file)
+        jobs_csv_path_list.append(job_related_files_paths["job_csv_path"])
+        status_file_path_list.append(job_related_files_paths["job_status_file"])
         raw_results = pd.DataFrame(
         )
-        raw_results.to_csv(job_csv_path, index=False)
-        spr_log_path = os.path.join(curr_job_folder, "job_" + str(job_ind) + "_spr_log.log")
-        general_log_path = os.path.join(curr_job_folder, "job_" + str(job_ind) + "_general_log.log")
-        with open(job_msa_paths_file, 'w') as f:
+        raw_results.to_csv(job_related_files_paths["job_csv_path"], index=False)
+        with open(job_related_files_paths["job_msa_paths_file"], 'w') as f:
             for path in job_msa_paths:
                 f.write("%s\n" % path)
         logging.info("job number {} will run on files {}".format(job_ind, job_msa_paths))
-        cmds_path = os.path.join(curr_job_folder, str(job_ind) + ".cmds")
-        job_log_path = os.path.join(curr_job_folder, str(job_ind) + "_tmp_log")
-        job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python; python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py {job_ind} {curr_job_folder} {job_msa_paths_file} {job_csv_path} {spr_log_path} {general_log_path} {job_status_file} {max_n_sequences} {n_random_starting_trees} {only_evaluate_lasso}\t{jobs_prefix}{str(job_ind)}'
-        with open(cmds_path, 'w') as cmds_f:
-            cmds_f.write(job_line)
         if not LOCAL_RUN:
+            cmds_path = os.path.join(curr_job_folder, str(job_ind) + ".cmds")
+            job_log_path = os.path.join(curr_job_folder, str(job_ind) + "_tmp_log")
+            only_evaluate_lasso_arg = ' --only_evaluate_lasso' if only_evaluate_lasso else ""
+            job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python;' \
+                           ' python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py' \
+                           ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} --max_n_sequences {max_n_sequences} ' \
+                           '--n_random_starting_trees {n_random_starting_trees}{only_evaluate_lasso_arg}\t{job_name}'.format(
+                job_ind=job_ind, curr_job_folder=curr_job_folder, max_n_sequences=max_n_sequences,
+                n_random_starting_trees=n_random_starting_trees, only_evaluate_lasso_arg=only_evaluate_lasso_arg, jobs_prefix=jobs_prefix, job_name= jobs_prefix+str(job_ind))
+            logging.debug("About to run: {}".format(job_line))
+            with open(cmds_path, 'w') as cmds_f:
+                cmds_f.write(job_line)
             os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path}')
         else:
+            only_evaluate_lasso_arg = ['--only_evaluate_lasso'] if only_evaluate_lasso else []
             msa_code_location = MAIN_CODE_PATH
             theproc = subprocess.Popen(
-                [sys.executable, msa_code_location, str(job_ind), curr_job_folder,
-                 job_msa_paths_file, job_csv_path, spr_log_path, general_log_path,
-                 job_status_file, str(max_n_sequences), str(n_random_starting_trees),str(only_evaluate_lasso)])
+                [sys.executable, msa_code_location, "--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder,
+                 "--max_n_sequences", str(max_n_sequences), '--n_random_starting_trees',
+                 str(n_random_starting_trees)] + only_evaluate_lasso_arg)
             theproc.communicate()
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}
     return csv_path_to_status_path_dict
 
 
-
 def main():
-    args = ps_parser()
+    args = main_parser()
     all_jobs_results_folder = generate_results_folder(args.run_prefix)
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
-    logging.info("boolean data type is "+str(type(args.only_evaluate_lasso)))
+    logging.info("boolean data type is " + str(type(args.only_evaluate_lasso)))
     logging.info(
         "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nonly_evaluate_lasso={}".format(
             args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq, args.n_random_starting_trees,
@@ -89,7 +89,8 @@ def main():
     logging.debug("Alignment files are " + str(file_path_list))
     csv_path_to_status_path_dict = distribute_MSAs_over_jobs(file_path_list, args.n_jobs,
                                                              all_jobs_results_folder, args.max_n_seq,
-                                                             args.n_random_starting_trees, args.jobs_prefix,args.only_evaluate_lasso)
+                                                             args.n_random_starting_trees, args.jobs_prefix,
+                                                             args.only_evaluate_lasso)
     while len(csv_path_to_status_path_dict) > 0:
         # logging.info(f'***Checking CSVs status***')
         new_csvs_to_update = []

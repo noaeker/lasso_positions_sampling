@@ -19,8 +19,10 @@ def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
     full_data_path = curr_msa_stats["local_alignment_path"]
     full_data_unique_name = curr_msa_stats["full_data_unique_name"]
     naive_spr_result_on_curr_starting_tree = SPR_analysis(full_data_path, full_data_unique_name,
-                                                          curr_msa_stats, curr_run_directory=os.path.join(curr_msa_stats.get(
-            "current_starting_tree_folder"), "spr_full_data_results"), samp_lambda_function=None, full_run=True)
+                                                          curr_msa_stats,
+                                                          curr_run_directory=os.path.join(curr_msa_stats.get(
+                                                              "current_starting_tree_folder"), "spr_full_data_results"),
+                                                          samp_lambda_function=None, full_run=True)
     logging.info(
         "SPR result on full data is {spr_result}\n Updating msa_stats".format(
             spr_result=naive_spr_result_on_curr_starting_tree))
@@ -75,12 +77,14 @@ def find_ll_winner_up_to_second_phase(row):
 
 def calc_relative_rf_distance_up_to_first_phase(row, curr_msa_stats):
     return calculate_relative_rf_distance(row["best_naive_spr_tree_topology_newick"],
-                                          row["best_lasso_SPR_first_phase_tree_newick"], curr_msa_stats, "naive_vs_first_phase")
+                                          row["best_lasso_SPR_first_phase_tree_newick"], curr_msa_stats,
+                                          "naive_vs_first_phase")
 
 
 def calc_relative_rf_distance_up_to_second_phase(row, curr_msa_stats):
     return calculate_relative_rf_distance(row["best_naive_spr_tree_topology_newick"],
-                                          row["best_lasso_SPR_second_phase_tree_newick"], curr_msa_stats, "naive_vs_second_phase")
+                                          row["best_lasso_SPR_second_phase_tree_newick"], curr_msa_stats,
+                                          "naive_vs_second_phase")
 
 
 def enrich_curr_msa_results(curr_msa_results, curr_msa_stats):
@@ -122,7 +126,7 @@ def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, 
     curr_run_directory = os.path.join(curr_msa_stats.get(
         "curr_msa_version_folder"), name)
     create_or_clean_dir(curr_run_directory)
-    rf_path = os.path.join(curr_run_directory , "rf_trees_file")
+    rf_path = os.path.join(curr_run_directory, "rf_trees_file")
     with open(rf_path, 'a+') as f_combined:
         f_combined.write(best_topology_newick)
         f_combined.write(given_topology_newick)
@@ -135,7 +139,7 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
     )
     for i in range(n_random_starting_trees):
         random_tree_folder = os.path.join(curr_msa_stats.get(
-            "curr_msa_version_folder") ,"RANDOM_starting_tree_" + str(i))
+            "curr_msa_version_folder"), "RANDOM_starting_tree_" + str(i))
         random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
         create_or_clean_dir(random_tree_folder)
         starting_tree_path = generate_random_tree(curr_msa_stats["alpha"], curr_msa_stats["local_alignment_path"],
@@ -178,8 +182,8 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
     logging.info("Running RaxML statistics from full data and extracting statistics")
     full_data_path = curr_msa_stats["local_alignment_path"]
     full_data_unique_name = curr_msa_stats["full_data_unique_name"]
-    curr_run_directory = os.path.join(curr_msa_stats.get("curr_msa_version_folder") , "raxml_full_data_results_" + \
-                         curr_msa_stats["file_name"])
+    curr_run_directory = os.path.join(curr_msa_stats.get("curr_msa_version_folder"), "raxml_full_data_results_" + \
+                                      curr_msa_stats["file_name"])
     if os.path.exists(curr_run_directory):
         delete_dir_content(curr_run_directory)
     else:
@@ -202,11 +206,12 @@ def get_positions_stats(original_alignment_df, n_seq):
     return informative_columns_count, avg_entropy
 
 
-def generate_msa_general_stats(original_alignment_path, file_ind, current_job_results_folder, job, max_n_seq,n_random_starting_trees
+def generate_msa_general_stats(original_alignment_path, file_ind, current_job_results_folder, job, max_n_seq,
+                               n_random_starting_trees
                                ):
     dataset_id = original_alignment_path
     file_name = str(file_ind)
-    curr_msa_version_folder = os.path.join(current_job_results_folder ,str(file_name))
+    curr_msa_version_folder = os.path.join(current_job_results_folder, str(file_name))
     create_or_clean_dir(curr_msa_version_folder)
     logging.info("file name is " + file_name)
     full_data_unique_name = file_name
@@ -215,7 +220,7 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
     with open(original_alignment_path) as original:
         original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     orig_n_seq = len(original_alignment_data)
-    local_full_msa_path = os.path.join(curr_msa_version_folder , file_name + file_type)
+    local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
     take_up_to_x_sequences(original_alignment_data, local_full_msa_path, max_n_seq, file_type_biopython)
     with open(local_full_msa_path) as original:
         original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
@@ -239,7 +244,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
                       "avg_entropy": avg_entropy
 
                       }
-    logging.info("Basic MSA stats computed:\n {curr_msa_stats}".format(curr_msa_stats= {key:curr_msa_stats[key] for key in curr_msa_stats if key not in IGNORE_COLS_IN_CSV}))
+    logging.info("Basic MSA stats computed:\n {curr_msa_stats}".format(
+        curr_msa_stats={key: curr_msa_stats[key] for key in curr_msa_stats if key not in IGNORE_COLS_IN_CSV}))
     return curr_msa_stats
 
 
@@ -268,13 +274,25 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
          "informative columns count": informative_columns_count_reduced,
          "avg_entropy": avg_entropy_reduced
          })
-    logging.info("New msa stats for reduced data: {msa_stats}".format(msa_stats= reduced_curr_msa_stats))
+    logging.info("New msa stats for reduced data: {msa_stats}".format(msa_stats=reduced_curr_msa_stats))
     return reduced_curr_msa_stats
 
 
 def main():
-    job_ind, curr_job_folder, job_msa_paths_file, job_csv_path, spr_log_path, general_log_path, curr_job_status_file, max_n_sequences, n_random_starting_trees,only_evaluate_lasso = \
-        argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], int(argv[8]), int(argv[9]),bool(argv[10])
+    args = job_parser()
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                              args.n_random_starting_trees, args.only_evaluate_lasso
+    job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
+    job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
+                                                                                                 "job_msa_paths_file"], \
+                                                                                             job_related_file_paths[
+                                                                                                 "general_log_path"], \
+                                                                                             job_related_file_paths[
+                                                                                                 "job_csv_path"], \
+                                                                                             job_related_file_paths[
+                                                                                                 "spr_log_path"], \
+                                                                                             job_related_file_paths[
+                                                                                                 "job_status_file"]
     with open(job_msa_paths_file, "r") as paths_file:
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
@@ -285,7 +303,7 @@ def main():
         all_MSA_results.to_csv(job_csv_path, index=False)
         logging.info(' #running on file ind ' + str(file_ind) + " path=" + str(original_alignment_path))
         curr_msa_stats = generate_msa_general_stats(
-            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences,n_random_starting_trees)
+            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees)
         try:
 
             logging.info("Computing raxml result on full data:")
