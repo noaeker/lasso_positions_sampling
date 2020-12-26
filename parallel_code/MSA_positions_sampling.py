@@ -63,7 +63,7 @@ def find_best_topology_up_to_second_phase(row):
     if row["best_naive_spr_ll"] >= row["best_lasso_SPR_second_phase_ll"]:
         val = row["best_naive_spr_tree_topology_newick"]
     else:
-        val = row["best_lasso_SPR_second__phase_tree_newick"]
+        val = row["best_lasso_SPR_second_phase_tree_newick"]
     return val
 
 
@@ -297,10 +297,10 @@ def main():
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(job_ind))
+    all_MSA_results = pd.DataFrame(
+    )
+    all_MSA_results.to_csv(job_csv_path, index=False)
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
-        all_MSA_results = pd.DataFrame(
-        )
-        all_MSA_results.to_csv(job_csv_path, index=False)
         logging.info(' #running on file ind ' + str(file_ind) + " path=" + str(original_alignment_path))
         curr_msa_stats = generate_msa_general_stats(
             original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees)
