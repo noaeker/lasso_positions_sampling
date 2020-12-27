@@ -169,14 +169,14 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
             logging.info("iteration {} local log likelihood= {} and true log likelihood= {} ".format(spr_iterations_performed_so_far,
                                                                                                      curr_iter_best_ll,
                                                                                                      curr_iter_best_true_ll))
+            if phase_name == "use_sampled_MSA":
+                ll_comparison_df = pd.concat([ll_comparison_df, curr_iter_ll_comparison_df])
             if curr_iter_best_ll - curr_iter_starting_tree_ll <= EPSILON:
                 spr_log_file_object.write(
                     "curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(EPSILON))
                 logging.info("curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(EPSILON))
                 break
             ### Updating current iteration results and preparing for next iteration:
-            if phase_name == "use_sampled_MSA":
-                ll_comparison_df = pd.concat([ll_comparison_df, curr_iter_ll_comparison_df])
             spr_iterations_performed_so_far = spr_iterations_performed_so_far + 1
             curr_iter_starting_tree_topology = curr_iter_best_topology_path
             curr_iter_starting_tree_object = curr_iter_best_tree_object
