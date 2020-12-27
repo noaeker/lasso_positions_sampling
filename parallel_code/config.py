@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import os
 
-LOCAL_RUN = False#True
+LOCAL_RUN = True#True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -40,8 +40,8 @@ CURR_RUN_PREFIX= "test"
 CURR_JOBS_PREFIX = "test_job"
 
 
-MAX_N_SEQ = 20
-MIN_N_SEQ = 20
+MAX_N_SEQ = 5
+MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 5
 PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 2

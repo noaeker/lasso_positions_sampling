@@ -1,0 +1,198 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+
+
+
+
+Dataset first preparation and libraries import
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+
+data_unified <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_raxml.csv",header = TRUE, na.strings = ""))
+data_source = data.frame(read.csv("/Users/noa/Workspace/data/sampled_datasets.csv",header = TRUE, na.strings = ""))
+data_unified$relative_path = str_replace_all(data_unified$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
+data= merge(data_unified,data_source,by.x="relative_path",by.y="path")
+if (nrow(data)<nrow(data_unified))
+  {print("Problem in matching path names")}
+data=data[data$current_starting_tree_type=="RANDOM"&data$n_seq==5 ,]
+write.csv(data,"data.csv", row.names = FALSE)
+
+
+```
+
+Usefull functions
+```{r}
+plot.hist<-function(x,main,xlab)
+{
+  qplot(x,
+      geom="histogram",
+      main = main, 
+      xlab = xlab,  
+      fill=I("blue"), 
+      col=I("red"), 
+      alpha=I(.2),
+      #xlim=c(20,50)
+      ) +  theme(plot.title = element_text(hjust = 0.5,size=13)) +theme(text = element_text(size = 12)) 
+
+}
+
+simple.regression<-function(x,y,main,xlab, ylab,cex=1.0,resid_plot=FALSE)
+{linearMod <- lm((y) ~ x)
+print(summary(linearMod)) 
+plot(x, y,main=main,
+     xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
+	abline(linearMod)
+if (resid_plot==TRUE)
+{plot(fitted(linearMod),resid(linearMod), main = "Residual plot",xlab=xlab)
+abline(0, 0)}
+	}
+
+
+
+
+
+
+
+```
+
+An example of the LL approximation
+
+```{r}
+#Specific example of Lasso: 
+#Make sure what is the #positions chosen by lasso here.
+
+test_df= data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
+training_df=data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
+
+test_true_val<-test_df$X0
+test_predicted_val<-test_df$X1
+
+training_true_val<-training_df$X0
+training_predicted_val<-training_df$X1
+
+simple.regression(training_true_val,training_predicted_val,"Training set predicted log likelihood vs true log likelihood","Training set true log likelihood","Training set predicted log likelihood")
+simple.regression(test_true_val,test_predicted_val,"Test set predicted log likelihood vs true log likelihood","Test set true log likelihood","Test set predicted log likelihood",cex=1)
+
+```
+
+LL approximation on xxx datasets:
+```{r}
+print("lasso training R^2:")
+print(summary(data$lasso_training_R.2))
+print("lasso test R^2:")
+print(summary(data$lasso_test_R.2))
+print("lasso sample pct :")
+print(summary(data$sample_pct))
+plot.hist(data$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
+plot.hist(data$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
+
+# Checking if 
+
+```
+
+
+Expanding the dataset with new fields
+```{r}
+data$rho_second_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_second_phase_spr_moves+(data$lasso_SPR_first_phase_spr_moves*data$sample_pct))
+data$rho_first_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_first_phase_spr_moves*data$sample_pct)
+data$delta_ll_second_phase = data$naive_SPR_ll-data$lasso_SPR_second_phase_ll
+data$delta_ll_first_phase = data$naive_SPR_ll-data$lasso_SPR_first_phase_ll
+
+```
+
+
+Counting the different sources
+```{r}
+file_name_and_source=data[!duplicated(data[ , c("db","dataset_id")]),]
+
+table(file_name_and_source$db)
+```
+
+
+Find problematic datasets:
+```{r}
+library(dplyr)
+high_delta_ll_datasets = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, n_loci, delta_ll_second_phase,ll_pearson_during_tree_search)
+print(high_delta_ll_datasets)
+low_pearson_datasets = select(data%>%filter(ll_pearson_during_tree_search==min(data$ll_pearson_during_tree_search)),dataset_id, n_loci,ll_pearson_during_tree_search,delta_ll_second_phase)
+print(low_pearson_datasets )
+```
+
+
+
+Aggregating data per MSA.
+```{r}
+nums <- unlist(lapply(data, is.numeric)) 
+agg = aggregate(data[nums], by=list(data$dataset_id), mean,na.action = na.pass)
+
+
+print(summary(agg$rho))
+#simple regressions and scatter plots
+simple.regression((1/agg$n_loci),log(agg$sample_pct), "sample pct vs. ~ n_loci",  "n_loci", "number_loci_chosen")
+
+
+#simple.regression(agg$sample_pct,((agg$pct_spr_moves)), "rho(i.) ~ pecerntage of chosen positions across #MSA",  "pecentage of chosen positions", "rho(i.)")
+
+#Non linear plot
+  plot((agg$n_loci),(agg$sample_pct))
+ggplot(agg, aes(x=(n_loci), y=(sample_pct))) + 
+  geom_point()+
+  geom_smooth()+
+  theme(plot.title = element_text(hjust = 0.5,size=13)) +theme(text = element_text(size = 12))+
+  labs(title= "Percentage of positions chosen by lasso vs. number of positions",
+                      y="Percentage of positions chosen by lasso", x = "Number of positions")
+
+
+#Histograms
+plot.hist(agg$n_loci,"Number of positions across MSA","number of positions")
+plot.hist(agg$delta_likelihood,"Mean log delta likelihood values across MSAs ","Mean log delta likelihood")
+plot.hist(agg$rho,"mean value of rho across MSAs ","mean value of rho")
+plot.hist(agg$prediction_rho_pearson**2,"R squared during tree search across MSAs","")
+```
+
+
+
+
+Visualizing the fitted regression line per dataset
+
+```{r}
+library
+lm = lm(log(pct_spr_moves)~n_loci , data = data)
+lm1 = lm(log(pct_spr_moves)~n_loci+dataset_id , data = data)
+visreg(lm, "n_loci" ,overlay =TRUE, legend = FALSE)
+visreg(lm1, "n_loci", by=("dataset_id") ,overlay =TRUE, legend = FALSE)
+
+```
+
+Generating a linear mixed model
+```{r}
+#centering predictors
+plot(data$n_loci, data$sample_pct)
+data$n_loci_centered = data$n_loci-mean(data$n_loci)
+data$full_data_SPR_moves_centered = data$full_data_SPR_moves  -mean(data$full_data_SPR_moves)
+#mixed model
+pct_spr_moves_lmer = lmer(log(rho)~(1|dataset_id)+n_loci_centered,data)
+print(summary(pct_spr_moves_lmer))
+qqnorm(ranef(pct_spr_moves_lmer)$dataset_id[, "(Intercept)"], main = "Random effects")
+plot((pct_spr_moves_lmer))
+
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

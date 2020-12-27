@@ -71,17 +71,18 @@ def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_d
            "{raxml_exe_path} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
                                                                                                                                   msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix)
     execute_commnand_and_write_to_log(parsimony_tree_generation_command)
-    parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
-    msa_stats["raxml_parsimony_tree_path"]=parsimony_tree_path
-    check_file_existence(parsimony_tree_path, "Parsimony tree")
-    parsimony_divergence = compute_tree_divergence(parsimony_tree_path)
+    constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
+    msa_stats["raxml_parsimony_tree_path"]=constant_branch_length_parsimony_tree_path
+    check_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
-    parsimony_tree_alpha_evaluation_command = (
+    parsimony_model_and_bl_evaluation_command = (
          "{raxml_exe_path} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
-                                                                                                                              msa_path=full_file_path, parsimony_tree_path=parsimony_tree_path, prefix=  parsimony_model_evaluation_prefix)
-    execute_commnand_and_write_to_log(parsimony_tree_alpha_evaluation_command)
+                                                                                                                              msa_path=full_file_path, parsimony_tree_path=constant_branch_length_parsimony_tree_path, prefix=  parsimony_model_evaluation_prefix)
+    execute_commnand_and_write_to_log(parsimony_model_and_bl_evaluation_command)
     parsimony_log_path = parsimony_model_evaluation_prefix+".raxml.log"
     check_file_existence(parsimony_log_path, "Parsimony log")
+    parsimony_optimized_tree_path=parsimony_model_evaluation_prefix+".raxml.bestTree"
+    parsimony_divergence = compute_tree_divergence(parsimony_optimized_tree_path)
     parsimony_tree_alpha = extract_param_from_log(parsimony_log_path, "alpha")
     msa_stats["alpha"] = parsimony_tree_alpha
     msa_stats["divergence"]=parsimony_divergence
