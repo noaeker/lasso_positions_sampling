@@ -43,9 +43,9 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
             job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python;' \
                 ' python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py' \
                 ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} --max_n_sequences {max_n_sequences} ' \
-                '--n_random_starting_trees {n_random_starting_trees} --random_trees_training_size {random_trees_training_size} {only_evaluate_lasso_arg}\t{job_name}'.format(
+                '--n_random_starting_trees {n_random_starting_trees} --random_trees_training_size {random_trees_training_size} --random_trees_test_size {random_trees_test_size} {only_evaluate_lasso_arg}\t{job_name}'.format(
                 job_ind=job_ind, curr_job_folder=curr_job_folder, max_n_sequences=max_n_sequences,
-                n_random_starting_trees=n_random_starting_trees,random_trees_training_size=random_trees_training_size, only_evaluate_lasso_arg=only_evaluate_lasso_arg,
+                n_random_starting_trees=n_random_starting_trees,random_trees_training_size=random_trees_training_size,random_trees_test_size=random_trees_test_size, only_evaluate_lasso_arg=only_evaluate_lasso_arg,
                 jobs_prefix=jobs_prefix, job_name=jobs_prefix + str(job_ind))
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:

@@ -219,7 +219,6 @@ data$n_loci_centered = data$n_loci-mean(data$n_loci)
 data$naive_SPR_spr_moves_centered = data$naive_SPR_spr_moves  -mean(data$naive_SPR_spr_moves)
 data$divergence_centered = data$divergence-mean(data$divergence)
 #mixed model
-print(select(data%>%filter(rho_second_phase==0),lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves, naive_SPR_spr_moves))
 #pct_spr_moves_lmer = lmer(log(rho_second_phase)~(1|dataset_id)+n_loci_centered+divergence_centered,data)
 #print(summary(pct_spr_moves_lmer))
 #qqnorm(ranef(pct_spr_moves_lmer)$dataset_id[, "(Intercept)"], main = "Random effects")
