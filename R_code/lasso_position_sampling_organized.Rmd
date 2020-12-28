@@ -28,6 +28,9 @@ if (nrow(data)<nrow(data_unified))
 data=data[data$current_starting_tree_type=="RANDOM"&data$n_seq==5 ,]
 write.csv(data,"data.csv", row.names = FALSE)
 
+num_cols <- unlist(lapply(data, is.numeric)) 
+agg_per_msa = aggregate(data[num_cols], by=list(data$dataset_id), mean,na.action = na.pass)
+
 
 ```
 
@@ -87,10 +90,13 @@ table(file_name_and_source$db)
 Find problematic datasets:
 ```{r}
 library(dplyr)
-high_delta_ll_datasets = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, n_loci, delta_ll_second_phase,ll_pearson_during_tree_search)
-print(high_delta_ll_datasets)
+high_delta_ll_datasets_first_phase = select(data%>%filter(delta_ll_first_phase==max(data$delta_ll_first_phase)),dataset_id, n_loci,delta_ll_first_phase, delta_ll_second_phase,ll_pearson_during_tree_search, divergence, avg_entropy, n_loci,number_loci_chosen, sample_pct,lasso_test_R.2,lasso_training_R.2)
+high_delta_ll_datasets_second_phase = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, n_loci, delta_ll_first_phase, delta_ll_second_phase,ll_pearson_during_tree_search)
 low_pearson_datasets = select(data%>%filter(ll_pearson_during_tree_search==min(data$ll_pearson_during_tree_search)),dataset_id, n_loci,ll_pearson_during_tree_search,delta_ll_second_phase)
-print(low_pearson_datasets )
+print(select(data%>%filter(rho_second_phase==0),lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves, naive_SPR_spr_moves))
+
+print(high_delta_ll_datasets_first_phase)
+#print(low_pearson_datasets )
 ```
 
 
@@ -125,11 +131,22 @@ print(summary(data$sample_pct))
 plot.hist(data$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
 plot.hist(data$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
 
-#simple.regression(x=data$divergence, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", #xlab="divergence",ylab="lasso_test_R.2")
+simple.regression(x=data$divergence, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", xlab="divergence",ylab="lasso_test_R.2")
 
 simple.regression(x=data$avg_entropy, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. Entropy", xlab="Entropy",ylab="lasso_test_R.2")
 
 simple.regression(x=data$n_loci, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions", xlab="Number of positions",ylab="lasso_test_R.2")
+
+plot.hist(data$delta_ll_first_phase,"Histogram of delta likelihood values across MSAs and starting trees", xlab="delta log likelihood value")
+
+plot((agg_per_msa$n_loci),(agg_per_msa $sample_pct))
+ggplot(agg_per_msa, aes(x=(n_loci), y=(sample_pct))) + 
+  geom_point()+
+  geom_smooth()+
+  theme(plot.title = element_text(hjust = 0.5,size=13)) +theme(text = element_text(size = 12))+
+  labs(title= "Percentage of positions chosen by lasso vs. number of positions across MSAs",
+                      y="Percentage of positions chosen by lasso", x = "Number of positions")
+
 
 
 ```
@@ -137,57 +154,53 @@ simple.regression(x=data$n_loci, y=data$lasso_test_R.2, main= "Lasso test R^2 vs
 Effect on the SPR search on the example MSA:
 Many starting trees on one chosen dataset
 ```{r}
-job_0_data = data%>%filter(job_id==0)
+
+job_0_data = data%>%filter(job_id==24)
 plot.hist(job_0_data$delta_ll_first_phase, main="Histogram of delta log likelihood values between naive SPR and its lasso based variant", xlab="Delta log likelihood", title_size=12, text_size=11)
-best_tree = max(job_0_data$best_topology_up_to_first_phase) # removing duplicates
-ll_winner = max(job_0_data$ll_winner_up_to_first_phase)
-ll_winner_value=ifelse(ll_winner=="naive_spr", max(job_0_data$best_naive_spr_ll),max(job_0_data$best_lasso_SPR_first_phase_ll)) 
-print(job_0_data$rf_naive_vs_first_phase)
-cat("best tree is :",best_tree) #lasso got it xxx times, naive got it yyy times
-#The average RF  between best tree and lasso is:
-#the average RF between best tree and naive is:
-average_spr_moves_naive = job_0_data[""]
+best_tree = max(job_0_data$overall_best_topology_first_phase ) # removing duplicates
+cat("best tree is :",best_tree,"\n") #lasso got it xxx times, naive got it yyy times
+lasso_cnt_best_tree=sum(job_0_data$rf_first_phase_vs_overall_best==0)
+naive_cnt_best_tree=sum(job_0_data$rf_naive_vs_overall_best_first_phase==0)
+cat("Lasso got best tree",lasso_cnt_best_tree,"times\n")
+cat("Naive got best tree",naive_cnt_best_tree,"times\n")
+avg_rf_best_tree_lasso= mean(job_0_data$rf_first_phase_vs_overall_best)
+avg_rf_best_tree_naive=mean(job_0_data$rf_naive_vs_overall_best_first_phase)
+cat("The average RF  between best tree and lasso is:",avg_rf_best_tree_lasso,"\n")
+cat("The average RF between best tree and naive is:", avg_rf_best_tree_naive,"\n")
+average_spr_moves_naive = mean(job_0_data$naive_SPR_spr_moves)
+average_spr_moves_lasso_first_phase = mean(job_0_data$lasso_SPR_first_phase_spr_moves)
+cat("Average number of SPR steps in naive SPR is:", average_spr_moves_naive,"\n")
+cat("Average number of SPR steps in lasso first phase SPR variant is:", average_spr_moves_lasso_first_phase,"\n" )
+plot.hist(job_0_data$rho_first_phase,main="Histogram of rho across different starting trees",xlab="rho")
 ```
 
 
+Effect on the SPR search on the example MSA on xxx datasets:
 
-
-
-
-Aggregating data per MSA.
 ```{r}
-nums <- unlist(lapply(data, is.numeric)) 
-agg = aggregate(data[nums], by=list(data$dataset_id), mean,na.action = na.pass)
+plot.hist(data$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search", xlab="R^2 during tree #search")
+plot.hist(data$naive_SPR_spr_moves, main = "Histogram of naive SPR moves across different MSAs and starting trees", xlab="SPR moves")
+plot.hist(data$rho_first_phase,main="Histogram of rho across different MSAs and starting trees",xlab="rho")
+plot.hist(data$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees",xlab="rho")
+simple.regression(x=data$ll_pearson_during_tree_search^2,y=data$lasso_test_R.2,main="Lasso test R^2 vs R^2 during tree search",xlab="R^2 during tree search",ylab="Lasso test R^2")
 
 
-print(summary(agg$rho))
-#simple regressions and scatter plots
-simple.regression((1/agg$n_loci),log(agg$sample_pct), "sample pct vs. ~ n_loci",  "n_loci", "number_loci_chosen")
+#same on aggregated data:
+plot.hist(agg_per_msa$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search (aggregated)", xlab="R^2 during tree #search")
+plot.hist(agg_per_msa$naive_SPR_spr_moves, main = "Histogram of SPR naive moves across different MSAs and starting trees (aggregated)", xlab="SPR moves")
+plot.hist(agg_per_msa$rho_first_phase,main="Histogram of rho across different MSAs and starting trees (aggregated)",xlab="rho")
+plot.hist(agg_per_msa$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees (aggregated)",xlab="rho")
+simple.regression(x=agg_per_msa$ll_pearson_during_tree_search^2,y=agg_per_msa$lasso_test_R.2,main="Lasso test R^2 vs R^2 during tree search (aggregated)",xlab="R^2 during tree search",ylab="Lasso test R^2")
 
 
-#simple.regression(agg$sample_pct,((agg$pct_spr_moves)), "rho(i.) ~ pecerntage of chosen positions across #MSA",  "pecentage of chosen positions", "rho(i.)")
-
-#Non linear plot
-  plot((agg$n_loci),(agg$sample_pct))
-ggplot(agg, aes(x=(n_loci), y=(sample_pct))) + 
-  geom_point()+
-  geom_smooth()+
-  theme(plot.title = element_text(hjust = 0.5,size=13)) +theme(text = element_text(size = 12))+
-  labs(title= "Percentage of positions chosen by lasso vs. number of positions",
-                      y="Percentage of positions chosen by lasso", x = "Number of positions")
 
 
-#Histograms
-plot.hist(agg$n_loci,"Number of positions across MSA","number of positions")
-plot.hist(agg$delta_likelihood,"Mean log delta likelihood values across MSAs ","Mean log delta likelihood")
-plot.hist(agg$rho,"mean value of rho across MSAs ","mean value of rho")
-plot.hist(agg$prediction_rho_pearson**2,"R squared during tree search across MSAs","")
 ```
 
 
 
 
-Visualizing the fitted regression line per dataset
+Visualizing  fitted regression line of rho~ n_loci per dataset
 
 ```{r}
 library
@@ -201,14 +214,16 @@ visreg(lm1, "n_loci", by=("dataset_id") ,overlay =TRUE, legend = FALSE)
 Generating a linear mixed model
 ```{r}
 #centering predictors
-plot(data$n_loci, data$sample_pct)
+plot(data$n_loci, data$rho_second_phase)
 data$n_loci_centered = data$n_loci-mean(data$n_loci)
-data$full_data_SPR_moves_centered = data$full_data_SPR_moves  -mean(data$full_data_SPR_moves)
+data$naive_SPR_spr_moves_centered = data$naive_SPR_spr_moves  -mean(data$naive_SPR_spr_moves)
+data$divergence_centered = data$divergence-mean(data$divergence)
 #mixed model
-pct_spr_moves_lmer = lmer(log(rho)~(1|dataset_id)+n_loci_centered,data)
-print(summary(pct_spr_moves_lmer))
-qqnorm(ranef(pct_spr_moves_lmer)$dataset_id[, "(Intercept)"], main = "Random effects")
-plot((pct_spr_moves_lmer))
+print(select(data%>%filter(rho_second_phase==0),lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves, naive_SPR_spr_moves))
+#pct_spr_moves_lmer = lmer(log(rho_second_phase)~(1|dataset_id)+n_loci_centered+divergence_centered,data)
+#print(summary(pct_spr_moves_lmer))
+#qqnorm(ranef(pct_spr_moves_lmer)$dataset_id[, "(Intercept)"], main = "Random effects")
+#plot((pct_spr_moves_lmer))
 
 
 ```

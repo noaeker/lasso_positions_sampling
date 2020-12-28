@@ -50,7 +50,7 @@ def apply_lasso_on_data_and_update_stats(curr_msa_stats):
                                                                               y_training), lasso_model.predict(
                 sitelh_training_df)
             test_r_squared, test_predicted_values, y_test, sitelh_test_df = evaluate_lasso_performance_on_test_data(
-                lasso_model, curr_msa_stats, RANDOM_TREES_TEST_SIZE)
+                lasso_model, curr_msa_stats, curr_msa_stats["random_trees_test_size"])
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_training, sitelh_training_df,
                                            test_predicted_values, y_test,

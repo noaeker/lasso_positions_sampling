@@ -198,7 +198,7 @@ def get_positions_stats(original_alignment_df, n_seq):
 
 
 def generate_msa_general_stats(original_alignment_path, file_ind, current_job_results_folder, job, max_n_seq,
-                               n_random_starting_trees
+                               n_random_starting_trees,random_trees_training_size, random_trees_test_size
                                ):
     dataset_id = original_alignment_path
     file_name = str(file_ind)
@@ -229,7 +229,9 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
                       "file_name": file_name,
                       "file_type": file_type,
                       "file_type_biopython": file_type_biopython,
-                      "random_trees_sample_size": n_random_starting_trees,
+                      "n_random_starting_trees": n_random_starting_trees,
+                      "random_trees_training_size": random_trees_training_size,
+                      "random_trees_test_size": random_trees_test_size,
                       "max_number_of_msa_sequences": max_n_seq,
                       "informative columns count": informative_columns_count,
                       "avg_entropy": avg_entropy
@@ -271,8 +273,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size, args.only_evaluate_lasso
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size,args.random_trees_test_size, args.only_evaluate_lasso
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -294,7 +296,7 @@ def main():
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
         logging.info(' #running on file ind ' + str(file_ind) + " path=" + str(original_alignment_path))
         curr_msa_stats = generate_msa_general_stats(
-            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees)
+            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees,random_trees_training_size, random_trees_test_size)
         try:
 
             logging.info("Computing raxml result on full data:")

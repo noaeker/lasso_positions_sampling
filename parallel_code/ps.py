@@ -14,7 +14,7 @@ def generate_results_folder(curr_run_prefix):
 
 
 def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_sequences,
-                              n_random_starting_trees,random_trees_training_size, jobs_prefix, only_evaluate_lasso):
+                              n_random_starting_trees,random_trees_training_size,random_trees_test_size, jobs_prefix, only_evaluate_lasso):
     jobs_csv_path_list = []
     status_file_path_list = []
     files_per_job = int(len(path_list) / n_jobs)
@@ -57,7 +57,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
             theproc = subprocess.Popen(
                 [sys.executable, msa_code_location, "--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder,
                  "--max_n_sequences", str(max_n_sequences), '--n_random_starting_trees', str(n_random_starting_trees),'--random_trees_training_size',
-                 str(random_trees_training_size)] + only_evaluate_lasso_arg)
+                 str(random_trees_training_size),'--random_trees_test_size', str(random_trees_test_size)] + only_evaluate_lasso_arg)
             theproc.communicate()
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}
@@ -71,9 +71,9 @@ def main():
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
     logging.info("boolean data type is " + str(type(args.only_evaluate_lasso)))
     logging.info(
-        "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nrandom_trees_training_size = {} \nonly_evaluate_lasso={}".format(
+        "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nrandom_trees_training_size = {}\nrandom_trees_test_size = {} \nonly_evaluate_lasso={}".format(
             args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq, args.n_random_starting_trees,
-            args.random_trees_training_size,
+            args.random_trees_training_size,args.random_trees_test_size,
             args.only_evaluate_lasso))
     all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
     all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
@@ -91,7 +91,7 @@ def main():
     logging.debug("Alignment files are " + str(file_path_list))
     csv_path_to_status_path_dict = distribute_MSAs_over_jobs(file_path_list, args.n_jobs,
                                                              all_jobs_results_folder, args.max_n_seq,
-                                                             args.n_random_starting_trees,args.random_trees_training_size, args.jobs_prefix,
+                                                             args.n_random_starting_trees,args.random_trees_training_size,args.random_trees_test_size, args.jobs_prefix,
                                                              args.only_evaluate_lasso)
     while len(csv_path_to_status_path_dict) > 0:
         # logging.info(f'***Checking CSVs status***')
