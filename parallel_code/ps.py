@@ -85,7 +85,7 @@ def main():
         file_path_list = [f for f in file_path_list if f not in pd.read_csv(all_jobs_backup_csv)["dataset_id"].unique()]
         logging.info(
             "After removing files that exist in {} there are {} MSAs".format(all_jobs_backup_csv, len(file_path_list)))
-    file_path_list = remove_MSAs_with_not_enough_seq(file_path_list, MIN_N_SEQ)
+    file_path_list = remove_MSAs_with_not_enough_seq(file_path_list,  args.max_n_seq)
     logging.info("There are {} MSAs with at least {} sequences".format(len(file_path_list), MIN_N_SEQ))
     file_path_list = file_path_list[args.first_msa_ind:args.first_msa_ind + args.n_MSAs]
     logging.debug("Alignment files are " + str(file_path_list))
