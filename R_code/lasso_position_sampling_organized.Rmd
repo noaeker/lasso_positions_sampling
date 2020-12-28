@@ -33,7 +33,7 @@ write.csv(data,"data.csv", row.names = FALSE)
 
 Usefull functions
 ```{r}
-plot.hist<-function(x,main,xlab)
+plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
 {
   qplot(x,
       geom="histogram",
@@ -43,7 +43,7 @@ plot.hist<-function(x,main,xlab)
       col=I("red"), 
       alpha=I(.2),
       #xlim=c(20,50)
-      ) +  theme(plot.title = element_text(hjust = 0.5,size=13)) +theme(text = element_text(size = 12)) 
+      ) +  theme(plot.title = element_text(hjust = 0.5,size=title_size)) +theme(text = element_text(size = text_size)) 
 
 }
 
@@ -65,6 +65,34 @@ abline(0, 0)}
 
 
 ```
+
+Expanding the dataset with new fields
+```{r}
+data$rho_second_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_second_phase_spr_moves+(data$lasso_SPR_first_phase_spr_moves*data$sample_pct))
+data$rho_first_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_first_phase_spr_moves*data$sample_pct)
+data$delta_ll_second_phase = data$naive_SPR_ll-data$lasso_SPR_second_phase_ll
+data$delta_ll_first_phase = data$naive_SPR_ll-data$lasso_SPR_first_phase_ll
+
+```
+
+
+Counting the different sources
+```{r}
+file_name_and_source=data[!duplicated(data[ , c("db","dataset_id")]),]
+
+table(file_name_and_source$db)
+```
+
+
+Find problematic datasets:
+```{r}
+library(dplyr)
+high_delta_ll_datasets = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, n_loci, delta_ll_second_phase,ll_pearson_during_tree_search)
+print(high_delta_ll_datasets)
+low_pearson_datasets = select(data%>%filter(ll_pearson_during_tree_search==min(data$ll_pearson_during_tree_search)),dataset_id, n_loci,ll_pearson_during_tree_search,delta_ll_second_phase)
+print(low_pearson_datasets )
+```
+
 
 An example of the LL approximation
 
@@ -97,37 +125,32 @@ print(summary(data$sample_pct))
 plot.hist(data$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
 plot.hist(data$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
 
-# Checking if 
+#simple.regression(x=data$divergence, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", #xlab="divergence",ylab="lasso_test_R.2")
+
+simple.regression(x=data$avg_entropy, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. Entropy", xlab="Entropy",ylab="lasso_test_R.2")
+
+simple.regression(x=data$n_loci, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions", xlab="Number of positions",ylab="lasso_test_R.2")
+
 
 ```
 
-
-Expanding the dataset with new fields
+Effect on the SPR search on the example MSA:
+Many starting trees on one chosen dataset
 ```{r}
-data$rho_second_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_second_phase_spr_moves+(data$lasso_SPR_first_phase_spr_moves*data$sample_pct))
-data$rho_first_phase = data$naive_SPR_spr_moves/(data$lasso_SPR_first_phase_spr_moves*data$sample_pct)
-data$delta_ll_second_phase = data$naive_SPR_ll-data$lasso_SPR_second_phase_ll
-data$delta_ll_first_phase = data$naive_SPR_ll-data$lasso_SPR_first_phase_ll
-
+job_0_data = data%>%filter(job_id==0)
+plot.hist(job_0_data$delta_ll_first_phase, main="Histogram of delta log likelihood values between naive SPR and its lasso based variant", xlab="Delta log likelihood", title_size=12, text_size=11)
+best_tree = max(job_0_data$best_topology_up_to_first_phase) # removing duplicates
+ll_winner = max(job_0_data$ll_winner_up_to_first_phase)
+ll_winner_value=ifelse(ll_winner=="naive_spr", max(job_0_data$best_naive_spr_ll),max(job_0_data$best_lasso_SPR_first_phase_ll)) 
+print(job_0_data$rf_naive_vs_first_phase)
+cat("best tree is :",best_tree) #lasso got it xxx times, naive got it yyy times
+#The average RF  between best tree and lasso is:
+#the average RF between best tree and naive is:
+average_spr_moves_naive = job_0_data[""]
 ```
 
 
-Counting the different sources
-```{r}
-file_name_and_source=data[!duplicated(data[ , c("db","dataset_id")]),]
 
-table(file_name_and_source$db)
-```
-
-
-Find problematic datasets:
-```{r}
-library(dplyr)
-high_delta_ll_datasets = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, n_loci, delta_ll_second_phase,ll_pearson_during_tree_search)
-print(high_delta_ll_datasets)
-low_pearson_datasets = select(data%>%filter(ll_pearson_during_tree_search==min(data$ll_pearson_during_tree_search)),dataset_id, n_loci,ll_pearson_during_tree_search,delta_ll_second_phase)
-print(low_pearson_datasets )
-```
 
 
 
