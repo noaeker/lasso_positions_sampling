@@ -206,8 +206,8 @@ def get_SPR_file_prefixs(unique_name):
 
 
 def analyze_ll_comparison_df(ll_comparison_df):
+    mistake_cnt = 0
     for iteration in ll_comparison_df['iteration number'].unique():
-        mistake_cnt = 0
         curr_iter_ll_comparison_df = ll_comparison_df[ll_comparison_df['iteration number'] == iteration]
         maxvalueIndexLabel = curr_iter_ll_comparison_df.idxmax()
         if maxvalueIndexLabel['full msa ll'] != maxvalueIndexLabel['sampled msa ll']:

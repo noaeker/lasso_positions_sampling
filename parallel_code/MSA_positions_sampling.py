@@ -233,7 +233,7 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
                       "random_trees_training_size": random_trees_training_size,
                       "random_trees_test_size": random_trees_test_size,
                       "max_number_of_msa_sequences": max_n_seq,
-                      "informative columns count": informative_columns_count,
+                      "informative_columns_count": informative_columns_count,
                       "avg_entropy": avg_entropy
 
                       }
