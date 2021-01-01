@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import os
 
-LOCAL_RUN = True#True
+LOCAL_RUN = False #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 

@@ -20,13 +20,23 @@ library(visreg)
 library(stringr)
 library(dplyr)
 
-output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_raxml_10_taxa.csv",header = TRUE, na.strings = ""))
+spr_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_raxml_10_taxa.csv",header = TRUE, na.strings = ""))
+lasso_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_eval.csv",header = TRUE, na.strings = ""))
 data_source = data.frame(read.csv("/Users/noa/Workspace/data/sampled_datasets.csv",header = TRUE, na.strings = ""))
-output_data$relative_path = str_replace_all(output_data$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
-data= merge(output_data,data_source,by.x="relative_path",by.y="path")
-if (nrow(data)<nrow(output_data))
+
+
+lasso_output_data$relative_path = str_replace_all(lasso_output_data$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
+spr_output_data$relative_path = str_replace_all(spr_output_data$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
+
+data= merge(spr_output_data,data_source,by.x="relative_path",by.y="path")
+if (nrow(data)<nrow(spr_output_data))
   {print("Problem in matching path names")}
 data=data[data$current_starting_tree_type=="RANDOM"&data$n_seq==10 ,]
+
+
+data_only_lasso= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path")
+if (nrow(data)<nrow(lasso_output_data))
+  {print("Problem in matching path names")}
 
 #Lasso train and test example
 test_df= data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
@@ -56,7 +66,7 @@ plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
   qplot(x,
       geom="histogram",
       main = main, 
-      xlab = xlab,  
+      xlab = xlab,
       fill=I("blue"), 
       col=I("red"), 
       alpha=I(.2),
@@ -97,6 +107,11 @@ theme(plot.title = element_text(size=title.size))
 
 Counting the different sources
 ```{r}
+file_name_and_source_lasso=data_only_lasso[!duplicated(data_only_lasso[ , c("db","dataset_id")]),]
+
+table(file_name_and_source_lasso$db)
+
+
 file_name_and_source=data[!duplicated(data[ , c("db","dataset_id")]),]
 
 table(file_name_and_source$db)
@@ -140,25 +155,24 @@ simple.regression(test_df$test_true_val,test_df$test_predicted_val,"Test set pre
 LL approximation on xxx datasets:
 ```{r}
 print("lasso training R^2:")
-print(summary(data$lasso_training_R.2))
+print(summary(data_only_lasso$lasso_training_R.2))
 print("lasso test R^2:")
-print(summary(data$lasso_test_R.2))
+print(summary(data_only_lasso$lasso_test_R.2))
 print("lasso sample pct :")
-print(summary(data$sample_pct))
-plot.hist(data$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
-plot.hist(data$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
+print(summary(data_only_lasso$sample_pct))
+plot.hist(data_only_lasso$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
+plot.hist(data_only_lasso$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
 
-simple.regression(x=data$divergence, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", xlab="divergence",ylab="lasso_test_R.2")
+simple.regression(x=data_only_lasso$divergence, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", xlab="divergence",ylab="lasso_test_R.2")
 
-simple.regression(x=data$avg_entropy, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. Entropy", xlab="Entropy",ylab="lasso_test_R.2")
+simple.regression(x=data_only_lasso$avg_entropy, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. Entropy", xlab="Entropy",ylab="lasso_test_R.2")
 
-simple.regression(x=data$n_loci, y=data$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions", xlab="Number of positions",ylab="lasso_test_R.2")
+simple.regression(x=data_only_lasso$n_loci, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions", xlab="Number of positions",ylab="lasso_test_R.2")
 
-simple.regression(x=data$number_loci_chosen , y=data$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions chosen by Lasso", xlab="Number of positions chosen bvy lasso",ylab="lasso_test_R.2")
+simple.regression(x=data_only_lasso$number_loci_chosen , y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions chosen by Lasso", xlab="Number of positions chosen bvy lasso",ylab="lasso_test_R.2")
 
-plot.hist(data$delta_ll_first_phase,"Histogram of delta likelihood values across MSAs and starting trees", xlab="delta log likelihood value")
+plot.hist(data$data_only_lasso,"Histogram of delta likelihood values across MSAs and starting trees", xlab="delta log likelihood value")
 
-simple.regression(x=data$n_loci,y=1/data$sample_pct,main="Inverse fraction of positions chosen by Lasso vs. function of the number of positions",xlab="Number of positions",ylab="Inverse fraction of positions chosen by lasso",resid=TRUE)
 
 
 
@@ -201,11 +215,20 @@ print("Summary of R squared during tree search:")
 print(summary(data$ll_pearson_during_tree_search^2))
 print("Summary of delta ll:")
 print(summary(data$delta_ll_first_phase))
+print("Summary: Standard SPR spr moves:")
+print(summary(data$naive_SPR_spr_moves))
+print("Summary: Lasso SPR spr moves")
+print(summary(data$lasso_SPR_first_phase_spr_moves))
+print("Summary: rho")
+print(summary(data$rho_first_phase))
+
 plot.hist(data$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search", xlab="R^2 during tree search")
-two.groups.hist(data$naive_SPR_spr_moves, data$lasso_SPR_first_phase_spr_moves,"Standard SPR spr moves","Lasso-based SPR spr moves","Histogram of standard SPR spr moves and lasso-based SPR spr moves across different MSAs and starting trees","Number of SPR moves")
+two.groups.hist(data$naive_SPR_spr_moves, data$lasso_SPR_first_phase_spr_moves,"Standard SPR spr moves","Lasso-based SPR spr moves","Histogram of standard SPR spr moves and lasso-based SPR spr moves","Number of SPR moves",title.size=12)
 plot.hist(data$naive_SPR_spr_moves, main = "Histogram of naive SPR spr moves across different MSAs and starting trees", xlab="SPR moves")
-plot.hist(data$rho_first_phase,main="Histogram of rho across different MSAs and starting trees",xlab="rho")
+plot.hist(data$rho_first_phase,main="Histogram of rho",xlab="rho")
 plot.hist(data$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees",xlab="delta ll")
+#plot.hist(data$mistake_cnt,"Histogram of mistakes count per each MSA and starting tree", xlab="mistake cnt")
+
 simple.regression(x=data$ll_pearson_during_tree_search^2,y=data$lasso_test_R.2,main="Lasso test R^2 vs R^2 during tree search",xlab="R^2 during tree search",ylab="Lasso test R^2")
 
 
@@ -244,8 +267,8 @@ cat("Average number of SPR steps in naive SPR is:", average_spr_moves_naive,"\n"
 cat("Average number of SPR steps in lasso first phase SPR variant is:", average_spr_moves_lasso_first_phase,"\n" )
 cat("Average number of SPR steps in lasso second phase SPR variant is:", average_spr_moves_lasso_seond_phase,"\n" )
 plot.hist(example_MSA_data$rho_second_phase ,main="Histogram of rho across different starting trees",xlab="rho")
-
-
+plot.hist(example_MSA_data$lasso_SPR_second_phase_spr_moves, main="Histogram of number of SPR moves during the Lasso second phase",xlab="Spr moves")
+print(example_MSA_data$lasso_SPR_second_phase_spr_moves)
 
 ```
 

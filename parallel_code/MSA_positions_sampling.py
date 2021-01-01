@@ -267,7 +267,7 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
         {"file_name": file_name_reduced, "local_alignment_path": raxml_reduced_file_renamed, "n_seq": n_seq_reduced,
          "n_loci": n_loci_reduced,
          "alignment_data": reduced_data,
-         "informative _columns_count": informative_columns_count_reduced,
+         "informative_columns_count": informative_columns_count_reduced,
          "avg_entropy": avg_entropy_reduced,
          "gap_pct" : gap_pct_reduced
          })
@@ -327,10 +327,9 @@ def main():
         else:
             all_MSA_results = add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, job_csv_path,
                                                    all_MSA_results)
-        with open(curr_job_status_file, 'w') as job_status_f:
-            job_status_f.write("Done")
-            # delete_file_content(general_log_path)
-            # delete_file_content(spr_log_path)
+    with open(curr_job_status_file, 'w') as job_status_f:
+        job_status_f.write("Done")
+
 
 
 if __name__ == "__main__":

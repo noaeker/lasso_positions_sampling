@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="" />
+    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/R_code/lasso_position_sampling_organized.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/lasso_position_sampling_organized.Rmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="28" selection-start-line="28" selection-end-line="28" selection-end-column="9" />
+            <state relative-caret-position="-411">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -46,8 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="179" column="15" lean-forward="true" selection-start-line="179" selection-start-column="15" selection-end-line="179" selection-end-column="15" />
+            <state relative-caret-position="261">
+              <caret line="177" column="83" lean-forward="true" selection-start-line="177" selection-start-column="83" selection-end-line="177" selection-end-column="83" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -67,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="324" column="80" lean-forward="true" selection-start-line="324" selection-start-column="80" selection-end-line="324" selection-end-column="80" />
+            <state relative-caret-position="390">
+              <caret line="332" column="43" lean-forward="true" selection-start-line="332" selection-start-column="43" selection-end-line="332" selection-end-column="43" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -136,9 +140,9 @@
       <find>mistake</find>
       <find>evaluate_lasso_performance_on_test_data</find>
       <find>divergence</find>
-      <find>informative</find>
       <find>remove</find>
       <find>remove_MSAs_with_not_enough_seq</find>
+      <find>informative</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -168,11 +172,11 @@
         <option value="$PROJECT_DIR$/parallel_code/five_taxa.cmds" />
         <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/parallel_code/generate_SPR.py" />
-        <option value="$PROJECT_DIR$/parallel_code/config.py" />
         <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
-        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
         <option value="$PROJECT_DIR$/parallel_code/help_functions.py" />
         <option value="$PROJECT_DIR$/parallel_code/ps.py" />
+        <option value="$PROJECT_DIR$/parallel_code/config.py" />
+        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
       </list>
     </option>
   </component>
@@ -420,16 +424,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>327</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>319</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py</url>
           <line>7</line>
           <option name="timeStamp" value="20" />
@@ -453,6 +447,11 @@
           <url>file://$PROJECT_DIR$/parallel_code/help_functions.py</url>
           <line>175</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
+          <line>324</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -647,16 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="28" selection-start-line="28" selection-end-line="28" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
@@ -666,18 +655,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="179" column="15" lean-forward="true" selection-start-line="179" selection-start-column="15" selection-end-line="179" selection-end-column="15" />
+        <state relative-caret-position="261">
+          <caret line="177" column="83" lean-forward="true" selection-start-line="177" selection-start-column="83" selection-end-line="177" selection-end-column="83" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-411">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="324" column="80" lean-forward="true" selection-start-line="324" selection-start-column="80" selection-end-line="324" selection-end-column="80" />
+        <state relative-caret-position="390">
+          <caret line="332" column="43" lean-forward="true" selection-start-line="332" selection-start-column="43" selection-end-line="332" selection-end-column="43" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>
