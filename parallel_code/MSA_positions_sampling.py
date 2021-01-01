@@ -179,11 +179,12 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
         delete_dir_content(curr_run_directory)
     else:
         os.mkdir(curr_run_directory)
-    run_raxml_on_full_dataset(full_data_path, full_data_unique_name, curr_msa_stats, curr_run_directory)
+    extract_raxml_statistics_from_msa(full_data_path, full_data_unique_name, curr_msa_stats, curr_run_directory)
 
 
-def get_positions_stats(original_alignment_df, n_seq):
-    counts_per_position = [dict(original_alignment_df[col].value_counts()) for col in list(original_alignment_df)]
+def get_positions_stats(alignment_df, n_seq):
+    counts_per_position = [dict(alignment_df[col].value_counts()) for col in list(alignment_df)]
+    gap_positions_pct = np.mean([counts_per_position[col].get('-', 0)/n_seq for col in range(len(counts_per_position))])
     position_mode = [
         sorted(counts_per_position[col].keys(), key=lambda val: counts_per_position[col][val], reverse=True)[0] for col
         in range(len(counts_per_position))]
@@ -191,10 +192,10 @@ def get_positions_stats(original_alignment_df, n_seq):
     informative_columns_count = len([i for i in range(len(counts_per_position)) if
                                      mode_freq_per_position[i] < (1 - (1 / (n_seq)))])
     probabilities = [list(map(lambda x: x / n_seq, counts_per_position[col].values())) for col in
-                     list(original_alignment_df)]
-    entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(original_alignment_df)]
-    avg_entropy = np.median(entropy)
-    return informative_columns_count, avg_entropy
+                     list(alignment_df)]
+    entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(alignment_df)]
+    avg_entropy = np.mean(entropy)
+    return informative_columns_count, avg_entropy,gap_positions_pct
 
 
 def generate_msa_general_stats(original_alignment_path, file_ind, current_job_results_folder, job, max_n_seq,
@@ -214,15 +215,16 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
     take_up_to_x_sequences(original_alignment_data, local_full_msa_path, max_n_seq, file_type_biopython)
     with open(local_full_msa_path) as original:
-        original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
-    original_alignment_df = alignment_list_to_df(original_alignment_data)
-    informative_columns_count, avg_entropy = get_positions_stats(original_alignment_df, orig_n_seq)
-    n_seq, n_loci = original_alignment_df.shape
-    curr_msa_stats = {"job_id": job, "n_seq": n_seq, "original_n_seq": orig_n_seq, "n_seq_before_reduction": n_seq,
-                      "n_loci": n_loci, "original_n_loci": n_loci, "dataset_id": dataset_id,
+       reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
+    reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data )
+    n_seq, n_loci = reduced_local_alignment_df.shape
+    informative_columns_count, avg_entropy,gap_positions_pct = get_positions_stats(reduced_local_alignment_df, n_seq)
+    curr_msa_stats = {"job_id": job, "n_seq": n_seq, "MSA_original_n_seq": orig_n_seq, "n_seq_before_reduction_by_RaxML": n_seq,
+                      "n_loci": n_loci, "MSA_original_n_loci": n_loci, "dataset_id": dataset_id,
                       "curr_msa_version_folder": curr_msa_version_folder,
                       "curr_job_results_folder": current_job_results_folder,
-                      "alignment_data": original_alignment_data,
+                      "alignment_data": reduced_local_alignment_data,
+                      "MSA_original_alignment_data": original_alignment_data,
                       "local_alignment_path": local_full_msa_path,
                       "full_data_unique_name": full_data_unique_name,
                       "file_ind": file_ind,
@@ -234,7 +236,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
                       "random_trees_test_size": random_trees_test_size,
                       "max_number_of_msa_sequences": max_n_seq,
                       "informative_columns_count": informative_columns_count,
-                      "avg_entropy": avg_entropy
+                      "avg_entropy": avg_entropy,
+                      "gap_pct" : gap_positions_pct
 
                       }
     logging.info("Basic MSA stats computed:\n {curr_msa_stats}".format(
@@ -257,15 +260,16 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
         n_loci_reduced = len(reduced_data[0].seq)
         n_seq_reduced = len(reduced_data)  # supposed to stay the same as "n_seq_before_reduction"
     original_alignment_df_reduced = alignment_list_to_df(reduced_data)
-    informative_columns_count_reduced, avg_entropy_reduced = get_positions_stats(original_alignment_df_reduced,
+    informative_columns_count_reduced, avg_entropy_reduced,gap_pct_reduced = get_positions_stats(original_alignment_df_reduced,
                                                                                  n_seq_reduced)
     reduced_curr_msa_stats = curr_msa_stats.copy()
     reduced_curr_msa_stats.update(
         {"file_name": file_name_reduced, "local_alignment_path": raxml_reduced_file_renamed, "n_seq": n_seq_reduced,
          "n_loci": n_loci_reduced,
          "alignment_data": reduced_data,
-         "informative columns count": informative_columns_count_reduced,
-         "avg_entropy": avg_entropy_reduced
+         "informative _columns_count": informative_columns_count_reduced,
+         "avg_entropy": avg_entropy_reduced,
+         "gap_pct" : gap_pct_reduced
          })
     logging.info("New msa stats for reduced data: {msa_stats}".format(msa_stats=reduced_curr_msa_stats))
     return reduced_curr_msa_stats

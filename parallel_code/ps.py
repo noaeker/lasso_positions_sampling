@@ -71,8 +71,8 @@ def main():
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
     logging.info("boolean data type is " + str(type(args.only_evaluate_lasso)))
     logging.info(
-        "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nn_random_starting_tree = {}\nrandom_trees_training_size = {}\nrandom_trees_test_size = {} \nonly_evaluate_lasso={}".format(
-            args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq, args.n_random_starting_trees,
+        "Program input:\nn_MSAs = {}\nn_jobs = {}\nMSA_start_ind = {}\nmax_n_sequences = {}\nmin_n_sequences = {}\nn_random_starting_tree = {}\nrandom_trees_training_size = {}\nrandom_trees_test_size = {} \nonly_evaluate_lasso={}".format(
+            args.n_MSAs, args.n_jobs, args.first_msa_ind, args.max_n_seq,args.min_n_seq, args.n_random_starting_trees,
             args.random_trees_training_size,args.random_trees_test_size,
             args.only_evaluate_lasso))
     all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
@@ -85,7 +85,7 @@ def main():
         file_path_list = [f for f in file_path_list if f not in pd.read_csv(all_jobs_backup_csv)["dataset_id"].unique()]
         logging.info(
             "After removing files that exist in {} there are {} MSAs".format(all_jobs_backup_csv, len(file_path_list)))
-    file_path_list = remove_MSAs_with_not_enough_seq(file_path_list,  args.max_n_seq)
+    file_path_list = remove_MSAs_with_not_enough_seq(file_path_list,  args.min_n_seq)
     logging.info("There are {} MSAs with at least {} sequences".format(len(file_path_list), args.max_n_seq))
     file_path_list = file_path_list[args.first_msa_ind:args.first_msa_ind + args.n_MSAs]
     logging.debug("Alignment files are " + str(file_path_list))

@@ -43,6 +43,18 @@ def extract_param_from_log(raxml_log_path, param_name):
             raise GENERAL_RAXML_ERROR(error_msg)
         return value
 
+def extract_mad_file_statistic(mad_log_path):
+    pattern  ="MAD=([\d.]+)"
+    with open(mad_log_path) as mad_output:
+        data = mad_output.read()
+        match = re.search(pattern, data, re.IGNORECASE)
+    if match:
+        value = float(match.group(1))
+    else:
+        error_msg = "Param  not found in mad file in {}".format(mad_log_path)
+        logging.error(error_msg)
+        raise GENERAL_RAXML_ERROR(error_msg)
+    return value
 
 def calculate_rf_dist(rf_file_path,curr_run_directory):
     rf_prefix = os.path.join(curr_run_directory, "rf")
@@ -55,14 +67,14 @@ def calculate_rf_dist(rf_file_path,curr_run_directory):
     return relative_rf_dist
 
 
-def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_directory):
+def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
     check_validity_command = (
            "{raxml_exe_path} --check --msa {msa_path} --model WAG+G --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
                                                                                                msa_path=full_file_path, prefix=check_validity_prefix)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
     execute_commnand_and_write_to_log(check_validity_command)
-    if os.path.exists(reduced_file):  # and not os.path.exists(result_tree_full_file):
+    if os.path.exists(reduced_file):
         logging.error("Need to re-calculate data on reduced version in " + reduced_file)
         msa_stats["orig_reduced_file_path"] = reduced_file
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
@@ -84,6 +96,11 @@ def run_raxml_on_full_dataset(full_file_path, output_name, msa_stats, curr_run_d
     parsimony_optimized_tree_path=parsimony_model_evaluation_prefix+".raxml.bestTree"
     parsimony_divergence = compute_tree_divergence(parsimony_optimized_tree_path)
     parsimony_tree_alpha = extract_param_from_log(parsimony_log_path, "alpha")
+    mad_command = "{mad_exe_path} -t -s {tree_path}".format(mad_exe_path=MAD_COMMAND_PREFIX,tree_path = parsimony_optimized_tree_path)
+    execute_commnand_and_write_to_log(mad_command)
+    mad_log_path = parsimony_optimized_tree_path+".rooted"
+    mad =  extract_mad_file_statistic(mad_log_path)
+    msa_stats["mad"]=mad
     msa_stats["alpha"] = parsimony_tree_alpha
     msa_stats["divergence"]=parsimony_divergence
 

@@ -6,21 +6,6 @@ LOCAL_RUN = True#True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
-CSV_COLUMNS = ["job_id","file_ind","dataset_id","alignment_type",
-"n_seq","n_seq_before_reduction","original_n_seq","n_loci","original_n_loci",
-"raxml_parsimony_tree_path","raxml_parsimony_ll","full_data_likelihood_raxml",
-"full_data_running_time_raxml","SPR_chosen_starting_tree_path","SPR_starting_tree_true_ll","full_data_likelihood_SPR","full_data_SPR_moves",
-"sample_pct","sample_method","SPR_starting_tree_ll","sampled_data_final_likelihood_SPR",
-"sampled_data_final_likelihood_for_each_part_SPR","sampled_data_total_SPR_moves","Using_sampled_data_SPR_moves", "Using_full_data_SPR_moves",
-"sampled_data_SPR_moves_for_each_part",
-"overall_SPR_neighbours_per_iteration","true_vs_sampled_ll_per_iteration_for_each_part","pearson_sampled_vs._full_MSA_correlation_per_iteration",
-"random_trees_sample_size","max_number_of_msa_sequences","starting_tree_type"
-               ]
-
-# "sampled data final likelihood for each part raxml","sampled data final likelihood raxml","sampled data total running time raxml","sampled data running time for each part raxml"
-
-
-
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
@@ -36,8 +21,8 @@ UPDATE_BACKUP_IF_EXISTS = False
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 N_THREADS = 1
 
-CURR_RUN_PREFIX= "test"
-CURR_JOBS_PREFIX = "test_job"
+CURR_RUN_PREFIX= "test_mad"
+CURR_JOBS_PREFIX = "test_job_mad"
 
 
 MAX_N_SEQ = 5
@@ -50,18 +35,20 @@ FIRST_MSA_IND = 0
 DETAILED_SPR_LOG = False
 OUTPUT_CSV_NAME = "spr_raxml"
 
-IGNORE_COLS_IN_CSV = ["alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
+IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
 N_THREADS = 1
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
     RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng/raxml-ng --threads {} ".format(N_THREADS)
+    MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
 elif LOCAL_RUN:
     RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng --threads {} ".format(N_THREADS)
+    MAD_COMMAND_PREFIX = "/Users/noa/Programs/mad.osx"
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
