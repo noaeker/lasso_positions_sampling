@@ -99,6 +99,27 @@ def compute_tree_divergence(tree_path):
         total_dist = total_dist+node.dist
     return total_dist
 
+def assign_brlen(tree_path,brlen_list):
+    tree = generate_tree_object(tree_path)
+    for i,node in enumerate(tree.iter_descendants()):
+        # Do some analysis on node
+        node.dist=brlen_list[i]
+    tree.write(format=1, outfile=tree_path)
+
+
+
+
+#t = Tree('(((A:0.1,B:0.1):0.1,C:0.1):0.1,D:0.1,E:0.1);', format=1)
+
+#t.write(format=1, outfile="tree_test")
+
+#assign_brlen("tree_test",[0.2,0.3,0.4,0.5,0.6,0.7,0.8])
+
+
+
+
+
+
 
 #print(E.up==B.up)
 #add_internal_names(t)

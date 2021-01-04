@@ -3,15 +3,9 @@ from sklearn import linear_model
 from raxml import *
 
 
-def evaluate_lasso_performance_on_test_data(lasso_model, curr_msa_stats, n_iter):
+def evaluate_lasso_performance_on_test_data(lasso_model, curr_msa_stats):
     logging.info("Evaluating model on test data")
-    sitelh_test_ll_list = []
-    for i in range(n_iter):
-        curr_site_lh = raxml_compute_per_site_ll_on_a_random_tree(curr_msa_stats["local_alignment_path"], i,
-                                                                  curr_msa_stats)
-        sitelh_test_ll_list.append(curr_site_lh)
-    sitelh_test_df = pd.DataFrame(sitelh_test_ll_list, columns=list(range(len(sitelh_test_ll_list[0]))),
-                                  index=list(range(len(sitelh_test_ll_list))))
+    sitelh_test_df = curr_msa_stats["test_sitelh_df"]
     y_test = sitelh_test_df.sum(axis=1)
     test_r_squared = lasso_model.score(sitelh_test_df, y_test)
     test_predicted_values = lasso_model.predict(sitelh_test_df)
@@ -32,10 +26,10 @@ def generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_trai
         os.path.join(curr_msa_stats["curr_msa_version_folder"], "test_sitelh_df_prediction.csv"))
 
 
-def apply_lasso_on_data_and_update_stats(curr_msa_stats):
+def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name):
     logging.info('Applying Lasso on sitelh data' )
-    sitelh_training_df = curr_msa_stats.get("sitelh_df")
-    lasso_log_file = os.path.join(curr_msa_stats["curr_msa_version_folder"] , "lasso.log")
+    sitelh_training_df = curr_msa_stats.get("training_sitelh_df")
+    lasso_log_file = os.path.join(curr_msa_stats["curr_msa_version_folder"],name+"_lasso.log")
     with open(lasso_log_file, 'w') as lasso_log:
             logging.info("Computing locis and weight using lasso")
             y_training = sitelh_training_df.sum(axis=1)
@@ -50,7 +44,7 @@ def apply_lasso_on_data_and_update_stats(curr_msa_stats):
                                                                               y_training), lasso_model.predict(
                 sitelh_training_df)
             test_r_squared, test_predicted_values, y_test, sitelh_test_df = evaluate_lasso_performance_on_test_data(
-                lasso_model, curr_msa_stats, curr_msa_stats["random_trees_test_size"])
+                lasso_model, curr_msa_stats)
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_training, sitelh_training_df,
                                            test_predicted_values, y_test,

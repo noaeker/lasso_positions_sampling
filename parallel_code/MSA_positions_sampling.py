@@ -1,7 +1,6 @@
 from lasso_model_pipeline import *
 from generate_SPR import *
-from sys import argv
-from shutil import copyfile
+from training_and_test_set_generation import *
 from raxml import *
 
 
@@ -133,8 +132,8 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
             "curr_msa_version_folder"), "RANDOM_starting_tree_" + str(i))
         random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
         create_or_clean_dir(random_tree_folder)
-        starting_tree_path = generate_random_tree(curr_msa_stats["alpha"], curr_msa_stats["local_alignment_path"],
-                                                  random_tree_path_prefix)
+        starting_tree_path = generate_random_tree_topology(curr_msa_stats["alpha"], curr_msa_stats["local_alignment_path"],
+                                                           random_tree_path_prefix)
         curr_random_tree_raw_results = basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, "RANDOM",
                                                                              random_tree_folder,
                                                                              starting_tree_path)
@@ -144,29 +143,6 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
     all_MSA_results.to_csv(curr_job_output_csv_path, index=False)  # Updating data after each tree
     return all_MSA_results
 
-
-def generate_site_lh_data(curr_msa_stats, n_iter):
-    curr_sitelh_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"], "sitelh")
-    create_dir_if_not_exists(curr_sitelh_folder)
-    curr_csv_path = os.path.join(curr_sitelh_folder, curr_msa_stats.get("file_name") + ".csv")
-    local_file_path = curr_msa_stats.get("local_alignment_path")
-    logging.info(
-        "Computing sitelh data on " + local_file_path + " from beggining,since no such csv path found " + curr_csv_path)
-    logging.info("Generating " + str(n_iter) + " random trees ")
-    sitelh_ll_list = []
-    for i in range(n_iter):
-        curr_site_lh = raxml_compute_per_site_ll_on_a_random_tree(local_file_path, i, curr_msa_stats)
-        sitelh_ll_list.append(curr_site_lh)
-    sitelh_df = pd.DataFrame(sitelh_ll_list, columns=list(range(len(sitelh_ll_list[0]))),
-                             index=list(range(len(sitelh_ll_list))))
-    logging.info(
-        "Writing sitelh data to  " + curr_csv_path)
-    sitelh_df.to_csv(
-        curr_csv_path, index=False)
-    logging.info(
-        "Sitelh file is of shape {shape} and stored in {path}".format(shape=sitelh_df.shape, path=curr_csv_path))
-    curr_msa_stats["sitelh_df"] = sitelh_df
-    return sitelh_df
 
 
 def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
@@ -275,6 +251,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
     return reduced_curr_msa_stats
 
 
+
+
 def main():
     args = job_parser()
     job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
@@ -314,19 +292,35 @@ def main():
                 curr_msa_stats)
         curr_msa_stats["spr_log_path"] = spr_log_path
         curr_msa_stats["current_job_results_folder"] = curr_job_folder
-        generate_site_lh_data(curr_msa_stats, random_trees_training_size)
-        # curr_msa_stats["raxml_parsimony_tree_path"]
-        apply_lasso_on_data_and_update_stats(curr_msa_stats)  # calculating positions_weight
-        if only_evaluate_lasso:
-            logging.info("only evaluating lasso: " + str(curr_msa_stats))
-            lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                       k not in IGNORE_COLS_IN_CSV
-                                       }
-            all_MSA_results = all_MSA_results.append(lasso_evaluation_result, ignore_index=True)
-            all_MSA_results.to_csv(job_csv_path, index=False)
+        brlen_generators = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
+        if random_trees_training_size==-1:
+            training_size_options = [50,100,200,400,800]
         else:
-            all_MSA_results = add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, job_csv_path,
-                                                   all_MSA_results)
+            training_size_options = [random_trees_training_size]
+        for brlen_generator_name in  brlen_generators:
+            for training_size in training_size_options:
+                logging.info("Using {} to generate branch lengths".format(brlen_generator_name))
+                brlen_generator_func =brlen_generators.get(brlen_generator_name)
+                curr_msa_stats["brlen_generator"] = brlen_generator_name
+                curr_msa_stats["actucal_training_size"] = training_size
+                training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats,n_iter=training_size,name="training_"+brlen_generator_name,
+                                                        brlen_generator_func=brlen_generator_func)
+                curr_msa_stats["training_sitelh_df"] = training_sitelh
+                test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
+                                                        name="test_"+brlen_generator_name,
+                                                        brlen_generator_func=brlen_generator_func)
+                curr_msa_stats["test_sitelh_df"] = test_sitelh
+                apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name=brlen_generator_name)  # calculating positions_weight
+                if only_evaluate_lasso:
+                    logging.info("only evaluating lasso: " + str(curr_msa_stats))
+                    lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                               k not in IGNORE_COLS_IN_CSV
+                                               }
+                    all_MSA_results = all_MSA_results.append(lasso_evaluation_result, ignore_index=True)
+                    all_MSA_results.to_csv(job_csv_path, index=False)
+                else:
+                    all_MSA_results = add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, job_csv_path,
+                                                           all_MSA_results)
     with open(curr_job_status_file, 'w') as job_status_f:
         job_status_f.write("Done")
 

@@ -143,6 +143,12 @@ def unify_text_files(input_file_path_list, output_file_path):
             with open(fname) as infile:
                 outfile.write(infile.read())
 
+
+def sample_uniform(size):
+    return np.random.uniform(size=size)
+def sample_exp(size):
+    return np.random.exponential(scale=0.1, size=size)
+
 def add_csvs_content(csvs_path_list, unified_csv_path):
     existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
     existing_df_size = pd.read_csv(unified_csv_path).size if os.path.exists(unified_csv_path) else 0
@@ -158,7 +164,6 @@ def remove_empty_columns(csv_path):
         df = pd.read_csv(csv_path)
         df = df.dropna(how='all', axis=1)
         df.to_csv(csv_path, index = False)
-
 
 
 

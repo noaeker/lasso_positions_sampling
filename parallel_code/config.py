@@ -2,12 +2,12 @@ import numpy as np
 import logging
 import os
 
-LOCAL_RUN = False #True
+LOCAL_RUN =True #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
 #Default values
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.DEBUG
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = 50
 WAITING_TIME_CSV_UPDATE = 10#86400
@@ -21,13 +21,13 @@ UPDATE_BACKUP_IF_EXISTS = False
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 N_THREADS = 1
 
-CURR_RUN_PREFIX= "test_mad"
-CURR_JOBS_PREFIX = "test_job_mad"
+CURR_RUN_PREFIX= "test_brlen"
+CURR_JOBS_PREFIX = "test_brlen"
 
 
 MAX_N_SEQ = 5
 MIN_N_SEQ = 5
-N_RANDOM_STARTING_TREES = 3
+N_RANDOM_STARTING_TREES = 1
 PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
 FIRST_MSA_IND = 0
@@ -38,6 +38,8 @@ OUTPUT_CSV_NAME = "spr_raxml"
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
 N_THREADS = 1
+
+
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION

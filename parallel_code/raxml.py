@@ -2,7 +2,7 @@ import subprocess
 import re
 from help_functions import *
 import os.path
-from spr_prune_and_regraft import compute_tree_divergence
+from spr_prune_and_regraft import *
 
 
 
@@ -117,7 +117,7 @@ def raxml_extract_sitelh(sitelh_file):
 
 
 
-def generate_random_tree(alpha, original_file_path, random_tree_generation_prefix):
+def generate_random_tree_topology(alpha, original_file_path, random_tree_generation_prefix):
     random_tree_generation_command = (
             "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n_random_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
                                                                                                                                             msa_path=original_file_path, alpha=alpha, n_random_trees=1, prefix=random_tree_generation_prefix)
@@ -128,30 +128,14 @@ def generate_random_tree(alpha, original_file_path, random_tree_generation_prefi
 
 
 
-def raxml_compute_per_site_ll_on_a_random_tree(original_file_path, i, curr_msa_stats,random_trees_folder=None):
-    if random_trees_folder:
-        curr_run_directory = os.path.join(random_trees_folder,
-                                          "random_trees_likelihood_computation")
-    else:
-        curr_run_directory = os.path.join(curr_msa_stats.get("curr_msa_version_folder") , "random_trees_likelihood_computation")
-    if os.path.exists(curr_run_directory):
-        delete_dir_content(curr_run_directory)
-    else:
-        os.mkdir(curr_run_directory)
-    alpha = curr_msa_stats["alpha"]
-    random_tree_generation_prefix = os.path.join(curr_run_directory, str(i))
-    random_tree_path = generate_random_tree(alpha, original_file_path, random_tree_generation_prefix)
-    random_tree_ll_list = raxml_compute_tree_per_site_ll(curr_run_directory, original_file_path,
-                                                         random_tree_path, str(i), alpha)
-    return random_tree_ll_list
 
-
-def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha):
+def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha,opt_brlen=True):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
+    brlen_command = "--opt-branches off" if not opt_brlen else ""
     compute_site_ll_run_command = (
-            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --prefix {prefix} ").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
                                                                                                                                alpha=alpha, msa_path=full_data_path, tree_file=tree_file,
-                                                                                                                               prefix=compute_site_ll_prefix)
+                                                                                                                               prefix=compute_site_ll_prefix,brlen_command=brlen_command)
     execute_commnand_and_write_to_log( compute_site_ll_run_command)
     sitelh_file = compute_site_ll_prefix + ".raxml.siteLH"
     check_file_existence(sitelh_file,"Sitelh file")
