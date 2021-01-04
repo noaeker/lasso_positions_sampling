@@ -34,10 +34,11 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name):
             logging.info("Computing locis and weight using lasso")
             y_training = sitelh_training_df.sum(axis=1)
             logging.info("Sitelh df dimensions, for lasso computations, are: " + str(sitelh_training_df.shape))
-            lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000).fit(sitelh_training_df,
+            lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True).fit(sitelh_training_df,
                                                                                           y_training)  # add positive=True if using RaxML
-            chosen_locis = [ind for ind in range(len(lasso_model.coef_)) if abs(lasso_model.coef_[ind]) > 0]
-            chosen_loci_weights = [(lasso_model.coef_[ind]) for ind in chosen_locis]
+            integer_coefficients = [int(lasso_model.coef_[ind]*INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
+            chosen_locis = [ind for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
+            chosen_loci_weights = [integer_coefficients[ind] for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
             lasso_log.write("Lasso chosen locis are:" + str(chosen_locis) + "\n")
             lasso_log.write("Lasso nonzero coefficient are:" + str(chosen_loci_weights) + "\n")
             training_r_squared, training_predicted_values = lasso_model.score(sitelh_training_df,
@@ -55,11 +56,16 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name):
             with open(weights_file_path, 'w') as f:
                 for weight in chosen_loci_weights:
                     f.write(str(weight) + " ")
+            sampled_alignment_path = os.path.join(curr_msa_stats["curr_msa_version_folder"],
+                                                  "file_name" + curr_msa_stats["file_type_biopython"])
+            curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path
+            write_to_sampled_alingment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, chosen_locis,
+                                            curr_msa_stats["file_type_biopython"])
             lambda_function = lambda row: lasso_model.predict(np.reshape(row, (1, -1)))[0]
             samp_indexes_pct=len(chosen_locis) / curr_msa_stats.get("n_loci")
             curr_msa_stats.update({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": samp_indexes_pct,
                                    "lasso_coeffs": lasso_model.coef_,
-                                   "lasso_intercept": lasso_model.intercept_,
+                                   "lasso_intercept": lasso_model.intercept_*INTEGER_CONST,
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "lasso_training_R^2": training_r_squared, "lasso_test_R^2": test_r_squared,
                                    "lasso_predict_func": lambda_function})

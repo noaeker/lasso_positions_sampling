@@ -32,6 +32,8 @@ def extract_param_from_log(raxml_log_path, param_name):
         data = raxml_log_file.read()
         if (param_name == "alpha"):
             pattern = r'alpha: ([\d.]+)'
+        if (param_name == "ll"):
+            pattern = r'Final LogLikelihood: (-[\d.]+)'
         elif (param_name=="rf_dist"):
             pattern='Average relative RF distance in this tree set: ([\d.]+)'
         match = re.search(pattern, data, re.IGNORECASE)
@@ -143,8 +145,30 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     return sitelh_list
 
 
+# def raxml_compute_ll_on_given_data(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
+#                                    curr_run_directory, sitelh_lambda_function=None):
+#     curr_run_directory = os.path.join(curr_run_directory , ll_on_data_prefix)
+#     if os.path.exists(curr_run_directory):
+#         delete_dir_content(curr_run_directory)
+#     else:
+#         os.mkdir(curr_run_directory)
+#     logging.debug("RaxML: Evaluating likelihood on : " + full_data_path)
+#     alpha = msa_stats["alpha"]
+#     logging.debug("Optimizing branch lengths and using existing Gamma shape parameter: alpha={alpha}".format(alpha=alpha))
+#     sitelh_list = raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file,
+#                                                  ll_on_data_prefix, alpha)
+#     if sitelh_lambda_function:
+#         tree_ll_on_data = sitelh_lambda_function(sitelh_list)
+#     else:
+#         tree_ll_on_data = sum(sitelh_list)
+#     logging.debug("tree ll on data=" + str(tree_ll_on_data))
+#     # if os.path.exists(curr_run_directory):
+#     #   delete_dir_content(curr_run_directory)
+#     return tree_ll_on_data
+
+
 def raxml_compute_ll_on_given_data(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
-                                   curr_run_directory, sitelh_lambda_function=None):
+                                   curr_run_directory, use_weights=False):
     curr_run_directory = os.path.join(curr_run_directory , ll_on_data_prefix)
     if os.path.exists(curr_run_directory):
         delete_dir_content(curr_run_directory)
@@ -152,14 +176,17 @@ def raxml_compute_ll_on_given_data(full_data_path, ll_on_data_prefix, tree_file,
         os.mkdir(curr_run_directory)
     logging.debug("RaxML: Evaluating likelihood on : " + full_data_path)
     alpha = msa_stats["alpha"]
+    weights_path_command = "--site-weights {}".format(msa_stats["weights_file_path"]) if use_weights else ""
     logging.debug("Optimizing branch lengths and using existing Gamma shape parameter: alpha={alpha}".format(alpha=alpha))
-    sitelh_list = raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file,
-                                                 ll_on_data_prefix, alpha)
-    if sitelh_lambda_function:
-        tree_ll_on_data = sitelh_lambda_function(sitelh_list)
-    else:
-        tree_ll_on_data = sum(sitelh_list)
+    prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
+    compute_ll_run_command = (
+        "{raxml_exe_path} --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        alpha=alpha, msa_path=full_data_path, tree_file=tree_file,
+        prefix=prefix, weights_path_command=weights_path_command)
+    execute_commnand_and_write_to_log(compute_ll_run_command)
+    raxml_log_file = prefix+".raxml.log"
+    tree_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     logging.debug("tree ll on data=" + str(tree_ll_on_data))
-    # if os.path.exists(curr_run_directory):
-    #   delete_dir_content(curr_run_directory)
     return tree_ll_on_data
+
