@@ -12,24 +12,24 @@ def evaluate_lasso_performance_on_test_data(lasso_model, curr_msa_stats):
     return test_r_squared, test_predicted_values, y_test, sitelh_test_df
 
 
-def generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_training, sitelh_training_df,
-                               test_predicted_values, y_test, sitelh_test_df):
+def generate_lasso_descriptive(training_predicted_values, y_training, sitelh_training_df,
+                               test_predicted_values, y_test, sitelh_test_df,name, curr_run_directory):
     training_sitelh_df_prediction = pd.concat(
         [y_training.rename("y_training"), pd.Series(training_predicted_values).rename("y_training_predicted"),
          sitelh_training_df], axis=1, ignore_index=True, sort=False)
     training_sitelh_df_prediction.to_csv(
-        os.path.join(curr_msa_stats["curr_msa_version_folder"], "training_sitelh_df_prediction.csv"))
+        os.path.join(curr_run_directory, "training_sitelh_df_prediction_{}.csv".format(name)))
     test_sitelh_df_prediction = pd.concat(
         [y_test.rename("y_test"), pd.Series(test_predicted_values).rename("y_test_predicted"), sitelh_test_df], axis=1,
         ignore_index=True, sort=False)
     test_sitelh_df_prediction.to_csv(
-        os.path.join(curr_msa_stats["curr_msa_version_folder"], "test_sitelh_df_prediction.csv"))
+        os.path.join(curr_run_directory, "test_sitelh_df_prediction_{}.csv".format(name)))
 
 
-def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name):
+def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name,curr_run_directory):
     logging.info('Applying Lasso on sitelh data' )
     sitelh_training_df = curr_msa_stats.get("training_sitelh_df")
-    lasso_log_file = os.path.join(curr_msa_stats["curr_msa_version_folder"],name+"_lasso.log")
+    lasso_log_file = os.path.join(curr_run_directory,name+"_lasso.log")
     with open(lasso_log_file, 'w') as lasso_log:
             logging.info("Computing locis and weight using lasso")
             y_training = sitelh_training_df.sum(axis=1)
@@ -47,18 +47,19 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name):
             test_r_squared, test_predicted_values, y_test, sitelh_test_df = evaluate_lasso_performance_on_test_data(
                 lasso_model, curr_msa_stats)
             if GENERATE_LASSO_DESCRIPTIVE:
-                generate_lasso_descriptive(curr_msa_stats, training_predicted_values, y_training, sitelh_training_df,
+                generate_lasso_descriptive(training_predicted_values, y_training, sitelh_training_df,
                                            test_predicted_values, y_test,
-                                           sitelh_test_df)  # lasso_log.write("Lasso R^2 on test data is:" + str(test_r_squared) + "\n")
-            weights_file_path = os.path.join(curr_msa_stats.get("curr_msa_version_folder") ,curr_msa_stats.get(
+                                           sitelh_test_df,name, curr_run_directory)  # lasso_log.write("Lasso R^2 on test data is:" + str(test_r_squared) + "\n")
+            weights_file_path = os.path.join(curr_run_directory ,curr_msa_stats.get(
                 "file_name") + "_lasso_weights.txt")
             logging.info("About to write weights file to : " + weights_file_path)
             with open(weights_file_path, 'w') as f:
                 for weight in chosen_loci_weights:
                     f.write(str(weight) + " ")
-            sampled_alignment_path = os.path.join(curr_msa_stats["curr_msa_version_folder"],
-                                                  "file_name" + curr_msa_stats["file_type_biopython"])
+            sampled_alignment_path = os.path.join(curr_run_directory,
+                                               curr_msa_stats["file_name"] +"_sampled"+ curr_msa_stats["file_type"])
             curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path
+            logging.info("Writing only chosen positions to {}".format(sampled_alignment_path))
             write_to_sampled_alingment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, chosen_locis,
                                             curr_msa_stats["file_type_biopython"])
             lambda_function = lambda row: lasso_model.predict(np.reshape(row, (1, -1)))[0]

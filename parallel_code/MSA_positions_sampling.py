@@ -43,28 +43,28 @@ def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
 
 
 
-def rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats):
+def rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
                                           row["naive_SPR_tree_newick"], curr_msa_stats,
-                                          "naive_vs_best_first_phase")
+                                          "naive_vs_best_first_phase",curr_run_directory)
 
 
-def rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats):
+def rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats,curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
                                           row["naive_SPR_tree_newick"], curr_msa_stats,
-                                          "naive_vs_best_second_phase")
+                                          "naive_vs_best_second_phase",curr_run_directory)
 
 
-def rel_rf_dist_first_phase_vs_best(row, curr_msa_stats):
+def rel_rf_dist_first_phase_vs_best(row, curr_msa_stats,curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
                                           row["lasso_SPR_first_phase_tree_newick"], curr_msa_stats,
-                                          "lasso_first_phase_vs_best")
+                                          "lasso_first_phase_vs_best",curr_run_directory)
 
 
-def rel_rf_dist_second_phase_vs_best(row, curr_msa_stats):
+def rel_rf_dist_second_phase_vs_best(row, curr_msa_stats,curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
                                           row["lasso_SPR_second_phase_tree_newick"], curr_msa_stats,
-                                          "lasso_second_phase_vs_best")
+                                          "lasso_second_phase_vs_best",curr_run_directory)
 
 
 def get_best_ll_and_topology(ll_col, tree_topology_col):
@@ -73,7 +73,7 @@ def get_best_ll_and_topology(ll_col, tree_topology_col):
     return best_ll, best_spr_tree_newick
 
 
-def enrich_curr_msa_results(curr_msa_results, curr_msa_stats):
+def enrich_curr_msa_results(curr_msa_results, curr_msa_stats,curr_run_directory):
     best_naive_spr_ll, best_naive_spr_tree_newick = get_best_ll_and_topology(
         curr_msa_results["naive_SPR_ll"],
         curr_msa_results["naive_SPR_tree_newick"])
@@ -98,23 +98,22 @@ def enrich_curr_msa_results(curr_msa_results, curr_msa_stats):
         curr_msa_results["overall_best_topology_second_phase"] = best_lasso_spr_second_phase_tree_newick
 
     curr_msa_results["rf_naive_vs_overall_best_first_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats),
+        lambda row: rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats,curr_run_directory),
         axis=1)
     curr_msa_results["rf_naive_vs_overall_best_second_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats),
+        lambda row: rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats,curr_run_directory),
         axis=1)
     curr_msa_results["rf_first_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_first_phase_vs_best(row, curr_msa_stats),
+        lambda row: rel_rf_dist_first_phase_vs_best(row, curr_msa_stats,curr_run_directory),
         axis=1)
     curr_msa_results["rf_second_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_second_phase_vs_best(row, curr_msa_stats),
+        lambda row: rel_rf_dist_second_phase_vs_best(row, curr_msa_stats,curr_run_directory),
         axis=1)
     return curr_msa_results
 
 
-def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, curr_msa_stats, name):
-    curr_run_directory = os.path.join(curr_msa_stats.get(
-        "curr_msa_version_folder"), name)
+def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, curr_msa_stats,name, curr_run_directory):
+    curr_run_directory = os.path.join(curr_run_directory, name)
     create_or_clean_dir(curr_run_directory)
     rf_path = os.path.join(curr_run_directory, "rf_trees_file")
     with open(rf_path, 'a+') as f_combined:
@@ -124,12 +123,11 @@ def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, 
     return relative_rf_dist
 
 
-def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_output_csv_path, all_MSA_results):
+def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_output_csv_path, all_MSA_results,curr_run_directory):
     curr_msa_results = pd.DataFrame(
     )
     for i in range(n_random_starting_trees):
-        random_tree_folder = os.path.join(curr_msa_stats.get(
-            "curr_msa_version_folder"), "RANDOM_starting_tree_" + str(i))
+        random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
         random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
         create_or_clean_dir(random_tree_folder)
         starting_tree_path = generate_random_tree_topology(curr_msa_stats["alpha"], curr_msa_stats["local_alignment_path"],
@@ -138,7 +136,7 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
                                                                              random_tree_folder,
                                                                              starting_tree_path)
         curr_msa_results = curr_msa_results.append(curr_random_tree_raw_results, ignore_index=True)
-    curr_msa_results = enrich_curr_msa_results(curr_msa_results, curr_msa_stats)
+    curr_msa_results = enrich_curr_msa_results(curr_msa_results, curr_msa_stats,curr_run_directory)
     all_MSA_results = all_MSA_results.append(curr_msa_results)
     all_MSA_results.to_csv(curr_job_output_csv_path, index=False)  # Updating data after each tree
     return all_MSA_results
@@ -298,19 +296,27 @@ def main():
         else:
             training_size_options = [random_trees_training_size]
         for brlen_generator_name in  brlen_generators:
+            brlen_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], brlen_generator_name)
+            create_dir_if_not_exists(brlen_run_directory)
             for training_size in training_size_options:
+                curr_run_directory = os.path.join(brlen_run_directory, str(training_size))
+                create_dir_if_not_exists(curr_run_directory)
+                comb_name = "{brlen_generator_name}_s_{training_size}".format(
+                    brlen_generator_name=brlen_generator_name, training_size=training_size)
                 logging.info("Using {} to generate branch lengths".format(brlen_generator_name))
                 brlen_generator_func =brlen_generators.get(brlen_generator_name)
                 curr_msa_stats["brlen_generator"] = brlen_generator_name
                 curr_msa_stats["actucal_training_size"] = training_size
-                training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats,n_iter=training_size,name="training_"+brlen_generator_name,
-                                                        brlen_generator_func=brlen_generator_func)
+                logging.info("Generation training dataset in folder: {}".format(curr_run_directory))
+                training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats,n_iter=training_size,name="training_"+ comb_name,
+                                                        brlen_generator_func=brlen_generator_func, curr_run_directory=curr_run_directory)
                 curr_msa_stats["training_sitelh_df"] = training_sitelh
+                logging.info("Generation test dataset in folder: {}".format(curr_run_directory))
                 test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
-                                                        name="test_"+brlen_generator_name,
-                                                        brlen_generator_func=brlen_generator_func)
+                                                        name="test_"+ comb_name,
+                                                        brlen_generator_func=brlen_generator_func,curr_run_directory=curr_run_directory)
                 curr_msa_stats["test_sitelh_df"] = test_sitelh
-                apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name=brlen_generator_name)  # calculating positions_weight
+                apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name=brlen_generator_name, curr_run_directory=curr_run_directory)  # calculating positions_weight
                 if only_evaluate_lasso:
                     logging.info("only evaluating lasso: " + str(curr_msa_stats))
                     lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
@@ -320,7 +326,7 @@ def main():
                     all_MSA_results.to_csv(job_csv_path, index=False)
                 else:
                     all_MSA_results = add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, job_csv_path,
-                                                           all_MSA_results)
+                                                           all_MSA_results,curr_run_directory)
     with open(curr_job_status_file, 'w') as job_status_f:
         job_status_f.write("Done")
 
