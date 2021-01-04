@@ -292,7 +292,7 @@ def main():
         curr_msa_stats["current_job_results_folder"] = curr_job_folder
         brlen_generators = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
         if random_trees_training_size==-1:
-            training_size_options = [50,100,200,400,800]
+            training_size_options = TRAINING_SIZE_OPTIONS
         else:
             training_size_options = [random_trees_training_size]
         for brlen_generator_name in  brlen_generators:
