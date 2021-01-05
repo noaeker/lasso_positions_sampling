@@ -20,7 +20,7 @@ library(visreg)
 library(stringr)
 library(dplyr)
 
-spr_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_raxml_10_taxa.csv",header = TRUE, na.strings = ""))
+spr_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_raxml_15.csv",header = TRUE, na.strings = ""))
 lasso_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_eval.csv",header = TRUE, na.strings = ""))
 data_source = data.frame(read.csv("/Users/noa/Workspace/data/sampled_datasets.csv",header = TRUE, na.strings = ""))
 
@@ -31,12 +31,15 @@ spr_output_data$relative_path = str_replace_all(spr_output_data$dataset_id,'(/gr
 data= merge(spr_output_data,data_source,by.x="relative_path",by.y="path")
 if (nrow(data)<nrow(spr_output_data))
   {print("Problem in matching path names")}
-data=data[data$current_starting_tree_type=="RANDOM"&data$n_seq==10 ,]
+data=data[data$current_starting_tree_type=="RANDOM"&data$n_seq==15 ,]
 
 
 data_only_lasso= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path")
-if (nrow(data)<nrow(lasso_output_data))
-  {print("Problem in matching path names")}
+if (nrow(data_only_lasso)<nrow(lasso_output_data))
+{print("Problem in matching path names")
+  cat("nrow data=",nrow(data), "nrow lasso=",nrow(data_only_lasso))
+  }
+
 
 #Lasso train and test example
 test_df= data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
@@ -54,7 +57,6 @@ data$delta_ll_first_phase = data$naive_SPR_ll-data$lasso_SPR_first_phase_ll
 num_cols <- unlist(lapply(data, is.numeric)) 
 agg_per_msa = aggregate(data[num_cols], by=list(data$dataset_id), mean,na.action = na.pass)
 
-example_MSA_data = data%>%filter(job_id==24)
 
 
 ```
@@ -75,17 +77,39 @@ plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
 
 }
 
+lmp <- function (modelobject) {
+    if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+    f <- summary(modelobject)$fstatistic
+    p <- pf(f[1],f[2],f[3],lower.tail=F)
+    attributes(p) <- NULL
+    return(p)
+}
+
 simple.regression<-function(x,y,main,xlab, ylab,cex=1.0,resid_plot=FALSE)
 {linearMod <- lm((y) ~ x)
 print(main)
 print(summary(linearMod)) 
+r.squared <- summary(linearMod)$r.squared
+	p.val <- lmp(linearMod)
 plot(x, y,main=main,
      xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
 	abline(linearMod)
+	mylabel = bquote(italic(R)^2 == .(format(r.squared, digits = 3)))
+text(x = 19, y = 2.5, labels = mylabel)
+
+	rp = vector('expression',2)
+rp[1] = substitute(expression(italic(R)^2 == MYVALUE), 
+		list(MYVALUE = format(r.squared,dig=4)))[2]
+rp[2] = substitute(expression(italic(p.value) == MYOTHERVALUE), 
+		list(MYOTHERVALUE = format(p.val, digits = 2)))[2]
+	legend('topleft', legend = rp, bty = 'n')
 if (resid_plot==TRUE)
 {plot(fitted(linearMod),resid(linearMod), main =main,xlab=xlab)
-abline(0, 0)}
-	}
+abline(0, 0)
+}
+	
+	return(c(r.squared,p.val))
+}
 
 
 two.groups.hist<-function(vec.a,vec.b,name.a,name.b,title,x.axis.name, title.size=22)
@@ -100,6 +124,7 @@ theme(plot.title = element_text(size=title.size))
 }
 
 #two.groups.hist(c(1,1,12,2,2,2,2),c(1,1,12,2,2,2,2),"name.a","name.b","title","x.axis.name")
+#simple.regression(c(1,2,3,4,5,6,7),c(5,7,9,12,13,14,15),"","","")
 
 
 ```
@@ -110,28 +135,49 @@ Counting the different sources
 file_name_and_source_lasso=data_only_lasso[!duplicated(data_only_lasso[ , c("db","dataset_id")]),]
 
 table(file_name_and_source_lasso$db)
-
+print("Job finished only Lasso:")
+print(unique(data_only_lasso$job_id[order(data_only_lasso$job_id)]))
 
 file_name_and_source=data[!duplicated(data[ , c("db","dataset_id")]),]
 
 table(file_name_and_source$db)
+print("Job finished only Lasso:")
+print(unique(data$job_id[order(data$job_id)]))
+
+```
+Find good datasets for Lasso example:
+```{r}
+select(data_only_lasso%>%filter(sample_pct<0.15&n_seq>=15&n_loci>3000),dataset_id,job_id,curr_msa_version_folder, n_loci,number_loci_chosen,n_seq, ,lasso_test_R.2, avg_entropy,gap_pct,informative_columns_count)
+print(select(data_only_lasso%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00530000063749/ref_msa.aa.phy"),dataset_id,job_id,curr_msa_version_folder, n_loci,number_loci_chosen,n_seq, ,lasso_test_R.2, avg_entropy,gap_pct,informative_columns_count))
+```
+
+Find good datasets for SPR example:
+```{r}
+select(data%>%filter(sample_pct<0.05),dataset_id,job_id, n_loci,number_loci_chosen,n_seq,sample_pct)
+select(data%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00530000063889/ref_msa.aa.phy"))
 ```
 
 
-Find and remove problematic datasets:
+Find datasets with low test R^2
+
 ```{r}
-high_delta_ll_datasets_first_phase = select(data%>%filter(delta_ll_first_phase==max(data$delta_ll_first_phase)),dataset_id, mistake_cnt, n_loci,delta_ll_first_phase, delta_ll_second_phase,ll_pearson_during_tree_search, divergence, avg_entropy, n_loci,number_loci_chosen, sample_pct,lasso_test_R.2,lasso_training_R.2)
+select(data_only_lasso%>%filter(lasso_test_R.2<0.9), dataset_id,lasso_test_R.2,gap_pct,lasso_training_R.2, n_seq, n_loci, number_loci_chosen, mad, divergence,avg_entropy)
+```
 
-high_delta_ll_datasets_second_phase = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, mistake_cnt, n_loci, delta_ll_first_phase, delta_ll_second_phase,ll_pearson_during_tree_search)
-
+Find datasets with low pearson during tree search
+```{r}
 low_pearson_datasets = select(data%>%filter(ll_pearson_during_tree_search==min(data$ll_pearson_during_tree_search)),dataset_id, n_loci,ll_pearson_during_tree_search,delta_ll_second_phase)
- problematic_rho_values=(select(data%>%filter(rho_first_phase==0 | is.na(rho_first_phase)| !is.finite(rho_first_phase) ),dataset_id,rho_second_phase,lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves, naive_SPR_spr_moves))
+ print(low_pearson_datasets)
 
-#data= data%>%filter(is.finite(rho_first_phase)&!is.na(rho_first_phase)&rho_first_phase>0)
+```
 
-#print(problematic_rho_values)
-print(high_delta_ll_datasets_first_phase)
-#print(low_pearson_datasets )
+
+
+Find datasets with high delta log likelihood:
+```{r}
+high_delta_ll_datasets_second_phase = select(data%>%filter(delta_ll_second_phase==max(data$delta_ll_second_phase)),dataset_id, mistake_cnt, n_loci, delta_ll_first_phase, delta_ll_second_phase,ll_pearson_during_tree_search)
+print(high_delta_ll_datasets_second_phase)
+
 ```
 
 
@@ -140,11 +186,12 @@ Change the example to another one
 ```{r}
 #Specific example of Lasso: 
 #Make sure what is the #positions chosen by lasso here.
-
-print("Data about the chosen MSA")
-print(select(example_MSA_data,"dataset_id", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2"))
-print(training_df[,c("training_predicted_val","training_true_val")])
-print(test_df[,c("test_predicted_val","test_true_val")])
+lasso_example_msa_data = data_only_lasso[data_only_lasso$dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00530000063889/ref_msa.aa.phy", ]
+print(select(lasso_example_msa_data,"dataset_id","job_id","curr_msa_version_folder","n_seq", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2"))
+training_df["training delta ll"] =training_df["training_true_val"]-training_df["training_predicted_val"]
+test_df["test delta ll"] =test_df["test_true_val"]-test_df["test_predicted_val"]
+print(training_df[,c("training_predicted_val","training_true_val","training delta ll")])
+print(test_df[,c("test_predicted_val","test_true_val","test delta ll")])
 
 
 simple.regression(training_df$training_true_val,training_df$training_predicted_val,"Training set predicted log likelihood vs true log likelihood","Training set true log likelihood","Training set predicted log likelihood")
@@ -160,8 +207,14 @@ print("lasso test R^2:")
 print(summary(data_only_lasso$lasso_test_R.2))
 print("lasso sample pct :")
 print(summary(data_only_lasso$sample_pct))
-plot.hist(data_only_lasso$sample_pct,main="Histogram of the percentage of positions chosen by Lasso across MSAs", xlab="percentage of positions chosen by Lasso")
-plot.hist(data_only_lasso$number_loci_chosen,main="Histogram of the number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
+plot.hist(data_only_lasso$lasso_test_R.2, main="Test R^2 of Lasso approximation", xlab="R^2")
+plot.hist(data_only_lasso$sample_pct,main="Distribution of the fraction of positions chosen by Lasso", xlab="fraction of positions chosen by Lasso")
+plot.hist(data_only_lasso$number_loci_chosen,main="Number of positions chosen by Lasso across MSAs", xlab="number of positions chosen by Lasso")
+
+simple.regression(x=data_only_lasso$mad, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. mad", xlab="mad",ylab="lasso_test_R.2")
+
+simple.regression(x=data_only_lasso$gap_pct, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. percentage of gaps in MSA", xlab="percentage of gaps",ylab="lasso_test_R.2")
+
 
 simple.regression(x=data_only_lasso$divergence, y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. divergence", xlab="divergence",ylab="lasso_test_R.2")
 
@@ -171,7 +224,14 @@ simple.regression(x=data_only_lasso$n_loci, y=data_only_lasso$lasso_test_R.2, ma
 
 simple.regression(x=data_only_lasso$number_loci_chosen , y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. number of positions chosen by Lasso", xlab="Number of positions chosen bvy lasso",ylab="lasso_test_R.2")
 
-plot.hist(data$data_only_lasso,"Histogram of delta likelihood values across MSAs and starting trees", xlab="delta log likelihood value")
+simple.regression(x=data_only_lasso$n_seq , y=data_only_lasso$lasso_test_R.2, main= "Lasso test R^2 vs. number of sequences", xlab="Number of sequences",ylab="lasso_test_R.2")
+
+
+ggplot(data=data_only_lasso,aes(x=n_loci,y=sample_pct))+
+  geom_point()+xlab("Number of positions") + ylab("Fraction of popsitions chosen by Lasso")+ggtitle("Fraction of positions chosen by Lasso vs. number of positions")+theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14))+geom_smooth(se = FALSE)
+
+
 
 
 
@@ -185,11 +245,13 @@ Effect on the SPR search on the example MSA:
 Many starting trees on one chosen dataset
 ```{r}
 
+example_MSA_data = data%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy")
+print(select(example_MSA_data,dataset_id,job_id, n_loci,number_loci_chosen,n_seq,sample_pct))
 print("Delta ll summary:")
 print(summary(example_MSA_data$delta_ll_first_phase))
 print("Rho summary:")
 print(summary(example_MSA_data$rho_first_phase))
-plot.hist(example_MSA_data$delta_ll_first_phase, main="Histogram of delta log likelihood values between naive SPR and its lasso based variant", xlab="Delta log likelihood", title_size=12, text_size=11)
+plot.hist(example_MSA_data$delta_ll_first_phase, main="Distribution of delta log likelihood values between naive SPR and its lasso based variant", xlab="Delta log likelihood", title_size=12, text_size=11)
 best_tree = max(example_MSA_data$overall_best_topology_first_phase ) # removing duplicates
 cat("best tree is :",best_tree,"\n") #lasso got it xxx times, naive got it yyy times
 lasso_cnt_best_tree=sum(example_MSA_data$rf_first_phase_vs_overall_best==0)
@@ -204,11 +266,11 @@ average_spr_moves_naive = mean(example_MSA_data$naive_SPR_spr_moves)
 average_spr_moves_lasso_first_phase = mean(example_MSA_data$lasso_SPR_first_phase_spr_moves)
 cat("Average number of SPR steps in naive SPR is:", average_spr_moves_naive,"\n")
 cat("Average number of SPR steps in lasso first phase SPR variant is:", average_spr_moves_lasso_first_phase,"\n" )
-plot.hist(example_MSA_data$rho_first_phase,main="Histogram of rho across different starting trees",xlab="rho")
+plot.hist(example_MSA_data$rho_first_phase,main="Distribution of the running time decrease factor",xlab=" Running time decrease factor")
 ```
 
 
-Effect on the SPR search on 50 datasets:
+Effect on the SPR search on 48 datasets:
 
 ```{r}
 print("Summary of R squared during tree search:")
@@ -221,23 +283,28 @@ print("Summary: Lasso SPR spr moves")
 print(summary(data$lasso_SPR_first_phase_spr_moves))
 print("Summary: rho")
 print(summary(data$rho_first_phase))
+print("Summary:RF, lasso vs.overall best")
+print(summary(data$rf_first_phase_vs_overall_best))
+print("Summary:RF, naive vs.overall best")
+print(summary(data$rf_naive_vs_overall_best_first_phase))
 
-plot.hist(data$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search", xlab="R^2 during tree search")
-two.groups.hist(data$naive_SPR_spr_moves, data$lasso_SPR_first_phase_spr_moves,"Standard SPR spr moves","Lasso-based SPR spr moves","Histogram of standard SPR spr moves and lasso-based SPR spr moves","Number of SPR moves",title.size=12)
-plot.hist(data$naive_SPR_spr_moves, main = "Histogram of naive SPR spr moves across different MSAs and starting trees", xlab="SPR moves")
-plot.hist(data$rho_first_phase,main="Histogram of rho",xlab="rho")
-plot.hist(data$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees",xlab="delta ll")
+
+plot.hist(data$ll_pearson_during_tree_search^2, main = "Distribution R^2 during tree search", xlab="R^2 during tree search")
+two.groups.hist(data$naive_SPR_spr_moves, data$lasso_SPR_first_phase_spr_moves,"Standard SPR spr moves","Lasso-based SPR spr moves","Number of spr moves in standard SPR in the Lasso-based variant","Distribution of number of spr moves",title.size=12)
+two.groups.hist(data$rf_first_phase_vs_overall_bes, data$rf_naive_vs_overall_best_first_phase,"Lasso-based SPR","Standard SPR","Robinson- Foulds relative distance from best tree","Robinson-Foulds relative distance",title.size=12)
+plot.hist(data$rho_first_phase,main="Distribution of running time decrease factor",xlab="Running time decrease factor")
+plot.hist(data$delta_ll_first_phase ,main="Distribution of delta log likelihood values",xlab="delta ll")
 #plot.hist(data$mistake_cnt,"Histogram of mistakes count per each MSA and starting tree", xlab="mistake cnt")
 
 simple.regression(x=data$ll_pearson_during_tree_search^2,y=data$lasso_test_R.2,main="Lasso test R^2 vs R^2 during tree search",xlab="R^2 during tree search",ylab="Lasso test R^2")
 
 
 #same on aggregated data:
-plot.hist(agg_per_msa$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search (aggregated)", xlab="R^2 during tree #search")
-plot.hist(agg_per_msa$naive_SPR_spr_moves, main = "Histogram of SPR naive moves across different MSAs and starting trees (aggregated)", xlab="SPR moves")
-plot.hist(agg_per_msa$rho_first_phase,main="Histogram of rho across different MSAs and starting trees (aggregated)",xlab="rho")
-plot.hist(agg_per_msa$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees (aggregated)",xlab="rho")
-simple.regression(x=agg_per_msa$lasso_test_R.2,y=agg_per_msa$ll_pearson_during_tree_search^2,main="Lasso test R^2 vs R^2 during tree search (aggregated)",xlab="Lasso test R^2",ylab="R^2 during tree search")
+#plot.hist(agg_per_msa$ll_pearson_during_tree_search^2, main = "Histogram of R^2 during tree search (aggregated)", xlab="R^2 during tree #search")
+#plot.hist(agg_per_msa$naive_SPR_spr_moves, main = "Histogram of SPR naive moves across different MSAs and starting trees (aggregated)", #xlab="SPR moves")
+#plot.hist(agg_per_msa$rho_first_phase,main="Histogram of rho across different MSAs and starting trees (aggregated)",xlab="rho")
+#plot.hist(agg_per_msa$delta_ll_first_phase ,main="Histogram of delta likelihood values across different MSAs and starting trees #(aggregated)",xlab="rho")
+#simple.regression(x=agg_per_msa$lasso_test_R.2,y=agg_per_msa$ll_pearson_during_tree_search^2,main="Lasso test R^2 vs R^2 during tree search #(aggregated)",xlab="Lasso test R^2",ylab="R^2 during tree search")
 
 
 
@@ -248,8 +315,9 @@ Effect on the SPR search on the example MSA:  MODIFIED SPR SEARCH (including sec
 
 ```{r}
 
-example_MSA_data = data%>%filter(job_id==24)
-plot.hist(example_MSA_data$delta_ll_second_phase , main="Delta log likelihood values between naive SPR and the lasso based variant", xlab="Delta log likelihood", title_size=12, text_size=11)
+
+cat("Average value of running time decrease factor is:",mean(example_MSA_data$rho_second_phase),"\n")
+plot.hist(example_MSA_data$delta_ll_second_phase , main="Distribution of delta log likelihood values after the second phase", xlab="Delta log likelihood", title_size=12, text_size=11)
 best_tree = max(example_MSA_data$overall_best_topology_second_phase) # removing duplicates
 cat("best tree is :",best_tree,"\n") #lasso got it xxx times, naive got it yyy times
 lasso_cnt_best_tree=sum(example_MSA_data$rf_second_phase_vs_overall_best ==0)
@@ -266,25 +334,38 @@ average_spr_moves_lasso_seond_phase = mean(example_MSA_data$lasso_SPR_second_pha
 cat("Average number of SPR steps in naive SPR is:", average_spr_moves_naive,"\n")
 cat("Average number of SPR steps in lasso first phase SPR variant is:", average_spr_moves_lasso_first_phase,"\n" )
 cat("Average number of SPR steps in lasso second phase SPR variant is:", average_spr_moves_lasso_seond_phase,"\n" )
-plot.hist(example_MSA_data$rho_second_phase ,main="Histogram of rho across different starting trees",xlab="rho")
+plot.hist(example_MSA_data$rho_second_phase ,main="Distribution of running time decrease factor using the modified Lasso SPR search",xlab="running time decrease factor using the modified Lasso SPR search")
 plot.hist(example_MSA_data$lasso_SPR_second_phase_spr_moves, main="Histogram of number of SPR moves during the Lasso second phase",xlab="Spr moves")
 print(example_MSA_data$lasso_SPR_second_phase_spr_moves)
 
 ```
 
 
-Effect on the SPR search on the example MSA on xxx datasets: MODIFIED SPR SEARCH (including second phase)
+Effect on the SPR search on the example MSA on 48 datasets: MODIFIED SPR SEARCH (including second phase)
 
 ```{r}
-plot.hist(data$lasso_SPR_second_phase_spr_moves , main = "Histogram of Lasso second phase spr moves across different MSAs and starting trees", xlab="SPR moves",title_size = 10)
-plot.hist(data$rho_second_phase ,main="Histogram of rho (second phase) across different MSAs and starting trees",xlab="rho (second_phase)",title_size = 10)
-plot.hist(data$delta_ll_second_phase ,main="Histogram of delta likelihood (second phase) values across different MSAs and starting trees",xlab="delta ll (second phase)",title_size = 10)
+
+print("Summary of number of steps during the second SPR")
+print(summary(data$lasso_SPR_second_phase_spr_moves))
+print("Summary of running time decrease factor :")
+print(summary(data$rho_second_phase ))
+print("Summary of RF dist Lasso vs. best second phase:")
+print(summary(data$rf_second_phase_vs_overall_best))
+print("Summary of RF dist Standard vs. best second phase:")
+print(summary(data$rf_naive_vs_overall_best_second_phase))
+print("Summary of delta log likelihood")
+print(summary(data$delta_ll_second_phase))
+two.groups.hist(data$rf_second_phase_vs_overall_best, data$rf_naive_vs_overall_best_second_phase,"Lasso-based modified SPR","Standard SPR","Distribution of Robinson-Foulds relative distance from best tree","Robinson Foulds relative distance",title.size=12)
+
+plot.hist(data$lasso_SPR_second_phase_spr_moves , main = "Distribution of number of spr moves during second phase", xlab="SPR moves")
+plot.hist(data$rho_second_phase ,main="Distribution of running time decrease factor of modified Lasso-based SPR ",xlab="Running time efficiency factor of Lasso-based SPR")
+plot.hist(data$delta_ll_second_phase ,main="Distribution of delta log likelihood values after the second phase",xlab="delta ll (second phase)")
 
 
 #same on aggregated data:
-plot.hist(agg_per_msa$lasso_SPR_second_phase_spr_moves , main = "Histogram of Lasso second phase spr moves across different MSAs and starting trees (aggregated)", xlab="SPR moves",title_size = 10)
-plot.hist(agg_per_msa$rho_second_phase ,main="Histogram of rho (aggregated second phase) across different MSAs and starting trees",xlab="rho (second_phase)",title_size = 10)
-plot.hist(agg_per_msa$delta_ll_second_phase ,main="Histogram of delta likelihood (aggregated second phase) values across different MSAs and starting trees",xlab="delta ll (second phase)",title_size = 10)
+#plot.hist(agg_per_msa$lasso_SPR_second_phase_spr_moves , main = "Histogram of Lasso second phase spr moves across different MSAs #and starting trees (aggregated)", xlab="SPR moves",title_size = 10)
+#plot.hist(agg_per_msa$rho_second_phase ,main="Histogram of rho (aggregated second phase) across different MSAs and starting #trees",xlab="rho (second_phase)",title_size = 10)
+#plot.hist(agg_per_msa$delta_ll_second_phase ,main="Histogram of delta likelihood (aggregated second phase) values across #different MSAs and starting trees",xlab="delta ll (second phase)",title_size = 10)
 
 
 
