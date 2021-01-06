@@ -1,4 +1,4 @@
-
+from sklearn.metrics import *
 from sklearn import linear_model
 from raxml import *
 from scipy import stats
@@ -43,11 +43,12 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name,curr_ru
             lasso_log.write("Lasso chosen locis are:" + str(chosen_locis) + "\n")
             lasso_log.write("Lasso nonzero coefficient are:" + str(chosen_loci_weights) + "\n")
             training_r_squared=lasso_model.score(sitelh_training_df,y_training)
-
+            training_mse = mean_squared_error(y_training, y_training_predicted)
             training_spearmanr = stats.spearmanr(y_training,y_training_predicted)[0]
             y_test_predicted, y_test, sitelh_test_df = evaluate_lasso_performance_on_test_data(
                 lasso_model, curr_msa_stats)
             test_r_squared = lasso_model.score(sitelh_test_df, y_test)
+            test_mse =mean_squared_error(y_test,y_test_predicted)
             test_spearmanr = stats.spearmanr(y_test,y_test_predicted)[0]
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(y_training_predicted, y_training, sitelh_training_df,
@@ -73,4 +74,6 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name,curr_ru
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "lasso_training_R^2": training_r_squared, "lasso_test_R^2": test_r_squared,
                                    "lasso_training_spearmanr": training_spearmanr,"lasso_test_spearmanr": test_spearmanr,
+                                   "lasso_training_mse": training_mse,
+                                   "lasso_test_mse": test_mse,
                                    "lasso_predict_func": lambda_function})
