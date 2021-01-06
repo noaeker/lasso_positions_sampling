@@ -4,6 +4,7 @@ import numpy as np
 import shutil
 from scipy import stats
 from spr_prune_and_regraft import *
+from sklearn.metrics import *
 
 
 def write_spr_log_message(spr_log_file_object, rgrft_path, best_ll, ll, best_topology_path):
@@ -217,10 +218,11 @@ def analyze_ll_comparison_df(ll_comparison_df):
                                                    ll_comparison_df['sampled msa ll'])
         rho_spearman, pval_spearman = stats.spearmanr(ll_comparison_df['full msa ll'],
                                                    ll_comparison_df['sampled msa ll'])
+        mse = mean_squared_error(ll_comparison_df['full msa ll'], ll_comparison_df['sampled msa ll'])
     else:
-        rho_pearson,pval_pearson,mistake_cnt,rho_spearman, pval_spearman=-1,-1,-1
+        rho_pearson,pval_pearson,mistake_cnt,rho_spearman, pval_spearman,mse=-1,-1,-1,-1
 
-    return rho_pearson, pval_pearson,rho_spearman, pval_spearman,mistake_cnt
+    return rho_pearson, pval_pearson,rho_spearman, pval_spearman,mse,mistake_cnt
 
 
 def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_directory, samp_lambda_function,
@@ -275,7 +277,7 @@ def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_di
         tree_newick_first_phase = first_optimized_param_dict["best_topology_newick"]
         ll_comparison_df = first_optimized_param_dict["ll_comparison_df"]
         ll_comparison_df.to_csv(os.path.join(curr_run_directory , "ll_comparison_df.csv"))
-        prediction_rho_pearson, prediction_pval_pearson,prediction_rho_spearman, prediction_pval_spearman,mistake_cnt = analyze_ll_comparison_df(ll_comparison_df)
+        prediction_rho_pearson, prediction_pval_pearson,prediction_rho_spearman, prediction_pval_spearman,mse,mistake_cnt = analyze_ll_comparison_df(ll_comparison_df)
         overall_SPR_steps_list = [first_optimized_param_dict["spr_moves"]]
         first_optimized_tree_path = first_optimized_param_dict["curr_iter_best_topology_path"]
         first_optimized_tree_object = first_optimized_param_dict["curr_iter_best_tree_object"]
@@ -325,10 +327,11 @@ def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_di
                 "lasso_SPR_second_phase_ll": overall_ll_list[-1],
                 "lasso_SPR_second_phase_tree_newick": tree_newick_second_phase,
                 "lasso_SPR_second_phase_spr_moves": next_optimized_tree_param_dict["spr_moves"],
-                "ll_pearson_during_tree_search": prediction_rho_pearson,
-                "ll_pearson_during_tree_search_pval": prediction_pval_pearson,
-                "ll_spearman_during_tree_search": prediction_rho_spearman,
-                "ll_spearman_during_tree_search_pval": prediction_pval_spearman,
+                "R^2_pearson_during_tree_search": prediction_rho_pearson**2,
+                "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
+                "R^2_spearman_during_tree_search": prediction_rho_spearman**2,
+                "R^2_spearman_during_tree_search_pval": prediction_pval_spearman,
+                "mse_during_tree_search" : mse,
                 "mistake_cnt" : mistake_cnt,
                 "lasso_SPR_starting_tree_ll": use_sampled_true_starting_tree_ll,
                 "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path
