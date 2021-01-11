@@ -2,6 +2,7 @@ from lasso_model_pipeline import *
 from generate_SPR import *
 from training_and_test_set_generation import *
 from raxml import *
+import filecmp
 
 
 def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
@@ -267,11 +268,16 @@ def main():
                                                                                              job_related_file_paths[
                                                                                                  "spr_log_path"], \
                                                                                              job_related_file_paths[
-                                                                                                 "job_status_file"]
+                                                                                           "job_status_file"]
+    baseline_msa_paths_file = job_msa_paths_file.replace(run_prefix,baseline_run_prefix)
     with open(job_msa_paths_file, "r") as paths_file:
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(job_ind))
+    if filecmp.cmp(baseline_msa_paths_file,  job_msa_paths_file):
+        logging.info("Files in the baseline folder are matching")
+    else:
+        logging.error("Files in the baseline aren't matching!!!")
     all_MSA_results = pd.DataFrame(
     )
     all_MSA_results.to_csv(job_csv_path, index=False)
@@ -301,22 +307,38 @@ def main():
             brlen_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
             brlen_generator_func = brlen_generators.get(brlen_generator_name)
-            test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
-                                                name="test_{}".format(brlen_generator_name),
-                                                brlen_generator_func=brlen_generator_func,
-                                                curr_run_directory=brlen_run_directory)
+            test_name = "test_{}".format(brlen_generator_name)
+            test_output_csv_path = os.path.join(brlen_run_directory, curr_msa_stats.get("file_name") + "_" + test_name + ".csv")
+            test_baseline_path = test_output_csv_path.replace(curr_msa_stats["run_prefix"], curr_msa_stats["baseline_run_prefix"])
+            if os.path.exists( test_baseline_path) and not pd.read_csv( test_baseline_path).empty:
+                logging.info("Copying test set from {baseline} to {curr}".format(baseline=test_baseline_path, curr = test_output_csv_path))
+                test_sitelh=pd.read_csv(test_baseline_path)
+                test_sitelh.to_csv(test_output_csv_path)
+            else:
+                test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
+                                                    brlen_generator_func=brlen_generator_func,
+                                                    curr_run_directory=brlen_run_directory, output_csv_path = test_output_csv_path)
             curr_msa_stats["test_sitelh_df"] = test_sitelh
             for training_size in training_size_options:
                 curr_run_directory = os.path.join(brlen_run_directory, str(training_size))
                 create_dir_if_not_exists(curr_run_directory)
-                comb_name = "{brlen_generator_name}_s_{training_size}".format(
+                training_name = "{brlen_generator_name}_s_{training_size}".format(
                     brlen_generator_name=brlen_generator_name, training_size=training_size)
                 logging.info("Using {} to generate branch lengths".format(brlen_generator_name))
                 curr_msa_stats["brlen_generator"] = brlen_generator_name
                 curr_msa_stats["actucal_training_size"] = training_size
                 logging.info("Generation training dataset in folder: {}".format(curr_run_directory))
-                training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats,n_iter=training_size,name="training_"+ comb_name,
-                                                        brlen_generator_func=brlen_generator_func, curr_run_directory=curr_run_directory)
+                training_output_csv_path = os.path.join(curr_run_directory, curr_msa_stats.get("file_name") + "_" + training_name + ".csv")
+                training_baseline_path = training_output_csv_path.replace(curr_msa_stats["run_prefix"],
+                                                                          curr_msa_stats["baseline_run_prefix"])
+                if os.path.exists(training_baseline_path) and not pd.read_csv(training_baseline_path).empty:
+                    logging.info("Copying training set from {baseline} to {curr}".format(baseline=training_baseline_path,
+                                                                                     curr=training_output_csv_path))
+                    training_sitelh = pd.read_csv(training_baseline_path)
+                    training_sitelh.to_csv(training_output_csv_path)
+                else:
+                    training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats,n_iter=training_size,
+                                                            brlen_generator_func=brlen_generator_func, curr_run_directory=curr_run_directory, output_csv_path = training_output_csv_path)
                 curr_msa_stats["training_sitelh_df"] = training_sitelh
                 logging.info("Generation test dataset in folder: {}".format(curr_run_directory))
                 apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name=brlen_generator_name, curr_run_directory=curr_run_directory)  # calculating positions_weight

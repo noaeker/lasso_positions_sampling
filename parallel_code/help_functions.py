@@ -181,8 +181,8 @@ def main_parser():
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
-    parser.add_argument('--only_evaluate_lasso', action='store_true',default=False)
-    parser.add_argument('--baseline_run_prefix',action='store', type=str, default="")
+    parser.add_argument('--only_evaluate_lasso', action='store_true',default=True) #change
+    parser.add_argument('--baseline_run_prefix',action='store', type=str, default="baseline")
     args = parser.parse_args()
     return args
 
