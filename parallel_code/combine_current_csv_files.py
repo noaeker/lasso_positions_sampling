@@ -15,6 +15,7 @@ def main():
     logging.basicConfig(filename=args.log_file_path, level=LOGGING_LEVEL)
     pd.DataFrame().to_csv(args.unified_csv_path)
     csv_paths = [os.path.join(args.jobs_folder, "job_{}".format(i), "{}.csv".format(i)) for i in range(args.n_jobs)]
+    logging.info("csv paths are: {}".format(csv_paths))
     add_csvs_content(csv_paths, args.unified_csv_path)
 
 if __name__ == "__main__":

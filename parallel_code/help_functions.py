@@ -153,7 +153,8 @@ def add_csvs_content(csvs_path_list, unified_csv_path):
     existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
     existing_df_size = pd.read_csv(unified_csv_path).size if os.path.exists(unified_csv_path) else 0
     logging.info('Existing df size is: {}'.format(existing_df_size))
-    combined_df = pd.concat([pd.read_csv(f) for f in csvs_path_list]+ existing_df,sort=False)
+    non_empty_df = [pd.read_csv(f) for f in csvs_path_list if not pd.read_csv(f).empty]
+    combined_df = pd.concat(non_empty_df+ existing_df,sort=False)
     combined_df_size = combined_df.size
     logging.info('Combined df size is: {}'.format(combined_df_size))
     combined_df.to_csv(unified_csv_path,index=False)
@@ -181,6 +182,7 @@ def main_parser():
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default=False)
+    parser.add_argument('--baseline_run_prefix',action='store', type=str, default="")
     args = parser.parse_args()
     return args
 
@@ -194,6 +196,8 @@ def job_parser():
     parser.add_argument('--random_trees_training_size', action='store', type=int)
     parser.add_argument('--random_trees_test_size', action='store', type=int)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default = False)
+    parser.add_argument('--run_prefix', action='store', type=str)
+    parser.add_argument('--baseline_run_prefix', action='store', type=str)
     args = parser.parse_args()
     return args
 

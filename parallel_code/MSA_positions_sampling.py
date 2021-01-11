@@ -173,7 +173,7 @@ def get_positions_stats(alignment_df, n_seq):
 
 
 def generate_msa_general_stats(original_alignment_path, file_ind, current_job_results_folder, job, max_n_seq,
-                               n_random_starting_trees,random_trees_training_size, random_trees_test_size
+                               n_random_starting_trees,random_trees_training_size, random_trees_test_size, run_prefix, baseline_run_prefix
                                ):
     dataset_id = original_alignment_path
     file_name = str(file_ind)
@@ -197,6 +197,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_job_re
                       "n_loci": n_loci, "MSA_original_n_loci": n_loci, "dataset_id": dataset_id,
                       "curr_msa_version_folder": curr_msa_version_folder,
                       "curr_job_results_folder": current_job_results_folder,
+                      "run_prefix" : run_prefix,
+                      "baseline_run_prefix": baseline_run_prefix,
                       "alignment_data": reduced_local_alignment_data,
                       "MSA_original_alignment_data": original_alignment_data,
                       "local_alignment_path": local_full_msa_path,
@@ -253,8 +255,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size,args.random_trees_test_size, args.only_evaluate_lasso
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size,run_prefix,baseline_run_prefix, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size,args.random_trees_test_size,args.run_prefix,args.baseline_run_prefix, args.only_evaluate_lasso
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -276,7 +278,7 @@ def main():
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
         logging.info(' #running on file ind ' + str(file_ind) + " path=" + str(original_alignment_path))
         curr_msa_stats = generate_msa_general_stats(
-            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees,random_trees_training_size, random_trees_test_size)
+            original_alignment_path, file_ind, curr_job_folder, job_ind, max_n_sequences, n_random_starting_trees,random_trees_training_size, random_trees_test_size,run_prefix, baseline_run_prefix)
         try:
 
             logging.info("Computing raxml result on full data:")
@@ -298,13 +300,18 @@ def main():
         for brlen_generator_name in  brlen_generators:
             brlen_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
+            brlen_generator_func = brlen_generators.get(brlen_generator_name)
+            test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
+                                                name="test_{}".format(brlen_generator_name),
+                                                brlen_generator_func=brlen_generator_func,
+                                                curr_run_directory=brlen_run_directory)
+            curr_msa_stats["test_sitelh_df"] = test_sitelh
             for training_size in training_size_options:
                 curr_run_directory = os.path.join(brlen_run_directory, str(training_size))
                 create_dir_if_not_exists(curr_run_directory)
                 comb_name = "{brlen_generator_name}_s_{training_size}".format(
                     brlen_generator_name=brlen_generator_name, training_size=training_size)
                 logging.info("Using {} to generate branch lengths".format(brlen_generator_name))
-                brlen_generator_func =brlen_generators.get(brlen_generator_name)
                 curr_msa_stats["brlen_generator"] = brlen_generator_name
                 curr_msa_stats["actucal_training_size"] = training_size
                 logging.info("Generation training dataset in folder: {}".format(curr_run_directory))
@@ -312,10 +319,6 @@ def main():
                                                         brlen_generator_func=brlen_generator_func, curr_run_directory=curr_run_directory)
                 curr_msa_stats["training_sitelh_df"] = training_sitelh
                 logging.info("Generation test dataset in folder: {}".format(curr_run_directory))
-                test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
-                                                        name="test_"+ comb_name,
-                                                        brlen_generator_func=brlen_generator_func,curr_run_directory=curr_run_directory)
-                curr_msa_stats["test_sitelh_df"] = test_sitelh
                 apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,name=brlen_generator_name, curr_run_directory=curr_run_directory)  # calculating positions_weight
                 if only_evaluate_lasso:
                     logging.info("only evaluating lasso: " + str(curr_msa_stats))
