@@ -274,7 +274,9 @@ def main():
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(job_ind))
-    if filecmp.cmp(baseline_msa_paths_file,  job_msa_paths_file):
+    if not os.path.exists(baseline_msa_paths_file):
+        logging.info("Not using baseline for this job")
+    elif  filecmp.cmp(baseline_msa_paths_file,  job_msa_paths_file):
         logging.info("Files in the baseline folder are matching")
     else:
         logging.error("Files in the baseline aren't matching!!!")
