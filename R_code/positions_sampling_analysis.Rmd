@@ -1,0 +1,217 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(dplyr)
+lasso_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_only_lasso_final.csv",header = TRUE, na.strings = ""))
+data_source = data.frame(read.csv("/Users/noa/Workspace/data/sampled_datasets.csv",header = TRUE, na.strings = ""))
+lasso_output_data$relative_path = str_replace_all(lasso_output_data$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
+data_only_lasso= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path")
+if (nrow(data_only_lasso)<nrow(lasso_output_data))
+{print("Problem in matching path names")
+  cat("nrow data=",nrow(data), "nrow lasso=",nrow(data_only_lasso))
+}
+
+data_only_lasso$lasso_test_R.2_spearman = data_only_lasso$lasso_test_spearmanr**2
+example_MSA_data_lasso = data_only_lasso%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy")
+
+training_optimized_800_example_data = 
+  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_example_800_optimized.csv",header = TRUE, na.strings = ""))
+names(training_optimized_800_example_data)[2:3]=c("training_true_val","training_predicted_val")
+test_optimized_800_example_data = 
+  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_example_800_optimized_test.csv",header = TRUE, na.strings = ""))
+names(test_optimized_800_example_data)[2:3]=c("test_true_val","test_predicted_val")
+
+```
+
+Good functions
+```{r}
+plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
+{
+  qplot(x,
+      geom="histogram",
+      main = main, 
+      xlab = xlab,
+      fill=I("blue"), 
+      col=I("red"), 
+      alpha=I(.2),
+      #xlim=c(20,50)
+      ) +  theme(plot.title = element_text(hjust = 0.5,size=title_size)) +theme(text = element_text(size = text_size)) 
+
+}
+
+lmp <- function (modelobject) {
+    if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+    f <- summary(modelobject)$fstatistic
+    p <- pf(f[1],f[2],f[3],lower.tail=F)
+    attributes(p) <- NULL
+    return(p)
+}
+
+simple.regression<-function(x,y,main,xlab, ylab,cex=1.0,resid_plot=FALSE)
+{linearMod <- lm((y) ~ x)
+print(main)
+print(summary(linearMod)) 
+r.squared <- summary(linearMod)$r.squared
+	p.val <- lmp(linearMod)
+plot(x, y,main=main,
+     xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
+	abline(linearMod)
+	mylabel = bquote(italic(R)^2 == .(format(r.squared, digits = 10)))
+text(x = 19, y = 2.5, labels = mylabel)
+
+	rp = vector('expression',2)
+rp[1] = substitute(expression(italic(R)^2 == MYVALUE), 
+		list(MYVALUE = format(r.squared,dig=4)))[2]
+rp[2] = substitute(expression(italic(p.value) == MYOTHERVALUE), 
+		list(MYOTHERVALUE = format(p.val, digits = 2)))[2]
+	legend('topleft', legend = rp, bty = 'n')
+if (resid_plot==TRUE)
+{plot(fitted(linearMod),resid(linearMod), main =main,xlab=xlab)
+abline(0, 0)
+}
+	
+	return(c(r.squared,p.val))
+}
+```
+
+Lasso example
+```{r}
+example_MSA_data_lasso_800_optimized = example_MSA_data_lasso%>% filter(actucal_training_size==800, brlen_generator=="optimized")
+
+print(select(example_MSA_data_lasso_800_optimized,"dataset_id","job_id","curr_msa_version_folder","n_seq", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2"))
+training_optimized_800_example_data["training delta ll"] =training_optimized_800_example_data["training_true_val"]-training_optimized_800_example_data["training_predicted_val"]
+test_optimized_800_example_data["test delta ll"] =test_optimized_800_example_data["test_true_val"]-test_optimized_800_example_data["test_predicted_val"]
+print(training_optimized_800_example_data[,c("training_predicted_val","training_true_val","training delta ll")])
+print(test_optimized_800_example_data[,c("test_predicted_val","test_true_val","test delta ll")])
+
+
+simple.regression(training_optimized_800_example_data$training_true_val,training_optimized_800_example_data$training_predicted_val,"Training set predicted log likelihood vs true log likelihood","Training set true log likelihood","Training set predicted log likelihood")
+simple.regression(test_optimized_800_example_data$test_true_val,test_optimized_800_example_data$test_predicted_val,"Test set predicted log likelihood vs true log likelihood","Test set true log likelihood","Test set predicted log likelihood",cex=1)
+
+
+```
+
+
+Lasso problematic datasets
+```{r}
+print( data_only_lasso[data_only_lasso$lasso_test_R.2<0.5,c("n_seq","n_loci","sample_pct","lasso_test_R.2", "lasso_training_R.2", "lasso_training_spearmanr","number_loci_chosen")])
+
+```
+
+Example MSA Lasso statistics
+```{r}
+ 
+
+ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
+     geom_point(size=3)+
+    labs(title="Lasso test set R squared vs. training size",color = "Branch length distribution")+xlab("Training size")+ylab("Lasso test R squared")+ theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=number_loci_chosen ))+
+    geom_point(size=3)+
+   labs(title="Number of positions chosen by Lasso vs. training size",color = "Branch length distribution")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")+ theme(plot.title = element_text(hjust = 0.5))
+ 
+
+```
+Lasso on 50 MSAs only 800
+```{r}
+
+data_lasso_only_800 = data_only_lasso[data_only_lasso$actucal_training_size==800,]
+  
+  ggplot(data_lasso_only_800,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
+     geom_boxplot()+
+    labs(title="Lasso test set Pearson R squared for training size 800")+xlab("Training size")+ ylab("Lasso test Pearson R squared")+ labs(color = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
+    ggplot(data_lasso_only_800,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2_spearman))+ 
+     geom_boxplot()+
+    labs(title="Lasso test set Spearman R squared for training size 800")+xlab("Training size")+ ylab("Lasso test Spearman R squared")+ labs(color = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
+    ggplot(data_lasso_only_800 , aes(x=as.factor(actucal_training_size),color=brlen_generator, y=number_loci_chosen))+ 
+     geom_boxplot()+
+    labs(title="Number of positions chosen by Lasso for training size 800")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")+ labs(color = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5)) 
+    
+
+```
+
+Lasso on 50 MSAs - Spearman
+```{r}
+library(e1071)
+
+sum.data.25 = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+group_modify(~ {
+quantile(.x$lasso_test_R.2_spearman, probs = c(0.25)) %>%
+tibble::enframe(name = "prob.25.spearman", value = "quantile.25.spearman")
+})
+
+print(sum.data.25 )
+
+sum.data.75 = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+group_modify(~ {
+quantile(.x$lasso_test_R.2_spearman, probs = c(0.75)) %>%
+tibble::enframe(name = "prob.75.spearman", value = "quantile.75.spearman")
+})
+print(sum.data.75)
+
+sum.data.spearman = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+summarise(across(.cols=c(lasso_test_R.2_spearman), .fns= list(Media_spearmann=median,Skw_spearman=skewness), na.rm= TRUE),.groups = "drop")
+print(sum.data.spearman)
+
+
+```
+
+
+
+Lasso on 50 MSAs - Pearson
+
+```{r}
+library(e1071)
+
+sum.data.25 = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+group_modify(~ {
+quantile(.x$lasso_test_R.2, probs = c(0.25)) %>%
+tibble::enframe(name = "prob.25", value = "quantile.25")
+})
+
+print(sum.data.25 )
+
+sum.data.75 = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+group_modify(~ {
+quantile(.x$lasso_test_R.2, probs = c(0.75)) %>%
+tibble::enframe(name = "prob.75", value = "quantile.75")
+})
+print(sum.data.75)
+
+sum.data.pearson = data_only_lasso %>%
+group_by(actucal_training_size,brlen_generator ) %>%
+summarise(across(.cols=c(lasso_test_R.2), .fns= list(Median=median,Skw=skewness), na.rm= TRUE),.groups = "drop")
+print(sum.data)
+
+
+```
+Lasso on 50 MSAs - number of positions chosen
+
+```{r}
+
+```
+
+
+

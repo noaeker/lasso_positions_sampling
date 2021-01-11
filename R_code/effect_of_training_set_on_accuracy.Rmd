@@ -1,0 +1,180 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(dplyr)
+output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_only_lasso_final.csv",header = TRUE, na.strings = ""))
+print(output_data)
+
+
+```
+```{r}
+print( output_data[output_data$lasso_test_R.2<0.5,c("n_seq","n_loci","sample_pct","lasso_test_R.2", "lasso_training_R.2", "lasso_training_spearmanr","number_loci_chosen")])
+```
+
+
+```{r}
+
+library(e1071)
+
+data_exp = output_data[output_data$brlen_generator=="exponential",]
+data_optimized = output_data[output_data$brlen_generator=="optimized",]
+data_uniform = output_data[output_data$brlen_generator=="uniform",]
+data_800 = output_data[output_data$actucal_training_size ==800,]
+
+Q.25<- function(vec)
+{
+  return(unname(quantile(vec,probs=0.25)))
+}
+
+example_data  = output_data[output_data$dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy",]
+
+
+output_data %>% 
+group_by(actucal_training_size,brlen_generator ) %>%
+  summarise(across(.cols=c(lasso_test_R.2,lasso_test_spearmanr,number_loci_chosen), .fns= list(Median=median,Mean=mean,Min=min,Max=max,Skw=skewness), na.rm= TRUE))
+
+output_data %>% 
+group_by(brlen_generator ) %>%
+  summarise(across(.cols=c(lasso_test_R.2,lasso_test_spearmanr,number_loci_chosen), .fns= list(Median=median,Mean=mean,Min=min,Max=max), na.rm= TRUE))
+
+
+output_data_no_outliers = output_data[output_data$lasso_test_R.2>0.5,]
+
+ ggplot(output_data_no_outliers, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
+     geom_boxplot()+
+    labs(title="Lasso test set pearson R squared vs. training size")+xlab("Training size")+ylab("Lasso test R squared")+
+  theme(plot.title = element_text(hjust = 0.5)) + labs(color = "Branch length distribution")
+ 
+ 
+  ggplot(data_800, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
+     geom_boxplot()+
+    labs(title="Lasso test set pearson R squared for training size 800")+xlab("Training size")+ ylab("Lasso test R squared")+ labs(color = "Branch length distribution")
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
+    ggplot(data_800, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=number_loci_chosen))+ 
+     geom_boxplot()+
+    labs(title="Number of positions chosen by Lasso for training size 800")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")+ labs(color = "Branch length distribution")
+  theme(plot.title = element_text(hjust = 0.5)) 
+ 
+  
+ 
+
+  
+
+ ggplot(output_data, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_spearmanr**2))+
+     geom_boxplot()+
+   labs(title="Lasso test set spearman R squared vs. training size")+xlab("Training size")+ 
+  theme(plot.title = element_text(hjust = 0.5)) + labs(color = "Branch length distribution")
+
+ggplot(output_data, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=number_loci_chosen ))+
+    geom_boxplot()+
+   labs(title="Number of positions chosen by Lasso vs. training size")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")
+  theme(plot.title = element_text(hjust = 0.5)) + labs(color = "Branch length distribution")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+linear.mod = lm((output_data$lasso_test_mse)~(as.factor(output_data$brlen_generator)+as.factor(output_data$actucal_training_size)+output_data$mad+output_data$n_loci
+                +output_data$avg_entropy))
+print(summary(linear.mod))
+plot(output_data$lasso_test_R.2,resid(linear.mod))
+abline(0,0)
+```
+
+
+```{r}
+example_data %>%
+  ggplot( aes(x=lasso_test_R.2, color=brlen_generator, fill = brlen_generator)) +
+    geom_histogram( alpha=0.6, position = 'identity',bins=15) 
+
+
+ ggplot(example_data, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
+     geom_point(size=3)+
+    labs(title="Lasso test set R squared vs. training size",color = "Branch length distribution")+xlab("Training size")+ylab("Lasso test R squared")+
+
+theme(plot.title = element_text(hjust = 0.5)) 
+ 
+
+ggplot(example_data, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=number_loci_chosen ))+
+    geom_point(size=3)+
+   labs(title="Number of positions chosen by Lasso vs. training size",color = "Branch length distribution")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
+```
+
+
+```{r}
+#ggplot(output_data, aes(x=brlen_generator, y=output_data$ll_pearson_during_tree_search, fill=as.factor(actucal_training_size))) + 
+#    geom_boxplot()
+
+#data_exp = output_data[output_data$brlen_generator=="exponential",]
+#data_optimized = output_data[output_data$brlen_generator=="optimized",]
+#data_uniform = output_data[output_data$brlen_generator=="uniform",]
+
+#ggplot(data_exp, aes(x=as.factor(actucal_training_size), y=ll_pearson_during_tree_search))+ 
+#    geom_boxplot()
+
+
+#ggplot(data_optimized, aes(x=as.factor(actucal_training_size), y=ll_pearson_during_tree_search))+ 
+ #   geom_boxplot()
+
+
+#ggplot(data_uniform, aes(x=as.factor(actucal_training_size), y=ll_pearson_during_tree_search))+ 
+#    geom_boxplot()
+
+ggplot(output_data, aes(x=as.factor(actucal_training_size), y=ll_pearson_during_tree_search**2, shape=brlen_generator, color=brlen_generator)) +
+  geom_point(size=3)+labs(title="Pearson R^2 during tree search vs training size")+xlab("training size")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+ggplot(output_data, aes(x=as.factor(actucal_training_size), y=ll_spearman_during_tree_search**2, shape=brlen_generator, color=brlen_generator)) +
+  geom_point(size=3)+labs(title="Spearman R^2 during tree search vs training size")+xlab("training size")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+#ggplot(data_exp, aes(x=as.factor(actucal_training_size), y=ll_pearson_during_tree_search)) +
+#  geom_point(size=3)+labs(title="Pearson during tree search vs training size- exponential")+xlab("training size")+
+#  theme(plot.title = element_text(hjust = 0.5))
+#ggplot(data_optimized, aes(x=as.factor(actucal_training_size), y=lasso_test_R.2)) +
+#  geom_point(size=3)+labs(title=title)+xlab(x.axis.name)
+#ggplot(data_uniform, aes(x=as.factor(actucal_training_size), y=lasso_test_R.2)) +
+#  geom_point(size=3)+labs(title=title)+xlab(x.axis.name)
+
+```
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

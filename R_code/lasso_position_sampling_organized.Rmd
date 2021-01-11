@@ -58,6 +58,7 @@ num_cols <- unlist(lapply(data, is.numeric))
 agg_per_msa = aggregate(data[num_cols], by=list(data$dataset_id), mean,na.action = na.pass)
 
 
+example_MSA_data = data%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy")
 
 ```
 
@@ -149,6 +150,8 @@ Find good datasets for Lasso example:
 ```{r}
 select(data_only_lasso%>%filter(sample_pct<0.15&n_seq>=15&n_loci>3000),dataset_id,job_id,curr_msa_version_folder, n_loci,number_loci_chosen,n_seq, ,lasso_test_R.2, avg_entropy,gap_pct,informative_columns_count)
 print(select(data_only_lasso%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00530000063749/ref_msa.aa.phy"),dataset_id,job_id,curr_msa_version_folder, n_loci,number_loci_chosen,n_seq, ,lasso_test_R.2, avg_entropy,gap_pct,informative_columns_count))
+
+print(example_MSA_data)
 ```
 
 Find good datasets for SPR example:
@@ -245,8 +248,8 @@ Effect on the SPR search on the example MSA:
 Many starting trees on one chosen dataset
 ```{r}
 
-example_MSA_data = data%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy")
-print(select(example_MSA_data,dataset_id,job_id, n_loci,number_loci_chosen,n_seq,sample_pct))
+
+print(select(example_MSA_data,dataset_id,job_id, n_loci,number_loci_chosen,n_seq,sample_pct,alpha))
 print("Delta ll summary:")
 print(summary(example_MSA_data$delta_ll_first_phase))
 print("Rho summary:")

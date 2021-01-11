@@ -138,7 +138,7 @@ def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_outpu
         curr_msa_results = curr_msa_results.append(curr_random_tree_raw_results, ignore_index=True)
     curr_msa_results = enrich_curr_msa_results(curr_msa_results, curr_msa_stats,curr_run_directory)
     all_MSA_results = all_MSA_results.append(curr_msa_results)
-    all_MSA_results.to_csv(curr_job_output_csv_path, index=False)  # Updating data after each tree
+    all_MSA_results.to_csv(curr_job_output_csv_path, index=False)  # Updating data 
     return all_MSA_results
 
 
