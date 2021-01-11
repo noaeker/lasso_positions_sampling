@@ -152,10 +152,10 @@ def sample_exp(size):
 def add_csvs_content(csvs_path_list, unified_csv_path):
     existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
     existing_df_size = pd.read_csv(unified_csv_path).size if os.path.exists(unified_csv_path) else 0
-    logging.info(f'Existing df size is: {existing_df_size}')
+    logging.info('Existing df size is: {}'.format(existing_df_size))
     combined_df = pd.concat([pd.read_csv(f) for f in csvs_path_list]+ existing_df,sort=False)
     combined_df_size = combined_df.size
-    logging.info(f'Combined df size is: {combined_df_size}')
+    logging.info('Combined df size is: {}'.format(combined_df_size))
     combined_df.to_csv(unified_csv_path,index=False)
     return combined_df
 
