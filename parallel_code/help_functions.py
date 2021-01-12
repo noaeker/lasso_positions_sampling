@@ -144,10 +144,6 @@ def unify_text_files(input_file_path_list, output_file_path):
                 outfile.write(infile.read())
 
 
-def sample_uniform(size):
-    return np.random.uniform(size=size)
-def sample_exp(size):
-    return np.random.exponential(scale=0.1, size=size)
 
 def add_csvs_content(csvs_path_list, unified_csv_path):
     existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
@@ -178,10 +174,13 @@ def main_parser():
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=N_RANDOM_STARTING_TREES)
     parser.add_argument('--random_trees_training_size', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
+    parser.add_argument('--exp_brlen',action='store_true',default=False)
+    parser.add_argument('--uni_brlen', action='store_true', default=False)
+    parser.add_argument('--opt_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
-    parser.add_argument('--only_evaluate_lasso', action='store_true',default=True) #change
+    parser.add_argument('--only_evaluate_lasso', action='store_true',default=False) 
     parser.add_argument('--baseline_run_prefix',action='store', type=str, default="baseline")
     args = parser.parse_args()
     return args
@@ -194,6 +193,9 @@ def job_parser():
     parser.add_argument('--max_n_sequences', action='store', type=int)
     parser.add_argument('--n_random_starting_trees', action='store', type=int)
     parser.add_argument('--random_trees_training_size', action='store', type=int)
+    parser.add_argument('--exp_brlen',action='store_true',default=False)
+    parser.add_argument('--uni_brlen', action='store_true', default=False)
+    parser.add_argument('--opt_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default = False)
     parser.add_argument('--run_prefix', action='store', type=str)

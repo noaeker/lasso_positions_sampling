@@ -1,16 +1,26 @@
 import numpy as np
 import logging
 import os
+import help_functions
 
 LOCAL_RUN =True #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
+def sample_uniform(size):
+    return np.random.uniform(size=size)
+def sample_exp(size):
+    return np.random.exponential(scale=0.1, size=size)
+
+
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
-TRAINING_SIZE_OPTIONS = [50,100]#[50,100,200,400,800]
+TRAINING_SIZE_OPTIONS = [50,100,200,400,800]
+BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
+
+
 WAITING_TIME_CSV_UPDATE = 10#86400
 N_JOBS = 1
 RANDOM_TREES_TEST_SIZE = 50

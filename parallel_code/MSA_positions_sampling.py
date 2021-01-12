@@ -256,8 +256,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size,run_prefix,baseline_run_prefix, only_evaluate_lasso = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size,args.random_trees_test_size,args.run_prefix,args.baseline_run_prefix, args.only_evaluate_lasso
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size,run_prefix,baseline_run_prefix, only_evaluate_lasso, exp_brlen, uni_brlen, opt_brlen = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                          args.n_random_starting_trees, args.random_trees_training_size,args.random_trees_test_size,args.run_prefix,args.baseline_run_prefix, args.only_evaluate_lasso, args.exp_brlen, args.uni_brlen, args.opt_brlen
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -300,12 +300,16 @@ def main():
                 curr_msa_stats)
         curr_msa_stats["spr_log_path"] = spr_log_path
         curr_msa_stats["current_job_results_folder"] = curr_job_folder
-        brlen_generators = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
+        brlen_generators={}
+        for brlen_generator_name, brlen_generator_func in BRLEN_GENERATORS.items():
+            if (brlen_generator_name=='exponential' and exp_brlen) or (brlen_generator_name=='uniform' and uni_brlen) or (brlen_generator_name=='optimized' and opt_brlen):
+                brlen_generators[brlen_generator_name] = brlen_generator_func
+        logging.info("Brlen genertors are chosen to be {}".format(str(brlen_generators.keys())))
         if random_trees_training_size==-1:
             training_size_options = TRAINING_SIZE_OPTIONS
         else:
             training_size_options = [random_trees_training_size]
-        for brlen_generator_name in  brlen_generators:
+        for brlen_generator_name in brlen_generators:
             brlen_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
             brlen_generator_func = brlen_generators.get(brlen_generator_name)
