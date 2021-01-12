@@ -49,7 +49,7 @@ def distribute_MSAs_over_jobs(path_list, n_jobs, all_jobs_results_folder, max_n_
                 '--n_random_starting_trees {n_random_starting_trees} --random_trees_training_size {random_trees_training_size} --random_trees_test_size {random_trees_test_size} --run_prefix {run_prefix} --baseline_run_prefix {baseline_run_prefix} {only_evaluate_lasso_arg} {exp_brlen_arg} {uni_brlen_arg} {opt_brlen_arg}\t{job_name}'.format(
                 job_ind=job_ind, curr_job_folder=curr_job_folder, max_n_sequences=max_n_sequences,
                 n_random_starting_trees=n_random_starting_trees,random_trees_training_size=random_trees_training_size,random_trees_test_size=random_trees_test_size,run_prefix=run_prefix,baseline_run_prefix=baseline_run_prefix, only_evaluate_lasso_arg=only_evaluate_lasso_arg,
-                exp_brlen_arg=exp_brlen_arg, uni_brlen=uni_brlen_arg, opt_brlen_arg=opt_brlen_arg,
+                exp_brlen_arg=exp_brlen_arg, uni_brlen_arg=uni_brlen_arg, opt_brlen_arg=opt_brlen_arg,
                 jobs_prefix=jobs_prefix, job_name=jobs_prefix + str(job_ind))
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:
