@@ -1,0 +1,225 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+Reading the dataframe and adding more fields
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(dplyr)
+library(ggpubr)
+library(gridExtra)
+spr_data.exp<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_exp_800.csv"))
+spr_data.opt<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_opt_800.csv"))
+spr_data<-rbind(spr_data.exp,spr_data.opt)
+
+spr_data$rho_second_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct))
+spr_data$rho_first_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct)
+spr_data$delta_ll_second_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_second_phase_ll
+spr_data$delta_ll_first_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_first_phase_ll
+
+
+good_datasets<-(select(spr_data %>% group_by(dataset_id) %>% count(dataset_id) %>% filter(n==6), dataset_id))
+
+spr_data<-merge(good_datasets, spr_data, by = "dataset_id")
+
+
+```
+
+
+```{r}
+plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
+{
+  qplot(x,
+      geom="histogram",
+      main = main, 
+      xlab = xlab,
+      fill=I("blue"), 
+      col=I("red"), 
+      alpha=I(.2),
+      #xlim=c(20,50)
+      ) +  theme(plot.title = element_text(hjust = 0.5,size=title_size)) +theme(text = element_text(size = text_size)) 
+
+}
+
+lmp <- function (modelobject) {
+    if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+    f <- summary(modelobject)$fstatistic
+    p <- pf(f[1],f[2],f[3],lower.tail=F)
+    attributes(p) <- NULL
+    return(p)
+}
+
+simple.regression<-function(x,y,main,xlab, ylab,cex=1.0,resid_plot=FALSE)
+{linearMod <- lm((y) ~ x)
+print(main)
+print(summary(linearMod)) 
+r.squared <- summary(linearMod)$r.squared
+	p.val <- lmp(linearMod)
+plot(x, y,main=main,
+     xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
+	abline(linearMod)
+	mylabel = bquote(italic(R)^2 == .(format(r.squared, digits = 10)))
+text(x = 19, y = 2.5, labels = mylabel)
+
+	rp = vector('expression',2)
+rp[1] = substitute(expression(italic(R)^2 == MYVALUE), 
+		list(MYVALUE = format(r.squared,dig=4)))[2]
+rp[2] = substitute(expression(italic(p.value) == MYOTHERVALUE), 
+		list(MYOTHERVALUE = format(p.val, digits = 2)))[2]
+	legend('topleft', legend = rp, bty = 'n')
+if (resid_plot==TRUE)
+{plot(fitted(linearMod),resid(linearMod), main =main,xlab=xlab)
+abline(0, 0)
+}
+	
+	return(c(r.squared,p.val))
+}
+```
+
+test
+```{r}
+print(spr_data$dataset_id)
+```
+
+
+Example MSA
+
+```{r}
+
+example_MSA_data = spr_data[spr_data$dataset_id==  "/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00550000074575/ref_msa.aa.phy" ,]
+
+
+example_MSA_statistics<-example_MSA_data[,c("brlen_generator","n_loci","number_loci_chosen","naive_SPR_spr_moves","lasso_SPR_first_phase_spr_moves","lasso_SPR_second_phase_spr_moves","rf_first_phase_vs_overall_best","R.2_pearson_during_tree_search", "R.2_spearman_during_tree_search","mistake_cnt","delta_ll_first_phase","rho_first_phase","rho_second_phase","naive_SPR_ll","lasso_SPR_first_phase_ll", "lasso_SPR_first_phase_tree_newick")]
+print(arrange(example_MSA_statistics,brlen_generator))
+
+
+print("Best topology:")
+print(max(example_MSA_data$overall_best_topology_first_phase))
+
+example.per.brlen = example_MSA_statistics %>%
+group_by(brlen_generator ) %>%
+summarise(across(.fns= list(Mean=mean), na.rm= TRUE),.groups = "drop")
+print(example.per.brlen )
+
+
+
+```
+
+
+First phase on 50 datasets
+
+```{r}
+all_MSA_statistics<-spr_data[,c("brlen_generator","n_loci","number_loci_chosen","naive_SPR_spr_moves","lasso_SPR_first_phase_spr_moves","lasso_SPR_second_phase_spr_moves","rf_first_phase_vs_overall_best","R.2_pearson_during_tree_search", "R.2_spearman_during_tree_search","mistake_cnt","delta_ll_first_phase","rho_first_phase","rho_second_phase","naive_SPR_ll","lasso_SPR_first_phase_ll", "lasso_SPR_first_phase_tree_newick")]
+
+all_MSA_statistics$spr_moves_diff <- spr_data$naive_SPR_spr_moves-spr_data$lasso_SPR_first_phase_spr_moves
+
+MSAs.per.brlen = all_MSA_statistics %>%
+group_by(brlen_generator) %>%
+summarise(across(.fns= list(Mean=mean, Median=median), na.rm= TRUE),.groups = "drop")
+
+print(MSAs.per.brlen)
+
+
+ggplot(spr_data, aes(delta_ll_first_phase, fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Log-likelihood difference")+labs(title="Log-likelihood differences between the standard search and the Lasso-based search")+
+   theme(plot.title = element_text(hjust = 0.5)) 
+
+ggplot(spr_data, aes(rf_first_phase_vs_overall_best, fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Log-likelihood difference")+labs(title="Distribution of relative Robinson-Foulds distance between the best tree and the Lasso-based search")+
+   theme(plot.title = element_text(hjust = 0.5)) 
+
+
+g0<-ggplot(spr_data, aes(R.2_pearson_during_tree_search, fill=brlen_generator))+
+     geom_histogram() +
+ xlab("Pearson R squared")+labs(title="Pearson R squared during tree search")+labs(fill = "Branch length distribution")+
+   theme(plot.title = element_text(hjust = 0.5)) 
+
+
+g1<-ggplot(spr_data, aes(R.2_spearman_during_tree_search, fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Spearman R squared")+labs(title="Spearman R squared during tree search")+labs(fill = "Branch length distribution")
+   theme(plot.title = element_text(hjust = 0.5)) 
+
+
+
+
+
+fig<-ggarrange(g0, g1, hjust=-1,vjust=0,align="hv",common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+annotate_figure(fig,
+                top = text_grob("Distribution of Pearson and Spearman R squared during tree search", color = "black", face = "bold", size = 14),
+
+                )
+
+
+
+
+g2<-ggplot(spr_data, aes(spr_moves_diff, fill = brlen_generator))+
+     geom_histogram()+
+   xlab("SPR moves difference")+labs(title="SPR moves differences between the standard search and the Lasso-based search")+
+   theme(plot.title = element_text(hjust = 0.5))+theme(plot.title = element_text(size=13))+labs(fill = "Branch length distribution")
+g3<-ggplot(spr_data, aes(rho_first_phase,fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Expected running time ratio")+labs(title="Expected running time ratio between the standard search and the Lasso-based search")+
+   theme(plot.title = element_text(hjust = 0.5)) + theme(plot.title = element_text(size=13))+labs(fill = "Branch length distribution")
+
+ggarrange(g2, g3, hjust=-0.5,vjust=1,align="hv",common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+
+         
+
+
+
+
+#simple.regression(x=spr_data$R.2_pearson_during_tree_search,y=spr_data$lasso_test_R.2,main="Lasso test R^2 vs R^2 during tree #search",xlab="R^2 during tree search",ylab="Lasso test R^2")
+
+```
+
+
+
+
+
+
+
+
+```{r}
+print("Summary of number of steps during the second SPR")
+print(summary(spr_data$lasso_SPR_second_phase_spr_moves))
+print("Summary of running time decrease factor :")
+print(summary(spr_data$rho_second_phase ))
+print("Summary of RF dist Lasso vs. best second phase:")
+print(summary(spr_data$rf_second_phase_vs_overall_best))
+print("Summary of RF dist Standard vs. best second phase:")
+print(summary(spr_data$rf_naive_vs_overall_best_second_phase))
+print("Summary of delta log likelihood")
+print(summary(spr_data$delta_ll_second_phase))
+#two.groups.hist(spr_data$rf_second_phase_vs_overall_best, spr_data$rf_naive_vs_overall_best_second_phase,"Lasso-based modified #SPR","Standard SPR","Distribution of Robinson-Foulds relative distance from best tree","Robinson Foulds relative distance",title.size=12)
+
+plot.hist(spr_data$lasso_SPR_second_phase_spr_moves , main = "Distribution of number of spr moves during second phase", xlab="SPR moves")
+plot.hist(spr_data$rho_second_phase ,main="Distribution of running time decrease factor of modified Lasso-based SPR ",xlab="Running time efficiency factor of Lasso-based SPR")
+plot.hist(spr_data$delta_ll_second_phase ,main="Distribution of delta log likelihood values after the second phase",xlab="delta ll (second phase)")
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

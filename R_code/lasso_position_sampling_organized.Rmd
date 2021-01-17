@@ -42,10 +42,10 @@ if (nrow(data_only_lasso)<nrow(lasso_output_data))
 
 
 #Lasso train and test example
-test_df= data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
-names(test_df)[2:3]=c("test_true_val","test_predicted_val")
-training_df=data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
-names(training_df)[2:3]=c("training_true_val","training_predicted_val")
+#test_df= data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
+#names(test_df)[2:3]=c("test_true_val","test_predicted_val")
+#training_df=data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_df_prediction.csv",header = TRUE, na.strings = ""))
+#names(training_df)[2:3]=c("training_true_val","training_predicted_val")
 
 
 #Adding new fields:
