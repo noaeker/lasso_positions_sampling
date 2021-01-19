@@ -56,6 +56,28 @@ def eval_per_site_ll_on_random_trees(curr_msa_stats, random_trees_path_list,brle
 
 
 
+def get_training_df(curr_msa_stats, brlen_generator_func, curr_run_directory, random_trees_training):
+    training_output_csv_path = os.path.join(curr_run_directory,
+                                            "training" + ".csv")
+    logging.info("Generating training data in {}".format(training_output_csv_path))
+    training_sitelh = eval_per_site_ll_on_random_trees(curr_msa_stats=curr_msa_stats,
+                                                       random_trees_path_list=random_trees_training,
+                                                       brlen_generator_func=brlen_generator_func,
+                                                       curr_run_directory=curr_run_directory,
+                                                       output_csv_path=training_output_csv_path)
+    return training_sitelh, training_output_csv_path
+
+
+def get_test_set_df(curr_msa_stats, brlen_generator_func, curr_run_directory, random_trees_test):
+    test_output_csv_path = os.path.join(curr_run_directory,
+                                        "test" + ".csv")
+    logging.info("Generating test data in {}".format(test_output_csv_path))
+    test_sitelh = eval_per_site_ll_on_random_trees(curr_msa_stats=curr_msa_stats,
+                                                   random_trees_path_list=random_trees_test,
+                                                   brlen_generator_func=brlen_generator_func,
+                                                   curr_run_directory=curr_run_directory,
+                                                   output_csv_path=test_output_csv_path)
+    return test_sitelh, test_output_csv_path
 
 
 

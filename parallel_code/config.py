@@ -3,7 +3,7 @@ import logging
 import os
 import help_functions
 
-LOCAL_RUN = True #True
+LOCAL_RUN = False #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -30,9 +30,9 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 N_THREADS = 1
 
 INTEGER_CONST = 100000
-CURR_RUN_PREFIX= "test_brlen2"
-CURR_JOBS_PREFIX = "test_brlen2"
-BASELINE="baseline"
+CURR_RUN_PREFIX = "using_baseline_test"
+CURR_JOBS_PREFIX = "using_baseline_test"
+BASELINE=""
 
 MAX_N_SEQ = 5
 MIN_N_SEQ = 5
