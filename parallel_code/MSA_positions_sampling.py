@@ -4,66 +4,27 @@ from training_and_test_set_generation import *
 from raxml import *
 import filecmp
 
-
-def basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, starting_tree_type,
-                                          tree_folder, starting_tree_path):
-    logging.info("About to start SPR pipeline on random tree {i}".format(i=i))
-    logging.info("Current starting tree folder:{folder}\nCurrent starting tree type:{type}\nCurrent starting tree "
-                 "path:{path}\n".format(folder=tree_folder, type=starting_tree_type, path=starting_tree_path))
-    curr_msa_stats["current_starting_tree_folder"] = tree_folder
-    curr_msa_stats["current_starting_tree_type"] = starting_tree_type
-    curr_msa_stats["starting_tree_path"] = starting_tree_path
-    curr_msa_stats["tree_ind"] = i
-    logging.info("Computing SPR result on full data and updating msa stats:")
-    logging.info("Running naive SPR on current starting tree and updating")
-    full_data_path = curr_msa_stats["local_alignment_path"]
-    full_data_unique_name = curr_msa_stats["full_data_unique_name"]
-    naive_spr_result_on_curr_starting_tree = SPR_analysis(full_data_path, full_data_unique_name,
-                                                          curr_msa_stats,
-                                                          curr_run_directory=os.path.join(curr_msa_stats.get(
-                                                              "current_starting_tree_folder"), "spr_full_data_results"),
-                                                          samp_lambda_function=None, full_run=True)
-    logging.info(
-        "SPR result on full data is {spr_result}\n Updating msa_stats".format(
-            spr_result=naive_spr_result_on_curr_starting_tree))
-    curr_msa_stats.update(naive_spr_result_on_curr_starting_tree)
-    unique_name = "tree_{i}_lasso_spr".format(i=i)
-    curr_run_directory = os.path.join(curr_msa_stats.get("current_starting_tree_folder"), unique_name)
-    logging.info("Computing SPR result using lasso in folder :{}".format(curr_run_directory))
-    lasso_spr_result_on_curr_starting_tree = SPR_analysis(curr_msa_stats.get("local_alignment_path"),
-                                                          unique_name, curr_msa_stats, curr_run_directory,
-                                                          samp_lambda_function=curr_msa_stats["lasso_predict_func"],
-                                                          full_run=False)
-    curr_msa_stats.update(lasso_spr_result_on_curr_starting_tree)
-    complete_random_tree_stats = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                  k not in (
-                                      IGNORE_COLS_IN_CSV
-                                  )}
-    logging.info("Done with starting tree {i}: ".format(i=i))
-    return complete_random_tree_stats
-
-
-def rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats, curr_run_directory):
+def rel_rf_dist_naive_vs_best_first_phase(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
-                                          row["naive_SPR_tree_newick"], curr_msa_stats,
+                                          row["naive_SPR_tree_newick"],
                                           "naive_vs_best_first_phase", curr_run_directory)
 
 
-def rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats, curr_run_directory):
+def rel_rf_dist_naive_vs_best_second_phase(row,  curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
-                                          row["naive_SPR_tree_newick"], curr_msa_stats,
+                                          row["naive_SPR_tree_newick"],
                                           "naive_vs_best_second_phase", curr_run_directory)
 
 
-def rel_rf_dist_first_phase_vs_best(row, curr_msa_stats, curr_run_directory):
+def rel_rf_dist_first_phase_vs_best(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
-                                          row["lasso_SPR_first_phase_tree_newick"], curr_msa_stats,
+                                          row["lasso_SPR_first_phase_tree_newick"],
                                           "lasso_first_phase_vs_best", curr_run_directory)
 
 
-def rel_rf_dist_second_phase_vs_best(row, curr_msa_stats, curr_run_directory):
+def rel_rf_dist_second_phase_vs_best(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
-                                          row["lasso_SPR_second_phase_tree_newick"], curr_msa_stats,
+                                          row["lasso_SPR_second_phase_tree_newick"],
                                           "lasso_second_phase_vs_best", curr_run_directory)
 
 
@@ -73,7 +34,7 @@ def get_best_ll_and_topology(ll_col, tree_topology_col):
     return best_ll, best_spr_tree_newick
 
 
-def enrich_curr_msa_results(curr_msa_results, curr_msa_stats, curr_run_directory):
+def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
     best_naive_spr_ll, best_naive_spr_tree_newick = get_best_ll_and_topology(
         curr_msa_results["naive_SPR_ll"],
         curr_msa_results["naive_SPR_tree_newick"])
@@ -98,21 +59,21 @@ def enrich_curr_msa_results(curr_msa_results, curr_msa_stats, curr_run_directory
         curr_msa_results["overall_best_topology_second_phase"] = best_lasso_spr_second_phase_tree_newick
 
     curr_msa_results["rf_naive_vs_overall_best_first_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_first_phase(row, curr_msa_stats, curr_run_directory),
+        lambda row: rel_rf_dist_naive_vs_best_first_phase(row,  curr_run_directory),
         axis=1)
     curr_msa_results["rf_naive_vs_overall_best_second_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_second_phase(row, curr_msa_stats, curr_run_directory),
+        lambda row: rel_rf_dist_naive_vs_best_second_phase(row,  curr_run_directory),
         axis=1)
     curr_msa_results["rf_first_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_first_phase_vs_best(row, curr_msa_stats, curr_run_directory),
+        lambda row: rel_rf_dist_first_phase_vs_best(row, curr_run_directory),
         axis=1)
     curr_msa_results["rf_second_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_second_phase_vs_best(row, curr_msa_stats, curr_run_directory),
+        lambda row: rel_rf_dist_second_phase_vs_best(row,  curr_run_directory),
         axis=1)
     return curr_msa_results
 
 
-def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, curr_msa_stats, name,
+def calculate_relative_rf_distance(best_topology_newick, given_topology_newick,name,
                                    curr_run_directory):
     curr_run_directory = os.path.join(curr_run_directory, name)
     create_or_clean_dir(curr_run_directory)
@@ -124,41 +85,40 @@ def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, 
     return relative_rf_dist
 
 
-def add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, curr_job_output_csv_path, all_MSA_results,
-                         curr_run_directory):
-    curr_msa_results = pd.DataFrame(
-    )
-    for i in range(n_random_starting_trees):
-        random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
-        random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
-        create_or_clean_dir(random_tree_folder)
-        starting_tree_path = random_tree_path_prefix + ".raxml.startTree"
-        baseline_starting_tree_path = starting_tree_path.replace(curr_msa_stats["run_prefix"],
-                                                                 curr_msa_stats["baseline_run_prefix"])
-        baseline_starting_tree_options = [baseline_starting_tree_path.replace(curr_msa_stats["brlen_generator"],
-                                                                              brlen_generator) for brlen_generator in
-                                          ['optimized', 'exponential', 'uniform']] + [
-                                             starting_tree_path.replace(curr_msa_stats["brlen_generator"],
-                                                                                 brlen_generator) for brlen_generator in
-                                             ['optimized', 'exponential', 'uniform']]
-        for option in baseline_starting_tree_options:
-            if os.path.exists(option):
-                logging.info("Using starting tree in {} and copying it to {}".format(option, starting_tree_path))
-                shutil.copyfile(option, starting_tree_path)
-                break
-        if not os.path.exists(starting_tree_path):
-            logging.info("Generating a totally random tree as a starting tree")
-            starting_tree_path = generate_random_tree_topology(curr_msa_stats["alpha"],
-                                                               curr_msa_stats["local_alignment_path"],
-                                                               random_tree_path_prefix)
-        curr_random_tree_raw_results = basic_pipeline_for_curr_starting_tree(curr_msa_stats, i, "RANDOM",
-                                                                             random_tree_folder,
-                                                                             starting_tree_path)
-        curr_msa_results = curr_msa_results.append(curr_random_tree_raw_results, ignore_index=True)
-    curr_msa_results = enrich_curr_msa_results(curr_msa_results, curr_msa_stats, curr_run_directory)
-    all_MSA_results = all_MSA_results.append(curr_msa_results)
-    all_MSA_results.to_csv(curr_job_output_csv_path, index=False)  # Updating data 
-    return all_MSA_results
+
+
+def generate_random_starting_tree(i,curr_run_directory,curr_msa_stats):
+    random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
+    random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
+    create_or_clean_dir(random_tree_folder)
+    starting_tree_path = random_tree_path_prefix + ".raxml.startTree"
+    baseline_starting_tree_path = starting_tree_path.replace(curr_msa_stats["run_prefix"],
+                                                             curr_msa_stats["baseline_run_prefix"])
+    if os.path.exists(baseline_starting_tree_path):
+        shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
+    if not os.path.exists(starting_tree_path):
+        logging.info("Generating a totally random tree as a starting tree")
+        starting_tree_path = generate_random_tree_topology(curr_msa_stats["alpha"],
+                                                           curr_msa_stats["local_alignment_path"],
+                                                           random_tree_path_prefix)
+    return starting_tree_path
+
+
+def naive_spr_on_current_starting_tree(starting_tree_path,curr_msa_stats, curr_run_directory):
+    logging.info("Running naive SPR on current starting tree and updating")
+    full_data_path = curr_msa_stats["local_alignment_path"]
+    curr_run_directory = os.path.join(curr_run_directory, "spr_full_data_results")
+    naive_spr_result_on_curr_starting_tree = SPR_analysis(full_data_path,starting_tree_path,
+                                                          curr_msa_stats,
+                                                          curr_run_directory= curr_run_directory,
+                                                          full_run=True)
+    return naive_spr_result_on_curr_starting_tree
+
+
+def lasso_based_spr_on_current_starting_tree(starting_tree_path,curr_msa_stats,curr_run_directory):
+    lasso_spr_result_on_curr_starting_tree = SPR_analysis(curr_msa_stats.get("local_alignment_path"),starting_tree_path, curr_msa_stats, curr_run_directory=curr_run_directory,full_run=False)
+    return lasso_spr_result_on_curr_starting_tree
+
 
 
 def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
@@ -273,6 +233,79 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
     logging.info("New msa stats for reduced data: {msa_stats}".format(msa_stats=update_dict.copy().pop("alignment_data")))
     return reduced_curr_msa_stats
 
+def update_chosen_brlen_generators(exp_brlen,uni_brlen,opt_brlen):
+    brlen_generators={}
+    for brlen_generator_name, brlen_generator_func in BRLEN_GENERATORS.items():
+        if (brlen_generator_name == 'exponential' and exp_brlen) or (
+                brlen_generator_name == 'uniform' and uni_brlen) or (
+                brlen_generator_name == 'optimized' and opt_brlen):
+            brlen_generators[brlen_generator_name] = brlen_generator_func
+    return brlen_generators
+    logging.info("Brlen genertors are chosen to be {}".format(str(brlen_generators.keys())))
+
+
+def get_training_df(curr_msa_stats,brlen_generator_func,curr_run_directory,random_trees_training):
+    training_output_csv_path = os.path.join(curr_run_directory,
+                                       "training" + ".csv")
+    logging.info("Generating training data in {}".format(training_output_csv_path))
+    training_sitelh = eval_per_site_ll_on_random_trees(curr_msa_stats=curr_msa_stats, random_trees_path_list=random_trees_training,
+                                                       brlen_generator_func=brlen_generator_func,
+                                                       curr_run_directory=curr_run_directory,
+                                                       output_csv_path=training_output_csv_path)
+    return training_sitelh, training_output_csv_path
+
+
+def get_test_set_df( curr_msa_stats,brlen_generator_func,curr_run_directory,random_trees_test):
+    test_output_csv_path = os.path.join(curr_run_directory,
+                                        "test"+".csv")
+    logging.info("Generating test data in {}".format( test_output_csv_path))
+    test_sitelh = eval_per_site_ll_on_random_trees(curr_msa_stats=curr_msa_stats, random_trees_path_list=random_trees_test,
+                                                   brlen_generator_func=brlen_generator_func,
+                                                   curr_run_directory=curr_run_directory,
+                                                   output_csv_path=test_output_csv_path)
+    return test_sitelh, test_output_csv_path
+
+
+
+def full_Lasso_learning_pipeline(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):
+    Lasso_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"],"Lasso_folder")
+    create_dir_if_not_exists(Lasso_folder)
+    logging.info("Generating Lasso folder in {}".format( Lasso_folder))
+    random_trees_folder = os.path.join(Lasso_folder,"random_tree_generation")
+    curr_msa_stats["Lasso_folder"]=Lasso_folder
+    curr_msa_stats["random_trees_folder"] = random_trees_folder
+    create_dir_if_not_exists(random_trees_folder)
+    random_trees_per_training_size={}
+    for training_size in training_size_options:
+        training_random_tree_path_and_folder_list= generate_n_random_topologies(training_size, random_trees_folder,curr_msa_stats,"training")
+        random_trees_per_training_size[training_size] = training_random_tree_path_and_folder_list
+    random_trees_test = generate_n_random_topologies(random_trees_test_size, random_trees_folder,curr_msa_stats,"test")
+    run_configurations = {}
+    for brlen_generator_name in brlen_generators:
+        brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
+        create_dir_if_not_exists(brlen_run_directory)
+        brlen_generator_func = brlen_generators.get(brlen_generator_name)
+        test_folder = os.path.join(brlen_run_directory,"test_{}_random_trees_eval".format(random_trees_test_size))
+        create_dir_if_not_exists(test_folder)
+        test_sitelh,test_sitelh_path = get_test_set_df(curr_msa_stats, brlen_generator_func,
+                                                       test_folder, random_trees_test)
+        for training_size in training_size_options:
+            training_size_directory = os.path.join( brlen_run_directory, "training_{}_random_tree_eval".format(training_size))
+            create_dir_if_not_exists( training_size_directory)
+            logging.info("")
+            training_sitelh, training_sitelh_path = get_training_df(curr_msa_stats, brlen_generator_func,
+                                              training_size_directory, random_trees_per_training_size[training_size])
+            Lasso_results = apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,
+                                                                           curr_run_directory= training_size_directory,sitelh_training_df=training_sitelh, sitelh_test_df=test_sitelh)  # calculating positions_weight
+            if brlen_generator_name not in run_configurations:
+                run_configurations[brlen_generator_name] = {}
+            run_configurations[brlen_generator_name][training_size] = Lasso_results
+    return run_configurations
+
+
+
+
+
 
 def main():
     args = job_parser()
@@ -321,75 +354,47 @@ def main():
                 curr_msa_stats)
         curr_msa_stats["spr_log_path"] = spr_log_path
         curr_msa_stats["current_job_results_folder"] = curr_job_folder
-        brlen_generators = {}
-        for brlen_generator_name, brlen_generator_func in BRLEN_GENERATORS.items():
-            if (brlen_generator_name == 'exponential' and exp_brlen) or (
-                    brlen_generator_name == 'uniform' and uni_brlen) or (
-                    brlen_generator_name == 'optimized' and opt_brlen):
-                brlen_generators[brlen_generator_name] = brlen_generator_func
-        logging.info("Brlen genertors are chosen to be {}".format(str(brlen_generators.keys())))
+        brlen_generators = update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen)
         if random_trees_training_size == -1:
             training_size_options = TRAINING_SIZE_OPTIONS
         else:
             training_size_options = [random_trees_training_size]
-        for brlen_generator_name in brlen_generators:
-            brlen_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], brlen_generator_name)
-            create_dir_if_not_exists(brlen_run_directory)
-            brlen_generator_func = brlen_generators.get(brlen_generator_name)
-            test_name = "test_{}".format(brlen_generator_name)
-            test_output_csv_path = os.path.join(brlen_run_directory,
-                                                curr_msa_stats.get("file_name") + "_" + test_name + ".csv")
-            test_baseline_path = test_output_csv_path.replace(curr_msa_stats["run_prefix"],
-                                                              curr_msa_stats["baseline_run_prefix"])
-            if os.path.exists(test_baseline_path) and not pd.read_csv(test_baseline_path).empty:
-                logging.info("Copying test set from {baseline} to {curr}".format(baseline=test_baseline_path,
-                                                                                 curr=test_output_csv_path))
-                test_sitelh = pd.read_csv(test_baseline_path)
-                test_sitelh.to_csv(test_output_csv_path)
-            else:
-                test_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=random_trees_test_size,
-                                                    brlen_generator_func=brlen_generator_func,
-                                                    curr_run_directory=brlen_run_directory,
-                                                    output_csv_path=test_output_csv_path)
-            curr_msa_stats["test_sitelh_df"] = test_sitelh
-            for training_size in training_size_options:
-                curr_run_directory = os.path.join(brlen_run_directory, str(training_size))
-                create_dir_if_not_exists(curr_run_directory)
-                training_name = "{brlen_generator_name}_s_{training_size}".format(
-                    brlen_generator_name=brlen_generator_name, training_size=training_size)
-                logging.info("Using {} to generate branch lengths".format(brlen_generator_name))
-                curr_msa_stats["brlen_generator"] = brlen_generator_name
-                curr_msa_stats["actucal_training_size"] = training_size
-                logging.info("Generation training dataset in folder: {}".format(curr_run_directory))
-                training_output_csv_path = os.path.join(curr_run_directory,
-                                                        curr_msa_stats.get("file_name") + "_" + training_name + ".csv")
-                training_baseline_path = training_output_csv_path.replace(curr_msa_stats["run_prefix"],
-                                                                          curr_msa_stats["baseline_run_prefix"])
-                if os.path.exists(training_baseline_path) and not pd.read_csv(training_baseline_path).empty:
-                    logging.info(
-                        "Copying training set from {baseline} to {curr}".format(baseline=training_baseline_path,
-                                                                                curr=training_output_csv_path))
-                    training_sitelh = pd.read_csv(training_baseline_path)
-                    training_sitelh.to_csv(training_output_csv_path)
-                else:
-                    training_sitelh = generate_site_lh_data(curr_msa_stats=curr_msa_stats, n_iter=training_size,
-                                                            brlen_generator_func=brlen_generator_func,
-                                                            curr_run_directory=curr_run_directory,
-                                                            output_csv_path=training_output_csv_path)
-                curr_msa_stats["training_sitelh_df"] = training_sitelh
-                logging.info("Generation test dataset in folder: {}".format(curr_run_directory))
-                apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, name=brlen_generator_name,
-                                                                 curr_run_directory=curr_run_directory)  # calculating positions_weight
-                if only_evaluate_lasso:
-                    logging.info("only evaluating lasso: ")
-                    lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                               k not in IGNORE_COLS_IN_CSV
-                                               }
-                    all_MSA_results = all_MSA_results.append(lasso_evaluation_result, ignore_index=True)
-                    all_MSA_results.to_csv(job_csv_path, index=False)
-                else:
-                    all_MSA_results = add_curr_MSA_results(n_random_starting_trees, curr_msa_stats, job_csv_path,
-                                                           all_MSA_results, curr_run_directory)
+        lasso_configurations_per_training_size = full_Lasso_learning_pipeline(brlen_generators, curr_msa_stats, training_size_options,
+                                                                              random_trees_test_size)
+        for i in range(curr_msa_stats["n_random_starting_trees"]):
+            starting_tree_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], 'starting_tree_{i}'.format(i=i))
+            create_dir_if_not_exists(starting_tree_run_directory)
+            logging.info("Working on starting tree {i} in dicrectory {dir}".format(i=i,dir=starting_tree_run_directory))
+            starting_tree_path = generate_random_starting_tree(i, starting_tree_run_directory, curr_msa_stats)
+            curr_msa_stats["starting_tree_path"] = starting_tree_path
+            naive_spr_results = naive_spr_on_current_starting_tree(starting_tree_path, curr_msa_stats,curr_run_directory =    starting_tree_run_directory)
+            curr_msa_stats.update(naive_spr_results)
+            for brlen_generator_name in brlen_generators:
+                brlen_run_directory = os.path.join(starting_tree_run_directory, brlen_generator_name)
+                create_dir_if_not_exists(brlen_run_directory)
+                curr_msa_stats["brlen_generator"]= brlen_generator_name
+                for training_size in training_size_options:
+                    curr_msa_stats["actucal_training_size"] = training_size
+                    training_size_directory = os.path.join(brlen_run_directory , str(training_size))
+                    create_dir_if_not_exists(training_size_directory)
+                    lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
+                    curr_msa_stats.update(lasso_results)
+                    if only_evaluate_lasso:
+                        logging.info("only evaluating lasso: ")
+                        lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                   k not in IGNORE_COLS_IN_CSV
+                                                   }
+                        all_MSA_results = all_MSA_results.append(lasso_evaluation_result, ignore_index=True)
+                        all_MSA_results.to_csv(job_csv_path, index=False)
+                    else:
+                        logging.info("Starting Lasso-based SPR on training size: {size}")
+                        lasso_based_spr_results = lasso_based_spr_on_current_starting_tree(starting_tree_path,curr_msa_stats, training_size_directory )
+                        curr_msa_stats.update(lasso_based_spr_results)
+
+                        all_MSA_results = all_MSA_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                   k not in IGNORE_COLS_IN_CSV
+                                                   },ignore_index=True)
+                        all_MSA_results.to_csv(job_csv_path)
     with open(curr_job_status_file, 'w') as job_status_f:
         job_status_f.write("Done")
 

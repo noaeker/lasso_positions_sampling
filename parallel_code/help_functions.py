@@ -174,7 +174,7 @@ def main_parser():
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=N_RANDOM_STARTING_TREES)
     parser.add_argument('--random_trees_training_size', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
-    parser.add_argument('--exp_brlen',action='store_true',default=True)
+    parser.add_argument('--exp_brlen',action='store_true',default=False)
     parser.add_argument('--uni_brlen', action='store_true', default=False)
     parser.add_argument('--opt_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)

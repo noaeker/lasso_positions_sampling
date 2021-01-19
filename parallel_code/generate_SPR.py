@@ -225,15 +225,14 @@ def analyze_ll_comparison_df(ll_comparison_df):
     return rho_pearson, pval_pearson,rho_spearman, pval_spearman,mse,mistake_cnt
 
 
-def SPR_analysis(current_file_path, run_unique_name, curr_msa_stats, curr_run_directory, samp_lambda_function,
+def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats, curr_run_directory,
                  full_run=False):
+    run_unique_name="spr"
     logging.info("curr run directory=" + curr_run_directory)
     if not os.path.exists(curr_run_directory):
         os.mkdir(curr_run_directory)
-    SPR_chosen_starting_tree_path = curr_msa_stats["starting_tree_path"]
-    starting_tree_type = curr_msa_stats["current_starting_tree_type"]
     logging.info(
-        "starting tree is chosen to be {} and stored in: {}".format(starting_tree_type, SPR_chosen_starting_tree_path))
+        "starting tree is stored in: {}".format(SPR_chosen_starting_tree_path))
     if (full_run):
         logging.info("Starting SPR analysis on full data")
         full_data_param_dict = SPR_search(

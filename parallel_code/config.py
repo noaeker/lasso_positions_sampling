@@ -3,7 +3,7 @@ import logging
 import os
 import help_functions
 
-LOCAL_RUN = False #True
+LOCAL_RUN = True #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -14,10 +14,10 @@ def sample_exp(size):
 
 
 #Default values
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.DEBUG
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
-TRAINING_SIZE_OPTIONS = [50] #[50,100,200,400,800]
+TRAINING_SIZE_OPTIONS = [50,100,200,400,800]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 
@@ -32,7 +32,7 @@ N_THREADS = 1
 INTEGER_CONST = 100000
 CURR_RUN_PREFIX= "test_brlen2"
 CURR_JOBS_PREFIX = "test_brlen2"
-BASELINE="test_brlen"
+BASELINE="baseline"
 
 MAX_N_SEQ = 5
 MIN_N_SEQ = 5

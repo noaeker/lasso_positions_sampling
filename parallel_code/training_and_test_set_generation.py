@@ -5,35 +5,54 @@ from spr_prune_and_regraft import *
 
 
 
-def generate_site_lh_data(curr_msa_stats, n_iter,brlen_generator_func,curr_run_directory,output_csv_path):
-    create_dir_if_not_exists(curr_run_directory)
+def generate_n_random_topologies(n, curr_run_directory,curr_msa_stats,name):
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    logging.info("Generating " + str(n_iter) + " random trees ")
-    sitelh_ll_list = []
-    random_trees_directory = os.path.join(curr_run_directory,"sitelh_generation")
-    create_dir_if_not_exists(random_trees_directory)
-    for i in range(n_iter):
+    random_tree_path_list= []
+    basic_directory = os.path.join(curr_run_directory, "{name}_{n}".format(name=name,n=n))
+    create_dir_if_not_exists(basic_directory)
+    for i in range(n):
         alpha = curr_msa_stats["alpha"]
-        random_tree_generation_prefix = os.path.join(random_trees_directory, str(i))
-        random_tree_path = generate_random_tree_topology(alpha,  local_file_path, random_tree_generation_prefix)
+        tree_folder = os.path.join(basic_directory, "random_tree_{i}".format(i=i))
+        create_dir_if_not_exists(tree_folder)
+        random_tree_generation_prefix = os.path.join(tree_folder, str(i))
+        random_tree_path=generate_random_tree_topology(alpha,local_file_path, random_tree_generation_prefix)
+        random_tree_path_list.append(random_tree_path)
+    return random_tree_path_list
+
+
+
+def eval_per_site_ll_on_random_trees(curr_msa_stats, random_trees_path_list,brlen_generator_func, curr_run_directory, output_csv_path):
+    raxml_ll_eval_directory = os.path.join(curr_run_directory,"raxml_tree_eval")
+    create_dir_if_not_exists(raxml_ll_eval_directory)
+    local_file_path = curr_msa_stats.get("local_alignment_path")
+    n_trees = len(random_trees_path_list)
+    logging.info("Generating " + str(n_trees) + " random trees ")
+    sitelh_ll_list = []
+    for i,random_tree_path in enumerate(random_trees_path_list):
+        alpha = curr_msa_stats["alpha"]
         n_branches = 2*curr_msa_stats["n_seq"]-3
+        prefix = "tree_{i}".format(i=i)
         if brlen_generator_func is None:
-            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(random_trees_directory, local_file_path,
-                                                                          random_tree_path, str(i), alpha,
+            create_dir_if_not_exists(prefix)
+            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory, local_file_path,
+                                                                          random_tree_path, prefix, alpha,
                                                                           opt_brlen=True)
         else:
-            assign_brlen(brlen_list=brlen_generator_func(size=n_branches),tree_path=random_tree_path)
-            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(random_trees_directory,  local_file_path,
-                                                             random_tree_path, str(i), alpha,opt_brlen=False)
+            tree_w_brlen_path = os.path.join(raxml_ll_eval_directory,"tree_{i}_w_brlen.tree".format(i=i))
+            assign_brlen(brlen_list=brlen_generator_func(size=n_branches),tree_path=random_tree_path,output_tree_path=tree_w_brlen_path)
+            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory,  local_file_path,
+                                                             tree_w_brlen_path, prefix, alpha,opt_brlen=False)
         sitelh_ll_list.append(random_tree_per_site_ll_list)
     sitelh_df = pd.DataFrame(sitelh_ll_list, columns=list(range(len(sitelh_ll_list[0]))),
                              index=list(range(len(sitelh_ll_list))))
     sitelh_df.to_csv(output_csv_path, index=False)
-    delete_dir_content(random_trees_directory)
     logging.info(
         "Sitelh file is of shape {shape} and stored in {path}".format(shape=sitelh_df.shape, path=output_csv_path))
+    logging.info("Deleting dir content of {}".format(raxml_ll_eval_directory))
+    delete_dir_content(raxml_ll_eval_directory)
     return sitelh_df
 
+#    delete_dir_content(random_trees_directory)
 
 
 

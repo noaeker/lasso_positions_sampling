@@ -99,12 +99,12 @@ def compute_tree_divergence(tree_path):
         total_dist = total_dist+node.dist
     return total_dist
 
-def assign_brlen(tree_path,brlen_list):
+def assign_brlen(tree_path,brlen_list,output_tree_path):
     tree = generate_tree_object(tree_path)
     for i,node in enumerate(tree.iter_descendants()):
         # Do some analysis on node
         node.dist=brlen_list[i]
-    tree.write(format=1, outfile=tree_path)
+    tree.write(format=1, outfile=output_tree_path)
 
 
 
