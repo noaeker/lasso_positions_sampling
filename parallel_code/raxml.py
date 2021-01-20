@@ -135,7 +135,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off" if not opt_brlen else ""
     compute_site_ll_run_command = (
-            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --prefix {prefix} ").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+            "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --prefix {compute_site_ll_prefix} ").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
                                                                                                                                alpha=alpha, msa_path=full_data_path, tree_file=tree_file,
                                                                                                                                prefix=compute_site_ll_prefix,brlen_command=brlen_command)
     execute_commnand_and_write_to_log( compute_site_ll_run_command)
