@@ -32,15 +32,16 @@ def eval_per_site_ll_on_random_trees(curr_msa_stats, random_trees_path_list,brle
         alpha = curr_msa_stats["alpha"]
         n_branches = 2*curr_msa_stats["n_seq"]-3
         prefix = "tree_{i}".format(i=i)
+        tree_folder = os.path.join(raxml_ll_eval_directory,prefix)
+        create_dir_if_not_exists(tree_folder)
         if brlen_generator_func is None:
-            create_dir_if_not_exists(prefix)
-            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory, local_file_path,
+            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(tree_folder, local_file_path,
                                                                           random_tree_path, prefix, alpha,
                                                                           opt_brlen=True)
         else:
-            tree_w_brlen_path = os.path.join(raxml_ll_eval_directory,"tree_{i}_w_brlen.tree".format(i=i))
+            tree_w_brlen_path = os.path.join(tree_folder,"tree_{i}_w_brlen.tree".format(i=i))
             assign_brlen(brlen_list=brlen_generator_func(size=n_branches),tree_path=random_tree_path,output_tree_path=tree_w_brlen_path)
-            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory,  local_file_path,
+            random_tree_per_site_ll_list = raxml_compute_tree_per_site_ll(tree_folder,  local_file_path,
                                                              tree_w_brlen_path, prefix, alpha,opt_brlen=False)
         sitelh_ll_list.append(random_tree_per_site_ll_list)
     sitelh_df = pd.DataFrame(sitelh_ll_list, columns=list(range(len(sitelh_ll_list[0]))),
