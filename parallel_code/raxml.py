@@ -3,6 +3,7 @@ import re
 from help_functions import *
 import os.path
 from spr_prune_and_regraft import *
+from datetime import datetime
 
 
 
@@ -120,9 +121,11 @@ def raxml_extract_sitelh(sitelh_file):
 
 
 def generate_random_tree_topology(alpha, original_file_path, random_tree_generation_prefix):
+    random.seed(datetime.now())
+    seed = numpy.random.randint(low=0, high=sys.maxsize)
     random_tree_generation_command = (
-            "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n_random_trees}}} --prefix {prefix}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
-                                                                                                                                            msa_path=original_file_path, alpha=alpha, n_random_trees=1, prefix=random_tree_generation_prefix)
+            "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n_random_trees}}} --prefix {prefix} --seed {seed}").format(raxml_exe_path =RAXML_NG_COMMAND_PREFIX,
+                                                                                                                                            msa_path=original_file_path, alpha=alpha, n_random_trees=1, prefix=random_tree_generation_prefix, seed=seed)
     execute_commnand_and_write_to_log(random_tree_generation_command)
     random_tree_path = random_tree_generation_prefix + ".raxml.startTree"
     check_file_existence(random_tree_path,"random tree")
