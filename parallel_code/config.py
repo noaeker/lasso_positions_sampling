@@ -14,7 +14,7 @@ def sample_exp(size):
 
 
 #Default values
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
 TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
@@ -32,7 +32,7 @@ N_THREADS = 1
 INTEGER_CONST = 100000
 CURR_RUN_PREFIX = "using_baseline_test"
 CURR_JOBS_PREFIX = "using_baseline_test"
-BASELINE=""
+BASELINE="no_baseline"
 
 MAX_N_SEQ = 5
 MIN_N_SEQ = 5
