@@ -5,9 +5,14 @@ from scipy import stats
 import pickle
 
 def evaluate_lasso_performance_on_test_data(lasso_model,sitelh_test_df):
+    integer_coefficients = [int(lasso_model.coef_[ind] * INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
+    chosen_locis = [ind for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
+    chosen_loci_weights = [integer_coefficients[ind] for ind in range(len(integer_coefficients)) if
+                           integer_coefficients[ind] > 0]
     logging.info("Evaluating model on test data")
     y_test = sitelh_test_df.sum(axis=1)
     test_predicted_values = lasso_model.predict(sitelh_test_df)
+    #test_predicted_values_test = [lasso_model.intercept_+(np.dot(chosen_loci_weights,row[chosen_locis]))/INTEGER_CONST for index,row in sitelh_test_df.iterrows()]
     return test_predicted_values, y_test, sitelh_test_df
 
 
@@ -68,7 +73,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,curr_run_dir
             samp_indexes_pct=len(chosen_locis) / curr_msa_stats.get("n_loci")
             Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": samp_indexes_pct,
                                    "lasso_coeffs": lasso_model.coef_,
-                                   "lasso_intercept": lasso_model.intercept_*INTEGER_CONST,
+                                   "lasso_intercept": lasso_model.intercept_,
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "lasso_training_R^2": training_r_squared, "lasso_test_R^2": test_r_squared,
                                    "lasso_training_spearmanr": training_spearmanr,"lasso_test_spearmanr": test_spearmanr,

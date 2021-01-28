@@ -16,7 +16,7 @@ library(stringr)
 library(dplyr)
 library(ggpubr)
 library(gridExtra)
-lasso_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_baseline.csv",header = TRUE, na.strings = ""))
+lasso_output_data <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_lasso_curr.csv",header = TRUE, na.strings = ""))
 data_source = data.frame(read.csv("/Users/noa/Workspace/data/sampled_datasets.csv",header = TRUE, na.strings = ""))
 lasso_output_data$relative_path = str_replace_all(lasso_output_data$dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',"")
 data_only_lasso= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path")
@@ -25,25 +25,22 @@ if (nrow(data_only_lasso)<nrow(lasso_output_data))
   cat("nrow data=",nrow(data), "nrow lasso=",nrow(data_only_lasso))
 }
 
-data_only_lasso$lasso_test_R.2_spearman = data_only_lasso$lasso_test_spearmanr**2
+
 example_MSA_data_lasso = data_only_lasso%>%filter(dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy")
 
-training_optimized_800_example_data = 
-  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_example_800_optimized.csv",header = TRUE, na.strings = ""))
-names(training_optimized_800_example_data)[2:3]=c("training_true_val","training_predicted_val")
-test_optimized_800_example_data = 
-  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/lasso_example_800_optimized_test.csv",header = TRUE, na.strings = ""))
-names(test_optimized_800_example_data)[2:3]=c("test_true_val","test_predicted_val")
+training_optimized_chosen_size_example_data = 
+  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_example.csv",header = TRUE, na.strings = ""))
+names(training_optimized_chosen_size_example_data)[2:3]=c("training_true_val","training_predicted_val")
+test_optimized_chosen_size_example_data = 
+  data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_example.csv",header = TRUE, na.strings = ""))
+names(test_optimized_chosen_size_example_data)[2:3]=c("test_true_val","test_predicted_val")
 
-
-#spr_new <- data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/spr_new.csv")) #MSA_original_n_loci
-
-#good_datasets<-(select(spr_new %>% group_by(dataset_id) %>% count(dataset_id) %>% filter(n==15), dataset_id))
 
 #spr_new<-merge(good_datasets, spr_new, by = "dataset_id")
 #test<-spr_new %>% group_by(dataset_id) %>% count(dataset_id)
 print(summary(data_only_lasso$mad))
 print(summary(data_only_lasso$divergence))
+chosen_size=800
 
 ```
 
@@ -89,18 +86,6 @@ print(main)
 print(summary(linearMod)) 
 r.squared <- summary(linearMod)$r.squared
 	p.val <- lmp(linearMod)
-plot(x, y,main=main,
-     xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
-	abline(linearMod)
-	mylabel = bquote(italic(R)^2 == .(format(r.squared, digits = 10)))
-text(x = 19, y = 2.5, labels = mylabel)
-
-	rp = vector('expression',2)
-rp[1] = substitute(expression(italic(R)^2 == MYVALUE), 
-		list(MYVALUE = format(r.squared,dig=4)))[2]
-rp[2] = substitute(expression(italic(p.value) == MYOTHERVALUE), 
-		list(MYOTHERVALUE = format(p.val, digits = 2)))[2]
-	legend('topleft', legend = rp, bty = 'n')
 if (resid_plot==TRUE)
 {plot(fitted(linearMod),resid(linearMod), main =main,xlab=xlab)
 abline(0, 0)
@@ -110,20 +95,44 @@ abline(0, 0)
 }
 ```
 
-Lasso example
-#change
+Lasso example using optimized branch lengths and chosen_size random trees
+
 ```{r}
-example_MSA_data_lasso_800_optimized = example_MSA_data_lasso%>% filter(actucal_training_size==800, brlen_generator=="optimized")
+example_MSA_data_lasso_chosen_size_optimized = example_MSA_data_lasso%>% filter(actucal_training_size==chosen_size, brlen_generator=="optimized")
 
-print(select(example_MSA_data_lasso_800_optimized,"dataset_id","job_id","curr_msa_version_folder","n_seq", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2","sample_pct"))
-training_optimized_800_example_data["training delta ll"] =training_optimized_800_example_data["training_true_val"]-training_optimized_800_example_data["training_predicted_val"]
-test_optimized_800_example_data["test delta ll"] =test_optimized_800_example_data["test_true_val"]-test_optimized_800_example_data["test_predicted_val"]
-print(training_optimized_800_example_data[,c("training_predicted_val","training_true_val","training delta ll")])
-print(test_optimized_800_example_data[,c("test_predicted_val","test_true_val","test delta ll")])
+print(dplyr::select(example_MSA_data_lasso_chosen_size_optimized,"dataset_id","job_id","curr_msa_version_folder","n_seq", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2","sample_pct", "lasso_training_spearmanr", "lasso_test_spearmanr"))
+training_optimized_chosen_size_example_data["training delta ll"] =training_optimized_chosen_size_example_data["training_true_val"]-training_optimized_chosen_size_example_data["training_predicted_val"]
+test_optimized_chosen_size_example_data["test delta ll"] =test_optimized_chosen_size_example_data["test_true_val"]-test_optimized_chosen_size_example_data["test_predicted_val"]
+print(training_optimized_chosen_size_example_data[,c("training_predicted_val","training_true_val","training delta ll")])
+print(test_optimized_chosen_size_example_data[,c("test_predicted_val","test_true_val","test delta ll")])
 
 
-simple.regression(training_optimized_800_example_data$training_true_val,training_optimized_800_example_data$training_predicted_val,"Training set predicted log likelihood vs true log likelihood","Training set true log likelihood","Training set predicted log likelihood")
-simple.regression(test_optimized_800_example_data$test_true_val,test_optimized_800_example_data$test_predicted_val,"Test set predicted log likelihood vs true log likelihood","Test set true log likelihood","Test set predicted log likelihood",cex=1)
+p0<-simple.regression(training_optimized_chosen_size_example_data$training_true_val,training_optimized_chosen_size_example_data$training_predicted_val,"Training set predicted log likelihood vs true log likelihood","Training set true log likelihood","Training set predicted log likelihood")
+p1<-simple.regression(test_optimized_chosen_size_example_data$test_true_val,test_optimized_chosen_size_example_data$test_predicted_val,"Test set predicted log likelihood vs true log likelihood","Test set true log likelihood","Test set predicted log likelihood",cex=1)
+
+
+
+g0<-ggplot(training_optimized_chosen_size_example_data,aes(training_true_val, training_predicted_val)) + 
+  geom_smooth(method='lm')+xlab("true log likelihood")+ylab("predicted log likelihood ")+geom_point()+ labs(title="Training set predicted log likelihood vs true log likelihood")+theme(plot.title = element_text(hjust = 0.5)) +annotate("text", x=-18000, y=-17200, label= sprintf("R^2 = %f",p0[1]),size=4) +annotate("text", x=-18000, y=-17500, label= sprintf("p value = %f",p0[2]),size=4) 
+
+g1<-ggplot(test_optimized_chosen_size_example_data,aes(test_true_val, test_predicted_val)) + 
+  geom_smooth(method='lm')+xlab("true log likelihood")+ylab("predicted log likelihood ")+geom_point()+ labs(title="Test set predicted log likelihood vs true log likelihood")+theme(plot.title = element_text(hjust = 0.5)) +annotate("text", x=-18000, y=-17200, label= sprintf("R^2 = %f",p1[1])) +annotate("text", x=-18000, y=-17500, label= sprintf("p value = %f",p1[2])) 
+
+
+fig<-ggarrange(g0, g1, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE, 
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+fig
+#text_bellow="R^2 denotes the square Pearson correlation coefficient between the predicted log-likelihood values and the true #log-likelihood values\n p value denotes the corresponding p-value."
+
+
+#annotate_figure(fig,
+#                bottom = text_grob(text_bellow, color = "blue",
+#                                  hjust = 1.5, x = 1, face = "italic", size = 10)#
+
+                #)
+
 
 
 ```
@@ -131,7 +140,7 @@ simple.regression(test_optimized_800_example_data$test_true_val,test_optimized_8
 
 Lasso problematic datasets
 ```{r}
-print( data_only_lasso[data_only_lasso$lasso_test_R.2<0.9,c("brlen_generator","n_seq","n_loci","sample_pct","lasso_test_R.2", "lasso_training_R.2", "lasso_training_spearmanr","number_loci_chosen")])
+print( data_only_lasso[data_only_lasso$lasso_test_R.2<0.9,c("brlen_generator","actucal_training_size","n_seq","n_loci","sample_pct","lasso_test_R.2", "lasso_training_R.2", "lasso_training_spearmanr","number_loci_chosen")])
 
 ```
 
@@ -139,34 +148,36 @@ Example MSA Lasso statistics
 ```{r}
 library(ggpubr)
 
-print(select(example_MSA_data_lasso,actucal_training_size,brlen_generator,lasso_test_R.2,lasso_test_R.2_spearman,sample_pct,number_loci_chosen))
-print(select(example_MSA_data_lasso%>%filter(actucal_training_size==800),brlen_generator,lasso_test_R.2,lasso_test_R.2_spearman,sample_pct,number_loci_chosen))
+dplyr::select(example_MSA_data_lasso,actucal_training_size,brlen_generator,lasso_test_R.2,lasso_test_spearmanr,sample_pct,number_loci_chosen)
+dplyr::select(example_MSA_data_lasso%>%filter(actucal_training_size==chosen_size),actucal_training_size,brlen_generator,lasso_test_R.2,lasso_test_spearmanr,sample_pct,number_loci_chosen)
+
+#
+
+
+#example_MSA_data_lasso%>%
 
 g0<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=lasso_test_R.2))+
+     geom_bar(stat="identity",position=position_dodge())+coord_cartesian(ylim = c(0.99, 1)) +
+  xlab("Training size")+ylab("R squared ")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Test set R squared vs. training size")+ theme(plot.title = element_text(hjust = 0.5)) 
+
+
+g1<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=lasso_test_spearmanr))+ 
      geom_bar(stat="identity",position=position_dodge())+coord_cartesian(ylim = c(0.9, 1)) +
-  xlab("Training size")+ylab("Pearson R squared ")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))
-
-
-g1<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=lasso_test_R.2_spearman))+ 
-     geom_bar(stat="identity",position=position_dodge())+coord_cartesian(ylim = c(0.6, 1)) +
-    xlab("Training size")+ylab("Spearman R squared  ")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))
+    xlab("Training size")+ylab("Spearman rho")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso")+ theme(plot.title = element_text(hjust = 0.5)) 
 
 #title="Lasso Pearson test set R squared vs. training size"
 #title="Lasso Spearman test set R squared vs. training size"
 #title="Percentage of positions chosen by Lasso vs. training size"
 
-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=sample_pct))+ labs(color = "Branch length distribution")+
+ g2<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=sample_pct))+ labs(color = "Branch length distribution")+
      geom_bar(stat="identity",position=position_dodge()) +
-   xlab("Training size")+ylab("Percentage of positions chosen by Lasso")+ theme(axis.title=element_text(size=10),)+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso vs. training size")+scale_y_continuous(labels = scales::percent)
+   xlab("Training size")+ylab("% Positions")+ theme(axis.title=element_text(size=10),)+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso")+scale_y_continuous(labels = scales::percent)+ theme(plot.title = element_text(hjust = 0.5)) 
 
-fig<-ggarrange(g0, g1+ rremove("x.text"), hjust=-1,vjust=0, heights=c(2,2),common.legend=TRUE, align="hv",
+ggarrange(g0, g1,g2, hjust=-1,vjust=0, heights=c(2,2),common.legend=TRUE, 
           labels = c("A", "B","C"),
-          ncol = 1, nrow =2)
+          ncol = 1, nrow =3)
 
-annotate_figure(fig,
-                top = text_grob("Prediction accuracy vs. training size", color = "black", face = "bold", size = 14),
 
-                )
 
  
 
@@ -176,223 +187,110 @@ print(example_MSA_data_lasso[,c("brlen_generator","n_loci","number_loci_chosen")
 ```
 
 
-Lasso on 50 MSAs only 800
+Figure 6 - Lasso on 50 MSAs only 3200
 ```{r}
+chosen_size = 3200
+data_lasso_only_chosen_size = data_only_lasso[data_only_lasso$actucal_training_size==chosen_size,]
 
-data_lasso_only_800 = data_only_lasso[data_only_lasso$actucal_training_size==800,]
-
-lasso.800.summary = data_lasso_only_800 %>%
+lasso.chosen_size.summary = data_lasso_only_chosen_size %>%
 group_by() %>%
-summarise(across(.cols=c(lasso_test_R.2,lasso_test_R.2_spearman,sample_pct), .fns= list(Median=median), na.rm= TRUE),.groups = "drop")
+summarise(across(.cols=c(lasso_test_R.2,lasso_test_spearmanr,sample_pct), .fns= list(Median=median), na.rm= TRUE),.groups = "drop")
 
-print(lasso.800.summary)
+print(lasso.chosen_size.summary)
 
-lasso.800.summary.per.brlen = data_lasso_only_800 %>%
+lasso.chosen_size.summary.per.brlen = data_lasso_only_chosen_size %>%
 group_by(actucal_training_size,brlen_generator ) %>%
-summarise(across(.cols=c(lasso_test_R.2,lasso_test_R.2_spearman,sample_pct), .fns= list(Median=median), na.rm= TRUE),.groups = "drop")
-print(lasso.800.summary.per.brlen)
-  
-  ggplot(data_lasso_only_800,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Pearson R squared for training size 800")+xlab("Training size")+ ylab("Lasso test Pearson R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
-  
-    ggplot(data_lasso_only_800,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2_spearman))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Spearman R squared for training size 800")+xlab("Training size")+ ylab("Lasso test Spearman R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
-  
-    ggplot(data_lasso_only_800 , aes(x=as.factor(actucal_training_size),color=brlen_generator, y=sample_pct))+ 
-     geom_boxplot()+
-    labs(title="Percentage of positions chosen by Lasso for training size 800")+xlab("Training size")+ ylab("Number of positions chosen by Lasso")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
+summarise(across(.cols=c(lasso_test_R.2,lasso_test_spearmanr,sample_pct), .fns= list(Median=median), na.rm= TRUE),.groups = "drop")
+print(lasso.chosen_size.summary.per.brlen)
     
     
-    
-g0<-ggplot(data_lasso_only_800,aes(lasso_test_R.2,fill=brlen_generator))+ 
+#Figure 6
+g0<-ggplot(data_lasso_only_chosen_size,aes(lasso_test_R.2,fill=brlen_generator))+ 
      geom_histogram()+
     labs(title="Lasso test set Pearson R squared")+xlab("Pearson R squared")+ labs(fill= "Branch length distribution")+
   theme(plot.title = element_text(hjust = 0.5)) 
-g1<- ggplot(data_lasso_only_800,aes(lasso_test_R.2_spearman,fill=brlen_generator))+ 
+g1<- ggplot(data_lasso_only_chosen_size,aes(lasso_test_spearmanr,fill=brlen_generator))+ 
      geom_histogram()+
     labs(title="Lasso test set Spearman R squared")+xlab("Spearman R squared")+ labs(fill = "Branch length distribution")+
   theme(plot.title = element_text(hjust = 0.5)) 
+g2<- ggplot(data_lasso_only_chosen_size,aes(sample_pct,fill=brlen_generator))+ 
+     geom_histogram()+
+    labs(title="Percentage of positions chosen by Lasso")+xlab("% positions")+ labs(fill = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5))+theme(legend.position = "none") 
 
-fig<-ggarrange(g0, g1, hjust=-1,vjust=0,common.legend=TRUE,align="h",
-          labels = c("A", "B"),
-          ncol = 1, nrow =2)
 
-annotate_figure(fig,
-                top = text_grob("Distribution of Pearson and Spearman R squared values", color = "black", face = "bold", size = 14),
 
-                )
+ggarrange(g0, g1,g2,hjust=-1,vjust=0,common.legend=TRUE,align="h",
+          labels = c("A", "B","C"),
+          ncol = 1, nrow =3)
+
+ggarrange(g2, hjust=-1,vjust=1, 
+          labels = c("C"),
+          ncol = 1, nrow =1)
+
     
 
 ```
 
-Lasso on 50 MSAs - Spearman
-```{r}
-library(e1071)
 
-sum.data.25 = data_only_lasso %>%
-group_by(actucal_training_size,brlen_generator ) %>%
-group_modify(~ {
-quantile(.x$lasso_test_R.2_spearman, probs = c(0.25)) %>%
-tibble::enframe(name = "prob.25.spearman", value = "quantile.25.spearman")
-})
-
-print(sum.data.25 )
-
-sum.data.75 = data_only_lasso %>%
-group_by(actucal_training_size,brlen_generator ) %>%
-summarise(across(.cols=c(lasso_test_R.2), .fns= list(Median=median,Skw=skewness), na.rm= TRUE),.groups = "drop")
-print(sum.data)
-
-
-
-    ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2_spearman))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Spearman R squared")+xlab("Training size")+ ylab("Lasso test Spearman R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
-  
-
-
-```
-
-
-
-Lasso on 50 MSAs - Pearson
+Figure 4 or table2 - results on 50 MSAs
 
 ```{r}
-library(e1071)
 
-sum.data.25 = data_only_lasso %>%
-group_by(actucal_training_size,brlen_generator ) %>%
-group_modify(~ {
-quantile(.x$lasso_test_R.2, probs = c(0.25)) %>%
-tibble::enframe(name = "prob.25", value = "quantile.25")
-})
+example.per.brlen = example_MSA_statistics %>%
+group_by(brlen_generator ) %>%
+summarise(across(.fns= list(Mean=mean), na.rm= TRUE),.groups = "drop")
+print(example.per.brlen )
 
-print(sum.data.25 )
-
-sum.data.75 = data_only_lasso %>%
-group_by(actucal_training_size,brlen_generator ) %>%
-group_modify(~ {
-quantile(.x$lasso_test_R.2, probs = c(0.75)) %>%
-tibble::enframe(name = "prob.75", value = "quantile.75")
-})
-print(sum.data.75)
-
-sum.data.pearson = data_only_lasso %>%
-group_by(actucal_training_size,brlen_generator ) %>%
-summarise(across(.cols=c(lasso_test_R.2), .fns= list(Median=median,Skw=skewness), na.rm= TRUE),.groups = "drop")
-print(sum.data)
-
-
-  ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Pearson R squared")+xlab("Training size")+ ylab("Lasso test Pearson R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
-  
-
-
-```
-```{r}
 g0<-ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Pearson R squared")+xlab("Training size")+ ylab("Pearson R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
-g1<- ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2_spearman))+ 
-     geom_boxplot()+
-    labs(title="Lasso test set Spearman R squared")+xlab("Training size")+ ylab("Spearman R squared")+ labs(color = "Branch length distribution")+
-  theme(plot.title = element_text(hjust = 0.5)) 
+     geom_boxplot(outlier.shape=NA)+#theme(axis.title=element_text(size=10),)+
+    labs(title="test R squared")+xlab("Training size")+ ylab("R squared")+ labs(color = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5))+theme(legend.position="top")+coord_cartesian(ylim = c(0.99, 1))
+g1<- ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=data_only_lasso$lasso_test_spearmanr))+ 
+     geom_boxplot(outlier.shape=NA)+#theme(axis.title=element_text(size=10),)+
+    labs(title="test Spearman rho")+xlab("Training size")+ ylab("Spearman rho")+ labs(color = "Branch length distribution")+
+  theme(plot.title = element_text(hjust = 0.5))+theme(legend.position = "none")+coord_cartesian(ylim = c(0.98, 1))
 
-fig<-ggarrange(g0, g1+ rremove("x.text"), hjust=-1,vjust=0, heights=c(2,2),common.legend=TRUE, align="hv",
+g2<-ggplot(data_only_lasso, aes(x=as.factor(actucal_training_size),color=brlen_generator, y=sample_pct))+ labs(color = "Branch length distribution")+
+     geom_boxplot(outlier.shape=NA) +
+   xlab("Training size")+ylab("%positions")+ #theme(axis.title=element_text(size=10),)
+  guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso")+scale_y_continuous(labels = scales::percent)+ theme(legend.position = "none")+ theme(plot.title = element_text(hjust = 0.5)) 
+
+#ggarrange(g0, g1,hjust=-1,vjust=1, common.legend=TRUE,
+#          labels = c("A", "B"),
+#          ncol = 1, nrow =2)
+
+ggarrange(g0, g1,g2, hjust=-2,vjust=1, common.legend=TRUE,
           labels = c("A", "B","C"),
-          ncol = 1, nrow =2)
+          ncol = 1, nrow =3)
 
-annotate_figure(fig,
-                top = text_grob("Prediction accuracy vs. training size", color = "black", face = "bold", size = 14),
+#ggarrange(g0, hjust=-2,vjust=0, 
+#          labels = c("A"),
+#          ncol = 1, nrow =1)
 
-                )
+#ggarrange(g1, hjust=-1,vjust=0, 
+#          labels = c("B"),
+#          ncol = 1, nrow =1)
+
+#ggarrange(g2, hjust=-1,vjust=1, 
+#          labels = c("C"),
+#          ncol = 1, nrow =1)
 
 
-
-```
-
-
-
-
-
-Lasso on 50 MSAs - number of positions chosen
-
-```{r}
-ggplot(data_only_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=sample_pct))+ labs(color = "Branch length distribution")+
-     geom_boxplot() +
-   xlab("Training size")+ylab("Percentage of positions chosen by Lasso")+ theme(axis.title=element_text(size=10),)+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso vs. training size")+scale_y_continuous(labels = scales::percent)
 
 
 
 ```
-```{r}
-library("PerformanceAnalytics")
-library("car")
-
-data_only_lasso$actucal_training_size_group = as.factor(data_only_lasso$actucal_training_size)
-data_only_lasso =  within(data_only_lasso ,actucal_training_size_group <- relevel(actucal_training_size_group, ref = "800"))
-
-
-data_exponential<-data_only_lasso %>% filter(brlen_generator=="exponential")
-data_optimized<-data_only_lasso %>% filter(brlen_generator=="optimized")
-data_uniform<-data_only_lasso %>% filter(brlen_generator=="uniform")
-
-#Pairwise t tests
-exponential_mse_800<-arrange(data_exponential%>%filter(actucal_training_size==800),dataset_id)
-exponential_mse_400<-arrange(data_exponential%>%filter(actucal_training_size==400),dataset_id)
-wilcox.test(exponential_mse_800$lasso_test_mse, exponential_mse_400$lasso_test_mse, paired = TRUE, alternative = "less")
-t.test(exponential_mse_800$lasso_test_mse, exponential_mse_400$lasso_test_mse,paired=TRUE,alternative="less")
-
-
-diff.test = exponential_mse_800$lasso_test_mse-exponential_mse_400$lasso_test_mse
-hist(diff.test, breaks=500)
-qqnorm(diff.test)
-qqline(diff.test, col = "steelblue", lwd = 2)
-
-optimized_mse_800<-arrange(data_optimized%>%filter(actucal_training_size==800),dataset_id)
-optimized_mse_400<-arrange(data_optimized%>%filter(actucal_training_size==400),dataset_id)
-wilcox.test(optimized_mse_800$lasso_test_mse, optimized_mse_400$lasso_test_mse, paired = TRUE, alternative = "less")
-t.test(optimized_mse_800$lasso_test_mse, optimized_mse_400$lasso_test_mse,paired=TRUE,alternative="less")
-
-diff.test = optimized_mse_800$lasso_test_mse-exponential_mse_400$lasso_test_mse
-hist(diff.test, breaks=500)
-qqnorm(diff.test)
-qqline(diff.test, col = "steelblue", lwd = 2)
-
-
-uniform_mse_800<-arrange(data_uniform%>%filter(actucal_training_size==800),dataset_id)
-uniform_mse_400<-arrange(data_uniform%>%filter(actucal_training_size==400),dataset_id)
-wilcox.test(uniform_mse_800$lasso_test_mse, uniform_mse_400$lasso_test_mse, paired = TRUE, alternative = "less")
-t.test(uniform_mse_800$lasso_test_mse, uniform_mse_400$lasso_test_mse,paired=TRUE,alternative="less")
-
-
-diff.test = uniform_mse_800$lasso_test_mse-exponential_mse_400$lasso_test_mse
-hist(diff.test, breaks=500)
-qqnorm(diff.test)
-qqline(diff.test, col = "steelblue", lwd = 2)
-
-exp.800.linear.mod<-lm(exponential_mse_800$lasso_test_mse~ exponential_mse_800$mad+exponential_mse_800$n_loci+exponential_mse_800$sample_pct)
-print(summary(exp.800.linear.mod))
-print(vif(exp.800.linear.mod))
-chart.Correlation(exponential_mse_800[,c("lasso_test_mse","n_loci","mad")], histogram=TRUE, pch=19)
 
 
 
-```
+Statistical analysis of test MSE vs training size and MSA metrics
 
 ```{r}
 library(rstatix)
 library(nlme)
 library(multcomp)
+
 
 data_only_lasso$training_size_factor = as.factor(data_only_lasso$actucal_training_size)
 data_only_lasso$n_loci.1000=data_only_lasso$n_loci/1000
@@ -401,41 +299,31 @@ data_optimized<-data_only_lasso %>% filter(brlen_generator=="optimized")
 data_uniform<-data_only_lasso %>% filter(brlen_generator=="uniform")
 
 
-model<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_optimized)
-print(summary(model))
+```
 
-
-#ggqqplot(data_exponential, "lasso_test_mse", facet.by = "actucal_training_size")
-#modelAOV.exp <- aov(lasso_test_mse~training_size_factor+Error((dataset_id/actucal_training_size)), data = data_exponential)
-#print(summary(modelAOV))
-
-print(intervals(model,which = "fixed"))
-summary(glht(model, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
-
-
-
-# 
-# 
-# 
-# 
-# data_optimized%>%group_by(actucal_training_size)%>% shapiro_test(lasso_test_mse)
-# ggqqplot(data_optimized, "lasso_test_mse", facet.by = "actucal_training_size")
-# data_optimized$training_size_factor = as.factor(data_optimized$actucal_training_size)
-# modelAOV.opt <- aov(lasso_test_mse~factor(actucal_training_size)+Error((dataset_id/actucal_training_size)), data = data_optimized)
-# print(summary(modelAOV.opt))
-# 
-# tukey.opt<-TukeyHSD(modelAOV.opt)
-# 
-# 
-# 
-# data_uniform%>%group_by(actucal_training_size)%>% shapiro_test(lasso_test_mse)
-# ggqqplot(data_uniform, "lasso_test_mse", facet.by = "actucal_training_size")
-# data_uniform$training_size_factor = as.factor(data_uniform$actucal_training_size)
-# modelAOV.uni <- aov(lasso_test_mse~factor(actucal_training_size)+Error((dataset_id/actucal_training_size)), data = data_uniform)
-# print(summary(modelAOV.uni ))
+uniform
+```{r}
+model.uniform<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_uniform)
+print(summary(model.uniform))
+print(intervals(model.uniform,which = "fixed"))
+summary(glht(model.uniform, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
 
 
 ```
 
+optimized
+```{r}
+model.optimized<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_optimized)
+print(summary(model.optimized))
+print(intervals(model.optimized,which = "fixed"))
+summary(glht(model.optimized, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
+```
 
+exponential
+```{r}
+model.exponential<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_exponential)
+print(summary(model.exponential))
+print(intervals(model.exponential,which = "fixed"))
+summary(glht(model.exponential, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
+```
 

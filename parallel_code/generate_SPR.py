@@ -31,8 +31,6 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
     logging.debug(str(starting_tree.write(format=1)) + "\n")
     best_ll = starting_tree_ll
     best_true_ll = starting_tree_ll_on_full_data
-    logging.info("iteration starting tree ll=" + str(starting_tree_ll) + " and iteration starting tree true ll=" + str(
-        best_true_ll))
     neighbours_tested = 0
     for i, prune_node in enumerate(starting_tree.iter_descendants("levelorder")):
         pruned_node_parent_name, pruned_subtree, remaining_tree = prune_at_internal_node(starting_tree,
@@ -62,14 +60,6 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
                     ll = raxml_compute_ll_on_given_data(MSA_path, "rgrft_ll_eval", rgrft_path,
                                                         curr_msa_stats, rgrft_folder,
                                                         use_weights=use_weights)
-                    # if curr_msa_stats["sample_method"]=='lasso':
-                    #     with open(curr_msa_stats["weights_file_path"], 'r') as f:
-                    #      weights = [int(x) for x in f.readline().split(" ") if len(x)>0]
-                    #     ll_verify_b = raxml_compute_ll_on_given_data(MSA_path, "rgrft_ll_eval_test!", rgrft_path, curr_msa_stats,
-                    #                                                      rgrft_folder,
-                    #                                                      sitelh_lambda_function=lambda row: curr_msa_stats["lasso_intercept"]+sum(row[i]*weights[i] for i in range(len(row))))
-                    #
-
                     logging.debug("evaluating regrafted ll on true data in : " + curr_msa_stats["local_alignment_path"])
                     true_ll = raxml_compute_ll_on_given_data(curr_msa_stats["local_alignment_path"],
                                                                           "rgrft_ll_eval_on_full_MSA", rgrft_path,
@@ -104,6 +94,14 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
     # logging.info("iteration best ll =" + str(best_ll) + " and iteration best true ll=" + str(best_true_ll))
 
     return best_tree_object, best_ll, best_true_ll, neighbours_tested, ll_comparison_df
+
+
+
+
+
+
+
+
 
 
 def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, starting_tree_object,
@@ -147,6 +145,11 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
             spr_log_file_object.write("iteration number:" + str(spr_iterations_performed_so_far) + "\n")
             logging.info("iteration number: " + str(spr_iterations_performed_so_far))
             spr_log_file_object.write("running SPR iteration with starting tree:" + curr_iter_starting_tree_path + "\n")
+            adjusted_starting_tree_ll=curr_iter_starting_tree_ll
+            if phase_name == "use_sampled_MSA":
+                adjusted_starting_tree_ll = (curr_iter_starting_tree_ll/INTEGER_CONST) + curr_msa_stats["lasso_intercept"]
+            logging.info(
+                "iteration raw starting tree ll= {} iteration starting tree adjusted= {} iteration starting tree true ll= {}".format(curr_iter_starting_tree_ll, adjusted_starting_tree_ll,curr_iter_starting_tree_ll_on_full_data))
             curr_iter_best_tree_object, curr_iter_best_ll, curr_iter_best_true_ll, curr_iter_neighbours_tested, curr_iter_ll_comparison_df = SPR_iteration(
                 MSA_path,
                 curr_msa_stats,
@@ -163,19 +166,26 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                 print("Problem here!")
             number_of_SPR_neighbours_per_iteration_list.append(curr_iter_neighbours_tested)
             true_vs_sampled_ll_per_iteration_list.append([curr_iter_best_ll, curr_iter_best_true_ll])
+            epsilon=EPSILON
+            curr_adjusted_ll=curr_iter_best_ll
+            if phase_name == "use_sampled_MSA":
+                ll_comparison_df = pd.concat([ll_comparison_df, curr_iter_ll_comparison_df])
+                epsilon=EPSILON*INTEGER_CONST
+                curr_adjusted_ll = (curr_iter_best_ll / INTEGER_CONST) + curr_msa_stats["lasso_intercept"]
             spr_log_file_object.write(
                 "iteration summary: log likelihood: {} ; prev iteration ll: {} ; number of SPR neighbours tested: {} \n".format(
                     curr_iter_best_ll,
                     curr_iter_starting_tree_ll, curr_iter_neighbours_tested))
-            logging.info("iteration {} local log likelihood= {} and true log likelihood= {} ".format(spr_iterations_performed_so_far,
-                                                                                                     curr_iter_best_ll,
-                                                                                                     curr_iter_best_true_ll))
-            if phase_name == "use_sampled_MSA":
-                ll_comparison_df = pd.concat([ll_comparison_df, curr_iter_ll_comparison_df])
-            if curr_iter_best_ll - curr_iter_starting_tree_ll <= EPSILON:
+            logging.info(
+                "iteration {} raxml raw log likelihood= {} raxml adjusted log likelihood= {} and true log likelihood= {} ".format(
+                    spr_iterations_performed_so_far,
+                    curr_iter_best_ll, curr_adjusted_ll,
+                    curr_iter_best_true_ll))
+
+            if curr_iter_best_ll - curr_iter_starting_tree_ll <= epsilon:
                 spr_log_file_object.write(
-                    "curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(EPSILON))
-                logging.info("curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(EPSILON))
+                    "curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(epsilon))
+                logging.info("curr_iteration_ll - prev_iteration_ll <= {}, stopping SPR search\n".format(epsilon))
                 break
             ### Updating current iteration results and preparing for next iteration:
             spr_iterations_performed_so_far = spr_iterations_performed_so_far + 1

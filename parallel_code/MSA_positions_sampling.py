@@ -86,14 +86,15 @@ def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, 
     return relative_rf_dist
 
 
-def generate_random_starting_tree(i, curr_run_directory, curr_msa_stats):
+def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
     random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
     random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
     create_or_clean_dir(random_tree_folder)
     starting_tree_path = random_tree_path_prefix + ".raxml.startTree"
     baseline_starting_tree_path = starting_tree_path.replace(curr_msa_stats["run_prefix"],
-                                                             curr_msa_stats["baseline_run_prefix"])
+                                                             curr_msa_stats["spr_baseline_run_prefix"])
     if os.path.exists(baseline_starting_tree_path):
+        logging.info("Using starting tree in {}".format(baseline_starting_tree_path))
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
@@ -154,7 +155,7 @@ def get_positions_stats(alignment_df, n_seq):
 def generate_msa_general_stats(original_alignment_path, file_ind, current_msa_version_folder,
                                current_job_results_folder, job, max_n_seq,
                                n_random_starting_trees, random_trees_training_size, random_trees_test_size, run_prefix,
-                               baseline_run_prefix
+                               lasso_baseline_run_prefix,spr_baseline_run_prefix
                                ):
     dataset_id = original_alignment_path
     file_name = str(file_ind)
@@ -178,7 +179,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, current_msa_ve
                       "curr_msa_version_folder": current_msa_version_folder,
                       "curr_job_results_folder": current_job_results_folder,
                       "run_prefix": run_prefix,
-                      "baseline_run_prefix": baseline_run_prefix,
+                      "lasso_baseline_run_prefix": lasso_baseline_run_prefix,
+                      "spr_baseline_run_prefix": spr_baseline_run_prefix,
                       "alignment_data": reduced_local_alignment_data,
                       "MSA_original_alignment_data": original_alignment_data,
                       "local_alignment_path": local_full_msa_path,
@@ -276,7 +278,6 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
             training_size_directory = os.path.join(brlen_run_directory,
                                                    "training_{}_random_tree_eval".format(training_size))
             create_dir_if_not_exists(training_size_directory)
-            logging.info("")
             training_sitelh, training_sitelh_path = get_training_df(curr_msa_stats, brlen_generator_func,
                                                                     training_size_directory,
                                                                     random_trees_per_training_size[training_size])
@@ -295,7 +296,7 @@ def generate_msa_stats_and_lasso_from_beggining(original_alignment_path, file_in
                                                 curr_job_folder, job_ind, max_n_sequences,
                                                 n_random_starting_trees,
                                                 random_trees_training_size, random_trees_test_size, run_prefix,
-                                                baseline_run_prefix, spr_log_path,
+                                                lasso_baseline_run_prefix,spr_baseline_run_prefix, spr_log_path,
                                                 brlen_generators, training_size_options):
     logging.info(
         "Generating msa stats and Lasso in {} from beggining (not using a baseline)".format(
@@ -303,7 +304,7 @@ def generate_msa_stats_and_lasso_from_beggining(original_alignment_path, file_in
     curr_msa_stats = generate_msa_general_stats(
         original_alignment_path, file_ind, curr_msa_version_folder, curr_job_folder, job_ind, max_n_sequences,
         n_random_starting_trees,
-        random_trees_training_size, random_trees_test_size, run_prefix, baseline_run_prefix)
+        random_trees_training_size, random_trees_test_size, run_prefix, lasso_baseline_run_prefix,spr_baseline_run_prefix)
     try:
 
         logging.info("Computing raxml result on full data:")
@@ -363,19 +364,20 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                                                    'starting_tree_{i}'.format(i=i))
         create_dir_if_not_exists(starting_tree_run_directory)
         logging.info(
-            "Working on starting tree {i} in dicrectory {dir}".format(i=i, dir=starting_tree_run_directory))
-        starting_tree_path = generate_random_starting_tree(i, starting_tree_run_directory, curr_msa_stats)
+            "Generating folder for starting tree {i} in dicrectory {dir}".format(i=i, dir=starting_tree_run_directory))
+        starting_tree_path = generate_or_copy_random_starting_tree(i, starting_tree_run_directory, curr_msa_stats)
         curr_msa_stats["starting_tree_path"] = starting_tree_path
         naive_spr_results_dump = os.path.join(starting_tree_run_directory, 'naive_spr.dump')
-        naive_spr_results_dump_baseline = naive_spr_results_dump.replace(curr_msa_stats["run_prefix"],curr_msa_stats["baseline_run_prefix"])
+        naive_spr_results_dump_baseline = naive_spr_results_dump.replace(curr_msa_stats["run_prefix"],curr_msa_stats["spr_baseline_run_prefix"])
         if os.path.exists(naive_spr_results_dump_baseline):
+            logging.info("Using naive SPR results in {}".format(naive_spr_results_dump_baseline))
             with open(naive_spr_results_dump_baseline, 'rb') as handle:
                 naive_spr_results = pickle.load(handle)
         else:
             naive_spr_results = naive_spr_on_current_starting_tree(starting_tree_path, curr_msa_stats,
                                                                    curr_run_directory=starting_tree_run_directory)
             with open(naive_spr_results_dump, 'wb') as handle:
-                pickle.dump(naive_spr_results_dump, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                pickle.dump(naive_spr_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
         curr_msa_stats.update(naive_spr_results)
         for brlen_generator_name in brlen_generators:
             brlen_run_directory = os.path.join(starting_tree_run_directory, brlen_generator_name)
@@ -387,7 +389,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                 create_dir_if_not_exists(curr_training_size_directory)
                 lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
                 curr_msa_stats.update(lasso_results)
-                logging.info("Starting Lasso-based SPR on training size: {size}")
+                logging.info("Starting Lasso-based SPR on training size: {size}".format(size=training_size))
                 lasso_based_spr_results = lasso_based_spr_on_current_starting_tree(starting_tree_path,
                                                                                    curr_msa_stats,
                                                                                    curr_training_size_directory)
@@ -405,8 +407,8 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, run_prefix, baseline_run_prefix, only_evaluate_lasso, exp_brlen, uni_brlen, opt_brlen = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                                                                                                                                                    args.n_random_starting_trees, args.random_trees_training_size, args.random_trees_test_size, args.run_prefix, args.baseline_run_prefix, args.only_evaluate_lasso, args.exp_brlen, args.uni_brlen, args.opt_brlen
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, run_prefix, lasso_baseline_run_prefix,spr_baseline_run_prefix, only_evaluate_lasso, exp_brlen, uni_brlen, opt_brlen = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                                                                                                                    args.n_random_starting_trees, args.random_trees_training_size, args.random_trees_test_size, args.run_prefix, args.lasso_baseline_run_prefix,args.spr_baseline_run_prefix, args.only_evaluate_lasso, args.exp_brlen, args.uni_brlen, args.opt_brlen
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -418,14 +420,14 @@ def main():
                                                                                                  "spr_log_path"], \
                                                                                              job_related_file_paths[
                                                                                                  "job_status_file"]
-    baseline_msa_paths_file = job_msa_paths_file.replace(run_prefix, baseline_run_prefix)
+    lasso_baseline_msa_paths_file = job_msa_paths_file.replace(run_prefix, lasso_baseline_run_prefix)
     with open(job_msa_paths_file, "r") as paths_file:
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(job_ind))
-    if not os.path.exists(baseline_msa_paths_file):
+    if not os.path.exists( lasso_baseline_msa_paths_file):
         logging.info("Not using baseline for this job")
-    elif filecmp.cmp(baseline_msa_paths_file, job_msa_paths_file):
+    elif filecmp.cmp( lasso_baseline_msa_paths_file, job_msa_paths_file):
         logging.info("Files in the baseline folder are matching")
     else:
         logging.error("Files in the baseline aren't matching!!!")
@@ -438,9 +440,9 @@ def main():
         create_or_clean_dir(curr_msa_version_folder)
         curr_msa_version_lasso_dump = os.path.join(curr_msa_version_folder, 'lasso.dump')
         curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
-        curr_msa_version_folder_baseline = curr_msa_version_folder.replace(run_prefix, baseline_run_prefix)
-        curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(run_prefix, baseline_run_prefix)
-        curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(run_prefix, baseline_run_prefix)
+        curr_msa_version_folder_baseline = curr_msa_version_folder.replace(run_prefix, lasso_baseline_run_prefix)
+        curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(run_prefix, lasso_baseline_run_prefix)
+        curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(run_prefix, lasso_baseline_run_prefix)
         brlen_generators = update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen)
         if random_trees_training_size == -1:
             training_size_options = TRAINING_SIZE_OPTIONS
@@ -455,12 +457,13 @@ def main():
                 curr_msa_stats["curr_msa_version_folder"] = curr_msa_version_folder
             with open(curr_msa_version_lasso_dump_baseline, 'rb') as handle:
                 lasso_configurations_per_training_size = pickle.load(handle)
-
+            curr_msa_stats.update({"run_prefix": run_prefix,"lasso_baseline_run_prefix": lasso_baseline_run_prefix,
+                      "spr_baseline_run_prefix": spr_baseline_run_prefix})
         else:
             curr_msa_stats, lasso_configurations_per_training_size = generate_msa_stats_and_lasso_from_beggining(
                 original_alignment_path, file_ind, curr_msa_version_folder, curr_job_folder, job_ind, max_n_sequences,
                 n_random_starting_trees,
-                random_trees_training_size, random_trees_test_size, run_prefix, baseline_run_prefix, spr_log_path,
+                random_trees_training_size, random_trees_test_size, run_prefix, lasso_baseline_run_prefix,spr_baseline_run_prefix, spr_log_path,
                 brlen_generators, training_size_options)
         if only_evaluate_lasso:
             perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,

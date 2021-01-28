@@ -17,7 +17,7 @@ def sample_exp(size):
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
-TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
+TRAINING_SIZE_OPTIONS = [100]#[100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 
@@ -30,9 +30,11 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 N_THREADS = 1
 
 INTEGER_CONST = 100000
-CURR_RUN_PREFIX = "using_baseline_test"
-CURR_JOBS_PREFIX = "using_baseline_test"
-BASELINE="no_baseline"
+CURR_RUN_PREFIX = "new_test2"
+CURR_JOBS_PREFIX = "new_test2"
+LASSO_BASELINE="lasso_baseline"
+SPR_BASELINE="spr_baseline"
+
 
 MAX_N_SEQ = 5
 MIN_N_SEQ = 5
