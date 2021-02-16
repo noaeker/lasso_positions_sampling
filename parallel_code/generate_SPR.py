@@ -170,7 +170,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
             curr_adjusted_ll=curr_iter_best_ll
             if phase_name == "use_sampled_MSA":
                 ll_comparison_df = pd.concat([ll_comparison_df, curr_iter_ll_comparison_df])
-                epsilon=EPSILON*INTEGER_CONST
+                epsilon = EPSILON*INTEGER_CONST
                 curr_adjusted_ll = (curr_iter_best_ll / INTEGER_CONST) + curr_msa_stats["lasso_intercept"]
             spr_log_file_object.write(
                 "iteration summary: log likelihood: {} ; prev iteration ll: {} ; number of SPR neighbours tested: {} \n".format(
@@ -338,8 +338,8 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
                 "lasso_SPR_second_phase_spr_moves": next_optimized_tree_param_dict["spr_moves"],
                 "R^2_pearson_during_tree_search": prediction_rho_pearson**2,
                 "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
-                "R^2_spearman_during_tree_search": prediction_rho_spearman**2,
-                "R^2_spearman_during_tree_search_pval": prediction_pval_spearman,
+                "spearmanr_during_tree_search": prediction_rho_spearman,
+                "spearmanr_during_tree_search_pval": prediction_pval_spearman,
                 "mse_during_tree_search" : mse,
                 "mistake_cnt" : mistake_cnt,
                 "lasso_SPR_starting_tree_ll": use_sampled_true_starting_tree_ll,

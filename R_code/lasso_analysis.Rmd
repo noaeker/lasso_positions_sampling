@@ -40,7 +40,7 @@ names(test_optimized_chosen_size_example_data)[2:3]=c("test_true_val","test_pred
 #test<-spr_new %>% group_by(dataset_id) %>% count(dataset_id)
 print(summary(data_only_lasso$mad))
 print(summary(data_only_lasso$divergence))
-chosen_size=800
+
 
 ```
 
@@ -98,6 +98,7 @@ abline(0, 0)
 Lasso example using optimized branch lengths and chosen_size random trees
 
 ```{r}
+chosen_size=800
 example_MSA_data_lasso_chosen_size_optimized = example_MSA_data_lasso%>% filter(actucal_training_size==chosen_size, brlen_generator=="optimized")
 
 print(dplyr::select(example_MSA_data_lasso_chosen_size_optimized,"dataset_id","job_id","curr_msa_version_folder","n_seq", "db","number_loci_chosen","n_loci","alpha","lasso_training_R.2", "lasso_test_R.2","sample_pct", "lasso_training_spearmanr", "lasso_test_spearmanr"))
@@ -163,7 +164,7 @@ g0<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=b
 
 g1<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=lasso_test_spearmanr))+ 
      geom_bar(stat="identity",position=position_dodge())+coord_cartesian(ylim = c(0.9, 1)) +
-    xlab("Training size")+ylab("Spearman rho")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso")+ theme(plot.title = element_text(hjust = 0.5)) 
+    xlab("Training size")+ylab("Spearman rho")+theme(axis.title=element_text(size=10))+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Test set Spearman rho vs. training size")+ theme(plot.title = element_text(hjust = 0.5)) 
 
 #title="Lasso Pearson test set R squared vs. training size"
 #title="Lasso Spearman test set R squared vs. training size"
@@ -171,11 +172,11 @@ g1<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=b
 
  g2<-ggplot(example_MSA_data_lasso, aes(x=as.factor(actucal_training_size),fill=brlen_generator, y=sample_pct))+ labs(color = "Branch length distribution")+
      geom_bar(stat="identity",position=position_dodge()) +
-   xlab("Training size")+ylab("% Positions")+ theme(axis.title=element_text(size=10),)+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso")+scale_y_continuous(labels = scales::percent)+ theme(plot.title = element_text(hjust = 0.5)) 
+   xlab("Training size")+ylab("% Positions")+ theme(axis.title=element_text(size=10),)+guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Percentage of positions chosen by Lasso vs. training size" )+scale_y_continuous(labels = scales::percent)+ theme(plot.title = element_text(hjust = 0.5)) 
 
-ggarrange(g0, g1,g2, hjust=-1,vjust=0, heights=c(2,2),common.legend=TRUE, 
-          labels = c("A", "B","C"),
-          ncol = 1, nrow =3)
+ggarrange(g0, g2, hjust=-1,vjust=0, heights=c(2,2),common.legend=TRUE, 
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
 
 
 
@@ -189,6 +190,7 @@ print(example_MSA_data_lasso[,c("brlen_generator","n_loci","number_loci_chosen")
 
 Figure 6 - Lasso on 50 MSAs only 3200
 ```{r}
+
 chosen_size = 3200
 data_lasso_only_chosen_size = data_only_lasso[data_only_lasso$actucal_training_size==chosen_size,]
 
@@ -211,7 +213,7 @@ g0<-ggplot(data_lasso_only_chosen_size,aes(lasso_test_R.2,fill=brlen_generator))
   theme(plot.title = element_text(hjust = 0.5)) 
 g1<- ggplot(data_lasso_only_chosen_size,aes(lasso_test_spearmanr,fill=brlen_generator))+ 
      geom_histogram()+
-    labs(title="Lasso test set Spearman R squared")+xlab("Spearman R squared")+ labs(fill = "Branch length distribution")+
+    labs(title="Lasso test set Spearman Rho")+xlab("Spearman rho")+ labs(fill = "Branch length distribution")+
   theme(plot.title = element_text(hjust = 0.5)) 
 g2<- ggplot(data_lasso_only_chosen_size,aes(sample_pct,fill=brlen_generator))+ 
      geom_histogram()+
@@ -219,10 +221,12 @@ g2<- ggplot(data_lasso_only_chosen_size,aes(sample_pct,fill=brlen_generator))+
   theme(plot.title = element_text(hjust = 0.5))+theme(legend.position = "none") 
 
 
+g0
+g1
 
-ggarrange(g0, g1,g2,hjust=-1,vjust=0,common.legend=TRUE,align="h",
-          labels = c("A", "B","C"),
-          ncol = 1, nrow =3)
+ggarrange(g0, g2,hjust=-1,vjust=0,common.legend=TRUE,align="h",
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
 
 ggarrange(g2, hjust=-1,vjust=1, 
           labels = c("C"),
@@ -237,10 +241,10 @@ Figure 4 or table2 - results on 50 MSAs
 
 ```{r}
 
-example.per.brlen = example_MSA_statistics %>%
-group_by(brlen_generator ) %>%
-summarise(across(.fns= list(Mean=mean), na.rm= TRUE),.groups = "drop")
-print(example.per.brlen )
+per.brlen.size = dplyr::select(data_only_lasso,actucal_training_size,brlen_generator,lasso_test_R.2,lasso_test_spearmanr,sample_pct) %>%
+group_by(actucal_training_size,brlen_generator) %>%
+summarise(across(.fns= list(Median=median), na.rm= TRUE),.groups = "drop")
+print(per.brlen.size)
 
 g0<-ggplot(data_only_lasso,aes(x=as.factor(actucal_training_size),color=brlen_generator, y=lasso_test_R.2))+ 
      geom_boxplot(outlier.shape=NA)+#theme(axis.title=element_text(size=10),)+
@@ -260,9 +264,9 @@ g2<-ggplot(data_only_lasso, aes(x=as.factor(actucal_training_size),color=brlen_g
 #          labels = c("A", "B"),
 #          ncol = 1, nrow =2)
 
-ggarrange(g0, g1,g2, hjust=-2,vjust=1, common.legend=TRUE,
-          labels = c("A", "B","C"),
-          ncol = 1, nrow =3)
+ggarrange(g0, g2, hjust=-2,vjust=1, common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
 
 #ggarrange(g0, hjust=-2,vjust=0, 
 #          labels = c("A"),
@@ -301,29 +305,46 @@ data_uniform<-data_only_lasso %>% filter(brlen_generator=="uniform")
 
 ```
 
+
+
+
+```{r}
+hist(data_only_lasso$)
+```
+
+
+
+
 uniform
 ```{r}
+data_uniform<-data_only_lasso %>% filter(brlen_generator=="uniform")
+data_uniform$training_size_factor = as.factor(paste('training_', data_uniform$training_size_factor,sep = ""))
 model.uniform<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_uniform)
 print(summary(model.uniform))
 print(intervals(model.uniform,which = "fixed"))
-summary(glht(model.uniform, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
+summary(glht(model=model.uniform, linfct=mcp(training_size_factor =c("training_200 - training_100 >= 0","training_400 - training_200 >= 0","training_800 - training_400 >= 0","training_1600 - training_800 >= 0","training_3200 - training_1600 >= 0"))))
 
 
 ```
 
 optimized
 ```{r}
+data_optimized<-data_only_lasso %>% filter(brlen_generator=="optimized")
+data_optimized$training_size_factor = as.factor(paste('training_', data_optimized$training_size_factor,sep = ""))
 model.optimized<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_optimized)
 print(summary(model.optimized))
 print(intervals(model.optimized,which = "fixed"))
-summary(glht(model.optimized, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
+summary(glht(model=model.optimized, linfct=mcp(training_size_factor =c("training_200 - training_100 >= 0","training_400 - training_200 >= 0","training_800 - training_400 >= 0","training_1600 - training_800 >= 0","training_3200 - training_1600 >= 0")),test = adjusted(type = "bonferroni")))
+
 ```
 
 exponential
 ```{r}
+data_exponential<-data_only_lasso %>% filter(brlen_generator=="exponential")
+data_exponential$training_size_factor = as.factor(paste('training_', data_exponential$training_size_factor,sep = ""))
 model.exponential<-lme(lasso_test_mse~training_size_factor+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id, data=data_exponential)
 print(summary(model.exponential))
 print(intervals(model.exponential,which = "fixed"))
-summary(glht(model.exponential, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
+summary(glht(model=model.optimized, linfct=mcp(training_size_factor =c("training_200 - training_100 >= 0","training_400 - training_200 >= 0","training_800 - training_400 >= 0","training_1600 - training_800 >= 0","training_3200 - training_1600 >= 0")),test = adjusted(type = "bonferroni")))
 ```
 

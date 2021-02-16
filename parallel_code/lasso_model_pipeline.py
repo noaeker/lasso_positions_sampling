@@ -5,10 +5,6 @@ from scipy import stats
 import pickle
 
 def evaluate_lasso_performance_on_test_data(lasso_model,sitelh_test_df):
-    integer_coefficients = [int(lasso_model.coef_[ind] * INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
-    chosen_locis = [ind for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
-    chosen_loci_weights = [integer_coefficients[ind] for ind in range(len(integer_coefficients)) if
-                           integer_coefficients[ind] > 0]
     logging.info("Evaluating model on test data")
     y_test = sitelh_test_df.sum(axis=1)
     test_predicted_values = lasso_model.predict(sitelh_test_df)
@@ -42,9 +38,12 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,curr_run_dir
             lasso_model_file_path = os.path.join(curr_run_directory,"lasso_model.sav")
             pickle.dump(lasso_model, open(lasso_model_file_path, 'wb'))
             y_training_predicted=lasso_model.predict(sitelh_training_df)
-            integer_coefficients = [int(lasso_model.coef_[ind]*INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
-            chosen_locis = [ind for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
-            chosen_loci_weights = [integer_coefficients[ind] for ind in range(len(integer_coefficients)) if integer_coefficients[ind] > 0]
+            if USE_INTEGER_WEIGHTS:
+                weights = [int(lasso_model.coef_[ind]*INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
+            else:
+                weights = lasso_model.coef_
+            chosen_locis = [ind for ind in range(len(weights)) if weights[ind] !=0]
+            chosen_loci_weights = [weights[ind] for ind in range(len(weights)) if weights[ind] !=0]
             lasso_log.write("Lasso chosen locis are:" + str(chosen_locis) + "\n")
             lasso_log.write("Lasso nonzero coefficient are:" + str(chosen_loci_weights) + "\n")
             training_r_squared=lasso_model.score(sitelh_training_df,y_training)

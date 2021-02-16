@@ -18,19 +18,26 @@ library(stringr)
 library(dplyr)
 library(ggpubr)
 library(gridExtra)
-spr_data.exp<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_exp_800.csv"))
-spr_data.opt<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_opt_800.csv"))
-spr_data<-rbind(spr_data.exp,spr_data.opt)
+#spr_data.exp<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_exp_800.csv"))
+#spr_data.opt<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_opt_800.csv"))
+#spr_data<-rbind(spr_data.exp,spr_data.opt)
+spr_data=read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_curr_ready.csv")
+
+#spr_data=spr_data[grepl("starting_tree_0",spr_data$starting_tree_path, fixed = TRUE),]
 
 spr_data$rho_second_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct))
+
 spr_data$rho_first_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct)
 spr_data$delta_ll_second_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_second_phase_ll
 spr_data$delta_ll_first_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_first_phase_ll
 
 
-good_datasets<-(select(spr_data %>% group_by(dataset_id) %>% count(dataset_id) %>% filter(n==6), dataset_id))
+good_datasets<-dplyr::select(spr_data %>% dplyr::group_by(dataset_id) %>% dplyr::count(dataset_id) %>% dplyr::filter(n==6), dataset_id)
 
+good_datasets$dataset_
 spr_data<-merge(good_datasets, spr_data, by = "dataset_id")
+
+
 
 
 ```
@@ -85,22 +92,20 @@ abline(0, 0)
 	return(c(r.squared,p.val))
 }
 ```
-
-test
-```{r}
-print(spr_data$dataset_id)
-```
+  
 
 
 Example MSA
 
 ```{r}
 
-example_MSA_data = spr_data[spr_data$dataset_id==  "/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00550000074575/ref_msa.aa.phy" ,]
+example_MSA_data = spr_data[spr_data$dataset_id==  "/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00600000084481/ref_msa.aa.phy" ,]
 
 
-example_MSA_statistics<-example_MSA_data[,c("brlen_generator","n_loci","number_loci_chosen","naive_SPR_spr_moves","lasso_SPR_first_phase_spr_moves","lasso_SPR_second_phase_spr_moves","rf_first_phase_vs_overall_best","R.2_pearson_during_tree_search", "R.2_spearman_during_tree_search","mistake_cnt","delta_ll_first_phase","rho_first_phase","rho_second_phase","naive_SPR_ll","lasso_SPR_first_phase_ll", "lasso_SPR_first_phase_tree_newick")]
-print(arrange(example_MSA_statistics,brlen_generator))
+example_MSA_statistics<-arrange(dplyr::select(example_MSA_data,starting_tree_path,brlen_generator,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,R.2_pearson_during_tree_search, R.2_spearman_during_tree_search,rf_first_phase_vs_overall_best,mistake_cnt,delta_ll_first_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick),starting_tree_path,brlen_generator)
+
+
+example_MSA_statistics 
 
 
 print("Best topology:")
@@ -116,10 +121,18 @@ print(example.per.brlen )
 ```
 
 
+Find problematic MSAs
+
+```{r}
+
+
+```
+
+
 First phase on 50 datasets
 
 ```{r}
-all_MSA_statistics<-spr_data[,c("brlen_generator","n_loci","number_loci_chosen","naive_SPR_spr_moves","lasso_SPR_first_phase_spr_moves","lasso_SPR_second_phase_spr_moves","rf_first_phase_vs_overall_best","R.2_pearson_during_tree_search", "R.2_spearman_during_tree_search","mistake_cnt","delta_ll_first_phase","rho_first_phase","rho_second_phase","naive_SPR_ll","lasso_SPR_first_phase_ll", "lasso_SPR_first_phase_tree_newick")]
+all_MSA_statistics<-spr_data[,c("brlen_generator","n_loci","number_loci_chosen","naive_SPR_spr_moves","lasso_SPR_first_phase_spr_moves","lasso_SPR_second_phase_spr_moves","R.2_pearson_during_tree_search", "R.2_spearman_during_tree_search","mistake_cnt","delta_ll_first_phase","rho_first_phase","rho_second_phase","naive_SPR_ll","lasso_SPR_first_phase_ll", "lasso_SPR_first_phase_tree_newick")]
 
 all_MSA_statistics$spr_moves_diff <- spr_data$naive_SPR_spr_moves-spr_data$lasso_SPR_first_phase_spr_moves
 
@@ -130,10 +143,22 @@ summarise(across(.fns= list(Mean=mean, Median=median), na.rm= TRUE),.groups = "d
 print(MSAs.per.brlen)
 
 
-ggplot(spr_data, aes(delta_ll_first_phase, fill = brlen_generator))+
-     geom_histogram()+
-   xlab("Log-likelihood difference")+labs(title="Log-likelihood differences between the standard search and the Lasso-based search")+
+ggplot(spr_data, aes(x=brlen_generator,y=delta_ll_first_phase, fill= brlen_generator))+
+     geom_violin()+
+   xlab("Log-likelihood difference")+labs(title="Log-likelihood differences first phase")+
    theme(plot.title = element_text(hjust = 0.5)) 
+
+ggplot(spr_data, aes(x=brlen_generator,y=delta_ll_second_phase, fill= brlen_generator))+
+     geom_violin(outlier.shape=NA)+
+   xlab("Log-likelihood difference")+labs(title="Log-likelihood differences second phase")+
+   theme(plot.title = element_text(hjust = 0.5)) 
+
+
+ggplot(spr_data, aes(delta_ll_second_phase, fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Log-likelihood difference")+labs(title="Log-likelihood differences second phase")+
+   theme(plot.title = element_text(hjust = 0.5)) 
+
 
 ggplot(spr_data, aes(rf_first_phase_vs_overall_best, fill = brlen_generator))+
      geom_histogram()+
@@ -168,22 +193,31 @@ annotate_figure(fig,
 
 
 
-g2<-ggplot(spr_data, aes(spr_moves_diff, fill = brlen_generator))+
-     geom_histogram()+
-   xlab("SPR moves difference")+labs(title="SPR moves differences between the standard search and the Lasso-based search")+
-   theme(plot.title = element_text(hjust = 0.5))+theme(plot.title = element_text(size=13))+labs(fill = "Branch length distribution")
 g3<-ggplot(spr_data, aes(rho_first_phase,fill = brlen_generator))+
      geom_histogram()+
-   xlab("Expected running time ratio")+labs(title="Expected running time ratio between the standard search and the Lasso-based search")+
+   xlab("Expected running time ratio")+labs(title="Expected running time ratio first phase")+
    theme(plot.title = element_text(hjust = 0.5)) + theme(plot.title = element_text(size=13))+labs(fill = "Branch length distribution")
 
-ggarrange(g2, g3, hjust=-0.5,vjust=1,align="hv",common.legend=TRUE,
-          labels = c("A", "B"),
-          ncol = 1, nrow =2)
 
+
+
+g4<-ggplot(spr_data, aes(rho_second_phase,fill = brlen_generator))+
+     geom_histogram()+
+   xlab("Expected running time ratio")+labs(title="Expected running time ratio second phase")+
+   theme(plot.title = element_text(hjust = 0.5)) + theme(plot.title = element_text(size=13))+labs(fill = "Branch length distribution")
+
+
+
+
+# 
+# ggarrange(g2, g3, hjust=-0.5,vjust=1,align="hv",common.legend=TRUE,
+#           labels = c("A", "B"),
+#           ncol = 1, nrow =2)
+# 
 
          
-
+g3
+g4
 
 
 
@@ -192,28 +226,13 @@ ggarrange(g2, g3, hjust=-0.5,vjust=1,align="hv",common.legend=TRUE,
 ```
 
 
-
-
-
-
-
-
 ```{r}
-print("Summary of number of steps during the second SPR")
-print(summary(spr_data$lasso_SPR_second_phase_spr_moves))
-print("Summary of running time decrease factor :")
-print(summary(spr_data$rho_second_phase ))
-print("Summary of RF dist Lasso vs. best second phase:")
-print(summary(spr_data$rf_second_phase_vs_overall_best))
-print("Summary of RF dist Standard vs. best second phase:")
-print(summary(spr_data$rf_naive_vs_overall_best_second_phase))
-print("Summary of delta log likelihood")
-print(summary(spr_data$delta_ll_second_phase))
-#two.groups.hist(spr_data$rf_second_phase_vs_overall_best, spr_data$rf_naive_vs_overall_best_second_phase,"Lasso-based modified #SPR","Standard SPR","Distribution of Robinson-Foulds relative distance from best tree","Robinson Foulds relative distance",title.size=12)
-
-plot.hist(spr_data$lasso_SPR_second_phase_spr_moves , main = "Distribution of number of spr moves during second phase", xlab="SPR moves")
-plot.hist(spr_data$rho_second_phase ,main="Distribution of running time decrease factor of modified Lasso-based SPR ",xlab="Running time efficiency factor of Lasso-based SPR")
-plot.hist(spr_data$delta_ll_second_phase ,main="Distribution of delta log likelihood values after the second phase",xlab="delta ll (second phase)")
+spr_data$n_loci.1000=spr_data$n_loci/1000
+model<-lme(delta_ll_first_phase~brlen_generator+divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id/starting_tree_path, data=spr_data)
+print(summary(model))
+print(intervals(model,which = "fixed"))
+#print(intervals(model.optimized,which = "fixed"))
+#summary(glht(model.optimized, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
 
 ```
 

@@ -1,8 +1,51 @@
 
-from raxml import *
-from spr_prune_and_regraft import *
+from lasso_model_pipeline import *
 
 
+def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):
+    Lasso_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"], "Lasso_folder")
+    create_dir_if_not_exists(Lasso_folder)
+    logging.info("Generating Lasso folder in {}".format(Lasso_folder))
+    random_trees_folder = os.path.join(Lasso_folder, "random_tree_generation")
+    curr_msa_stats["Lasso_folder"] = Lasso_folder
+    curr_msa_stats["random_trees_folder"] = random_trees_folder
+    create_dir_if_not_exists(random_trees_folder)
+    random_trees_per_training_size = {}
+    #
+    #
+    #
+    #training_random_tree_path_and_folder_list = generate_n_random_topologies(training_size, random_trees_folder,
+    #                                                                          curr_msa_stats, "training")
+    for training_size in training_size_options:
+        training_random_tree_path_and_folder_list = generate_n_random_topologies(training_size, random_trees_folder,
+                                                                                 curr_msa_stats, "training")
+        random_trees_per_training_size[training_size] = training_random_tree_path_and_folder_list
+    random_trees_test = generate_n_random_topologies(random_trees_test_size, random_trees_folder, curr_msa_stats,
+                                                     "test")
+    test_folder = os.path.join(Lasso_folder, "test_{}_random_trees_eval".format(random_trees_test_size))
+    create_dir_if_not_exists(test_folder)
+    test_sitelh, test_sitelh_path = get_test_set_df(curr_msa_stats=curr_msa_stats, brlen_generator_func=BRLEN_GENERATORS.get("optimized"),
+                                                    curr_run_directory=test_folder, random_trees_test=random_trees_test)
+    run_configurations = {}
+    for brlen_generator_name in brlen_generators:
+        brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
+        create_dir_if_not_exists(brlen_run_directory)
+        brlen_generator_func = brlen_generators.get(brlen_generator_name)
+        for training_size in training_size_options:
+            training_size_directory = os.path.join(brlen_run_directory,
+                                                   "training_{}_random_tree_eval".format(training_size))
+            create_dir_if_not_exists(training_size_directory)
+            training_sitelh, training_sitelh_path = get_training_df(curr_msa_stats, brlen_generator_func,
+                                                                    training_size_directory,
+                                                                    random_trees_per_training_size[training_size])
+            Lasso_results = apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,
+                                                                             curr_run_directory=training_size_directory,
+                                                                             sitelh_training_df=training_sitelh,
+                                                                             sitelh_test_df=test_sitelh)  # calculating positions_weight
+            if brlen_generator_name not in run_configurations:
+                run_configurations[brlen_generator_name] = {}
+            run_configurations[brlen_generator_name][training_size] = Lasso_results
+    return run_configurations
 
 
 def generate_n_random_topologies(n, curr_run_directory,curr_msa_stats,name):

@@ -1,89 +1,9 @@
-from lasso_model_pipeline import *
+
 from generate_SPR import *
 from training_and_test_set_generation import *
 from raxml import *
 import filecmp
 
-
-def rel_rf_dist_naive_vs_best_first_phase(row, curr_run_directory):
-    return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
-                                          row["naive_SPR_tree_newick"],
-                                          "naive_vs_best_first_phase", curr_run_directory)
-
-
-def rel_rf_dist_naive_vs_best_second_phase(row, curr_run_directory):
-    return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
-                                          row["naive_SPR_tree_newick"],
-                                          "naive_vs_best_second_phase", curr_run_directory)
-
-
-def rel_rf_dist_first_phase_vs_best(row, curr_run_directory):
-    return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
-                                          row["lasso_SPR_first_phase_tree_newick"],
-                                          "lasso_first_phase_vs_best", curr_run_directory)
-
-
-def rel_rf_dist_second_phase_vs_best(row, curr_run_directory):
-    return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
-                                          row["lasso_SPR_second_phase_tree_newick"],
-                                          "lasso_second_phase_vs_best", curr_run_directory)
-
-
-def get_best_ll_and_topology(ll_col, tree_topology_col):
-    best_ll, max_ind = max(ll_col), ll_col.idxmax()
-    best_spr_tree_newick = tree_topology_col[max_ind]
-    return best_ll, best_spr_tree_newick
-
-
-def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
-    best_naive_spr_ll, best_naive_spr_tree_newick = get_best_ll_and_topology(
-        curr_msa_results["naive_SPR_ll"],
-        curr_msa_results["naive_SPR_tree_newick"])
-    best_lasso_spr_first_phase_ll, best_lasso_spr_first_phase_tree_newick = get_best_ll_and_topology(
-        curr_msa_results[
-            "lasso_SPR_first_phase_ll"],
-        curr_msa_results[
-            "lasso_SPR_first_phase_tree_newick"])
-    best_lasso_spr_second_phase_ll, best_lasso_spr_second_phase_tree_newick = get_best_ll_and_topology(
-        curr_msa_results[
-            "lasso_SPR_second_phase_ll"],
-        curr_msa_results[
-            "lasso_SPR_second_phase_tree_newick"])
-
-    if best_naive_spr_ll > best_lasso_spr_first_phase_ll:
-        curr_msa_results["overall_best_topology_first_phase"] = best_naive_spr_tree_newick
-    else:
-        curr_msa_results["overall_best_topology_first_phase"] = best_lasso_spr_first_phase_tree_newick
-    if best_naive_spr_ll > best_lasso_spr_second_phase_ll:
-        curr_msa_results["overall_best_topology_second_phase"] = best_naive_spr_tree_newick
-    else:
-        curr_msa_results["overall_best_topology_second_phase"] = best_lasso_spr_second_phase_tree_newick
-
-    curr_msa_results["rf_naive_vs_overall_best_first_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_first_phase(row, curr_run_directory),
-        axis=1)
-    curr_msa_results["rf_naive_vs_overall_best_second_phase"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_naive_vs_best_second_phase(row, curr_run_directory),
-        axis=1)
-    curr_msa_results["rf_first_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_first_phase_vs_best(row, curr_run_directory),
-        axis=1)
-    curr_msa_results["rf_second_phase_vs_overall_best"] = curr_msa_results.apply(
-        lambda row: rel_rf_dist_second_phase_vs_best(row, curr_run_directory),
-        axis=1)
-    return curr_msa_results
-
-
-def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, name,
-                                   curr_run_directory):
-    curr_run_directory = os.path.join(curr_run_directory, name)
-    create_or_clean_dir(curr_run_directory)
-    rf_path = os.path.join(curr_run_directory, "rf_trees_file")
-    with open(rf_path, 'a+') as f_combined:
-        f_combined.write(best_topology_newick)
-        f_combined.write(given_topology_newick)
-    relative_rf_dist = calculate_rf_dist(rf_path, curr_run_directory)
-    return relative_rf_dist
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
@@ -248,47 +168,6 @@ def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen):
     logging.info("Brlen genertors are chosen to be {}".format(str(brlen_generators.keys())))
 
 
-
-
-def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):
-    Lasso_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"], "Lasso_folder")
-    create_dir_if_not_exists(Lasso_folder)
-    logging.info("Generating Lasso folder in {}".format(Lasso_folder))
-    random_trees_folder = os.path.join(Lasso_folder, "random_tree_generation")
-    curr_msa_stats["Lasso_folder"] = Lasso_folder
-    curr_msa_stats["random_trees_folder"] = random_trees_folder
-    create_dir_if_not_exists(random_trees_folder)
-    random_trees_per_training_size = {}
-    for training_size in training_size_options:
-        training_random_tree_path_and_folder_list = generate_n_random_topologies(training_size, random_trees_folder,
-                                                                                 curr_msa_stats, "training")
-        random_trees_per_training_size[training_size] = training_random_tree_path_and_folder_list
-    random_trees_test = generate_n_random_topologies(random_trees_test_size, random_trees_folder, curr_msa_stats,
-                                                     "test")
-    run_configurations = {}
-    for brlen_generator_name in brlen_generators:
-        brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
-        create_dir_if_not_exists(brlen_run_directory)
-        brlen_generator_func = brlen_generators.get(brlen_generator_name)
-        test_folder = os.path.join(brlen_run_directory, "test_{}_random_trees_eval".format(random_trees_test_size))
-        create_dir_if_not_exists(test_folder)
-        test_sitelh, test_sitelh_path = get_test_set_df(curr_msa_stats, brlen_generator_func,
-                                                        test_folder, random_trees_test)
-        for training_size in training_size_options:
-            training_size_directory = os.path.join(brlen_run_directory,
-                                                   "training_{}_random_tree_eval".format(training_size))
-            create_dir_if_not_exists(training_size_directory)
-            training_sitelh, training_sitelh_path = get_training_df(curr_msa_stats, brlen_generator_func,
-                                                                    training_size_directory,
-                                                                    random_trees_per_training_size[training_size])
-            Lasso_results = apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,
-                                                                             curr_run_directory=training_size_directory,
-                                                                             sitelh_training_df=training_sitelh,
-                                                                             sitelh_test_df=test_sitelh)  # calculating positions_weight
-            if brlen_generator_name not in run_configurations:
-                run_configurations[brlen_generator_name] = {}
-            run_configurations[brlen_generator_name][training_size] = Lasso_results
-    return run_configurations
 
 
 

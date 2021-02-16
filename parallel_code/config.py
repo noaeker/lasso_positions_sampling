@@ -1,7 +1,6 @@
 import numpy as np
 import logging
-import os
-import help_functions
+
 
 LOCAL_RUN = False #True
 
@@ -16,7 +15,7 @@ def sample_exp(size):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = -1
+RANDOM_TREES_TRAINING_SIZE = 50
 TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
@@ -29,11 +28,13 @@ EPSILON = 0.1
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 N_THREADS = 1
 
-INTEGER_CONST = 100000
+USE_INTEGER_WEIGHTS = LOCAL_RUN
+INTEGER_CONST = 100000 if USE_INTEGER_WEIGHTS else 1
 CURR_RUN_PREFIX = "new_test2"
 CURR_JOBS_PREFIX = "new_test2"
-LASSO_BASELINE="lasso_baseline"
-SPR_BASELINE="spr_baseline"
+LASSO_BASELINE="no_baseline"#"lasso_baseline"
+
+SPR_BASELINE="no_baseline"#"spr_baseline"
 
 
 MAX_N_SEQ = 5
@@ -48,15 +49,13 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-N_THREADS = 1
-
-USE_PREVIOUS_LASSO_RESULTS = True
+N_THREADS = 4
 
 
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng/raxml-ng --threads {} ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng-float/raxml-ng --threads {} ".format(N_THREADS)
     MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
