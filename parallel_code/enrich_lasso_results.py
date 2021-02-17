@@ -1,6 +1,4 @@
 
-N=2
-
 import pandas as pd
 from help_functions import *
 from matplotlib import pyplot as plt
