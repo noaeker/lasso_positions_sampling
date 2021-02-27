@@ -57,14 +57,14 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
                         print_subtree(regrafted_tree, spr_log_file_object, text="regrafted tree ")
                     regrafted_tree.write(format=1, outfile=rgrft_path)
                     logging.debug("evaluating regrafted ll on given data in : " + MSA_path)
-                    ll = raxml_compute_ll_on_given_data(MSA_path, "rgrft_ll_eval", rgrft_path,
-                                                        curr_msa_stats, rgrft_folder,
-                                                        use_weights=use_weights)
+                    ll = raxml_optimize_ll_on_given_tree_and_msa(MSA_path, "rgrft_ll_eval", rgrft_path,
+                                                                 curr_msa_stats, rgrft_folder,
+                                                                 weights=curr_msa_stats["weights_file_path"])
                     logging.debug("evaluating regrafted ll on true data in : " + curr_msa_stats["local_alignment_path"])
-                    true_ll = raxml_compute_ll_on_given_data(curr_msa_stats["local_alignment_path"],
+                    true_ll = raxml_optimize_ll_on_given_tree_and_msa(curr_msa_stats["local_alignment_path"],
                                                                           "rgrft_ll_eval_on_full_MSA", rgrft_path,
-                                                             curr_msa_stats, rgrft_folder,
-                                                             use_weights=False)
+                                                                      curr_msa_stats, rgrft_folder,
+                                                                      weights=None)
                     logging.debug("curr regraft ll=" + str(ll) + " and curr true ll= " + str(true_ll))
                     neighbours_tested = neighbours_tested + 1
 
@@ -118,17 +118,17 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         spr_iterations_performed_so_far = 0
         curr_iter_starting_tree_topology = starting_tree_path
         # logging.info("evaluating starting tree on curr MSA: " + MSA_path)
-        naive_SPR_search_starting_tree_ll = raxml_compute_ll_on_given_data(MSA_path,
+        naive_SPR_search_starting_tree_ll = raxml_optimize_ll_on_given_tree_and_msa(MSA_path,
                                                                                         "starting_tree_ll_eval_" + run_unique_name,
-                                                                           starting_tree_path,
-                                                                           curr_msa_stats,
-                                                                           curr_run_directory=curr_run_directory,
-                                                                           use_weights=use_weights)
+                                                                                    starting_tree_path,
+                                                                                    curr_msa_stats,
+                                                                                    curr_run_directory=curr_run_directory,
+                                                                                    weights=curr_msa_stats["weights_file_path"])
         # logging.info("evaluating starting tree on full MSA: " + curr_msa_stats["local_alignment_path"])
-        naive_SPR_search_starting_tree_true_ll = raxml_compute_ll_on_given_data(
+        naive_SPR_search_starting_tree_true_ll = raxml_optimize_ll_on_given_tree_and_msa(
             curr_msa_stats["local_alignment_path"], "starting_tree_ll_eval_on_full_" + run_unique_name,
             starting_tree_path,
-            curr_msa_stats, curr_run_directory=curr_run_directory, use_weights=False)
+            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)
         curr_iter_starting_tree_ll = naive_SPR_search_starting_tree_ll
         curr_iter_starting_tree_ll_on_full_data = naive_SPR_search_starting_tree_true_ll
         if starting_tree_object is None:

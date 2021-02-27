@@ -4,29 +4,40 @@ from raxml import *
 from scipy import stats
 import pickle
 
-def evaluate_lasso_performance_on_test_data(lasso_model,sitelh_test_df):
-    logging.info("Evaluating model on test data")
-    y_test = sitelh_test_df.sum(axis=1)
-    test_predicted_values = lasso_model.predict(sitelh_test_df)
+
+
+def evaluate_lasso_performance_on_test_data(optimized_random_trees, curr_msa_stats, curr_run_directory,sampled_alignment_path,weights_file_path,lasso_intercept):
+    logging.info("Evaluating model on test optimized random trees")
+    local_file_path = curr_msa_stats.get("local_alignment_path")
+    true_test_ll_vec = []
+    lasso_test_ll_vec=[]
+    for i in range(len(optimized_random_trees)):
+        tree_path=  optimized_random_trees[i]
+        prefix_true = "opt_using_full_data_{}".format(i)
+        tree_dir = os.path.join(curr_run_directory,"tree_{}".format(i))
+        create_dir_if_not_exists(tree_dir)
+        true_ll =raxml_optimize_ll_on_given_tree_and_msa(local_file_path, prefix_true, tree_path, curr_msa_stats,
+                                                         tree_dir, opt_brlen=True, weights=None, return_tree=False)
+        true_test_ll_vec.append(true_ll)
+        prefix_lasso="opt_using_lasso_{}".format(i)
+        lasso_ll = (raxml_optimize_ll_on_given_tree_and_msa(sampled_alignment_path, prefix_lasso, tree_path, curr_msa_stats,
+                                                           tree_dir, opt_brlen=True, weights=weights_file_path, return_tree=False)/INTEGER_CONST)+lasso_intercept
+        lasso_test_ll_vec.append(lasso_ll)
     #test_predicted_values_test = [lasso_model.intercept_+(np.dot(chosen_loci_weights,row[chosen_locis]))/INTEGER_CONST for index,row in sitelh_test_df.iterrows()]
-    return test_predicted_values, y_test, sitelh_test_df
+    return true_test_ll_vec, lasso_test_ll_vec
 
 
-def generate_lasso_descriptive(training_predicted_values, y_training, sitelh_training_df,
-                               test_predicted_values, y_test, sitelh_test_df, curr_run_directory):
-    training_sitelh_df_prediction = pd.concat(
-        [y_training.rename("y_training"), pd.Series(training_predicted_values).rename("y_training_predicted"),
-         sitelh_training_df], axis=1, ignore_index=True, sort=False)
+def generate_lasso_descriptive(training_predicted_values, training_true_values,
+                               test_predicted_values, test_true_values, curr_run_directory):
+    training_sitelh_df_prediction =   pd.DataFrame({'predicted_training_ll': training_predicted_values ,'true_training_ll': training_true_values})
     training_sitelh_df_prediction.to_csv(
         os.path.join(curr_run_directory, "training_sitelh_df_prediction.csv"))
-    test_sitelh_df_prediction = pd.concat(
-        [y_test.rename("y_test"), pd.Series(test_predicted_values).rename("y_test_predicted"), sitelh_test_df], axis=1,
-        ignore_index=True, sort=False)
+    test_sitelh_df_prediction = pd.DataFrame({'predicted_test_ll': test_predicted_values ,'true_test_ll': test_true_values,})
     test_sitelh_df_prediction.to_csv(
         os.path.join(curr_run_directory, "test_sitelh_df_prediction.csv"))
 
 
-def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,curr_run_directory,sitelh_training_df, sitelh_test_df):
+def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df, test_optimized_trees):
     logging.info('Applying Lasso on sitelh data' )
     lasso_log_file = os.path.join(curr_run_directory,"lasso.log")
     with open(lasso_log_file, 'w') as lasso_log:
@@ -49,17 +60,8 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,curr_run_dir
             training_r_squared=lasso_model.score(sitelh_training_df,y_training)
             training_mse = mean_squared_error(y_training, y_training_predicted)
             training_spearmanr = stats.spearmanr(y_training,y_training_predicted)[0]
-            y_test_predicted, y_test, sitelh_test_df = evaluate_lasso_performance_on_test_data(
-                lasso_model,  sitelh_test_df)
-            test_r_squared = lasso_model.score(sitelh_test_df, y_test)
-            test_mse =mean_squared_error(y_test,y_test_predicted)
-            test_spearmanr = stats.spearmanr(y_test,y_test_predicted)[0]
-            if GENERATE_LASSO_DESCRIPTIVE:
-                generate_lasso_descriptive(y_training_predicted, y_training, sitelh_training_df,
-                                           y_test_predicted, y_test,
-                                           sitelh_test_df, curr_run_directory)  # lasso_log.write("Lasso R^2 on test data is:" + str(test_r_squared) + "\n")
             weights_file_path = os.path.join(curr_run_directory ,curr_msa_stats.get(
-                "file_name") + "_lasso_weights.txt")
+            "file_name") + "_lasso_weights.txt")
             logging.info("About to write weights file to : " + weights_file_path)
             with open(weights_file_path, 'w') as f:
                 for weight in chosen_loci_weights:
@@ -67,8 +69,19 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,curr_run_dir
             sampled_alignment_path = os.path.join(curr_run_directory,
                                                curr_msa_stats["file_name"] +"_sampled"+ curr_msa_stats["file_type"])
             logging.info("Writing only chosen positions to {}".format(sampled_alignment_path))
-            write_to_sampled_alingment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, chosen_locis,
+            write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, chosen_locis,
                                             curr_msa_stats["file_type_biopython"])
+            test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
+            create_dir_if_not_exists(test_running_directory)
+            y_test_true, y_test_predicted = evaluate_lasso_performance_on_test_data(
+                test_optimized_trees, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
+            test_r_squared = stats.pearsonr(y_test_true, y_test_predicted)[0]**2
+            test_mse = mean_squared_error(y_test_true, y_test_predicted)
+            test_spearmanr = stats.spearmanr(y_test_true, y_test_predicted)[0]
+            if GENERATE_LASSO_DESCRIPTIVE:
+                generate_lasso_descriptive(y_training_predicted, y_training,
+                                           y_test_predicted, y_test_true,curr_run_directory)
+
             samp_indexes_pct=len(chosen_locis) / curr_msa_stats.get("n_loci")
             Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": samp_indexes_pct,
                                    "lasso_coeffs": lasso_model.coef_,

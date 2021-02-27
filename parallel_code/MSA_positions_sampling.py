@@ -18,9 +18,9 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
-        starting_tree_path = generate_random_tree_topology(curr_msa_stats["alpha"],
-                                                           curr_msa_stats["local_alignment_path"],
-                                                           random_tree_path_prefix)
+        starting_tree_path = generate_random_tree_topology_constant_brlen(curr_msa_stats["alpha"],
+                                                                          curr_msa_stats["local_alignment_path"],
+                                                                          random_tree_path_prefix)
     return starting_tree_path
 
 
@@ -157,12 +157,13 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
     return reduced_curr_msa_stats
 
 
-def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen):
+def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen):
     brlen_generators = {}
     for brlen_generator_name, brlen_generator_func in BRLEN_GENERATORS.items():
         if (brlen_generator_name == 'exponential' and exp_brlen) or (
                 brlen_generator_name == 'uniform' and uni_brlen) or (
-                brlen_generator_name == 'optimized' and opt_brlen):
+                brlen_generator_name == 'optimized' and opt_brlen) or (
+                brlen_generator_name == 'const' and const_brlen):
             brlen_generators[brlen_generator_name] = brlen_generator_func
     return brlen_generators
     logging.info("Brlen genertors are chosen to be {}".format(str(brlen_generators.keys())))
@@ -286,8 +287,8 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 
 def main():
     args = job_parser()
-    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, run_prefix, lasso_baseline_run_prefix,spr_baseline_run_prefix, only_evaluate_lasso, exp_brlen, uni_brlen, opt_brlen = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
-                                                                                                                                                                                                                    args.n_random_starting_trees, args.random_trees_training_size, args.random_trees_test_size, args.run_prefix, args.lasso_baseline_run_prefix,args.spr_baseline_run_prefix, args.only_evaluate_lasso, args.exp_brlen, args.uni_brlen, args.opt_brlen
+    job_ind, curr_job_folder, max_n_sequences, n_random_starting_trees, random_trees_training_size, random_trees_test_size, run_prefix, lasso_baseline_run_prefix,spr_baseline_run_prefix, only_evaluate_lasso, exp_brlen, uni_brlen, opt_brlen, const_brlen = args.job_ind, args.curr_job_folder, args.max_n_sequences, \
+                                                                                                                                                                                                                    args.n_random_starting_trees, args.random_trees_training_size, args.random_trees_test_size, args.run_prefix, args.lasso_baseline_run_prefix,args.spr_baseline_run_prefix, args.only_evaluate_lasso, args.exp_brlen, args.uni_brlen, args.opt_brlen, args.const_brlen
     job_related_file_paths = get_job_related_files_paths(curr_job_folder, job_ind)
     job_msa_paths_file, general_log_path, job_csv_path, spr_log_path, curr_job_status_file = job_related_file_paths[
                                                                                                  "job_msa_paths_file"], \
@@ -322,7 +323,7 @@ def main():
         curr_msa_version_folder_baseline = curr_msa_version_folder.replace(run_prefix, lasso_baseline_run_prefix)
         curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(run_prefix, lasso_baseline_run_prefix)
         curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(run_prefix, lasso_baseline_run_prefix)
-        brlen_generators = update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen)
+        brlen_generators = update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen)
         if random_trees_training_size == -1:
             training_size_options = TRAINING_SIZE_OPTIONS
         else:

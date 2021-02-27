@@ -19,7 +19,7 @@ def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
                 proper_file_path_list.append(path)
     return proper_file_path_list
 
-def write_to_sampled_alingment_path(original_alignment_data, sampled_alignment_path, samp_indexes, file_type):
+def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_path, samp_indexes, file_type):
     sampled_sequence = []
     for original_record in original_alignment_data:
         sampled_seq = Seq(''.join([original_record.seq[ind] for ind in samp_indexes]))
@@ -177,6 +177,7 @@ def main_parser():
     parser.add_argument('--exp_brlen',action='store_true',default=False)
     parser.add_argument('--uni_brlen', action='store_true', default=False)
     parser.add_argument('--opt_brlen', action='store_true', default=False)
+    parser.add_argument('--const_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
@@ -197,6 +198,7 @@ def job_parser():
     parser.add_argument('--exp_brlen',action='store_true',default=False)
     parser.add_argument('--uni_brlen', action='store_true', default=False)
     parser.add_argument('--opt_brlen', action='store_true', default=False)
+    parser.add_argument('--const_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default = False)
     parser.add_argument('--run_prefix', action='store', type=str)

@@ -11,13 +11,15 @@ def sample_uniform(size):
 def sample_exp(size):
     return np.random.exponential(scale=0.1, size=size)
 
+def get_const_brlen(size):
+    return [0.5]*size
 
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = 50
+RANDOM_TREES_TRAINING_SIZE = 100
 TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
-BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
+BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None, 'const': get_const_brlen}
 
 
 WAITING_TIME_CSV_UPDATE = 10#86400
@@ -30,8 +32,8 @@ N_THREADS = 1
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 100000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "new_test2"
-CURR_JOBS_PREFIX = "new_test2"
+CURR_RUN_PREFIX = "test_diff_change"
+CURR_JOBS_PREFIX = "test_diff_change"
 LASSO_BASELINE="no_baseline"#"lasso_baseline"
 
 SPR_BASELINE="no_baseline"#"spr_baseline"

@@ -91,6 +91,11 @@ def generate_tree_object(tree_path):
    return starting_tree_object
 
 
+def get_tree_string(tree_path):
+   tree_object =  Tree(newick=tree_path, format=1)
+   return (tree_object.write(format=1))
+
+
 def compute_tree_divergence(tree_path):
     total_dist=0
     tree = generate_tree_object(tree_path)
