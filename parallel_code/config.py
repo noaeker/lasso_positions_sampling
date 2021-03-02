@@ -17,7 +17,7 @@ def get_const_brlen(size):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = 100
+RANDOM_TREES_TRAINING_SIZE = -1
 TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None, 'const': get_const_brlen}
 
@@ -32,15 +32,15 @@ N_THREADS = 1
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 100000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_diff_change"
-CURR_JOBS_PREFIX = "test_diff_change"
+CURR_RUN_PREFIX = "run_prefix"
+CURR_JOBS_PREFIX = "job_prefix"
 LASSO_BASELINE="no_baseline"#"lasso_baseline"
 
 SPR_BASELINE="no_baseline"#"spr_baseline"
 
 
-MAX_N_SEQ = 5
-MIN_N_SEQ = 5
+MAX_N_SEQ = 10
+MIN_N_SEQ = 10
 N_RANDOM_STARTING_TREES = 2
 PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
@@ -51,19 +51,19 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-N_THREADS = 4
+N_THREADS = 4 if LOCAL_RUN else 1
 
 
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng-float/raxml-ng --threads {} ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng-float/raxml-ng --threads {} --force perf_threads ".format(N_THREADS)
     MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
 elif LOCAL_RUN:
-    RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng --threads {} ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng --threads {} --force perf_threads".format(N_THREADS)
     MAD_COMMAND_PREFIX = "/Users/noa/Programs/mad.osx"
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
