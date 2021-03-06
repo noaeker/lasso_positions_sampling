@@ -2,7 +2,7 @@ import numpy as np
 import logging
 
 
-LOCAL_RUN =True #True
+LOCAL_RUN = False #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -51,7 +51,7 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-N_THREADS = 1 if LOCAL_RUN else 1
+N_THREADS = 1
 
 
 

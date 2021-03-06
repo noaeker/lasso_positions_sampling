@@ -24,6 +24,8 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
                   iteration_number, curr_run_directory,
                   best_topology_path, spr_log_file_object, use_weights):
     ll_comparison_df = pd.DataFrame(columns=['full msa ll', 'sampled msa ll', 'iteration number'])
+    add_internal_names(starting_tree_object)
+    starting_tree_object.get_tree_root().name="ROOT"
     starting_tree = starting_tree_object
     best_tree_object = starting_tree_object
     logging.debug(str(starting_tree.write(format=1)) + "\n")
@@ -178,13 +180,6 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
     }
 
 
-def get_SPR_file_prefixs(unique_name):
-    file_prefix_dict = {}
-    file_prefix_dict["run_file_prefix"] = "SPR_"
-    file_prefix_dict["ll_on_all_data_run_file_prefix"] = "SPR_"
-    return file_prefix_dict
-
-
 def analyze_ll_comparison_df(ll_comparison_df):
     mistake_cnt = 0
     for iteration in ll_comparison_df['iteration number'].unique():
@@ -262,7 +257,7 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
         true_vs_sampled_ll_per_iteration_list = [first_optimized_param_dict["true_vs_sampled_ll_per_iteration_list"]]
         overall_SPR_neighbours_per_iteration = [
             first_optimized_param_dict.get("number_of_SPR_neighbours_per_iteration_list")]
-        overall_ll_list = [first_optimized_param_dict["true_ll"]]
+        true_ll_per_phase = [first_optimized_param_dict["true_ll"]]
 
         ### Continue sampling with full data
         logging.info("Continue SPR analysis using full data")
@@ -294,15 +289,15 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
         overall_SPR_steps_list.append(next_optimized_tree_param_dict.get("spr_moves"))
         overall_SPR_neighbours_per_iteration.append(
             next_optimized_tree_param_dict.get("number_of_SPR_neighbours_per_iteration_list"))
-        overall_ll_list.append(next_optimized_tree_param_dict.get("ll"))
+        true_ll_per_phase.append(next_optimized_tree_param_dict.get("ll"))
         true_vs_sampled_ll_per_iteration_list.append(
             next_optimized_tree_param_dict["true_vs_sampled_ll_per_iteration_list"])
 
         data = {
-                "lasso_SPR_first_phase_ll": overall_ll_list[0],
+                "lasso_SPR_first_phase_ll": true_ll_per_phase[0],
                 "lasso_SPR_first_phase_tree_newick" : tree_newick_first_phase,
                 "lasso_SPR_first_phase_spr_moves": first_optimized_param_dict["spr_moves"],
-                "lasso_SPR_second_phase_ll": overall_ll_list[-1],
+                "lasso_SPR_second_phase_ll": true_ll_per_phase[-1],
                 "lasso_SPR_second_phase_tree_newick": tree_newick_second_phase,
                 "lasso_SPR_second_phase_spr_moves": next_optimized_tree_param_dict["spr_moves"],
                 "R^2_pearson_during_tree_search": prediction_rho_pearson**2,
