@@ -26,58 +26,31 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
     ll_comparison_df = pd.DataFrame(columns=['full msa ll', 'sampled msa ll', 'iteration number'])
     starting_tree = starting_tree_object
     best_tree_object = starting_tree_object
-    logging.debug("\n\niteration starting tree=\n" + starting_tree_object.get_ascii(attributes=['name'],
-                                                                                    show_internal=True) + "\n")
     logging.debug(str(starting_tree.write(format=1)) + "\n")
     best_ll = starting_tree_ll
     best_true_ll = starting_tree_ll_on_full_data
-    neighbours_tested = 0
-    for i, prune_node in enumerate(starting_tree.iter_descendants("levelorder")):
-        pruned_node_parent_name, pruned_subtree, remaining_tree = prune_at_internal_node(starting_tree,
-                                                                                         prune_node.name)  # subtree1 is the pruned subtree. subtree2 is the remaining subtree
-        for j, rgft_node in enumerate(remaining_tree.iter_descendants("levelorder")):
-            if prune_node.up.name != rgft_node.up.name:
-                if DETAILED_SPR_LOG:
-                    spr_log_file_object.write(
-                        "prune node parent name= {} rgft node parent name {}".format(prune_node.up.name,
-                                                                                     rgft_node.up.name) + "\n")
-                logging.debug("i=" + str(i) + " j=" + str(j))
-                if DETAILED_SPR_LOG:
-                    spr_log_file_object.write("j = {} ; Refraft node name = {}".format(j, rgft_node.name) + "\n")
-                rgrft_folder = os.path.join(curr_run_directory , "_i_" + str(i) + "_j_" + str(
-                    j) + "_iter_" + str(iteration_number))
+    starting_tree_spr_neighbours =get_possible_spr_moves(get_list_of_edges(starting_tree))
+    logging.info("Testing {} SPR neighbours".format(len(starting_tree_spr_neighbours)))
+    for ind,spr_neighbour in enumerate(starting_tree_spr_neighbours):
+                regrafted_tree = generate_neighbour(starting_tree, spr_neighbour)
+                rgrft_folder = os.path.join(curr_run_directory , "iter_{iter}_move_{ind}".format(iter=iteration_number, ind=ind))
                 create_or_clean_dir(rgrft_folder)
-                rgrft_path = os.path.join(rgrft_folder , rgft_node.name)
-                if not os.path.exists(rgrft_path):
-                    regrafted_tree = regraft_as_sister_of_given_internal_node(rgft_node.name,
-                                                                              pruned_subtree, remaining_tree)
-                    if DETAILED_SPR_LOG:
-                        print_subtree(pruned_subtree, spr_log_file_object, text="pruned subtree")
-                        print_subtree(remaining_tree, spr_log_file_object, text="Remaining tree")
-                        print_subtree(regrafted_tree, spr_log_file_object, text="regrafted tree ")
-                    regrafted_tree.write(format=1, outfile=rgrft_path)
-                    logging.debug("evaluating regrafted ll on given data in : " + MSA_path)
-                    ll = raxml_optimize_ll_on_given_tree_and_msa(MSA_path, "rgrft_ll_eval", rgrft_path,
-                                                                 curr_msa_stats, rgrft_folder,
-                                                                 weights=curr_msa_stats["weights_file_path"] if use_weights else None)
-                    logging.debug("evaluating regrafted ll on true data in : " + curr_msa_stats["local_alignment_path"])
-                    true_ll = raxml_optimize_ll_on_given_tree_and_msa(curr_msa_stats["local_alignment_path"],
-                                                                          "rgrft_ll_eval_on_full_MSA", rgrft_path,
-                                                                      curr_msa_stats, rgrft_folder,
-                                                                      weights=None)
-                    logging.debug("curr regraft ll=" + str(ll) + " and curr true ll= " + str(true_ll))
-                    neighbours_tested = neighbours_tested + 1
-
-                    logging.debug(
-                        "Current SPR neighboor log likelihood={}, best log likelihood = {}".format(ll, best_ll))
-                    ll_comparison_df = ll_comparison_df.append(
-                        {'full msa ll': true_ll, 'sampled msa ll': ll, 'iteration number': iteration_number},
-                        ignore_index=True
+                rgrft_path = os.path.join(rgrft_folder , "spr_neighbour_tree")
+                regrafted_tree.write(format=1, outfile=rgrft_path)
+                ll = raxml_optimize_ll_on_given_tree_and_msa(MSA_path, "rgrft_ll_eval", rgrft_path,
+                                                             curr_msa_stats, rgrft_folder,
+                                                             weights=curr_msa_stats["weights_file_path"] if use_weights else None)
+                true_ll = raxml_optimize_ll_on_given_tree_and_msa(curr_msa_stats["local_alignment_path"],
+                                                                      "rgrft_ll_eval_on_full_MSA", rgrft_path,
+                                                                  curr_msa_stats, rgrft_folder,
+                                                                  weights=None)
+                ll_comparison_df = ll_comparison_df.append(
+                    {'full msa ll': true_ll, 'sampled msa ll': ll, 'iteration number': iteration_number},
+                    ignore_index=True
                     )
                 if DETAILED_SPR_LOG:
                     write_spr_log_message(spr_log_file_object, rgrft_path, best_ll, ll, best_topology_path)
                 if ll > best_ll:  # updating best object
-                    logging.debug("updating best ll to be " + str(ll) + " and best true ll to be " + str(true_ll))
                     best_ll = ll
                     best_true_ll = true_ll
                     best_tree_object = regrafted_tree
@@ -89,11 +62,7 @@ def SPR_iteration(MSA_path, curr_msa_stats, starting_tree_object, starting_tree_
                     shutil.rmtree(rgrft_folder)
     if DETAILED_SPR_LOG:
         print_subtree(best_tree_object, spr_log_file_object, text="********iteration best tree")
-    # print_subtree(best_tree_object, None, text="********iteration best tree")
-    # logging.info("Number of SPR neighbours tested is: " + str(neighbours_tested))
-    # logging.info("iteration best ll =" + str(best_ll) + " and iteration best true ll=" + str(best_true_ll))
-
-    return best_tree_object, best_ll, best_true_ll, neighbours_tested, ll_comparison_df
+    return best_tree_object, best_ll, best_true_ll, len(starting_tree_spr_neighbours), ll_comparison_df
 
 
 

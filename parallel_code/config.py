@@ -2,7 +2,7 @@ import numpy as np
 import logging
 
 
-LOCAL_RUN = False #True
+LOCAL_RUN =True #True
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -18,7 +18,7 @@ def get_const_brlen(size):
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
-TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
+TRAINING_SIZE_OPTIONS = [100]#[100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None, 'const': get_const_brlen}
 
 
@@ -39,8 +39,8 @@ LASSO_BASELINE="no_baseline"#"lasso_baseline"
 SPR_BASELINE="no_baseline"#"spr_baseline"
 
 
-MAX_N_SEQ = 10
-MIN_N_SEQ = 10
+MAX_N_SEQ = 6
+MIN_N_SEQ = 6
 N_RANDOM_STARTING_TREES = 2
 PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
@@ -51,7 +51,7 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-N_THREADS = 4 if LOCAL_RUN else 1
+N_THREADS = 1 if LOCAL_RUN else 1
 
 
 

@@ -1,0 +1,35 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Core(TM) i7-7660U CPU @ 2.50GHz, 2 cores, 16 GB RAM
+
+RAxML-NG was called at 06-Mar-2021 17:48:52 as follows:
+
+/Users/noa/Programs/Raxml/raxml-ng --rfdist --tree trees.test --prefix test_spr_2
+
+Analysis options:
+  run mode: RF distance computation
+  start tree(s): user
+  random seed: 1615045732
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (auto), PTHREADS (auto)
+
+Reading input trees from file: trees.test
+Loaded 448 trees with 10 taxa.
+
+Average absolute RF distance in this tree set: 8.503995
+Average relative RF distance in this tree set: 0.607428
+Number of unique topologies in this tree set: 182
+
+Pairwise RF distances saved to: /Users/noa/Workspace/lasso_positions_sampling/parallel_code/test_spr/test_spr_2.raxml.rfDistances
+
+Execution log saved to: /Users/noa/Workspace/lasso_positions_sampling/parallel_code/test_spr/test_spr_2.raxml.log
+
+Analysis started: 06-Mar-2021 17:48:52 / finished: 06-Mar-2021 17:48:53
+
+Elapsed time: 0.661 seconds
+

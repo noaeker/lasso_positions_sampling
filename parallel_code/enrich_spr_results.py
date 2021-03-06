@@ -21,22 +21,31 @@ def rel_rf_dist_naive_vs_best_first_phase(row, curr_run_directory):
                                           "naive_vs_best_first_phase", curr_run_directory)
 
 
+
+
 def rel_rf_dist_naive_vs_best_second_phase(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
                                           row["naive_SPR_tree_newick"],
                                           "naive_vs_best_second_phase", curr_run_directory)
 
 
+def rel_rf_dist_first_phase_vs_best_first_phase(row, curr_run_directory):
+    return calculate_relative_rf_distance(row["best_lasso_spr_first_phase_tree_newick"],
+                                          row["lasso_SPR_first_phase_tree_newick"],
+                                          "lasso_first_phase_vs_best_first_phase", curr_run_directory)
+
 def rel_rf_dist_first_phase_vs_best(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_first_phase"],
                                           row["lasso_SPR_first_phase_tree_newick"],
-                                          "lasso_first_phase_vs_best", curr_run_directory)
-
+                                          "lasso_second_phase_vs_best", curr_run_directory)
 
 def rel_rf_dist_second_phase_vs_best(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
                                           row["lasso_SPR_second_phase_tree_newick"],
                                           "lasso_second_phase_vs_best", curr_run_directory)
+
+
+
 
 
 def get_best_ll_and_topology(ll_col, tree_topology_col):
@@ -60,6 +69,9 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
         curr_msa_results[
             "lasso_SPR_second_phase_tree_newick"])
 
+    curr_msa_results.loc[:,"best_lasso_spr_first_phase_tree_newick"] = best_lasso_spr_first_phase_tree_newick
+    curr_msa_results.loc[:, "best_lasso_spr_second_phase_tree_newick"] = best_lasso_spr_second_phase_tree_newick
+
     if best_naive_spr_ll > best_lasso_spr_first_phase_ll:
         curr_msa_results.loc[:,"overall_best_topology_first_phase"] = best_naive_spr_tree_newick
     else:
@@ -81,6 +93,10 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
     curr_msa_results.loc[:,"rf_second_phase_vs_overall_best"] = curr_msa_results.apply(
         lambda row: rel_rf_dist_second_phase_vs_best(row, curr_run_directory),
         axis=1)
+    curr_msa_results.loc[:, "rf_first_phase_vs_best_first_phase"] = curr_msa_results.apply(
+        lambda row: rel_rf_dist_first_phase_vs_best_first_phase(row, curr_run_directory),
+        axis=1)
+
     return curr_msa_results
 
 
@@ -100,7 +116,7 @@ for dataset_id in unified_df["dataset_id"].unique():
         output_data= dataset_id_res
     else:
         output_data=pd.concat([output_data,dataset_id_res])
-output_data.to_csv("sp_c.csv")
+output_data.to_csv("sp_c_tmp.csv")
 
 
 

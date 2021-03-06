@@ -2,14 +2,23 @@ from ete3 import *
 import logging
 
 
-def prune_at_internal_node(tree_root_pointer, pruned_internal_node_name):
-    main_tree_root_pointer_cp = tree_root_pointer.copy()  # working with a copy of the original tree
-    pruned_node_pointer = main_tree_root_pointer_cp.search_nodes(name=pruned_internal_node_name)[0]
-    pruned_node_parent_name = pruned_node_pointer.up.name
-    pruned_subtree_pointer = pruned_node_pointer.detach()
-    main_tree_root_pointer_cp.search_nodes(name=pruned_node_parent_name)[0].delete(
-        preserve_branch_length=True)
-    return pruned_node_parent_name, pruned_subtree_pointer, main_tree_root_pointer_cp
+class Edge:
+    def __init__(self, node_a, node_b):
+        self.node_a= node_a
+        self.node_b = node_b
+
+    def __str__(self):
+        return ("[a={a} b={b}]".format(a=self.node_a, b=self.node_b))
+
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if ((self.node_a==other.node_a) and (self.node_b==other.node_b)) or ((self.node_b==other.node_a) and (self.node_a==other.node_b)):
+            return True
+        else:
+            return False
+
+
+
 
 def print_subtree(tree, log_file, text):
     if log_file:
@@ -20,34 +29,79 @@ def print_subtree(tree, log_file, text):
         logging.info(text + " visualization: " + "\n"+tree.get_ascii(attributes=['name'], show_internal=True))
         logging.info(str(text+ " newick " +tree.write(format=1)))
 
-def regraft_as_sister_of_given_internal_node(future_sister_internal_node_name,pruned_subtree_pointer, tree_root_pointer_cp):
 
-    pruned_subtree_pointer_cp = pruned_subtree_pointer.copy()
-    tree_root_pointer_cp_cp = tree_root_pointer_cp.copy()
-    future_sister_internal_node_pointer = tree_root_pointer_cp_cp.search_nodes(name=future_sister_internal_node_name)[0]
-    future_sister_internal_node_dist_to_parent = future_sister_internal_node_pointer.dist
-    future_sister_internal_node_parent_pointer = future_sister_internal_node_pointer.up
-    pruned_sister_internal_node_pointer = future_sister_internal_node_pointer.detach()
-    #print("pruned_sister_internal_node_pointer")
-    #print_subtree(pruned_sister_internal_node_pointer)
-    #print("Remaining tree")
-    #print_subtree( tree_root_pointer_cp_cp)
+
+def get_list_of_edges(starting_tree):
+    edges_list=[]
+    main_tree_root_pointer_cp = starting_tree.copy()
+    for i, prune_node in enumerate(main_tree_root_pointer_cp.iter_descendants("levelorder")):
+        if prune_node.up:
+            edge = Edge(node_a=prune_node.name,node_b=prune_node.up.name)
+            edges_list.append(edge)
+    print("total edges= {i}".format(i=i+1))
+    return edges_list
+
+def get_possible_spr_moves(edges_set):
+    possible_moves = []
+    for edge1 in edges_set:
+        for edge2 in edges_set:
+            if not ((edge1.node_a==edge2.node_a) or (edge1.node_b==edge2.node_b) or (edge1.node_b==edge2.node_a) or (edge1.node_a==edge2.node_b)):
+                possible_moves.append((edge1,edge2))
+    return possible_moves
+
+
+def perform_nni_step():
+    print(1==1)
+
+
+def add_subtree_to_basetree(subtree_root,basetree_root,regraft_edge,length_regraft_edge,length_pruned_edge):
+    future_sister_tree_to_pruned_tree = (basetree_root & regraft_edge.node_a).detach()
     new_tree_adding_pruned_and_future_sister = Tree()
-    new_tree_adding_pruned_and_future_sister.add_child(pruned_sister_internal_node_pointer,
-                                                       dist=future_sister_internal_node_dist_to_parent / 2)
-    new_tree_adding_pruned_and_future_sister.add_child(
-        pruned_subtree_pointer_cp)
-    new_tree_adding_pruned_and_future_sister.name = "Temp"
-    #print("new_tree_adding_pruned_and_future_sister")
-    #print_subtree(new_tree_adding_pruned_and_future_sister)
-    #print("future_sister_internal_node_parent_pointer:")
-    #print_subtree(future_sister_internal_node_parent_pointer)
-    #print("tree_root_pointer_cp_cp:")
-    #print_subtree(tree_root_pointer_cp_cp)
-    future_sister_internal_node_parent_pointer.add_child(new_tree_adding_pruned_and_future_sister,
-                                                         dist=future_sister_internal_node_dist_to_parent / 2)
-    fixed_future_sister_internal_node_parent_pointer = fix_structure(tree_root_pointer_cp_cp)
-    return fixed_future_sister_internal_node_parent_pointer
+    new_tree_adding_pruned_and_future_sister.add_child( subtree_root.copy(),
+                                                       dist=length_pruned_edge)
+    new_tree_adding_pruned_and_future_sister.add_child( future_sister_tree_to_pruned_tree, dist=length_regraft_edge/2)
+    (basetree_root & regraft_edge.node_b).add_child(new_tree_adding_pruned_and_future_sister, dist=length_regraft_edge / 2)
+    basetree_root.unroot()
+    return basetree_root
+
+
+
+
+def generate_neighbour(base_tree, possible_move):
+    base_tree= base_tree.copy() #not working on original tree
+    pruned_edge, regraft_edge= possible_move
+    length_regraft_edge = (base_tree & regraft_edge.node_a).dist
+    length_pruned_edge = (base_tree & pruned_edge.node_a).dist
+    if base_tree.get_common_ancestor(regraft_edge.node_a, pruned_edge.node_a).name==pruned_edge.node_a:
+        new_base_tree=(base_tree & pruned_edge.node_a).detach()
+        new_subtree_to_be_regrafted = base_tree
+        print("alternative subtree to be regrafted before outgroup")
+        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
+        if not (new_subtree_to_be_regrafted & pruned_edge.node_b).name==new_subtree_to_be_regrafted.get_tree_root().name:
+            new_subtree_to_be_regrafted.set_outgroup(new_subtree_to_be_regrafted & pruned_edge.node_b)
+        print("alternative subtree to be regrafted before deletion")
+        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
+        (new_subtree_to_be_regrafted & pruned_edge.node_b).delete(preserve_branch_length=True)
+        print("alternative subtree to be regrafted")
+        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
+        print("alternative Base subtree remaining:")
+        print(new_base_tree.get_ascii(attributes=['name'], show_internal=True))
+        output_tree = add_subtree_to_basetree(new_subtree_to_be_regrafted,new_base_tree,regraft_edge,length_regraft_edge,length_pruned_edge)
+    else:
+        pruned_subtree = (base_tree & pruned_edge.node_a).detach()
+        print("pruned_subtree")
+        print(pruned_subtree.get_ascii(attributes=['name'], show_internal=True))
+        (base_tree & pruned_edge.node_b).delete(preserve_branch_length=True)
+        print("Remaining tree:")
+        print(base_tree.get_ascii(attributes=['name'], show_internal=True))
+        output_tree = add_subtree_to_basetree(pruned_subtree,base_tree,regraft_edge,length_regraft_edge,length_pruned_edge)
+    return output_tree
+
+
+
+
+
+
 
 def add_internal_names(original_tree):
     for i, node in enumerate(original_tree.traverse()):
@@ -56,33 +110,7 @@ def add_internal_names(original_tree):
     return original_tree
 
 
-def fix_structure(tree):
-    if tree.search_nodes(name="Temp"):
-        print("tree before outgroup")
-        temp_node_pointer = tree.search_nodes(name="Temp")[0]
-        tree.set_outgroup(temp_node_pointer)
-        print("tree after outgroup")
-        new_tree_with_3_children = Tree()
-        new_tree_with_3_children.add_child(temp_node_pointer.children[0])
-        new_tree_with_3_children.add_child(temp_node_pointer.children[1])
-        for child in tree.children:
-            if child.name!="Temp":
-                new_tree_with_3_children.add_child(child)
-        add_internal_names(new_tree_with_3_children)
-        new_tree_with_3_children.get_tree_root().name = "ROOT"
-        assert (len(new_tree_with_3_children.children)==3)
-        return new_tree_with_3_children
-    return tree
-    # if tree.search_nodes(name="Temp"):
-    #     temp_node_pointer = tree.search_nodes(name="Temp")[0]
-    #     tree.set_outgroup(temp_node_pointer)
-    #     #print("tree after outgroup:")
-    #     #print_subtree(tree)
-    #     temp_node_pointer.delete(
-    #         preserve_branch_length=True)
-    #     #add_internal_names(tree)
-    #     return tree
-    # return tree
+
 
 def generate_tree_object(tree_path):
    starting_tree_object = Tree(newick=tree_path, format=1)
@@ -114,47 +142,130 @@ def assign_brlen(tree_path,brlen_list,output_tree_path):
 
 
 
-#t = Tree('(((A:0.1,B:0.1):0.1,C:0.1):0.1,D:0.1,E:0.1);', format=1)
 
-#t.write(format=1, outfile="tree_test")
-
-#assign_brlen("tree_test",[0.2,0.3,0.4,0.5,0.6,0.7,0.8])
-
-
-
-
-
-
-
-#print(E.up==B.up)
-#add_internal_names(t)
-#print(t.get_ascii(attributes=['name'],  show_internal=True))
-
-#print(compute_tree_divergence(t))
-
-
-# def get_SPR_neighbours(starting_tree):
-#     spr_neighbours = []
-#     for i, prune_node in enumerate(starting_tree.iter_descendants("levelorder")):
-#         pruned_node_parent_name, pruned_subtree, remaining_tree = prune_at_internal_node(starting_tree,
-#                                                                                          prune_node.name)  # subtree1 is the pruned subtree. subtree2 is the remaining subtree
 #
-#         for j, rgft_node in enumerate(remaining_tree.iter_descendants("levelorder")):
-#                 print("starting_tree:")
-#                 print_subtree(starting_tree,reg,
-#                 print("prune_node:")
-#                 print_subtree(prune_node,None,"")
-#                 regrafted_tree = regraft_as_sister_of_given_internal_node(rgft_node.name,
-#                                                                           pruned_subtree, remaining_tree)
-#                 print("regraft node:")
-#                 print_subtree(rgft_node,,
-#                 print("regrafted tree:")
-#                 print_subtree(regrafted_tree,,
-#                 spr_neighbours.append(regrafted_tree)
+# t1 = Tree('((0011:0.1,0012:0.3)N1:0.0625,0027:0.1,(0017:0.1,(0018:0.2,(0029:0.1,((0008:0.1,0006:0.1)N12:0.025,(0002:0.05,0031:0.1)N13:0.025)N11:0.0125)N9:0.15)N7:0.0125)N3:0.03125);',format=1)
+# t2 = Tree('(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',format=1)
+# add_internal_names(t1)
+# add_internal_names(t2)
+# t1.get_tree_root().name="ROOT"
+# t2.get_tree_root().name="ROOT"
+#
+#
+# with open('test_spr/trees.test','w') as trees:
+#     edges_list = get_list_of_edges(t1)
+#     moves = get_possible_spr_moves(edges_list)
+#     for move in moves:
+#         print("original tree")
+#         print(t1.get_ascii(attributes=['name'], show_internal=True))
+#         print(move[0])
+#         print(move[1])
+#         tree = generate_neighbour(t1, move)
+#         print("Final tree")
+#         print(tree.get_ascii(attributes=['name']
+#                              , show_internal=True))
+#         trees.write(tree.write(format=1)+"\n")
+#     edges_list = get_list_of_edges(t2)
+#     moves = get_possible_spr_moves(edges_list)
+#     for move in moves:
+#         print("original tree")
+#         print(t2.get_ascii(attributes=['name'], show_internal=True))
+#         print(move[0])
+#         print(move[1])
+#         tree = generate_neighbour(t2, move)
+#         print("Final tree")
+#         print(tree.get_ascii(attributes=['name']
+#                              , show_internal=True))
+#         trees.write(tree.write(format=1) + "\n")
+#     print(len(moves))
+#
+#
 
 
 
-#t = Tree('(((A:1.828378,B:0.750678):0.0150676,C:0.82589):0.232357,D:0.464714,E:0.707315);', format=1)
+
+# print("Alternative tree")
+# t3= Tree('(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',format=1)
+# add_internal_names(t3)
+# t3.get_tree_root().name="ROOT"
+# print(t3.get_ascii(attributes=['name'],show_internal=True))
+# edges_list = get_list_of_edges(t3)
+# moves = get_possible_spr_moves(edges_list)
+# move=(Edge(node_a="N3",node_b="ROOT"),Edge(node_a="N4",node_b="N3") )
+# tree = generate_neighbour(t3, move)
+# print(tree.get_ascii(attributes=['name'], show_internal=True))
+#
+#
+# with open('trees.test','w') as trees:
+#     1==1
+#     for move in moves:
+#         print("original tree")
+#         print(t3.get_ascii(attributes=['name'], show_internal=True))
+#         print(move[0])
+#         print(move[1])
+#         tree = generate_neighbour(t3, move)
+#         print("Final tree")
+#         print(tree.get_ascii(attributes=['name']
+#                              , show_internal=True))
+#         trees.write(tree.write(format=1)+"\n")
+#     print(len(moves))
+
+
+#print(t3.get_ascii(attributes=['name'],show_internal=True))
+#t3.set_outgroup(t3&"N12")
+#print(t3.get_ascii(attributes=['name'],show_internal=True))
+#t3.unroot()
+#print(t3.get_ascii(attributes=['name'],show_internal=True))
+
+#print((t3&"0008").detach())
+#print(t3)
+#print((t3&"0006").detach())
+#print(t3)
+
+
+
+
+#pruned_node_parent_name, pruned_subtree, remaining_tree = prune_at_internal_node(t3,"N9")
+#print("pruned subtree:")
+#print(pruned_subtree.get_ascii(attributes=['name'],show_internal=True))
+#print("Remaining tree:")
+#print(remaining_tree .get_ascii(attributes=['name'],show_internal=True))
+#regrafted_tree = regraft_as_sister_of_given_internal_node("N1", pruned_subtree, remaining_tree)
+
+#print("regrafted tree:")
+#print(regrafted_tree.get_ascii(attributes=['name'],show_internal=True))
+
+
+
+
+
+#print("Output tree:")
+#t2 = Tree('((0011:0.1,0012:0.3)N1:0.03125,(0029:0.1,((0008:0.1,0006:0.1)N10:0.025,(0002:0.05,0031:0.1)N11:0.025)N7:0.0125)N2:0.15,(0027:0.1,(0017:0.1,0018:0.2125)N9:0.03125)N3:0.015625);', format=1)
+#print(t2.get_ascii(attributes=['name'],show_internal=True))
+
+
+#pruned_node_parent_name, pruned_subtree, remaining_tree = prune_at_internal_node(t2,"N9")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #A=t&"A"
 # B=t&"B"
 # E=t&"E"
