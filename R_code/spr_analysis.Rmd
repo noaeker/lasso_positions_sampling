@@ -7,7 +7,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
-Reading the dataframe and adding more fields
+Reading data and adding more fields
 
 ```{r}
 library(lme4)
@@ -15,88 +15,24 @@ library(ggplot2)
 library(plotrix)
 library(visreg)
 library(stringr)
-library(dplyr)
+library(tidyverse)
 library(ggpubr)
 library(gridExtra)
-#spr_data.exp<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_exp_800.csv"))
-#spr_data.opt<-data.frame(read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/brlen_spr_opt_800.csv"))
-#spr_data<-rbind(spr_data.exp,spr_data.opt)
-spr_data=read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/sp_c_tmp.csv")
 
-#spr_data=spr_data[grepl("starting_tree_0",spr_data$starting_tree_path, fixed = TRUE),]
+spr_data=read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/sp_c.csv")
 
-spr_data$rho_second_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct))
+spr_data<-spr_data%>%mutate(delta_ll_first_phase=naive_SPR_ll-lasso_SPR_first_phase_ll,delta_ll_second_phase=naive_SPR_ll-lasso_SPR_second_phase_ll,rho_first_phase=naive_SPR_spr_moves/(lasso_SPR_first_phase_spr_moves*sample_pct),rho_second_phase =naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(lasso_SPR_first_phase_spr_moves*sample_pct)) )
 
-spr_data$rho_first_phase = spr_data$naive_SPR_spr_moves/(spr_data$lasso_SPR_first_phase_spr_moves*spr_data$sample_pct)
-spr_data$delta_ll_second_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_second_phase_ll
-spr_data$delta_ll_first_phase = spr_data$naive_SPR_ll-spr_data$lasso_SPR_first_phase_ll
+good_datasets<-spr_data %>% group_by(dataset_id) %>% count() %>% dplyr::filter(n==3) %>% pull(dataset_id)
 
-
-good_datasets<-dplyr::select(spr_data %>% dplyr::group_by(dataset_id) %>% dplyr::count(dataset_id) %>% dplyr::filter(n==3), dataset_id)
-
-good_datasets$dataset_
-spr_data<-merge(good_datasets, spr_data, by = "dataset_id")
-
-
-
+spr_data<- spr_data %>% filter(dataset_id %in% good_datasets)
 
 ```
 
 
-```{r}
-plot.hist<-function(x,main,xlab, title_size=13, text_size=12)
-{
-  qplot(x,
-      geom="histogram",
-      main = main, 
-      xlab = xlab,
-      fill=I("blue"), 
-      col=I("red"), 
-      alpha=I(.2),
-      #xlim=c(20,50)
-      ) +  theme(plot.title = element_text(hjust = 0.5,size=title_size)) +theme(text = element_text(size = text_size)) 
-
-}
-
-lmp <- function (modelobject) {
-    if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
-    f <- summary(modelobject)$fstatistic
-    p <- pf(f[1],f[2],f[3],lower.tail=F)
-    attributes(p) <- NULL
-    return(p)
-}
-
-simple.regression<-function(x,y,main,xlab, ylab,cex=1.0,resid_plot=FALSE)
-{linearMod <- lm((y) ~ x)
-print(main)
-print(summary(linearMod)) 
-r.squared <- summary(linearMod)$r.squared
-	p.val <- lmp(linearMod)
-plot(x, y,main=main,
-     xlab = xlab, ylab = ylab,pch = 16, col = "blue",cex.main=1,cex=cex)
-	abline(linearMod)
-	mylabel = bquote(italic(R)^2 == .(format(r.squared, digits = 10)))
-text(x = 19, y = 2.5, labels = mylabel)
-
-	rp = vector('expression',2)
-rp[1] = substitute(expression(italic(R)^2 == MYVALUE), 
-		list(MYVALUE = format(r.squared,dig=4)))[2]
-rp[2] = substitute(expression(italic(p.value) == MYOTHERVALUE), 
-		list(MYOTHERVALUE = format(p.val, digits = 2)))[2]
-	legend('topleft', legend = rp, bty = 'n')
-if (resid_plot==TRUE)
-{plot(fitted(linearMod),resid(linearMod), main =main,xlab=xlab)
-abline(0, 0)
-}
-	
-	return(c(r.squared,p.val))
-}
-```
   
 ```{r}
-plot(spr_data$lasso_test_R.2, spr_data$R.2_pearson_during_tree_search)
-plot(spr_data$n_loci,spr_data$sample_pct)
-plot(spr_data$divergence, spr_data$R.2_pearson_during_tree_search)
+cor.test(spr_data%>%pull('lasso_test_R^2'), spr_data%>%pull('R^2_pearson_during_tree_search'))
 ```
 
 
@@ -104,20 +40,14 @@ Example MSA
 
 ```{r}
 
-example_MSA_data = spr_data[spr_data$job_id==10,]
+example_MSA_data <- spr_data %>% filter (job_id==10)
 
-example_MSA_statistics<-arrange(dplyr::select(example_MSA_data,starting_tree_path,brlen_generator,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,R.2_pearson_during_tree_search,rf_first_phase_vs_overall_best,mistake_cnt,delta_ll_first_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick,starting_tree_path,rf_first_phase_vs_overall_best, rf_second_phase_vs_overall_best, rf_naive_vs_overall_best_first_phase, rf_naive_vs_overall_best_second_phase), starting_tree_path)
-
-print(example_MSA_statistics)
+example_MSA_data%>%select (starting_tree_path,brlen_generator,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,'R^2_pearson_during_tree_search',rf_first_phase_vs_overall_best,mistake_cnt,delta_ll_first_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick,starting_tree_path,rf_first_phase_vs_overall_best, rf_second_phase_vs_overall_best, rf_naive_vs_overall_best_first_phase, rf_naive_vs_overall_best_second_phase)%>% arrange(starting_tree_path)
 
 
-print("Best topology:")
-print(max(example_MSA_data$overall_best_topology_first_phase))
-
-example.per.brlen = example_MSA_statistics %>%
+example_MSA_statistics %>%
 group_by(brlen_generator ) %>%
 summarise(across(.fns= list(Mean=mean), na.rm= TRUE),.groups = "drop")
-print(example.per.brlen )
 
 
 
@@ -126,25 +56,12 @@ Example MSA LL vectors
 
 ```{r}
 
-iterations_data<-read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/job_10_starting_tree_1.csv")
-for (i in 0:5)
-  {
-    iteration_i <- iterations_data[iterations_data$iter==i,]
-    max.true.ind = which.max(iteration_i$true.ll)
-    max.lasso.ind = which.max(iteration_i$predicted.ll)
-    print(max.true.ind)
-    print(max.lasso.ind)
-    
-  }
-
 
 iterations_example_msa=read.csv("/Users/noa/Workspace/lasso_positions_sampling_results/job_10_tree_search.csv")
 
-iterations_example_msa$LL=as.numeric(iterations_example_msa$LL)
-tree1<- iterations_example_msa[(iterations_example_msa$Tree.search==2),]
-print(tree1)
-ggplot(tree1, aes(x=iter,y=LL, color= tree.search.type))+theme_classic()+geom_line()+geom_point()+labs(color = "Tree-search type")+
-  xlab("Tree index at each")+ylab("Log-Likelihood")+  ggtitle("Log-Likelihood of trees at each SPR iteration")+  theme(plot.title = element_text(hjust = 0.5))
+iterations_example_msa%>%filter(Tree.search==1) %>%
+ggplot(aes(x=iter,y=LL, color= tree.search.type))+theme_classic()+geom_line()+geom_point()+labs(color = "Tree-search type")+
+  xlab("Tree traveral index")+ylab("Log-Likelihood")+  ggtitle("Log-Likelihood of trees at each SPR iteration")+  theme(plot.title = element_text(hjust = 0.5))
 
 
 
@@ -154,33 +71,25 @@ ggplot(tree1, aes(x=iter,y=LL, color= tree.search.type))+theme_classic()+geom_li
 
 
 
+
 First phase on 50 datasets
 
 ```{r}
 
-spr_data$rf.zero.first.phase = ifelse(spr_data$rf_first_phase_vs_overall_best==0,0,1)
 
 
-all_MSA_statistics<-dplyr::select(spr_data,dataset_id,brlen_generator,job_id,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,R.2_pearson_during_tree_search,rf.zero.first.phase, mistake_cnt,delta_ll_first_phase,delta_ll_second_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick, rf_first_phase_vs_overall_best, rf_second_phase_vs_overall_best)
+all_MSA_statistics<-spr_data %>% select (dataset_id,brlen_generator,job_id,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,'R^2_pearson_during_tree_search', mistake_cnt,delta_ll_first_phase,delta_ll_second_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick, rf_first_phase_vs_overall_best, rf_first_phase_vs_overall_best, rf_dist_first_phase_vs_naive, rf_dist_second_phase_vs_naive)
 
-print(all_MSA_statistics[all_MSA_statistics$dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Drosophila/EMGT00050000002046/ref_msa.aa.phy",])
+MSA_statistics_rf_non_zero = all_MSA_statistics %>% filter (rf_dist_first_phase_vs_naive>0)
 
+all_MSA_statistics$rf.zero.first.phase = all_MSA_statistics$rf_dist_first_phase_vs_naive==0
 
-zero.rf<-(select(all_MSA_statistics, dataset_id,job_id,rf.zero.first.phase,delta_ll_first_phase) %>%group_by(dataset_id,job_id) %>%
+sum.rf<-(select(all_MSA_statistics, dataset_id,job_id,rf.zero.first.phase) %>%group_by(dataset_id,job_id) %>%
 summarise(across(.fns= list(Sum=sum, Min=min, Max=max), na.rm= TRUE),.groups = "drop"))
 
-non.zero.MSAs = zero.rf[zero.rf$rf.zero.first.phase_Sum>0,"dataset_id"]
-
-all_MSA_statistics.non.zero<-all_MSA_statistics[all_MSA_statistics$rf.zero.first.phase>0,]
-#print(summary(zero.rf$rf.zero.first.phase_Sum))
-
-summary(all_MSA_statistics.non.zero$delta_ll_first_phase)
-print(all_MSA_statistics.non.zero[all_MSA_statistics.non.zero$rf_second_phase_vs_overall_best>0,])
-print(all_MSA_statistics[all_MSA_statistics$dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00670000097915/ref_msa.aa.phy",])
 
 
-all_MSA_statistics$delta_ll_first_phase_fixed=ifelse(all_MSA_statistics$rf_first_phase_vs_overall_best==0,0,all_MSA_statistics$delta_ll_first_phase)
-
+all_MSA_statistics$delta_ll_first_phase_fixed=ifelse(all_MSA_statistics$rf_dist_first_phase_vs_naive==0,0,all_MSA_statistics$delta_ll_first_phase)
 
 g0<-ggplot(all_MSA_statistics, aes(delta_ll_first_phase_fixed))+theme_classic()+
      geom_histogram()+ylab("Count")+
@@ -193,42 +102,22 @@ g1<-ggplot(all_MSA_statistics, aes(rf_first_phase_vs_overall_best))+theme_classi
    xlab("Relative RF distance")+labs(title="Distribution of relative Robinson-Foulds distances")+
    theme(plot.title = element_text(hjust = 0.5)) 
 
-
-
 ggarrange(g0, g1, hjust=-0,vjust=1, 
           labels = c("A", "B"),
           ncol = 1, nrow =2)
-
 
 ggplot(all_MSA_statistics, aes(rho_second_phase))+theme_classic()+
      geom_histogram()+ylab("Count")+
    xlab("running-time efficiency factor")+labs(title="Distribution of running-time efficiency factor")+
    theme(plot.title = element_text(hjust = 0.5)) 
 
-
-
-
+print(summary(all_MSA_statistics$delta_ll_first_phase))
 
 ```
-```{r}
-print(zero.rf[zero.rf$dataset_id=="/groups/pupko/noaeker/data/ABC_DR/Selectome/Euteleostomi/ENSGT00670000097915/ref_msa.aa.phy" ,])
-
-print(all_MSA_statistics[all_MSA_statistics$job_id==44,])
-#3 distant trees, two are equal the third is not.
 
 
-print(all_MSA_statistics[all_MSA_statistics$job_id==24,])
-```
 
 
-```{r}
-spr_data$n_loci.1000=spr_data$n_loci/1000
-model<-lme(spr_data$R.2_pearson_during_tree_search~divergence+mad+gap_pct+n_loci.1000,random=~1|dataset_id/starting_tree_path, data=spr_data)
-print(summary(model))
-print(intervals(model,which = "fixed"))
-#summary(glht(model, linfct=mcp(training_size_factor = "Tukey")), test = adjusted(type = "bonferroni"))
-
-```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 

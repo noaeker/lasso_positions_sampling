@@ -38,7 +38,6 @@ def get_list_of_edges(starting_tree):
         if prune_node.up:
             edge = Edge(node_a=prune_node.name,node_b=prune_node.up.name)
             edges_list.append(edge)
-    print("total edges= {i}".format(i=i+1))
     return edges_list
 
 def get_possible_spr_moves(edges_set):
@@ -49,9 +48,6 @@ def get_possible_spr_moves(edges_set):
                 possible_moves.append((edge1,edge2))
     return possible_moves
 
-
-def perform_nni_step():
-    print(1==1)
 
 
 def add_subtree_to_basetree(subtree_root,basetree_root,regraft_edge,length_regraft_edge,length_pruned_edge):
@@ -75,25 +71,13 @@ def generate_neighbour(base_tree, possible_move):
     if base_tree.get_common_ancestor(regraft_edge.node_a, pruned_edge.node_a).name==pruned_edge.node_a:
         new_base_tree=(base_tree & pruned_edge.node_a).detach()
         new_subtree_to_be_regrafted = base_tree
-        print("alternative subtree to be regrafted before outgroup")
-        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
         if not (new_subtree_to_be_regrafted & pruned_edge.node_b).name==new_subtree_to_be_regrafted.get_tree_root().name:
             new_subtree_to_be_regrafted.set_outgroup(new_subtree_to_be_regrafted & pruned_edge.node_b)
-        print("alternative subtree to be regrafted before deletion")
-        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
         (new_subtree_to_be_regrafted & pruned_edge.node_b).delete(preserve_branch_length=True)
-        print("alternative subtree to be regrafted")
-        print(new_subtree_to_be_regrafted.get_ascii(attributes=['name'], show_internal=True))
-        print("alternative Base subtree remaining:")
-        print(new_base_tree.get_ascii(attributes=['name'], show_internal=True))
         output_tree = add_subtree_to_basetree(new_subtree_to_be_regrafted,new_base_tree,regraft_edge,length_regraft_edge,length_pruned_edge)
     else:
         pruned_subtree = (base_tree & pruned_edge.node_a).detach()
-        print("pruned_subtree")
-        print(pruned_subtree.get_ascii(attributes=['name'], show_internal=True))
         (base_tree & pruned_edge.node_b).delete(preserve_branch_length=True)
-        print("Remaining tree:")
-        print(base_tree.get_ascii(attributes=['name'], show_internal=True))
         output_tree = add_subtree_to_basetree(pruned_subtree,base_tree,regraft_edge,length_regraft_edge,length_pruned_edge)
     return output_tree
 
@@ -141,15 +125,6 @@ def assign_brlen(tree_path,brlen_list,output_tree_path):
 
 
 
-
-
-#
-# t1 = Tree('((0011:0.1,0012:0.3)N1:0.0625,0027:0.1,(0017:0.1,(0018:0.2,(0029:0.1,((0008:0.1,0006:0.1)N12:0.025,(0002:0.05,0031:0.1)N13:0.025)N11:0.0125)N9:0.15)N7:0.0125)N3:0.03125);',format=1)
-# t2 = Tree('(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',format=1)
-# add_internal_names(t1)
-# add_internal_names(t2)
-# t1.get_tree_root().name="ROOT"
-# t2.get_tree_root().name="ROOT"
 #
 #
 # with open('test_spr/trees.test','w') as trees:

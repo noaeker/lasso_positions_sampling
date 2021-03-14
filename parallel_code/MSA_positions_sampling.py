@@ -7,6 +7,7 @@ import filecmp
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
+    seed=SEED+i
     random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
     random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
     create_or_clean_dir(random_tree_folder)
@@ -18,9 +19,9 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
-        starting_tree_path = generate_random_tree_topology_constant_brlen(curr_msa_stats["alpha"],
-                                                                          curr_msa_stats["local_alignment_path"],
-                                                                          random_tree_path_prefix)
+        starting_tree_path = generate_random_tree_topology_constant_brlen(alpha=curr_msa_stats["alpha"],
+                                                                          original_file_path=curr_msa_stats["local_alignment_path"],
+                                                                          random_tree_generation_prefix=random_tree_path_prefix,seed=seed)
     return starting_tree_path
 
 

@@ -6,11 +6,11 @@ import pandas as pd
 NJOBS=1
 #OPT_BRLEN = True
 #brlen_command = "--opt-branches off" if not OPT_BRLEN else ""
-PREFIX  = "/Users/noa/Workspace/lasso_positions_sampling_results/test_diff_new"
-CHOSEN_TRAINING_SIZE=100
+PREFIX  = "/Users/noa/Workspace/lasso_positions_sampling_results/test_diff_change_2"
+CHOSEN_TRAINING_SIZE=800
 LL_CALCULATION_COMMAND = "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {brlen_command} {weights_path_command} --prefix {prefix}"
 CONST = 10000000
-CHOSEN_BRLEN = "uniform"
+CHOSEN_BRLEN = "optimized"
 
 
 def get_ll_and_tree(prefix,tree_file,msa_path,brlen_command="", weight_path_command=""):

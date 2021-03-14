@@ -1,25 +1,38 @@
-import numpy as np
+
 import logging
+import random
 
 
 LOCAL_RUN = False #True
-
+SEED = 1
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
-def sample_uniform(size):
-    return np.random.uniform(size=size)
-def sample_exp(size):
-    return np.random.exponential(scale=0.1, size=size)
+def sample_uniform(size,start_seed):
+    res=[]
+    seed = start_seed
+    for i in range(size):
+        random.seed(seed)
+        res.append(random.random())
+        seed=seed+1
+    return res
 
-def get_const_brlen(size):
-    return [0.5]*size
+def sample_exp(size,start_seed):
+    res = []
+    seed = start_seed
+    for i in range(size):
+        random.seed(seed)
+        res.append(random.expovariate(lambd=10))
+        seed = seed + 1
+    return res
+
+
 
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = -1
-TRAINING_SIZE_OPTIONS = [100]#[100,200,400,800,1600,3200]
-BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None, 'const': get_const_brlen}
+TRAINING_SIZE_OPTIONS = [100,200]#[100,200,400,800,1600,3200]
+BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 
 WAITING_TIME_CSV_UPDATE = 10#86400
@@ -39,8 +52,8 @@ LASSO_BASELINE="no_baseline"#"lasso_baseline"
 SPR_BASELINE="no_baseline"#"spr_baseline"
 
 
-MAX_N_SEQ = 6
-MIN_N_SEQ = 6
+MAX_N_SEQ = 5
+MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 2
 PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1

@@ -1,7 +1,6 @@
 
 from raxml import *
 import pandas as pd
-from matplotlib import pyplot as plt
 
 def calculate_relative_rf_distance(best_topology_newick, given_topology_newick, name,
                                    curr_run_directory):
@@ -43,6 +42,16 @@ def rel_rf_dist_second_phase_vs_best(row, curr_run_directory):
     return calculate_relative_rf_distance(row["overall_best_topology_second_phase"],
                                           row["lasso_SPR_second_phase_tree_newick"],
                                           "lasso_second_phase_vs_best", curr_run_directory)
+
+def rel_rf_dist_first_phase_vs_naive(row, curr_run_directory):
+    return calculate_relative_rf_distance(row["lasso_SPR_first_phase_tree_newick"],
+                                          row["naive_SPR_tree_newick"],
+                                          "lasso_first_vs_naive", curr_run_directory)
+
+def rel_rf_dist_second_phase_vs_naive(row, curr_run_directory):
+    return calculate_relative_rf_distance(row["lasso_SPR_second_phase_tree_newick"],
+                                          row["naive_SPR_tree_newick"],
+                                          "lasso_second_vs_naive", curr_run_directory)
 
 
 
@@ -96,6 +105,12 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
     curr_msa_results.loc[:, "rf_first_phase_vs_best_first_phase"] = curr_msa_results.apply(
         lambda row: rel_rf_dist_first_phase_vs_best_first_phase(row, curr_run_directory),
         axis=1)
+    curr_msa_results.loc[:, "rf_dist_first_phase_vs_naive"] = curr_msa_results.apply(
+        lambda row: rel_rf_dist_first_phase_vs_naive(row, curr_run_directory),
+        axis=1)
+    curr_msa_results.loc[:, "rf_dist_second_phase_vs_naive"] = curr_msa_results.apply(
+        lambda row: rel_rf_dist_second_phase_vs_naive(row, curr_run_directory),
+        axis=1)
 
     return curr_msa_results
 
@@ -103,7 +118,7 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
 
 
 
-unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/sp_c.csv")
+unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/sp_c_new_spr.csv")
 output_data= pd.DataFrame(
 )
 unified_df = pd.read_csv(unified_df_path)
@@ -116,7 +131,7 @@ for dataset_id in unified_df["dataset_id"].unique():
         output_data= dataset_id_res
     else:
         output_data=pd.concat([output_data,dataset_id_res])
-output_data.to_csv("sp_c_tmp.csv")
+output_data.to_csv("sp_c_tmp_new_spr.csv")
 
 
 
