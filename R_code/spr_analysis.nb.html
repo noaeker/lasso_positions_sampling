@@ -1764,7 +1764,7 @@ summary {
 <p>Reading data and adding more fields</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsbWU0KVxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShwbG90cml4KVxubGlicmFyeSh2aXNyZWcpXG5saWJyYXJ5KHN0cmluZ3IpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZ2dwdWJyKVxubGlicmFyeShncmlkRXh0cmEpXG5cbnNwcl9kYXRhPXJlYWRfY3N2KFwiL1VzZXJzL25vYS9Xb3Jrc3BhY2UvbGFzc29fcG9zaXRpb25zX3NhbXBsaW5nX3Jlc3VsdHMvc3BfYy5jc3ZcIilcblxuc3ByX2RhdGE8LXNwcl9kYXRhJT4lbXV0YXRlKGRlbHRhX2xsX2ZpcnN0X3BoYXNlPW5haXZlX1NQUl9sbC1sYXNzb19TUFJfZmlyc3RfcGhhc2VfbGwsZGVsdGFfbGxfc2Vjb25kX3BoYXNlPW5haXZlX1NQUl9sbC1sYXNzb19TUFJfc2Vjb25kX3BoYXNlX2xsLHJob19maXJzdF9waGFzZT1uYWl2ZV9TUFJfc3ByX21vdmVzLyhsYXNzb19TUFJfZmlyc3RfcGhhc2Vfc3ByX21vdmVzKnNhbXBsZV9wY3QpLHJob19zZWNvbmRfcGhhc2UgPW5haXZlX1NQUl9zcHJfbW92ZXMvKHNwcl9kYXRhJGxhc3NvX1NQUl9zZWNvbmRfcGhhc2Vfc3ByX21vdmVzKyhsYXNzb19TUFJfZmlyc3RfcGhhc2Vfc3ByX21vdmVzKnNhbXBsZV9wY3QpKSApXG5cbmdvb2RfZGF0YXNldHM8LXNwcl9kYXRhICU+JSBncm91cF9ieShkYXRhc2V0X2lkKSAlPiUgY291bnQoKSAlPiUgZHBseXI6OmZpbHRlcihuPT0zKSAlPiUgcHVsbChkYXRhc2V0X2lkKVxuXG5zcHJfZGF0YTwtIHNwcl9kYXRhICU+JSBmaWx0ZXIoZGF0YXNldF9pZCAlaW4lIGdvb2RfZGF0YXNldHMpXG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsbWU0KVxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShwbG90cml4KVxubGlicmFyeSh2aXNyZWcpXG5saWJyYXJ5KHN0cmluZ3IpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZ2dwdWJyKVxubGlicmFyeShncmlkRXh0cmEpXG5cbnNwcl9kYXRhPXJlYWRfY3N2KFwiL1VzZXJzL25vYS9Xb3Jrc3BhY2UvbGFzc29fcG9zaXRpb25zX3NhbXBsaW5nX3Jlc3VsdHMvc3BfYy5jc3ZcIilcbmBgYCJ9 -->
 <pre class="r"><code>library(lme4)
 library(ggplot2)
 library(plotrix)
@@ -1774,9 +1774,39 @@ library(tidyverse)
 library(ggpubr)
 library(gridExtra)
 
-spr_data=read_csv(&quot;/Users/noa/Workspace/lasso_positions_sampling_results/sp_c.csv&quot;)
-
-spr_data&lt;-spr_data%&gt;%mutate(delta_ll_first_phase=naive_SPR_ll-lasso_SPR_first_phase_ll,delta_ll_second_phase=naive_SPR_ll-lasso_SPR_second_phase_ll,rho_first_phase=naive_SPR_spr_moves/(lasso_SPR_first_phase_spr_moves*sample_pct),rho_second_phase =naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(lasso_SPR_first_phase_spr_moves*sample_pct)) )
+spr_data=read_csv(&quot;/Users/noa/Workspace/lasso_positions_sampling_results/sp_c.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTWlzc2luZyBjb2x1bW4gbmFtZXMgZmlsbGVkIGluOiAnWDEnIFsxXVxu4pSA4pSAIENvbHVtbiBzcGVjaWZpY2F0aW9uIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgFxuY29scyhcbiAgLmRlZmF1bHQgPSBjb2xfZG91YmxlKCksXG4gIExhc3NvX2ZvbGRlciA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgYnJsZW5fZ2VuZXJhdG9yID0gY29sX2NoYXJhY3RlcigpLFxuICBjdXJyX2pvYl9yZXN1bHRzX2ZvbGRlciA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY3Vycl9tc2FfdmVyc2lvbl9mb2xkZXIgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGN1cnJlbnRfam9iX3Jlc3VsdHNfZm9sZGVyID0gY29sX2NoYXJhY3RlcigpLFxuICBkYXRhc2V0X2lkID0gY29sX2NoYXJhY3RlcigpLFxuICBmaWxlX25hbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGZpbGVfdHlwZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgZmlsZV90eXBlX2Jpb3B5dGhvbiA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgbGFzc29fU1BSX2ZpcnN0X3BoYXNlX3RyZWVfbmV3aWNrID0gY29sX2NoYXJhY3RlcigpLFxuICBsYXNzb19TUFJfc2Vjb25kX3BoYXNlX3RyZWVfbmV3aWNrID0gY29sX2NoYXJhY3RlcigpLFxuICBsYXNzb19TUFJfc3RhcnRpbmdfdHJlZV9wYXRoID0gY29sX2NoYXJhY3RlcigpLFxuICBsYXNzb19iYXNlbGluZV9ydW5fcHJlZml4ID0gY29sX2NoYXJhY3RlcigpLFxuICBsYXNzb19tb2RlbF9maWxlX3BhdGggPSBjb2xfY2hhcmFjdGVyKCksXG4gIGxvY2FsX2FsaWdubWVudF9wYXRoID0gY29sX2NoYXJhY3RlcigpLFxuICBuYWl2ZV9TUFJfdHJlZV9uZXdpY2sgPSBjb2xfY2hhcmFjdGVyKCksXG4gIG9yaWdfcmVkdWNlZF9maWxlX3BhdGggPSBjb2xfY2hhcmFjdGVyKCksXG4gIHJhbmRvbV90cmVlc19mb2xkZXIgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHJheG1sX3BhcnNpbW9ueV90cmVlX3BhdGggPSBjb2xfY2hhcmFjdGVyKCksXG4gIHJ1bl9wcmVmaXggPSBjb2xfY2hhcmFjdGVyKClcbiAgIyAuLi4gd2l0aCA5IG1vcmUgY29sdW1uc1xuKVxu4oS5IFVzZSBgc3BlYygpYCBmb3IgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb25zLlxuIn0= -->
+<pre><code>Missing column names filled in: &#39;X1&#39; [1]
+── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────────
+cols(
+  .default = col_double(),
+  Lasso_folder = col_character(),
+  brlen_generator = col_character(),
+  curr_job_results_folder = col_character(),
+  curr_msa_version_folder = col_character(),
+  current_job_results_folder = col_character(),
+  dataset_id = col_character(),
+  file_name = col_character(),
+  file_type = col_character(),
+  file_type_biopython = col_character(),
+  lasso_SPR_first_phase_tree_newick = col_character(),
+  lasso_SPR_second_phase_tree_newick = col_character(),
+  lasso_SPR_starting_tree_path = col_character(),
+  lasso_baseline_run_prefix = col_character(),
+  lasso_model_file_path = col_character(),
+  local_alignment_path = col_character(),
+  naive_SPR_tree_newick = col_character(),
+  orig_reduced_file_path = col_character(),
+  random_trees_folder = col_character(),
+  raxml_parsimony_tree_path = col_character(),
+  run_prefix = col_character()
+  # ... with 9 more columns
+)
+ℹ Use `spec()` for the full column specifications.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3ByX2RhdGE8LXNwcl9kYXRhJT4lbXV0YXRlKGRlbHRhX2xsX2ZpcnN0X3BoYXNlPW5haXZlX1NQUl9sbC1sYXNzb19TUFJfZmlyc3RfcGhhc2VfbGwsZGVsdGFfbGxfc2Vjb25kX3BoYXNlPW5haXZlX1NQUl9sbC1sYXNzb19TUFJfc2Vjb25kX3BoYXNlX2xsLHJob19maXJzdF9waGFzZT1uYWl2ZV9TUFJfc3ByX21vdmVzLyhsYXNzb19TUFJfZmlyc3RfcGhhc2Vfc3ByX21vdmVzKnNhbXBsZV9wY3QpLHJob19zZWNvbmRfcGhhc2UgPW5haXZlX1NQUl9zcHJfbW92ZXMvKHNwcl9kYXRhJGxhc3NvX1NQUl9zZWNvbmRfcGhhc2Vfc3ByX21vdmVzKyhsYXNzb19TUFJfZmlyc3RfcGhhc2Vfc3ByX21vdmVzKnNhbXBsZV9wY3QpKSApXG5cbmdvb2RfZGF0YXNldHM8LXNwcl9kYXRhICU+JSBncm91cF9ieShkYXRhc2V0X2lkKSAlPiUgY291bnQoKSAlPiUgZHBseXI6OmZpbHRlcihuPT0zKSAlPiUgcHVsbChkYXRhc2V0X2lkKVxuXG5zcHJfZGF0YTwtIHNwcl9kYXRhICU+JSBmaWx0ZXIoZGF0YXNldF9pZCAlaW4lIGdvb2RfZGF0YXNldHMpXG5cbmBgYCJ9 -->
+<pre class="r"><code>spr_data&lt;-spr_data%&gt;%mutate(delta_ll_first_phase=naive_SPR_ll-lasso_SPR_first_phase_ll,delta_ll_second_phase=naive_SPR_ll-lasso_SPR_second_phase_ll,rho_first_phase=naive_SPR_spr_moves/(lasso_SPR_first_phase_spr_moves*sample_pct),rho_second_phase =naive_SPR_spr_moves/(spr_data$lasso_SPR_second_phase_spr_moves+(lasso_SPR_first_phase_spr_moves*sample_pct)) )
 
 good_datasets&lt;-spr_data %&gt;% group_by(dataset_id) %&gt;% count() %&gt;% dplyr::filter(n==3) %&gt;% pull(dataset_id)
 

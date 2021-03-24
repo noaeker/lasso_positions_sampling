@@ -3,28 +3,21 @@ from sklearn import linear_model
 from raxml import *
 from scipy import stats
 import pickle
+import time
 
 
 
-def evaluate_lasso_performance_on_test_data(optimized_random_trees, curr_msa_stats, curr_run_directory,sampled_alignment_path,weights_file_path,lasso_intercept):
+def evaluate_lasso_performance_on_test_data(optimized_random_trees_path, curr_msa_stats, curr_run_directory, sampled_alignment_path, weights_file_path, lasso_intercept):
     logging.info("Evaluating model on test optimized random trees")
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    true_test_ll_vec = []
-    lasso_test_ll_vec=[]
-    for i in range(len(optimized_random_trees)):
-        tree_path=  optimized_random_trees[i]
-        prefix_true = "opt_using_full_data_{}".format(i)
-        tree_dir = os.path.join(curr_run_directory,"tree_{}".format(i))
-        create_dir_if_not_exists(tree_dir)
-        true_ll =raxml_optimize_ll_on_given_tree_and_msa(local_file_path, prefix_true, tree_path, curr_msa_stats,
-                                                         tree_dir, opt_brlen=True, weights=None, return_tree=False)
-        true_test_ll_vec.append(true_ll)
-        prefix_lasso="opt_using_lasso_{}".format(i)
-        lasso_ll = (raxml_optimize_ll_on_given_tree_and_msa(sampled_alignment_path, prefix_lasso, tree_path, curr_msa_stats,
-                                                           tree_dir, opt_brlen=True, weights=weights_file_path, return_tree=False)/INTEGER_CONST)+lasso_intercept
-        lasso_test_ll_vec.append(lasso_ll)
-    #test_predicted_values_test = [lasso_model.intercept_+(np.dot(chosen_loci_weights,row[chosen_locis]))/INTEGER_CONST for index,row in sitelh_test_df.iterrows()]
-    return true_test_ll_vec, lasso_test_ll_vec
+    prefix_true = "opt_using_full_data"
+    true_ll_values =raxml_optimize_ll_on_given_trees_and_msa(local_file_path, prefix_true, optimized_random_trees_path, curr_msa_stats,
+                                                      curr_run_directory, opt_brlen=True, weights=None, return_tree=False)
+    prefix_lasso="opt_using_lasso"
+    lasso_ll_values = raxml_optimize_ll_on_given_trees_and_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path, curr_msa_stats,
+                                                         curr_run_directory, opt_brlen=True, weights=weights_file_path, return_tree=False)
+    lasso_ll_values_adjusted = [(ll/INTEGER_CONST)+lasso_intercept for ll in lasso_ll_values]
+    return true_ll_values,   lasso_ll_values_adjusted
 
 
 def generate_lasso_descriptive(training_predicted_values, training_true_values,
@@ -37,15 +30,16 @@ def generate_lasso_descriptive(training_predicted_values, training_true_values,
         os.path.join(curr_run_directory, "test_sitelh_df_prediction.csv"))
 
 
-def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df, test_optimized_trees):
-    logging.info('Applying Lasso on sitelh data' )
+def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df, test_optimized_trees_path):
     lasso_log_file = os.path.join(curr_run_directory,"lasso.log")
     with open(lasso_log_file, 'w') as lasso_log:
             logging.info("Computing locis and weight using lasso")
             y_training = sitelh_training_df.sum(axis=1)
             logging.info("Sitelh df dimensions, for lasso computations, are: " + str(sitelh_training_df.shape))
+            start_time = time.time()
             lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True).fit(sitelh_training_df,
                                                                                           y_training)  # add positive=True if using RaxML
+            lasso_training_time = time.time()-start_time
             lasso_model_file_path = os.path.join(curr_run_directory,"lasso_model.sav")
             pickle.dump(lasso_model, open(lasso_model_file_path, 'wb'))
             y_training_predicted=lasso_model.predict(sitelh_training_df)
@@ -74,7 +68,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
             create_dir_if_not_exists(test_running_directory)
             y_test_true, y_test_predicted = evaluate_lasso_performance_on_test_data(
-                test_optimized_trees, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
+                test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
             test_r_squared = stats.pearsonr(y_test_true, y_test_predicted)[0]**2
             test_mse = mean_squared_error(y_test_true, y_test_predicted)
             test_spearmanr = stats.spearmanr(y_test_true, y_test_predicted)[0]
@@ -85,6 +79,9 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             samp_indexes_pct=len(chosen_locis) / curr_msa_stats.get("n_loci")
             Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": samp_indexes_pct,
                                    "lasso_coeffs": lasso_model.coef_,
+                              "lasso_alpha" : lasso_model.alpha_,
+                              "n_iter_lasso": lasso_model.n_iter_,
+                              "lasso_training_time" :  lasso_training_time,
                                    "lasso_intercept": lasso_model.intercept_,
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "lasso_training_R^2": training_r_squared, "lasso_test_R^2": test_r_squared,

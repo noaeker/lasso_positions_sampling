@@ -96,11 +96,19 @@ def add_internal_names(original_tree):
 
 
 
-def generate_tree_object(tree_path):
+def generate_tree_object_from_newick(tree_path):
    starting_tree_object = Tree(newick=tree_path, format=1)
    add_internal_names(starting_tree_object)
    starting_tree_object.get_tree_root().name = "ROOT"
    return starting_tree_object
+
+
+def generate_multiple_tree_object_from_newick(trees_path):
+   with open(trees_path) as trees_path:
+       newicks = trees_path.read().split("\n")
+       newicks = [t for t in newicks if len(t)>0]
+       tree_objects = [generate_tree_object_from_newick(newick) for newick in newicks]
+       return tree_objects
 
 
 def get_tree_string(tree_path):
@@ -110,18 +118,17 @@ def get_tree_string(tree_path):
 
 def compute_tree_divergence(tree_path):
     total_dist=0
-    tree = generate_tree_object(tree_path)
+    tree = generate_tree_object_from_newick(tree_path)
     for node in tree.iter_descendants():
         # Do some analysis on node
         total_dist = total_dist+node.dist
     return total_dist
 
-def assign_brlen(tree_path,brlen_list,output_tree_path):
-    tree = generate_tree_object(tree_path)
-    for i,node in enumerate(tree.iter_descendants()):
+def assign_brlen_to_tree_object(tree_object, brlen_list):
+    for i,node in enumerate(tree_object.iter_descendants()):
         # Do some analysis on node
         node.dist=brlen_list[i]
-    tree.write(format=1, outfile=output_tree_path)
+    return tree_object
 
 
 
@@ -157,10 +164,10 @@ def assign_brlen(tree_path,brlen_list,output_tree_path):
 #
 
 
-
-
 # print("Alternative tree")
-# t3= Tree('(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',format=1)
+#t3= Tree('(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',format=1)
+
+#'(0024:0.100000,(0023:0.100000,0027:0.100000):0.100000,(0011:0.100000,0012:0.100000):0.100000);'
 # add_internal_names(t3)
 # t3.get_tree_root().name="ROOT"
 # print(t3.get_ascii(attributes=['name'],show_internal=True))

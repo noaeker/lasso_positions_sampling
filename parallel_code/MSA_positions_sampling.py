@@ -19,9 +19,9 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
-        starting_tree_path = generate_random_tree_topology_constant_brlen(alpha=curr_msa_stats["alpha"],
-                                                                          original_file_path=curr_msa_stats["local_alignment_path"],
-                                                                          random_tree_generation_prefix=random_tree_path_prefix,seed=seed)
+        starting_tree_path = generate_n_random_tree_topology_constant_brlen(n=1,alpha=curr_msa_stats["alpha"],
+                                                                            original_file_path=curr_msa_stats["local_alignment_path"],
+                                                                            random_tree_generation_prefix=random_tree_path_prefix, seed=seed)
     return starting_tree_path
 
 
@@ -153,8 +153,6 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
                    }
     reduced_curr_msa_stats.update(
         update_dict)
-    logging.info(
-        "New msa stats for reduced data: {msa_stats}".format(msa_stats=update_dict.copy().pop("alignment_data")))
     return reduced_curr_msa_stats
 
 
@@ -227,13 +225,47 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
             curr_msa_stats["actucal_training_size"] = training_size
             lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
             curr_msa_stats.update(lasso_results)
-            logging.info("only evaluating lasso: ")
+            logging.info("only evaluating lasso on brlen {} and training size {}: ".format(brlen_generator_name, training_size))
             lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                        k not in IGNORE_COLS_IN_CSV
                                        }
             all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
             all_msa_results.to_csv(job_csv_path, index=False)
 
+
+def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
+                                job_csv_path):
+    all_msa_results = pd.DataFrame(
+    )
+    all_msa_results.to_csv(job_csv_path, index=False)
+    curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"],"RaxML_search")
+    create_dir_if_not_exists(curr_run_directory)
+    logging.info("Performing standard RAxML search")
+    standard_run_folder= os.path.join(curr_run_directory,"standard_run")
+    create_dir_if_not_exists(standard_run_folder)
+    standard_raxml_search_results = raxml_search_pipeline(standard_run_folder,curr_msa_stats, N_PARSIMONY_RAXML_SEARCH,N_RANDOM_RAXML_SEARCH, standrad_search= True)
+    curr_msa_stats.update(standard_raxml_search_results)
+    for brlen_generator_name in brlen_generators:
+        brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
+        create_dir_if_not_exists(brlen_run_directory)
+        curr_msa_stats["brlen_generator"] = brlen_generator_name
+        for training_size in training_size_options:
+            curr_msa_stats["actucal_training_size"] = training_size
+            curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
+            create_dir_if_not_exists(curr_training_size_and_brlen_directory)
+            lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
+            curr_msa_stats.update(lasso_results)
+            logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
+            start_time = time.time()
+            lasso_based_spr_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, N_PARSIMONY_RAXML_SEARCH, N_RANDOM_RAXML_SEARCH, standrad_search= False)
+            spr_pipeline_running_time = time.time() - start_time
+            curr_msa_stats.update(lasso_based_spr_results)
+            curr_msa_stats.update({'spr_pipeline_running_time': spr_pipeline_running_time})
+
+            all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                      k not in IGNORE_COLS_IN_CSV
+                                                      }, ignore_index=True)
+            all_msa_results.to_csv(job_csv_path)
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
                                 job_csv_path):
@@ -271,10 +303,13 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                 lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
                 curr_msa_stats.update(lasso_results)
                 logging.info("Starting Lasso-based SPR on training size: {size}".format(size=training_size))
+                start_time = time.time()
                 lasso_based_spr_results = lasso_based_spr_on_current_starting_tree(starting_tree_path,
                                                                                    curr_msa_stats,
                                                                                    curr_training_size_directory)
+                spr_pipeline_running_time = time.time()-start_time
                 curr_msa_stats.update(lasso_based_spr_results)
+                curr_msa_stats.update({'spr_pipeline_running_time':spr_pipeline_running_time})
 
                 all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                                           k not in IGNORE_COLS_IN_CSV
@@ -350,6 +385,10 @@ def main():
             perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                         lasso_configurations_per_training_size,
                                         job_csv_path)
+        elif RAxML_SEARCH:
+            perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                          lasso_configurations_per_training_size,
+                                          job_csv_path)
         else:
             perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                  lasso_configurations_per_training_size,
