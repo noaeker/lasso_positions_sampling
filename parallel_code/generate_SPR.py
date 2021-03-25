@@ -32,21 +32,21 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
     trees_path = os.path.join(curr_run_directory,"iteration_spr_trees")
     with open(trees_path,'w') as TREES:
         TREES.write(regrafted_trees_newick)
-    trees_ll = raxml_optimize_ll_on_given_trees_and_msa(MSA_path, "rgrft_ll_eval", trees_path,
-                                                        curr_msa_stats, curr_run_directory,
-                                                        weights=curr_msa_stats["weights_file_path"] if use_weights else None)
+    trees_ll, trees_optimized_objects = raxml_optimize_trees_for_given_msa(MSA_path, "rgrft_ll_eval", trees_path,
+                                                                           curr_msa_stats, curr_run_directory,
+                                                                           weights=curr_msa_stats["weights_file_path"] if use_weights else None)
     if use_weights:
         trees_ll = [(ll/INTEGER_CONST)+curr_msa_stats["lasso_intercept"] for ll in trees_ll]
-        trees_true_ll = raxml_optimize_ll_on_given_trees_and_msa(curr_msa_stats["local_alignment_path"],
+        trees_true_ll,trees_true_optimized_objects = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"],
                                                           "rgrft_ll_eval_on_full_MSA", trees_path,
-                                                                 curr_msa_stats, curr_run_directory,
-                                                                 weights=None)
+                                                                                        curr_msa_stats, curr_run_directory,
+                                                                                        weights=None)
     else:
         trees_true_ll = trees_ll
     best_ll = max(trees_ll)
     logging.info("Out of {} ll values, the best one found is {}".format(len(trees_ll), best_ll))
     best_ll_index = trees_ll.index(best_ll)
-    best_tree_object= regrafted_trees[best_ll_index]
+    best_tree_object= trees_optimized_objects[best_ll_index]
     best_true_ll = trees_true_ll[best_ll_index]
     ll_comparison_df = pd.DataFrame(
         {'full msa ll': trees_true_ll, 'sampled msa ll': trees_ll, 'iteration number': iteration_number}
@@ -56,19 +56,19 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
 
 
 def get_true_and_local_starting_tree_ll(MSA_path,run_unique_name,starting_tree_path,curr_msa_stats,curr_run_directory,use_weights):
-    search_starting_tree_ll = raxml_optimize_ll_on_given_trees_and_msa(MSA_path,
+    search_starting_tree_ll = raxml_optimize_trees_for_given_msa(MSA_path,
                                                                        "starting_tree_ll_eval_" + run_unique_name,
-                                                                       starting_tree_path,
-                                                                       curr_msa_stats,
-                                                                       curr_run_directory=curr_run_directory,
-                                                                       weights=curr_msa_stats[
-                                                                           "weights_file_path"] if use_weights else None)
+                                                                 starting_tree_path,
+                                                                 curr_msa_stats,
+                                                                 curr_run_directory=curr_run_directory,
+                                                                 weights=curr_msa_stats[
+                                                                           "weights_file_path"] if use_weights else None)[0]
     if use_weights:
         search_starting_tree_ll = curr_msa_stats["lasso_intercept"]+(search_starting_tree_ll/INTEGER_CONST)
-        search_true_starting_tree_ll = raxml_optimize_ll_on_given_trees_and_msa(
+        search_true_starting_tree_ll = raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "starting_tree_ll_eval_on_full_" + run_unique_name,
             starting_tree_path,
-            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)
+            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)[0]
     else:
         search_true_starting_tree_ll = search_starting_tree_ll
 

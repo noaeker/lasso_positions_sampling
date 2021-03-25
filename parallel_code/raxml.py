@@ -109,24 +109,25 @@ def raxml_search_pipeline(curr_run_directory,curr_msa_stats, n_parsimony_trees, 
     else:
         first_phase_dict = raxml_search(curr_run_directory,curr_msa_stats["sampled_alignment_path"], "first_phase", curr_msa_stats, n_parsimony_trees,
                                         n_random_trees,
-                                        weights=curr_msa_stats["weights_file_path"], starting_trees_path=curr_msa_stats["standard_starting_trees_path"] if RAXML_USE_STANDARD_STARTING_TREES else None)
-        first_phase_best_true_ll = raxml_optimize_ll_on_given_trees_and_msa(
+                                        weights=curr_msa_stats["weights_file_path"], starting_trees_path=curr_msa_stats["standard_starting_trees_path"] if curr_msa_stats["use_raxml_standard_starting_trees"] else None)
+        first_phase_best_true_ll = raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "first_phase_ll_eval_on_full" ,
            first_phase_dict["best_tree_path"],
             curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)
-
-        second_phase_dict = raxml_search(curr_run_directory,curr_msa_stats["local_alignment_path"], "second_phase", curr_msa_stats,
-                                         n_parsimony_trees, n_random_trees,
-                                         weights=None, starting_trees_path=first_phase_dict["all_final_trees_path"])
         results = {
-                   'lasso_first_phase_best_ll': first_phase_best_true_ll,
-                   'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
-                   'lasso_first_phase_elapsed_time': first_phase_dict["elapsed_running_time"],
-                   'lasso_second_phase_best_ll': second_phase_dict["best_ll"],
-                   'lasso_second_phase_best_tree': second_phase_dict["best_tree_path"],
-                   'lasso_second_phase_elapsed_time': second_phase_dict["elapsed_running_time"]
+            'lasso_first_phase_best_ll': first_phase_best_true_ll,
+            'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
+            'lasso_first_phase_elapsed_time': first_phase_dict["elapsed_running_time"],
 
-                   }
+        }
+        if curr_msa_stats["do_raxml_lasso_second_phase"]:
+            second_phase_dict = raxml_search(curr_run_directory,curr_msa_stats["local_alignment_path"], "second_phase", curr_msa_stats,
+                                             n_parsimony_trees, n_random_trees,
+                                             weights=None, starting_trees_path=first_phase_dict["all_final_trees_path"])
+            results.update(   {'lasso_second_phase_best_ll': second_phase_dict["best_ll"],
+                   'lasso_second_phase_best_tree': second_phase_dict["best_tree_path"],
+                   'lasso_second_phase_elapsed_time': second_phase_dict["elapsed_running_time"]})
+
     return results
 
 
@@ -225,8 +226,8 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     return sitelh_list
 
 
-def raxml_optimize_ll_on_given_trees_and_msa(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
-                                             curr_run_directory, opt_brlen=True, weights=None, return_tree=False):
+def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
+                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False):
     curr_run_directory = os.path.join(curr_run_directory, ll_on_data_prefix)
     if os.path.exists(curr_run_directory):
         delete_dir_content(curr_run_directory)
@@ -247,7 +248,10 @@ def raxml_optimize_ll_on_given_trees_and_msa(full_data_path, ll_on_data_prefix, 
     execute_commnand_and_write_to_log(compute_ll_run_command)
     raxml_log_file = prefix + ".raxml.log"
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
-    optimized_tree = prefix + ".raxml.mlTrees"
-    if return_tree:
-        return optimized_tree
-    return trees_ll_on_data
+    optimized_trees_path = prefix + ".raxml.mlTrees"
+    best_tree_path = prefix + ".raxml.bestTree"
+    optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
+    tree_objects = generate_multiple_tree_object_from_newick( optimized_trees_final_path)
+    if return_trees_file:
+        return optimized_trees_path
+    return trees_ll_on_data, tree_objects

@@ -108,7 +108,7 @@ def generate_multiple_tree_object_from_newick(trees_path):
        newicks = trees_path.read().split("\n")
        newicks = [t for t in newicks if len(t)>0]
        tree_objects = [generate_tree_object_from_newick(newick) for newick in newicks]
-       return tree_objects
+       return tree_objects if len(tree_objects)>1 else tree_objects[0]
 
 
 def get_tree_string(tree_path):

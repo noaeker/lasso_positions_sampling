@@ -77,8 +77,8 @@ def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_
 
 def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path,curr_run_directory):
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    optimized_trees_path = raxml_optimize_ll_on_given_trees_and_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
-                                                               curr_run_directory, weights=False, return_tree=True)
+    optimized_trees_path = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
+                                                              curr_run_directory, weights=False, return_trees_file=True)
 
     return optimized_trees_path
 

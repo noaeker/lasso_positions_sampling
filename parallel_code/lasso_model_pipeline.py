@@ -11,11 +11,11 @@ def evaluate_lasso_performance_on_test_data(optimized_random_trees_path, curr_ms
     logging.info("Evaluating model on test optimized random trees")
     local_file_path = curr_msa_stats.get("local_alignment_path")
     prefix_true = "opt_using_full_data"
-    true_ll_values =raxml_optimize_ll_on_given_trees_and_msa(local_file_path, prefix_true, optimized_random_trees_path, curr_msa_stats,
-                                                      curr_run_directory, opt_brlen=True, weights=None, return_tree=False)
+    true_ll_values =raxml_optimize_trees_for_given_msa(local_file_path, prefix_true, optimized_random_trees_path, curr_msa_stats,
+                                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False)[0]
     prefix_lasso="opt_using_lasso"
-    lasso_ll_values = raxml_optimize_ll_on_given_trees_and_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path, curr_msa_stats,
-                                                         curr_run_directory, opt_brlen=True, weights=weights_file_path, return_tree=False)
+    lasso_ll_values = raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path, curr_msa_stats,
+                                                         curr_run_directory, opt_brlen=True, weights=weights_file_path, return_trees_file=False)[0]
     lasso_ll_values_adjusted = [(ll/INTEGER_CONST)+lasso_intercept for ll in lasso_ll_values]
     return true_ll_values,   lasso_ll_values_adjusted
 
