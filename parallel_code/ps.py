@@ -37,7 +37,7 @@ def generate_argument_str(args):
         else:
             value = ""
         output = output + value +" "
-    return output
+    return output.strip()
 
 
 def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
