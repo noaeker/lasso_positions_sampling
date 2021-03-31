@@ -45,8 +45,8 @@ def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, numbe
             seq_values.add(record.seq)
             sampled_sequence.append(record)
     try:
-        val = SeqIO.write(sampled_sequence, trimmed_alignment_path, file_type)
-        logging.info(" {} sequences written succesfully to new file {}".format(number_of_sequences,trimmed_alignment_path))
+        SeqIO.write(sampled_sequence, trimmed_alignment_path, file_type)
+        logging.info(" {} sequences written succesfully to new file {}".format(len(sampled_sequence),trimmed_alignment_path))
     except:
         logging.error("ERROR! {} sequences NOT written succesfully to new file {}".format(number_of_sequences,trimmed_alignment_path))
 
@@ -74,7 +74,7 @@ def extract_alignment_files_from_dir(dir):
     files_list = []
     if os.path.exists(dir):
         for file in os.listdir(dir):
-            if file.endswith(".phy") or file.endswith(".fasta") or file.endswith(".nex"):
+            if file.endswith(".phy") or file.endswith(".fasta"): #or file.endswith(".nex")
                 files_list.append(os.path.join(dir, file))
     return files_list
 
@@ -179,7 +179,7 @@ def main_parser():
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
-    parser.add_argument('--only_evaluate_lasso', action='store_true',default=False)
+    parser.add_argument('--only_evaluate_lasso', action='store_true',default=ONLY_EVALUATE_LASSO)
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=SPR_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
@@ -187,6 +187,10 @@ def main_parser():
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true',default=RAXML_USE_STANDARD_STARTING_TREES)
     parser.add_argument('--use_raxml_search', action='store_true', default = RAxML_SEARCH)
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true', default = DO_RAXML_SECOND_PHASE)
+    parser.add_argument('--large_analysis',action='store_true',default=LARGE_ANALYSIS)
+    parser.add_argument('--n_cpus', action='store', type=int, default=NCPUS)
+    parser.add_argument('--n_mpi_processes', action='store', type=int, default=MPI_PROCESSES)
+    parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
     return parser
 
 def job_parser():

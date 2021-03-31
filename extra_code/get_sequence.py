@@ -1,6 +1,4 @@
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
-from Bio.Seq import Seq
 
 original_alignment_path = "/Users/noa/Workspace/data/ABC_DR/Selectome/Euteleostomi/ENSGT00660000095541/ref_msa.aa.phy"
 with open(original_alignment_path) as original:

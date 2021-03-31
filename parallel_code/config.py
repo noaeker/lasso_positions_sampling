@@ -11,6 +11,8 @@ N_PARSIMONY_RAXML_SEARCH= 1
 N_RANDOM_RAXML_SEARCH = 1
 RAXML_USE_STANDARD_STARTING_TREES = True
 DO_RAXML_SECOND_PHASE = False
+LARGE_ANALYSIS = True
+
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
 
@@ -41,7 +43,7 @@ RANDOM_TREES_TRAINING_SIZE = -1
 TRAINING_SIZE_OPTIONS = [400]#[100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
-
+ONLY_EVALUATE_LASSO = False
 WAITING_TIME_CSV_UPDATE = 10#86400
 N_JOBS = 1
 RANDOM_TREES_TEST_SIZE = 30
@@ -52,17 +54,17 @@ N_THREADS = 1
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 100000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "raxml_new"
+CURR_RUN_PREFIX = "raxml_large"
 CURR_JOBS_PREFIX = "job_prefix"
-LASSO_BASELINE="run_prefix_raxml_test"
+LASSO_BASELINE="no_baseline"
 
 SPR_BASELINE="no_baseline"#"spr_baseline"
 
 
-MAX_N_SEQ = 5
+MAX_N_SEQ = 200
 MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 1
-PARSIMONY_STARTING_TREE = False #1/0
+#PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
 FIRST_MSA_IND = 0
 
@@ -71,25 +73,24 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-N_THREADS = 1
-
-
-
-
+NCPUS = 8
+MPI_PROCESSES = 1
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng-float/raxml-ng --threads {} --force perf_threads ".format(N_THREADS)
+    RAXML_NG_COMMAND_PREFIX = "/groups/pupko/noaeker/raxml-ng-float/raxml-ng --threads auto{N} --extra thread-pin".format(N=NCPUS)
     MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
+    ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/example"
 elif LOCAL_RUN:
-    RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng "
+    RAXML_NG_COMMAND_PREFIX = "/Users/noa/Programs/Raxml/raxml-ng --extra thread-pin"
     MAD_COMMAND_PREFIX = "/Users/noa/Programs/mad.osx"
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
-    MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
+    MSAs_FOLDER = "/Users/noa/Workspace/data/LARGE_FILES"#"/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/LARGE_FILES"
 
 MAIN_CODE_PATH = "MSA_positions_sampling.py"
 

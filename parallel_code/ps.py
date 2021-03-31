@@ -16,13 +16,13 @@ def generate_results_folder(curr_run_prefix):
 def generate_argument_list(args):
     output = []
     for arg in vars(args):
-        if not type(getattr(args, arg))==bool:
-            value = ["--" + arg,str(getattr(args, arg))]
-        elif (getattr(args, arg))== True:
-            value =["--" + arg]
+        if not type(getattr(args, arg)) == bool:
+            value = ["--" + arg, str(getattr(args, arg))]
+        elif (getattr(args, arg)) == True:
+            value = ["--" + arg]
         else:
             value = []
-        output= output+value
+        output = output + value
     print(output)
     return output
 
@@ -65,21 +65,21 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
         if not LOCAL_RUN:
             cmds_path = os.path.join(curr_job_folder, str(job_ind) + ".cmds")
             job_log_path = os.path.join(curr_job_folder, str(job_ind) + "_tmp_log")
-            job_line = f'module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2!@#python;' \
+            job_line = f'module load gcc/gcc-8.2.0; module load mpi/openmpi-x86_64; module load python/python-anaconda3.6.5-orenavr2!@#python;' \
                 ' python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py' \
                 ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} {previous_args}' \
                 '\t{job_name}'.format(
-                job_ind=job_ind, previous_args=generate_argument_str(args), curr_job_folder = curr_job_folder
+                job_ind=job_ind, previous_args=generate_argument_str(args), curr_job_folder=curr_job_folder
                 , job_name=args.jobs_prefix + str(job_ind))
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:
                 cmds_f.write(job_line)
-            os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path}')
+            os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py cmds_file {cmds_path} tmp_dir {job_log_path} --cpu {args.n_cpus} --mpiprocs{args.n_mpi_processes} --ompthreads {args.n_cpus}')
         else:
             msa_code_location = MAIN_CODE_PATH
             theproc = subprocess.Popen(
                 [sys.executable, msa_code_location, "--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder
-                 ]+generate_argument_list(args))
+                 ] + generate_argument_list(args))
             theproc.communicate()
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}
@@ -87,8 +87,8 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
 
 
 def main():
-    parser= main_parser()
-    args =  parser.parse_args()
+    parser = main_parser()
+    args = parser.parse_args()
     generate_argument_str(args)
     all_jobs_results_folder = generate_results_folder(args.run_prefix)
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
@@ -97,7 +97,10 @@ def main():
     all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
     all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
     logging.info('#Started running')
-    file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
+    if args.large_analysis:
+        file_path_list = extract_alignment_files_from_dir(args.alternative_files_folder)
+    else:
+        file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
     logging.info("There are overall {nMSAs} available ".format(nMSAs=len(file_path_list)))
     if os.path.exists(all_jobs_backup_csv) and os.path.os.stat(all_jobs_backup_csv).st_size > 0:
         shutil.copy(all_jobs_backup_csv, all_jobs_csv)
