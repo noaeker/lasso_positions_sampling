@@ -31,12 +31,12 @@ def generate_argument_str(args):
     output = ""
     for arg in vars(args):
         if not type(getattr(args, arg)) == bool:
-            value = "--" + arg + str(getattr(args, arg))
+            value = "--" + arg + " "+str(getattr(args, arg))
         elif (getattr(args, arg)) == True:
             value = "--" + arg
         else:
             value = ""
-        output = output + value
+        output = output + value +" "
     return output
 
 
@@ -108,7 +108,7 @@ def main():
         logging.info(
             "After removing files that exist in {} there are {} MSAs".format(all_jobs_backup_csv, len(file_path_list)))
     file_path_list = remove_MSAs_with_not_enough_seq(file_path_list, args.min_n_seq)
-    logging.info("There are {} MSAs with at least {} sequences".format(len(file_path_list), args.max_n_seq))
+    logging.info("There are {} MSAs with at least {} sequences".format(len(file_path_list), args.min_n_se))
     file_path_list = file_path_list[args.first_msa_ind:args.first_msa_ind + args.n_MSAs]
     logging.debug("Alignment files are " + str(file_path_list))
     csv_path_to_status_path_dict = distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args)
