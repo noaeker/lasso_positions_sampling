@@ -1,9 +1,17 @@
+#!/powerapps/share/centos7/Python-3.6.7/bin/python
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Oct 22 10:16:41 2017
+
+@author: Oren
+"""
 
 import os
 import argparse
 import logging
-
 logger = logging.getLogger('main')
+
+from sys import argv
 from subprocess import call
 
 
