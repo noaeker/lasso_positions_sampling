@@ -11,7 +11,10 @@ N_PARSIMONY_RAXML_SEARCH= 1
 N_RANDOM_RAXML_SEARCH = 1
 RAXML_USE_STANDARD_STARTING_TREES = True
 DO_RAXML_SECOND_PHASE = False
-LARGE_ANALYSIS = True
+ALTERNATIVE_ANALYSIS = True
+NCPUS = 8
+N_NODES = 20
+MPI_PROC_PER_NODE = 1
 
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
@@ -73,8 +76,7 @@ OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
 
-NCPUS = 8
-MPI_PROCESSES = 1
+
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION

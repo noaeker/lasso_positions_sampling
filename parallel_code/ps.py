@@ -74,7 +74,7 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:
                 cmds_f.write(job_line)
-            command = f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py --cmds_file {cmds_path} --tmp_dir {job_log_path} --cpu {args.n_cpus} --mpiprocs {args.n_mpi_processes} --ompthreads {args.n_cpus}'
+            command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {args.n_cpus} --nodes {args.n_nodes} ---mpi_proc_per_node {args.mpi_proc_per_node}'
             logging.info("About to run: {}".format(command))
             os.system(command)
         else:
@@ -99,7 +99,7 @@ def main():
     all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
     all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
     logging.info('#Started running')
-    if args.large_analysis:
+    if args.alternative_analysis:
         file_path_list = extract_alignment_files_from_dir(args.alternative_files_folder)
     else:
         file_path_list = extract_alignment_files_from_general_csv(MSAs_CSV_PATH)
