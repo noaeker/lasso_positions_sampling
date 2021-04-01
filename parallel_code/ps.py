@@ -74,7 +74,9 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:
                 cmds_f.write(job_line)
-            os.system(f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py cmds_file {cmds_path} tmp_dir {job_log_path} --cpu {args.n_cpus} --mpiprocs{args.n_mpi_processes} --ompthreads {args.n_cpus}')
+            command = f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py --cmds_file {cmds_path} --tmp_dir {job_log_path} --cpu {args.n_cpus} --mpiprocs {args.n_mpi_processes} --ompthreads {args.n_cpus}'
+            logging.info("About to run: {}".format(command))
+            os.system(command)
         else:
             msa_code_location = MAIN_CODE_PATH
             theproc = subprocess.Popen(
