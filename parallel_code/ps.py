@@ -74,7 +74,7 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
             logging.debug("About to run: {}".format(job_line))
             with open(cmds_path, 'w') as cmds_f:
                 cmds_f.write(job_line)
-            command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {args.n_cpus} --nodes {args.n_nodes} ---mpi_proc_per_node {args.mpi_proc_per_node}'
+            command = f'module load python/python-anaconda3.6.5-orenavr2; python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {args.n_cpus} --nodes {args.n_nodes} --mpi_proc_per_node {args.mpi_proc_per_node}'
             logging.info("About to run: {}".format(command))
             os.system(command)
         else:
