@@ -8,11 +8,8 @@ Created on Sun Oct 22 10:16:41 2017
 
 import os
 import argparse
-import logging
-logger = logging.getLogger('main')
-
-from sys import argv
 from subprocess import call
+import logging
 
 
 def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, nodes, mpi_proc_per_node):
@@ -33,22 +30,22 @@ def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, n
         f_qsub.write(qsub_file_content)
     call(['chmod', '+x', qsub_path])  # set execution permissions
 
-    logger.debug('First job details for debugging:')
-    logger.debug('#' * 80)
-    logger.debug('-> qsub_path is:\n' + qsub_path)
-    logger.debug('\n-> qsub_file_content is:\n' + qsub_file_content)
-    logger.debug('-> out file is at:\n' + os.path.join(tmp_dir, prefix_name + '.$JOB_ID.out'))
-    logger.debug('#' * 80)
+    logging.debug('First job details for debugging:')
+    logging.debug('#' * 80)
+    logging.debug('-> qsub_path is:\n' + qsub_path)
+    logging.debug('\n-> qsub_file_content is:\n' + qsub_file_content)
+    logging.debug('-> out file is at:\n' + os.path.join(tmp_dir, prefix_name + '.$JOB_ID.out'))
+    logging.debug('#' * 80)
 
 
 def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes, mpi_proc_per_nod, dummy_delimiter, start,
                                end, additional_params):
-    logger.debug('-> Jobs will be submitted to ' + queue_name + '\'s queue')
-    logger.debug('-> out, err and pbs files will be written to:\n' + tmp_dir + '/')
-    logger.debug('-> Jobs are based on cmds ' + str(start) + ' to ' + str(end) + ' (excluding) from:\n' + cmds_file)
-    logger.debug('-> Each job will use ' + cpus + ' CPU(s)\n')
+    logging.debug('-> Jobs will be submitted to ' + queue_name + '\'s queue')
+    logging.debug('-> out, err and pbs files will be written to:\n' + tmp_dir + '/')
+    logging.debug('-> Jobs are based on cmds ' + str(start) + ' to ' + str(end) + ' (excluding) from:\n' + cmds_file)
+    logging.debug('-> Each job will use ' + cpus + ' CPU(s)\n')
 
-    logger.debug('Starting to send jobs...')
+    logging.debug('Starting to send jobs...')
     cmd_number = 0
     with open(cmds_file) as f_cmds:
         for line in f_cmds:
@@ -56,7 +53,7 @@ def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes, mpi_
                 try:
                     cmd, prefix_name = line.rstrip().split('\t')
                 except:
-                    logger.error(f'UNABLE TO PARSE LINE:\n{line}')
+                    logging.error(f'UNABLE TO PARSE LINE:\n{line}')
                     raise
                     # the queue does not like very long commands so I use a dummy delimiter (!@# by default) to break the rows:
                 cmd = cmd.replace(dummy_delimiter, '\n')
@@ -67,13 +64,13 @@ def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes, mpi_
                 # execute the job
                 # queue_name may contain more arguments, thus the string of the cmd is generated and raw cmd is called
                 terminal_cmd = f'/opt/pbs/bin/qsub {qsub_path} {additional_params}'
-                logger.info(f'Submitting: {terminal_cmd}')
+                logging.info(f'Submitting: {terminal_cmd}')
 
                 call(terminal_cmd, shell=True)
 
             cmd_number += 1
 
-    logger.debug('@ -> Sending jobs is done. @')
+    logging.debug('@ -> Sending jobs is done. @')
 
 
 if __name__ == '__main__':
@@ -108,10 +105,10 @@ if __name__ == '__main__':
     else:
         logging.basicConfig(level=logging.INFO)
 
-    logger.debug(f'args = {args}')
+    logging.debug(f'args = {args}')
 
     if not os.path.exists(args.tmp_dir):
-        logger.debug(f'{args.tmp_dir} does not exist. Creating tmp path...')
+        logging.debug(f'{args.tmp_dir} does not exist. Creating tmp path...')
         os.makedirs(args.tmp_dir, exist_ok=True)
 
     submit_cmds_from_file_to_q(args.cmds_file, args.tmp_dir, args.queue_name, args.cpu, args.nodes,
