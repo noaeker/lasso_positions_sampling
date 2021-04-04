@@ -28,6 +28,9 @@ def check_file_existence(path, name):
         logging.error(error_msg)
         raise GENERAL_RAXML_ERROR(error_msg)
 
+def generate_raxml_command_prefix(curr_msa_stats):
+  raxml_parallel_command = " --threads auto{{{N}}} --workers auto ".format(N=curr_msa_stats["n_cpus"])
+  return raxml_parallel_command
 
 def extract_param_from_log(raxml_log_path, param_name):
     with open(raxml_log_path) as raxml_log_file:
@@ -84,8 +87,9 @@ def raxml_search(curr_run_directory,msa_path, prefix, curr_msa_stats, n_parsimon
                                                                                                       n_random_trees = n_random_trees)
     search_prefix = os.path.join(curr_run_directory,prefix)
     search_command = (
-        "{raxml_exe_path} --force msa --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path}  {threads_config} --force msa --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
+        raxml_exe_path= RAXML_NG_EXE,
+        threads_config =  generate_raxml_command_prefix(curr_msa_stats),
         alpha=alpha, msa_path=msa_path, starting_trees_command=starting_trees_command, seed=SEED,
         prefix=search_prefix, weights_path_command=weights_path_command)
     execute_commnand_and_write_to_log(search_command)
@@ -135,7 +139,7 @@ def calculate_rf_dist(rf_file_path, curr_run_directory):
     rf_prefix = os.path.join(curr_run_directory, "rf")
     rf_command = (
         "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX, rf_file_path=rf_file_path, prefix=rf_prefix)
+        raxml_exe_path=RAXML_NG_EXE, rf_file_path=rf_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command)
     rf_log_file_path = rf_prefix + ".raxml.log"
     relative_rf_dist = extract_param_from_log(rf_log_file_path, "rf_dist")
@@ -145,8 +149,9 @@ def calculate_rf_dist(rf_file_path, curr_run_directory):
 def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
     check_validity_command = (
-        "{raxml_exe_path} --check --msa {msa_path} --model WAG+G --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config} --check --msa {msa_path} --model WAG+G --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(msa_stats),
         msa_path=full_file_path, prefix=check_validity_prefix)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
     execute_commnand_and_write_to_log(check_validity_command)
@@ -156,8 +161,9 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     parsimony_tree_generation_command = (
-        "{raxml_exe_path} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(msa_stats),
         msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix, seed=SEED)
     execute_commnand_and_write_to_log(parsimony_tree_generation_command)
     constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
@@ -165,8 +171,9 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     check_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
     parsimony_model_and_bl_evaluation_command = (
-        "{raxml_exe_path} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(msa_stats),
         msa_path=full_file_path, parsimony_tree_path=constant_branch_length_parsimony_tree_path, seed=SEED,
         prefix=parsimony_model_evaluation_prefix)
     execute_commnand_and_write_to_log(parsimony_model_and_bl_evaluation_command)
@@ -199,10 +206,11 @@ def raxml_extract_sitelh(sitelh_file):
         return (sitelh_lists_floats)
 
 
-def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path, random_tree_generation_prefix, seed):
+def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path, random_tree_generation_prefix,curr_msa_stats, seed):
     random_tree_generation_command = (
-        "{raxml_exe_path}  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
-        n=n, raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config}   --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
+        n=n, raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(curr_msa_stats),
         msa_path=original_file_path, alpha=alpha, prefix=random_tree_generation_prefix, seed=seed)
     execute_commnand_and_write_to_log(random_tree_generation_command)
     random_tree_path = random_tree_generation_prefix + ".raxml.startTree"
@@ -210,13 +218,13 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     return random_tree_path
 
 
-def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha,
+def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha, curr_msa_stats,
                                    opt_brlen=True):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off" if not opt_brlen else ""
     compute_site_ll_run_command = (
-        "{raxml_exe_path} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config} --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(
+        raxml_exe_path=RAXML_NG_EXE, threads_config=generate_raxml_command_prefix(curr_msa_stats),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=compute_site_ll_prefix, brlen_command=brlen_command, compute_site_ll_prefix=compute_site_ll_prefix)
     execute_commnand_and_write_to_log(compute_site_ll_run_command)
@@ -241,8 +249,9 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off" if not opt_brlen else ""
     compute_ll_run_command = (
-        "{raxml_exe_path} --force msa --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        "{raxml_exe_path} {threads_config} --force msa --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(msa_stats),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command)
     execute_commnand_and_write_to_log(compute_ll_run_command)

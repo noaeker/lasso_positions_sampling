@@ -188,7 +188,7 @@ def main_parser():
     parser.add_argument('--use_raxml_search', action='store_true', default = RAxML_SEARCH)
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true', default = DO_RAXML_SECOND_PHASE)
     parser.add_argument('--alternative_analysis', action='store_true', default=ALTERNATIVE_ANALYSIS)
-    parser.add_argument('--n_cpus', action='store', type=int, default=NCPUS)
+    parser.add_argument('--n_cpus', action='store', type=int, default=MAX_NCPUS)
     parser.add_argument('--n_nodes', action='store', type=int, default=N_NODES)
     parser.add_argument('--mpi_proc_per_node', action='store', type=int, default=MPI_PROC_PER_NODE)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)

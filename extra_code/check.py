@@ -54,7 +54,7 @@ prefix_lasso_on_lasso = os.path.join(curr_results_folder, "check_lasso_tree_on_l
 
 compute_standard_ll_run_command = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {brlen_command} --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=full_msa_path, tree_file=optimized_tree_path,
     prefix=prefix_standard, brlen_command= brlen_command)
 subprocess.run(compute_standard_ll_run_command, shell=True)
@@ -66,7 +66,7 @@ tree_ll_on_data_no_weights = extract_param_from_log(raxml_log_file_standard, "ll
 lasso_weights_path_command = "--site-weights {}".format(lasso_weights_file_path)
 compute_lasso_on_standard_ll_run_command = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command}  --opt-branches off --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=sampled_file_path, tree_file=standard_tree,
     prefix=prefix_lasso_on_standard, weights_path_command=lasso_weights_path_command, brlen_command =brlen_command )
 subprocess.run(compute_lasso_on_standard_ll_run_command , shell=True)
@@ -90,7 +90,7 @@ weights_path_command_alternative = "--site-weights {}".format(weights_file_path_
 
 compute_ll_run_command_alternative = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} {brlen_command} --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=full_msa_path, tree_file=optimized_tree_path, weights_path_command = weights_path_command_alternative,brlen_command=brlen_command,
     prefix=prefix_alternative)
 subprocess.run(
@@ -103,7 +103,7 @@ tree_ll_on_data_alternative_weights = extract_param_from_log(raxml_log_file_alte
 
 compute_ll_run_command_alternative_make_sure = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} --opt-branches off --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=full_msa_path, tree_file=alternative_tree, weights_path_command = weights_path_command_alternative,brlen_command=brlen_command,
     prefix=prefix_alternative_make_sure)
 subprocess.run(
@@ -125,7 +125,7 @@ constant_weights_path_command = "--site-weights {}".format(constant_weights_file
 
 compute_constant_weights_ll_run_command = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} {brlen_command} --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=full_msa_path, tree_file=optimized_tree_path,
     prefix=prefix_constant_weights, weights_path_command=constant_weights_path_command,brlen_command=brlen_command)
 subprocess.run(compute_constant_weights_ll_run_command, shell=True)
@@ -149,7 +149,7 @@ ll_partial_based_full_using_weights = (sum([lasso_weights[i]*sitelh_list[j] for 
 lasso_weights_path_command = "--site-weights {}".format(lasso_weights_file_path)
 compute_standard_ll_run_command = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} {brlen_command} --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=sampled_file_path, tree_file=optimized_tree_path,
     prefix=prefix_lasso, weights_path_command=lasso_weights_path_command, brlen_command =brlen_command )
 subprocess.run(compute_standard_ll_run_command, shell=True)
@@ -162,7 +162,7 @@ ll_based_on_lasso = extract_param_from_log(raxml_log_file_lasso, "ll") / INTEGER
 
 compute_lasso_ll_run_command_on_lasso = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} {weights_path_command} --opt-branches off --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=sampled_file_path, tree_file=lasso_tree,
     prefix=prefix_lasso_on_lasso  ,weights_path_command=lasso_weights_path_command, brlen_command= brlen_command)
 subprocess.run(compute_lasso_ll_run_command_on_lasso, shell=True)
@@ -172,7 +172,7 @@ ll_lasso_on_lasso = extract_param_from_log(raxml_log_file_lasso_on_lasso, "ll") 
 
 compute_standard_ll_run_command_on_lasso = (
     "{raxml_exe_path} --evaluate   --msa {msa_path} --model WAG+G{{{alpha}}} --tree {tree_file} --opt-branches off --prefix {prefix}").format(
-    raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+    raxml_exe_path=RAXML_NG_EXE,
     alpha=alpha, msa_path=full_msa_path, tree_file=lasso_tree,
     prefix=prefix_standard_on_lasso , brlen_command= brlen_command)
 subprocess.run(compute_standard_ll_run_command_on_lasso, shell=True)

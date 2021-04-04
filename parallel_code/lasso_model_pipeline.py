@@ -40,6 +40,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True).fit(sitelh_training_df,
                                                                                           y_training)  # add positive=True if using RaxML
             lasso_training_time = time.time()-start_time
+            logging.info("Done training Lasso model. It took {} seconds".format(lasso_training_time))
             lasso_model_file_path = os.path.join(curr_run_directory,"lasso_model.sav")
             pickle.dump(lasso_model, open(lasso_model_file_path, 'wb'))
             y_training_predicted=lasso_model.predict(sitelh_training_df)

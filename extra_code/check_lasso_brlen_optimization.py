@@ -15,7 +15,7 @@ CHOSEN_BRLEN = "optimized"
 
 def get_ll_and_tree(prefix,tree_file,msa_path,brlen_command="", weight_path_command=""):
     command = LL_CALCULATION_COMMAND.format(
-        raxml_exe_path=RAXML_NG_COMMAND_PREFIX,
+        raxml_exe_path=RAXML_NG_EXE,
         alpha=alpha, msa_path=msa_path, tree_file=tree_file,
         prefix=prefix, brlen_command=brlen_command,weights_path_command=weight_path_command)
     subprocess.run(command, shell=True)
