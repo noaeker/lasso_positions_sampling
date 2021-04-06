@@ -68,6 +68,7 @@ def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_
     alpha = curr_msa_stats["alpha"]
     create_dir_if_not_exists(basic_directory)
     random_tree_generation_prefix = os.path.join(basic_directory, "random_trees")
+    create_dir_if_not_exists(random_tree_generation_prefix)
     rrandom_tree_path,elapsed_running_time= generate_n_random_tree_topology_constant_brlen(n,alpha, local_file_path, random_tree_generation_prefix,curr_msa_stats, seed=seed)
     return rrandom_tree_path,elapsed_running_time
 
