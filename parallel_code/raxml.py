@@ -232,7 +232,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(random_tree_generation_command)
     else:
-        job_folder = os.path.join(random_tree_generation_prefix, "raxml_tree_generation_job")
+        job_folder = os.path.join(random_tree_generation_prefix, "raxml_random_tree_generation_job")
         submit_linux_job("raxml_search", job_folder, random_tree_generation_command, curr_msa_stats["n_cpus_training"],
                          curr_msa_stats["n_nodes_training"])
         while not os.path.exists(random_tree_path):
@@ -256,7 +256,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(compute_site_ll_run_command)
     else:
-        job_folder = os.path.join(curr_run_directory, "raxml_eval_job")
+        job_folder = os.path.join(curr_run_directory, "raxml_ll_eval_job_for_training")
         submit_linux_job("raxml_search", job_folder, compute_site_ll_run_command,curr_msa_stats["n_cpus_training"], curr_msa_stats["n_nodes_training"])
         while not os.path.exists(sitelh_file):
             time.sleep(WAITING_TIME_CSV_UPDATE)
@@ -287,11 +287,17 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
         threads_config=generate_raxml_command_prefix(msa_stats["n_cpus_full"]),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command)
-    execute_commnand_and_write_to_log(compute_ll_run_command)
-    raxml_log_file = prefix + ".raxml.log"
-    trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     optimized_trees_path = prefix + ".raxml.mlTrees"
     best_tree_path = prefix + ".raxml.bestTree"
+    if LOCAL_RUN:
+        execute_commnand_and_write_to_log( compute_ll_run_command)
+    else:
+        job_folder = os.path.join(curr_run_directory, "raxml_optimize_test_trees_job")
+        submit_linux_job("raxml_search", job_folder, compute_ll_run_command,msa_stats["n_cpus_training"], msa_stats["n_nodes_training"])
+        while not os.path.exists(best_tree_path):
+            time.sleep(WAITING_TIME_CSV_UPDATE)
+    raxml_log_file = prefix + ".raxml.log"
+    trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
     tree_objects = generate_multiple_tree_object_from_newick( optimized_trees_final_path)
     if return_trees_file:

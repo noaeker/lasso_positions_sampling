@@ -7,15 +7,15 @@ import time
 
 
 
-def evaluate_lasso_performance_on_test_data(optimized_random_trees_path, curr_msa_stats, curr_run_directory, sampled_alignment_path, weights_file_path, lasso_intercept):
+def evaluate_lasso_performance_on_test_data(optimized_random_trees_path, curr_msa_stats, curr_run_directory, sampled_alignment_path, weights_file_path, lasso_intercept, opt_brlen = True):
     logging.info("Evaluating model on test optimized random trees")
     local_file_path = curr_msa_stats.get("local_alignment_path")
     prefix_true = "opt_using_full_data"
     true_ll_values =raxml_optimize_trees_for_given_msa(local_file_path, prefix_true, optimized_random_trees_path, curr_msa_stats,
-                                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False)[0]
+                                                       curr_run_directory, opt_brlen, weights=None, return_trees_file=False)[0]
     prefix_lasso="opt_using_lasso"
     lasso_ll_values = raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path, curr_msa_stats,
-                                                         curr_run_directory, opt_brlen=True, weights=weights_file_path, return_trees_file=False)[0]
+                                                         curr_run_directory, opt_brlen, weights=weights_file_path, return_trees_file=False)[0]
     lasso_ll_values_adjusted = [(ll/INTEGER_CONST)+lasso_intercept for ll in lasso_ll_values]
     return true_ll_values,   lasso_ll_values_adjusted
 
@@ -70,7 +70,10 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             create_dir_if_not_exists(test_running_directory)
             y_test_true, y_test_predicted = evaluate_lasso_performance_on_test_data(
                 test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
+            y_test_true_no_brlen_opt, y_test_predicted_no_brlen_opt = evaluate_lasso_performance_on_test_data(
+                test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_, opt_brlen= False)
             test_r_squared = stats.pearsonr(y_test_true, y_test_predicted)[0]**2
+            test_r_squared_no_brlen_opt = stats.pearsonr(y_test_true_no_brlen_opt, y_test_predicted_no_brlen_opt)[0]**2
             test_mse = mean_squared_error(y_test_true, y_test_predicted)
             test_spearmanr = stats.spearmanr(y_test_true, y_test_predicted)[0]
             if GENERATE_LASSO_DESCRIPTIVE:
@@ -86,6 +89,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                                    "lasso_intercept": lasso_model.intercept_,
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "lasso_training_R^2": training_r_squared, "lasso_test_R^2": test_r_squared,
+                                   "lasso_test_R^2_no_brlen_opt": test_r_squared_no_brlen_opt,
                                    "lasso_training_spearmanr": training_spearmanr,"lasso_test_spearmanr": test_spearmanr,
                                    "lasso_training_mse": training_mse,
                                    "lasso_test_mse": test_mse,"sampled_alignment_path": sampled_alignment_path,

@@ -61,9 +61,9 @@ USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 100000 if USE_INTEGER_WEIGHTS else 1
 CURR_RUN_PREFIX = "raxml_large3"
 CURR_JOBS_PREFIX = "job_prefix"
-LASSO_BASELINE="raxml_large2"
+LASSO_BASELINE="no_baseline"
 
-FULL_DATA_BASELINE= "raxml_large2"#"spr_baseline"
+FULL_DATA_BASELINE= "no_baseline"#"spr_baseline"
 
 
 MAX_N_SEQ = 200
