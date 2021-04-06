@@ -1,7 +1,5 @@
 from help_functions import *
 from config import *
-import subprocess
-import sys
 import time
 import shutil
 
@@ -11,33 +9,6 @@ def generate_results_folder(curr_run_prefix):
     curr_run_prefix = os.path.join(RESULTS_FOLDER, curr_run_prefix)
     create_or_clean_dir(curr_run_prefix)
     return curr_run_prefix
-
-
-def generate_argument_list(args):
-    output = []
-    for arg in vars(args):
-        if not type(getattr(args, arg)) == bool:
-            value = ["--" + arg, str(getattr(args, arg))]
-        elif (getattr(args, arg)) == True:
-            value = ["--" + arg]
-        else:
-            value = []
-        output = output + value
-    print(output)
-    return output
-
-
-def generate_argument_str(args):
-    output = ""
-    for arg in vars(args):
-        if not type(getattr(args, arg)) == bool:
-            value = "--" + arg + " "+str(getattr(args, arg))
-        elif (getattr(args, arg)) == True:
-            value = "--" + arg
-        else:
-            value = ""
-        output = output + value +" "
-    return output.strip()
 
 
 def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
@@ -62,27 +33,18 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
             for path in job_msa_paths:
                 f.write("%s\n" % path)
         logging.info("job number {} will run on files {}".format(job_ind, job_msa_paths))
-        if not LOCAL_RUN:
-            cmds_path = os.path.join(curr_job_folder, str(job_ind) + ".cmds")
-            job_log_path = os.path.join(curr_job_folder, str(job_ind) + "_tmp_log")
-            job_line = f'module load gcc/gcc-8.2.0; module load mpi/openmpi-x86_64; module load python/python-anaconda3.6.5-orenavr2!@#python;' \
-                ' python /groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py' \
+
+        run_command = f' python {MAIN_CODE_PATH} ' \
                 ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} {previous_args}' \
-                '\t{job_name}'.format(
+                .format(
                 job_ind=job_ind, previous_args=generate_argument_str(args), curr_job_folder=curr_job_folder
-                , job_name=args.jobs_prefix + str(job_ind))
-            logging.debug("About to run: {}".format(job_line))
-            with open(cmds_path, 'w') as cmds_f:
-                cmds_f.write(job_line)
-            command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {args.n_cpus} --nodes {args.n_nodes} --mpi_proc_per_node {args.mpi_proc_per_node}'
-            logging.info("About to run: {}".format(command))
-            os.system(command)
+                )
+        job_name = args.jobs_prefix + str(job_ind)
+        if not LOCAL_RUN:
+            submit_linux_job(job_name, curr_job_folder, run_command, 1, 1, job_ind)
         else:
-            msa_code_location = MAIN_CODE_PATH
-            theproc = subprocess.Popen(
-                [sys.executable, msa_code_location, "--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder
-                 ] + generate_argument_list(args))
-            theproc.communicate()
+            submit_local_job(MAIN_CODE_PATH, ["--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder
+             ] + generate_argument_list(args))
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}
     return csv_path_to_status_path_dict

@@ -6,6 +6,50 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 from config import *
 import argparse
+import subprocess
+import sys
+
+def generate_argument_list(args):
+    output = []
+    for arg in vars(args):
+        if not type(getattr(args, arg)) == bool:
+            value = ["--" + arg, str(getattr(args, arg))]
+        elif (getattr(args, arg)) == True:
+            value = ["--" + arg]
+        else:
+            value = []
+        output = output + value
+    print(output)
+    return output
+
+
+def generate_argument_str(args):
+    output = ""
+    for arg in vars(args):
+        if not type(getattr(args, arg)) == bool:
+            value = "--" + arg + " "+str(getattr(args, arg))
+        elif (getattr(args, arg)) == True:
+            value = "--" + arg
+        else:
+            value = ""
+        output = output + value +" "
+    return output.strip()
+
+def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind ="job"):
+        create_dir_if_not_exists(job_folder)
+        cmds_path = os.path.join(job_folder, str(job_ind) + ".cmds")
+        job_log_path = os.path.join(job_folder, str(job_ind) + "_tmp_log")
+        job_line =f'{MODULE_LOAD_STR} {run_command}\t{job_name}'
+        logging.debug("About to run: {}".format(job_line))
+        with open(cmds_path, 'w') as cmds_f:
+            cmds_f.write(job_line)
+        command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {cpus} --nodes {nodes}'
+        logging.info("About to run: {}".format(command))
+        os.system(command)
+
+def submit_local_job(executable, argument_list):
+        theproc = subprocess.Popen([sys.executable, executable]+ argument_list)
+        theproc.communicate()
 
 def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
     proper_file_path_list = []
@@ -181,17 +225,22 @@ def main_parser():
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true',default=ONLY_EVALUATE_LASSO)
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
-    parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=SPR_BASELINE)
+    parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
+    parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true',default=RAXML_USE_STANDARD_STARTING_TREES)
     parser.add_argument('--use_raxml_search', action='store_true', default = RAxML_SEARCH)
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true', default = DO_RAXML_SECOND_PHASE)
     parser.add_argument('--alternative_analysis', action='store_true', default=ALTERNATIVE_ANALYSIS)
-    parser.add_argument('--n_cpus', action='store', type=int, default=MAX_NCPUS)
-    parser.add_argument('--n_nodes', action='store', type=int, default=N_NODES)
-    parser.add_argument('--mpi_proc_per_node', action='store', type=int, default=MPI_PROC_PER_NODE)
+    parser.add_argument('--n_cpus_full', action='store', type=int, default=MAX_NCPUS)
+    parser.add_argument('--n_nodes_full', action='store', type=int, default=N_NODES)
+    parser.add_argument('--n_cpus_Lasso', action='store', type=int, default=1)
+    parser.add_argument('--n_nodes_Lasso', action='store', type=int, default=N_NODES)
+    parser.add_argument('--n_cpus_training', action='store', type=int, default=MAX_NCPUS)
+    parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
+
     return parser
 
 def job_parser():

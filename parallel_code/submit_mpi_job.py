@@ -12,7 +12,7 @@ from subprocess import call
 import logging
 
 
-def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, nodes, mpi_proc_per_node):
+def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, nodes):
     '''compose qsub_file content and fetches it'''
     qsub_file_content = '#!/bin/bash -x\n'  # 'old bash: #!/bin/tcsh -x\n'
     qsub_file_content += '#PBS -S /bin/bash\n'  # '#PBS -S /bin/tcsh\n'
@@ -38,7 +38,7 @@ def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, n
     logging.debug('#' * 80)
 
 
-def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes, mpi_proc_per_nod, dummy_delimiter, start,
+def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes,dummy_delimiter, start,
                                end, additional_params):
     logging.debug('-> Jobs will be submitted to ' + queue_name + '\'s queue')
     logging.debug('-> out, err and pbs files will be written to:\n' + tmp_dir + '/')
@@ -59,7 +59,7 @@ def submit_cmds_from_file_to_q(cmds_file, tmp_dir, queue_name, cpus, nodes, mpi_
                 cmd = cmd.replace(dummy_delimiter, '\n')
                 qsub_path = os.path.join(tmp_dir, prefix_name + '.pbs')  # path to job
 
-                generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus,nodes, mpi_proc_per_nod)
+                generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus,nodes)
 
                 # execute the job
                 # queue_name may contain more arguments, thus the string of the cmd is generated and raw cmd is called
@@ -87,8 +87,6 @@ if __name__ == '__main__':
                         default='1')
     parser.add_argument('--nodes', help='How many nodes will be used?',
                         default='1')
-    parser.add_argument('--mpi_proc_per_node', help='How many MPI processes per node?',
-                        default='1')
     parser.add_argument('--dummy_delimiter',
                         help='The queue does not "like" very long commands; A dummy delimiter is used to break each row into different commands of a single job',
                         default='!@#')
@@ -111,6 +109,6 @@ if __name__ == '__main__':
         logging.debug(f'{args.tmp_dir} does not exist. Creating tmp path...')
         os.makedirs(args.tmp_dir, exist_ok=True)
 
-    submit_cmds_from_file_to_q(args.cmds_file, args.tmp_dir, args.queue_name, args.cpu, args.nodes,
-                               args.mpi_proc_per_node, args.dummy_delimiter,
+    submit_cmds_from_file_to_q(args.cmds_file, args.tmp_dir, args.queue_name, args.cpu, args.nodes
+                               , args.dummy_delimiter,
                                args.start, args.end, args.additional_params)
