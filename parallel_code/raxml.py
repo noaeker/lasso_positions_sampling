@@ -99,16 +99,16 @@ def raxml_search(curr_run_directory,msa_path, prefix, curr_msa_stats, n_parsimon
     best_tree_path = search_prefix + ".raxml.bestTree"
     raxml_search_starting_tree_path = search_prefix + ".raxml.startTree"
     all_final_trees_path = search_prefix + ".raxml.mlTrees"
-    log_file = search_prefix + ".raxml.log"
+    raxml_log_file = search_prefix + ".raxml.log"
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(search_command)
     else:
         job_folder = os.path.join(curr_run_directory,"raxml_run_job")
         submit_linux_job("raxml_search", job_folder, search_command, cpus, nodes)
-        while extract_param_from_log(log_file, 'time') is None:
+        while not os.path.exists(raxml_log_file) or extract_param_from_log(raxml_log_file,'time',raise_error= False) is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
-    elapsed_running_time = extract_param_from_log(log_file, 'time')
-    best_ll = extract_param_from_log(log_file, 'search_ll')
+    elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
+    best_ll = extract_param_from_log(raxml_log_file, 'search_ll')
     return {'best_ll': best_ll, 'best_tree_path': best_tree_path, 'all_final_trees_path': all_final_trees_path,
             'elapsed_running_time': elapsed_running_time, 'starting_trees_path': raxml_search_starting_tree_path}
 
@@ -232,17 +232,17 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         threads_config=generate_raxml_command_prefix(cpus= curr_msa_stats["n_cpus_training"]),
         msa_path=original_file_path, alpha=alpha, prefix=random_tree_generation_prefix, seed=seed)
     random_tree_path = random_tree_generation_prefix + ".raxml.startTree"
-    log_file = random_tree_generation_prefix + ".raxml.log"
+    raxml_log_file = random_tree_generation_prefix + ".raxml.log"
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(random_tree_generation_command)
     else:
         job_folder = os.path.join(random_tree_generation_prefix, "raxml_random_tree_generation_job")
         submit_linux_job("rand_top", job_folder, random_tree_generation_command, curr_msa_stats["n_cpus_training"],
                          curr_msa_stats["n_nodes_training"])
-        while extract_param_from_log(log_file, 'time') is None:
+        while not os.path.exists(raxml_log_file) or extract_param_from_log(raxml_log_file,'time',raise_error= False) is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     check_file_existence(random_tree_path, "random tree")
-    elapsed_running_time = extract_param_from_log(log_file, 'time')
+    elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     return random_tree_path,elapsed_running_time
 
 
@@ -256,18 +256,18 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=compute_site_ll_prefix, brlen_command=brlen_command, compute_site_ll_prefix=compute_site_ll_prefix)
     sitelh_file = compute_site_ll_prefix + ".raxml.siteLH"
-    log_file = compute_site_ll_prefix + ".raxml.log"
+    raxml_log_file = compute_site_ll_prefix + ".raxml.log"
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(compute_site_ll_run_command)
     else:
         job_folder = os.path.join(curr_run_directory, "raxml_ll_eval_job_for_training")
         submit_linux_job("training_opt", job_folder, compute_site_ll_run_command,curr_msa_stats["n_cpus_training"], curr_msa_stats["n_nodes_training"])
-        while extract_param_from_log(log_file, 'time') is None:
+        while not os.path.exists(raxml_log_file) or extract_param_from_log(raxml_log_file,'time',raise_error= False) is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     time.sleep(WAITING_TIME_CSV_UPDATE)
     check_file_existence(sitelh_file, "Sitelh file")
     sitelh_list = raxml_extract_sitelh(sitelh_file)
-    elapsed_running_time = extract_param_from_log(log_file, 'time')
+    elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     return sitelh_list,elapsed_running_time
 
 
@@ -300,7 +300,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     else:
         job_folder = os.path.join(curr_run_directory, "raxml_optimize_test_trees_job")
         submit_linux_job("test_opt", job_folder, compute_ll_run_command,msa_stats["n_cpus_training"], msa_stats["n_nodes_training"])
-        while extract_param_from_log(raxml_log_file,'time') is None:
+        while not os.path.exists(raxml_log_file) or extract_param_from_log(raxml_log_file,'time',raise_error= False) is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     time.sleep(WAITING_TIME_CSV_UPDATE)
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
