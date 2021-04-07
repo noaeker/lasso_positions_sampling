@@ -232,7 +232,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     if LOCAL_RUN:
         execute_commnand_and_write_to_log(random_tree_generation_command)
     else:
-        job_folder = os.path.join(random_tree_generation_prefix, "raxml_random_ tree_generation_job")
+        job_folder = os.path.join(random_tree_generation_prefix, "raxml_random_tree_generation_job")
         submit_linux_job("rand_top", job_folder, random_tree_generation_command, curr_msa_stats["n_cpus_training"],
                          curr_msa_stats["n_nodes_training"])
         while not os.path.exists(random_tree_path):
