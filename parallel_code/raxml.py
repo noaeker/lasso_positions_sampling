@@ -32,7 +32,7 @@ def generate_raxml_command_prefix(cpus=1):
   raxml_parallel_command = " --threads auto{{{N}}} --workers auto ".format(N=cpus)
   return raxml_parallel_command
 
-def extract_param_from_log(raxml_log_path, param_name):
+def extract_param_from_log(raxml_log_path, param_name, raise_error = True):
     with open(raxml_log_path) as raxml_log_file:
         data = raxml_log_file.read()
         if (param_name == "alpha"):
@@ -55,11 +55,15 @@ def extract_param_from_log(raxml_log_path, param_name):
         match = re.search(pattern, data, re.IGNORECASE)
         if match:
             value = float(match.group(1))
+            return value
         else:
             error_msg = "Param {param_name} not found in file".format(param_name=param_name)
             logging.error(error_msg)
-            raise GENERAL_RAXML_ERROR(error_msg)
-        return value
+            if raise_error:
+                raise GENERAL_RAXML_ERROR(error_msg)
+            else:
+                return None
+
 
 
 def extract_mad_file_statistic(mad_log_path):
@@ -101,7 +105,7 @@ def raxml_search(curr_run_directory,msa_path, prefix, curr_msa_stats, n_parsimon
     else:
         job_folder = os.path.join(curr_run_directory,"raxml_run_job")
         submit_linux_job("raxml_search", job_folder, search_command, cpus, nodes)
-        while not os.path.exists(best_tree_path):
+        while extract_param_from_log(log_file, 'time') is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     elapsed_running_time = extract_param_from_log(log_file, 'time')
     best_ll = extract_param_from_log(log_file, 'search_ll')
@@ -235,7 +239,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         job_folder = os.path.join(random_tree_generation_prefix, "raxml_random_tree_generation_job")
         submit_linux_job("rand_top", job_folder, random_tree_generation_command, curr_msa_stats["n_cpus_training"],
                          curr_msa_stats["n_nodes_training"])
-        while not os.path.exists(random_tree_path):
+        while extract_param_from_log(log_file, 'time') is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     check_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(log_file, 'time')
@@ -258,7 +262,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     else:
         job_folder = os.path.join(curr_run_directory, "raxml_ll_eval_job_for_training")
         submit_linux_job("training_opt", job_folder, compute_site_ll_run_command,curr_msa_stats["n_cpus_training"], curr_msa_stats["n_nodes_training"])
-        while not os.path.exists(sitelh_file):
+        while extract_param_from_log(log_file, 'time') is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     time.sleep(WAITING_TIME_CSV_UPDATE)
     check_file_existence(sitelh_file, "Sitelh file")
@@ -290,15 +294,15 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
         prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command)
     optimized_trees_path = prefix + ".raxml.mlTrees"
     best_tree_path = prefix + ".raxml.bestTree"
+    raxml_log_file = prefix + ".raxml.log"
     if LOCAL_RUN:
         execute_commnand_and_write_to_log( compute_ll_run_command)
     else:
         job_folder = os.path.join(curr_run_directory, "raxml_optimize_test_trees_job")
         submit_linux_job("test_opt", job_folder, compute_ll_run_command,msa_stats["n_cpus_training"], msa_stats["n_nodes_training"])
-        while not os.path.exists(best_tree_path):
+        while extract_param_from_log(raxml_log_file,'time') is None:
             time.sleep(WAITING_TIME_CSV_UPDATE)
     time.sleep(WAITING_TIME_CSV_UPDATE)
-    raxml_log_file = prefix + ".raxml.log"
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
     tree_objects = generate_multiple_tree_object_from_newick( optimized_trees_final_path)
