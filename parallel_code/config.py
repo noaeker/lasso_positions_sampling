@@ -3,7 +3,7 @@ import logging
 import random
 
 
-LOCAL_RUN = False #True
+LOCAL_RUN = True #True
 SEED = 1
 
 RAxML_SEARCH = True
