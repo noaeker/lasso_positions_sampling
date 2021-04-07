@@ -29,7 +29,7 @@ def check_file_existence(path, name):
         raise GENERAL_RAXML_ERROR(error_msg)
 
 def generate_raxml_command_prefix(cpus=1):
-  raxml_parallel_command = " --threads N --workers auto ".format(N=cpus)#" --threads auto{{{N}}} --workers auto ".format(N=cpus)
+  raxml_parallel_command = " --threads {N} --workers auto ".format(N=cpus)#" --threads auto{{{N}}} --workers auto ".format(N=cpus)
   return raxml_parallel_command
 
 def extract_param_from_log(raxml_log_path, param_name, raise_error = True):
