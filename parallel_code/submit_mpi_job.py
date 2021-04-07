@@ -16,7 +16,7 @@ def generate_qsub_file(queue_name, tmp_dir, cmd, prefix_name, qsub_path, cpus, n
     '''compose qsub_file content and fetches it'''
     qsub_file_content = '#!/bin/bash -x\n'  # 'old bash: #!/bin/tcsh -x\n'
     qsub_file_content += '#PBS -S /bin/bash\n'  # '#PBS -S /bin/tcsh\n'
-    qsub_file_content +=f'PBS -l select={nodes}:ncpus={cpus}:mpiprocs=1:ompthreads={cpus}' # f'PBS -l nodes={nodes}:ppn={cpus}\n'
+    qsub_file_content +=f'#PBS -l select={nodes}:ncpus={cpus}:mpiprocs=1:ompthreads={cpus}' # f'PBS -l nodes={nodes}:ppn={cpus}\n'
     qsub_file_content += f'#PBS -q {queue_name}\n'
     qsub_file_content += f'#PBS -N {prefix_name}\n'
     qsub_file_content += f'#PBS -e {tmp_dir}\n'  # error log
