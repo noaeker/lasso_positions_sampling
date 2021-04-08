@@ -218,7 +218,7 @@ def main_parser():
     parser.add_argument('--random_trees_training_size', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
     parser.add_argument('--exp_brlen',action='store_true',default= False)
     parser.add_argument('--uni_brlen', action='store_true', default= False)
-    parser.add_argument('--opt_brlen', action='store_true', default= True)
+    parser.add_argument('--opt_brlen', action='store_true', default= False)
     parser.add_argument('--const_brlen', action='store_true', default=False)
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
