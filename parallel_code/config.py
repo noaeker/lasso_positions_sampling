@@ -76,8 +76,9 @@ FIRST_MSA_IND = 0
 OUTPUT_CSV_NAME = "spr_raxml"
 
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func"]
-MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load mpi/openmpi-x86_64; module load python/python-anaconda3.6.5-orenavr2!@#python;"
+MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load python/python-anaconda3.6.5-orenavr2; module load intel/parallel_studio_xe_2020.4.omnipath"
 
+#module load mpi/openmpi-x86_64
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
