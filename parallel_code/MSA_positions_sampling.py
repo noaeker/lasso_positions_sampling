@@ -233,7 +233,7 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     else:
         logging.info("Performing standard RAxML search and saving results to {}".format(standard_raxml_results_dump))
         standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
-                                                              N_PARSIMONY_RAXML_SEARCH, N_RANDOM_RAXML_SEARCH,
+                                                              curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"],
                                                               standrad_search=True)
         with open(standard_raxml_results_dump, 'wb') as handle:
             pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
