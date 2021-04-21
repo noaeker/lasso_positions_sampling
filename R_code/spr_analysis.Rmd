@@ -45,7 +45,7 @@ example_MSA_data <- spr_data %>% filter (job_id==10)
 example_MSA_data%>%select (starting_tree_path,brlen_generator,n_loci,number_loci_chosen,naive_SPR_spr_moves,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,'R^2_pearson_during_tree_search',rf_first_phase_vs_overall_best,mistake_cnt,delta_ll_first_phase,rho_first_phase,rho_second_phase,naive_SPR_ll,lasso_SPR_first_phase_ll, lasso_SPR_first_phase_tree_newick,starting_tree_path,rf_first_phase_vs_overall_best, rf_second_phase_vs_overall_best, rf_naive_vs_overall_best_first_phase, rf_naive_vs_overall_best_second_phase)%>% arrange(starting_tree_path)
 
 
-example_MSA_statistics %>%
+example_MSA_data %>%
 group_by(brlen_generator ) %>%
 summarise(across(.fns= list(Mean=mean), na.rm= TRUE),.groups = "drop")
 

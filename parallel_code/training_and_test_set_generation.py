@@ -67,9 +67,7 @@ def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_
     seed= seed
     alpha = curr_msa_stats["alpha"]
     create_dir_if_not_exists(basic_directory)
-    random_tree_generation_prefix = os.path.join(basic_directory, "random_trees")
-    create_dir_if_not_exists(random_tree_generation_prefix)
-    rrandom_tree_path,elapsed_running_time= generate_n_random_tree_topology_constant_brlen(n,alpha, local_file_path, random_tree_generation_prefix,curr_msa_stats, seed=seed)
+    rrandom_tree_path,elapsed_running_time= generate_n_random_tree_topology_constant_brlen(n,alpha, local_file_path, basic_directory,curr_msa_stats, seed=seed)
     return rrandom_tree_path,elapsed_running_time
 
 
@@ -113,8 +111,6 @@ def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_tre
     #delete_dir_content(raxml_ll_eval_directory)
     return sitelh_df,training_eval_running_time
 
-#    delete_dir_content(random_trees_directory)
-
 
 
 
@@ -122,11 +118,24 @@ def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_tre
 def get_training_df(curr_msa_stats, brlen_generator_func, curr_run_directory, random_trees_training):
     training_output_csv_path = os.path.join(curr_run_directory,
                                             "training" + ".csv")
-    training_sitelh, training_eval_time = generate_per_site_ll_on_random_trees_for_training(curr_msa_stats=curr_msa_stats,
-                                                                                       random_trees_path=random_trees_training,
-                                                                                       brlen_generator_func=brlen_generator_func,
-                                                                                       curr_run_directory=curr_run_directory,
-                                                                                       output_csv_path=training_output_csv_path)
+    training_dump = os.path.join(curr_run_directory, 'training_set.dump')
+    training_dump_baseline = training_dump .replace(curr_msa_stats["run_prefix"],
+                                                                     curr_msa_stats["training_set_baseline_run_prefix"])
+
+    if os.path.exists(training_dump_baseline):
+        logging.info("Using trainng results in {}".format(training_dump_baseline))
+        with open(training_dump_baseline, 'rb') as handle:
+            training_results = pickle.load(handle)
+            training_sitelh,training_eval_time = training_results["training_sitelh"], training_results["training_eval_time"]
+    else:
+        training_sitelh, training_eval_time = generate_per_site_ll_on_random_trees_for_training(curr_msa_stats=curr_msa_stats,
+                                                                                               random_trees_path=random_trees_training,
+                                                                                               brlen_generator_func=brlen_generator_func,
+                                                                                               curr_run_directory=curr_run_directory,
+                                                                                               output_csv_path=training_output_csv_path)
+        training_results = {"training_sitelh" : training_sitelh, "training_eval_time": training_eval_time}
+        with open(training_dump, 'wb') as handle:
+            pickle.dump(training_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return training_sitelh, training_output_csv_path,training_eval_time
 
 

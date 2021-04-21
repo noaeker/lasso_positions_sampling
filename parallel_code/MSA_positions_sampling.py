@@ -19,9 +19,9 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
-        starting_tree_path = generate_n_random_tree_topology_constant_brlen(n=1,alpha=curr_msa_stats["alpha"],
+        starting_tree_path = generate_n_random_tree_topology_constant_brlen(n=1, alpha=curr_msa_stats["alpha"],
                                                                             original_file_path=curr_msa_stats["local_alignment_path"],
-                                                                            random_tree_generation_prefix=random_tree_path_prefix, seed=seed)
+                                                                            curr_run_directory=random_tree_path_prefix, seed=seed)
     return starting_tree_path
 
 
@@ -64,13 +64,13 @@ def get_positions_stats(alignment_df, n_seq):
         sorted(counts_per_position[col].keys(), key=lambda val: counts_per_position[col][val], reverse=True)[0] for col
         in range(len(counts_per_position))]
     mode_freq_per_position = [counts_per_position[col][mode] / n_seq for col, mode in enumerate(position_mode)]
-    informative_columns_count = len([i for i in range(len(counts_per_position)) if
-                                     mode_freq_per_position[i] < (1 - (1 / (n_seq)))])
+    constant_sites_pct = len([i for i in range(len(counts_per_position)) if
+                                     mode_freq_per_position[i]==1])/len(alignment_df)
     probabilities = [list(map(lambda x: x / n_seq, counts_per_position[col].values())) for col in
                      list(alignment_df)]
     entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(alignment_df)]
     avg_entropy = np.mean(entropy)
-    return informative_columns_count, avg_entropy, gap_positions_pct
+    return constant_sites_pct, avg_entropy, gap_positions_pct
 
 
 def generate_msa_general_stats( original_alignment_path, file_ind, curr_msa_version_folder,args
@@ -90,7 +90,7 @@ def generate_msa_general_stats( original_alignment_path, file_ind, curr_msa_vers
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)
     n_seq, n_loci = reduced_local_alignment_df.shape
-    informative_columns_count, avg_entropy, gap_positions_pct = get_positions_stats(reduced_local_alignment_df, n_seq)
+    constant_sites_pct,avg_entropy, gap_positions_pct = get_positions_stats(reduced_local_alignment_df, n_seq)
     curr_msa_stats = {"n_seq": n_seq, "MSA_original_n_seq": orig_n_seq,
                       "n_seq_before_reduction_by_RaxML": n_seq,
                       "n_loci": n_loci, "MSA_original_n_loci": n_loci, "dataset_id": dataset_id,
@@ -103,7 +103,7 @@ def generate_msa_general_stats( original_alignment_path, file_ind, curr_msa_vers
                       "file_name": file_name,
                       "file_type": file_type,
                       "file_type_biopython": file_type_biopython,
-                      "informative_columns_count": informative_columns_count,
+                      "constant_sites_pct": constant_sites_pct,
                       "avg_entropy": avg_entropy,
                       "gap_pct": gap_positions_pct,
 
@@ -214,6 +214,28 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
             all_msa_results.to_csv(job_csv_path, index=False)
 
 
+def dilute_msa(curr_msa_stats, curr_run_directory):
+    dilute_amount = curr_msa_stats["dilute_amount"]
+    sampled_alignment_path_extended = os.path.join(curr_run_directory,"diluted_sampled_msa")
+    weights_path_extended = os.path.join(curr_run_directory,"diluted_weights")
+    logging.info('Diluting MSA with {} positions, writing results to {} and writing weights to {}'.format(dilute_amount,
+                                                                                                          sampled_alignment_path_extended,
+                                                                                                          weights_path_extended))
+    total_lasso_weights = sum(curr_msa_stats["lasso_chosen_weights"])
+    random.seed(SEED)
+    diluted_samp_indexes = curr_msa_stats["lasso_chosen_locis"] + random.sample(list(range(curr_msa_stats["n_loci"])),
+                                                                                curr_msa_stats["dilute_amount"])
+    write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path_extended,
+                                    diluted_samp_indexes, curr_msa_stats["file_type_biopython"])
+    curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path_extended
+    extra_weights = [total_lasso_weights / (dilute_amount * curr_msa_stats["dilute_mul"])] * dilute_amount
+    with open(weights_path_extended, 'w') as f:
+        for weight in curr_msa_stats["lasso_chosen_weights"] + extra_weights:
+            if USE_INTEGER_WEIGHTS:
+                weight= int(weight)
+            f.write(str(weight) + " ")
+    curr_msa_stats["weights_file_path"] = weights_path_extended
+
 def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
                                 job_csv_path):
     all_msa_results = pd.DataFrame(
@@ -221,41 +243,44 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     all_msa_results.to_csv(job_csv_path, index=False)
     curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"],"RaxML_search")
     create_dir_if_not_exists(curr_run_directory)
-    standard_run_folder= os.path.join(curr_run_directory,"standard_run")
-    create_dir_if_not_exists(standard_run_folder)
-    standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
-    standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
-                                                                     curr_msa_stats["RAxML_baseline_run_prefix"])
-    if os.path.exists(standard_raxml_dump_baseline):
-        logging.info("Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
-        with open(standard_raxml_dump_baseline, 'rb') as handle:
-            standard_raxml_search_results = pickle.load(handle)
-    else:
-        logging.info("Performing standard RAxML search and saving results to {}".format(standard_raxml_results_dump))
-        standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
-                                                              curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"],
-                                                              standrad_search=True)
-        with open(standard_raxml_results_dump, 'wb') as handle:
-            pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    curr_msa_stats.update(standard_raxml_search_results)
-    logging.info("Standard RAxML results: \n{}".format(standard_raxml_search_results))
-
-    for brlen_generator_name in brlen_generators:
-        brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
-        create_dir_if_not_exists(brlen_run_directory)
-        curr_msa_stats["brlen_generator"] = brlen_generator_name
-        for training_size in training_size_options:
-            curr_msa_stats["actucal_training_size"] = training_size
-            curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
-            create_dir_if_not_exists(curr_training_size_and_brlen_directory)
-            lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
-            curr_msa_stats.update(lasso_results)
-            logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
-            lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, N_PARSIMONY_RAXML_SEARCH, N_RANDOM_RAXML_SEARCH, standrad_search= False)
-            curr_msa_stats.update(lasso_based_RAxML_results)
-            all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                                      k not in IGNORE_COLS_IN_CSV
-                                                      }, ignore_index=True)
+    if curr_msa_stats["do_standard_raxml_analysis"]:
+        standard_run_folder= os.path.join(curr_run_directory,"standard_run")
+        create_dir_if_not_exists(standard_run_folder)
+        standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
+        standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
+                                                                         curr_msa_stats["RAxML_baseline_run_prefix"])
+        if os.path.exists(standard_raxml_dump_baseline):
+            logging.info("Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
+            with open(standard_raxml_dump_baseline, 'rb') as handle:
+                standard_raxml_search_results = pickle.load(handle)
+        else:
+            logging.info("Performing standard RAxML search and saving results to {}".format(standard_raxml_results_dump))
+            standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
+                                                                  curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"],
+                                                                  standrad_search=True)
+            with open(standard_raxml_results_dump, 'wb') as handle:
+                pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        curr_msa_stats.update(standard_raxml_search_results)
+        logging.info("Standard RAxML results: \n{}".format(standard_raxml_search_results))
+    if curr_msa_stats["do_sampled_raxml_analysis"]:
+        for brlen_generator_name in brlen_generators:
+            brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
+            create_dir_if_not_exists(brlen_run_directory)
+            curr_msa_stats["brlen_generator"] = brlen_generator_name
+            for training_size in training_size_options:
+                curr_msa_stats["actucal_training_size"] = training_size
+                curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
+                create_dir_if_not_exists(curr_training_size_and_brlen_directory)
+                lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
+                curr_msa_stats.update(lasso_results)
+                logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
+                if curr_msa_stats["dilute_msa"]:
+                    dilute_msa(curr_msa_stats, curr_run_directory)
+                lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
+                curr_msa_stats.update(lasso_based_RAxML_results)
+    all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                              k not in IGNORE_COLS_IN_CSV
+                                              }, ignore_index=True)
     all_msa_results.to_csv(job_csv_path)
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,

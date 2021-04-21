@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parallel_code/get_sequence.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parallel_code/test_lasso_on_optimized_trees.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/R_code/lasso_analysis.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/lasso_analysis.Rmd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/R_code/lasso_analysis.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/lasso_analysis.nb.html" afterDir="false" />
@@ -13,13 +10,9 @@
       <change beforePath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/generate_SPR.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/ps.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/ps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/raxml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/test.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,25 +23,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+            <state relative-caret-position="75">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2314">
-              <caret line="161" column="49" selection-start-line="161" selection-start-column="49" selection-end-line="161" selection-end-column="49" />
-              <folding>
-                <element signature="e#1#27#0" expanded="true" />
+                <element signature="e#1#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -57,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="485">
-              <caret line="68" column="328" selection-start-line="68" selection-start-column="328" selection-end-line="68" selection-end-column="328" />
+            <state relative-caret-position="1320">
+              <caret line="91" column="19" selection-start-line="91" selection-start-column="19" selection-end-line="91" selection-end-column="19" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -67,10 +48,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3810">
+              <caret line="254" column="17" lean-forward="true" selection-start-line="254" selection-start-column="17" selection-end-line="254" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="163">
+              <caret line="230" column="86" selection-start-line="230" selection-start-column="86" selection-end-line="230" selection-end-column="86" />
+              <folding>
+                <element signature="e#1#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="79" column="78" lean-forward="true" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
+            <state relative-caret-position="109">
+              <caret line="61" column="68" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="68" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -79,31 +84,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1089">
-              <caret line="90" column="62" lean-forward="true" selection-start-line="90" selection-start-column="35" selection-end-line="90" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2550">
-              <caret line="170" column="38" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#17#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3930">
-              <caret line="262" column="102" selection-start-line="262" selection-start-column="102" selection-end-line="262" selection-end-column="102" />
+            <state relative-caret-position="795">
+              <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
               <folding>
                 <element signature="e#1#20#0" expanded="true" />
               </folding>
@@ -114,35 +98,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="110" selection-start-line="110" selection-end-line="110" />
+            <state relative-caret-position="1575">
+              <caret line="106" selection-start-line="106" selection-end-line="106" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+                <marker date="1616676173261" expanded="true" signature="5129:6205" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py">
+        <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-649">
-              <caret line="93" column="98" lean-forward="true" selection-start-line="93" selection-start-column="30" selection-end-line="93" selection-end-column="98" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="200" column="75" selection-start-line="200" selection-start-column="75" selection-end-line="200" selection-end-column="75" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1020">
+              <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -158,36 +128,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>file_type</find>
-      <find>adjusted</find>
-      <find>ll</find>
-      <find>opt</find>
-      <find>--opt-branches off</find>
-      <find>prefix_standard</find>
-      <find>check_no_weights</find>
-      <find>double</find>
-      <find>write</find>
-      <find>lasso</find>
-      <find>first_half_positions</find>
-      <find>parallel</find>
-      <find>prefix_standard_opt</find>
-      <find>prefix_standard_opt</find>
-      <find>prefix_standard_opt</find>
-      <find>lasso_weights_path_command</find>
-      <find>sitelh_list</find>
-      <find>const</find>
-      <find>EPS</find>
+      <find>lasso_baseline_run_prefix</find>
+      <find>raxml_optimize_test_trees_job</find>
+      <find>rf</find>
+      <find>RAxML_baseline_run_prefix</find>
+      <find>only_evaluate</find>
+      <find>use_raxml_search</find>
+      <find>concat</find>
+      <find>print</find>
+      <find>lasso_training_time</find>
+      <find>sampled_alignment_path</find>
+      <find>replace</find>
+      <find>to_csv</find>
+      <find>training_sitelh_path</find>
+      <find>generate_per_site_ll_on_random_trees_for_training</find>
+      <find>samp_indexes_pct</find>
+      <find>generate_lasso_de</find>
+      <find>generate_per_site</find>
+      <find>get_training_df</find>
       <find>dump</find>
-      <find>training_100_random_tree_eval</find>
-      <find>off</find>
-      <find>coeff</find>
-      <find>create_dir_if_not_exists</find>
-      <find>opt_using_lasso_weights</find>
-      <find>generate_optimized_tree_topologies_for_testing</find>
-      <find>ERROR</find>
-      <find>exp</find>
-      <find>raxml_optimize_ll_on_given_tree_and_msa</find>
-      <find>apply_lasso_on_sitelh_data_and_update_statistics</find>
+      <find>raxml</find>
+      <find>generate_n_random_tree_topology_constant_brlen</find>
+      <find>raise_error</find>
+      <find>execute</find>
+      <find>local = False</find>
+      <find>status</find>
+      <find>write</find>
+      <find>beggining</find>
+      <find>const_brlen</find>
+      <find>lasso</find>
+      <find>write_to_sampled_alignment_path</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -228,39 +198,55 @@
         <option value="$PROJECT_DIR$/parallel_code/enrich_lasso_results.py" />
         <option value="$PROJECT_DIR$/parallel_code/delete_dir.py" />
         <option value="$PROJECT_DIR$/parallel_code/get_sequence.py" />
-        <option value="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" />
         <option value="$PROJECT_DIR$/parallel_code/check.py" />
-        <option value="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/parallel_code/test_lasso_on_optimized_trees.py" />
+        <option value="$PROJECT_DIR$/parallel_code/numbers.txt" />
+        <option value="$PROJECT_DIR$/parallel_code/divide_numbers.py" />
         <option value="$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py" />
-        <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
-        <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
-        <option value="$PROJECT_DIR$/parallel_code/ps.py" />
-        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
-        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
+        <option value="$PROJECT_DIR$/parallel_code/test_delete.py" />
+        <option value="$PROJECT_DIR$/parallel_code/old_spr_prune_and_regraft.py" />
+        <option value="$PROJECT_DIR$/parallel_code/parse_log.py" />
+        <option value="$PROJECT_DIR$/parallel_code/indel_sim.py" />
+        <option value="$PROJECT_DIR$/parallel_code/test.tre3" />
+        <option value="$PROJECT_DIR$/parallel_code/test_general.py" />
+        <option value="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/parallel_code/generate_SPR.py" />
-        <option value="$PROJECT_DIR$/parallel_code/config.py" />
+        <option value="$PROJECT_DIR$/extra_code/change_msa_suffix.py" />
+        <option value="$PROJECT_DIR$/extra_code/get_sequence.py" />
+        <option value="$PROJECT_DIR$/parallel_code/ps.py" />
+        <option value="$PROJECT_DIR$/parallel_code/submit_mpi_job.py" />
+        <option value="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" />
+        <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
+        <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
+        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
+        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
         <option value="$PROJECT_DIR$/parallel_code/help_functions.py" />
+        <option value="$PROJECT_DIR$/parallel_code/config.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-13" />
-    <option name="y" value="35" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="810" />
+    <option name="height" value="782" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
               <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
+              <item name="extra_code" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
@@ -276,16 +262,20 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.idesettings.debugger.python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/parallel_code" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="PyDebuggerOptionsProvider">
     <option name="mySupportQtDebugging" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/parallel_code" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -300,7 +290,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.ps (2)">
-    <configuration name="check" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="change_msa_suffix" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lasso_positions_sampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -308,74 +298,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/extra_code" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/check.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="check_lasso_brlen_optimization" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="lasso_positions_sampling" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="enrich_results" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="lasso_positions_sampling" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="get_sequence" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="lasso_positions_sampling" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/get_sequence.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extra_code/change_msa_suffix.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -405,20 +332,83 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="raxml" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="lasso_positions_sampling" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/raxml.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_general" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="lasso_positions_sampling" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/test_general.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="training_and_test_set_generation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="lasso_positions_sampling" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.ps (2)" />
-      <item itemvalue="Python.enrich_results" />
-      <item itemvalue="Python.get_sequence" />
-      <item itemvalue="Python.check" />
-      <item itemvalue="Python.check_lasso_brlen_optimization" />
+      <item itemvalue="Python.test_general" />
+      <item itemvalue="Python.training_and_test_set_generation" />
+      <item itemvalue="Python.raxml" />
+      <item itemvalue="Python.change_msa_suffix" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.ps (2)" />
-        <item itemvalue="Python.check_lasso_brlen_optimization" />
-        <item itemvalue="Python.check" />
-        <item itemvalue="Python.enrich_results" />
-        <item itemvalue="Python.get_sequence" />
+        <item itemvalue="Python.change_msa_suffix" />
+        <item itemvalue="Python.raxml" />
+        <item itemvalue="Python.test_general" />
+        <item itemvalue="Python.training_and_test_set_generation" />
       </list>
     </recent_temporary>
   </component>
@@ -444,23 +434,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="35" width="1440" height="810" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="782" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23819591" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20295984" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3718663" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.41086352" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3941504" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.10144927" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.49275362" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.48115942" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3286908" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.31754875" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.24202898" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3173913" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.37743732" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.4568245" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -494,98 +484,73 @@
       <breakpoints>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/generate_SPR.py</url>
-          <line>289</line>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/ps.py</url>
-          <line>121</line>
-          <option name="timeStamp" value="75" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py</url>
-          <line>87</line>
+          <line>91</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py</url>
-          <line>56</line>
+          <line>70</line>
           <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/raxml.py</url>
-          <line>128</line>
-          <option name="timeStamp" value="92" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>272</line>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>260</line>
+          <line>309</line>
           <option name="timeStamp" value="102" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>332</line>
-          <option name="timeStamp" value="103" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/unify_csvs.py</url>
-          <line>6</line>
-          <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/enrich_spr_results.py</url>
-          <line>103</line>
+          <line>134</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/further_analayze_lasso.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="120" />
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
+          <line>319</line>
+          <option name="timeStamp" value="148" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="123" />
+          <line>16</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/parallel_code/generate_SPR.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="182" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/get_sequence.py</url>
-          <line>11</line>
-          <option name="timeStamp" value="124" />
+          <url>file://$PROJECT_DIR$/parallel_code/raxml.py</url>
+          <line>293</line>
+          <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/generate_SPR.py</url>
-          <line>151</line>
-          <option name="timeStamp" value="126" />
+          <line>84</line>
+          <option name="timeStamp" value="195" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/check.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="136" />
+          <url>file://$PROJECT_DIR$/parallel_code/raxml.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="199" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py</url>
-          <line>115</line>
-          <option name="timeStamp" value="139" />
+          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
+          <line>191</line>
+          <option name="timeStamp" value="201" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="140" />
+          <url>file://$PROJECT_DIR$/parallel_code/ps.py</url>
+          <line>95</line>
+          <option name="timeStamp" value="203" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py</url>
-          <line>90</line>
-          <option name="timeStamp" value="142" />
+          <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
+          <line>236</line>
+          <option name="timeStamp" value="207" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -599,6 +564,12 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>os.path.exists(
+                curr_msa_version_lasso_dump_baseline)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>{k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                                    k not in IGNORE_COLS_IN_CSV
@@ -630,80 +601,53 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>brlen_generator_func(size=n_branches)</expression-string>
+        <expression-string>new_csvs_to_update</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>=brlen_generator_func(size=n_branches)</expression-string>
+        <expression-string>curr_msa_stats[&quot;RAxML_baseline_run_prefix&quot;]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>ALTERNATIVE_CONST</expression-string>
+        <expression-string>(standard_raxml_dump_baseline)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>alternative_weights_ll_OPT</expression-string>
+        <expression-string>os.path.exists(standard_raxml_dump_baseline)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>ll_partial_using_weights</expression-string>
+        <expression-string>curr_msa_version_folder_baseline</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sitelh_list_partial</expression-string>
+        <expression-string>curr_msa_version_lasso_dump_baseline</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>[weights[ind] for ind in range(len(weights)) if weights[ind] &lt;0]</expression-string>
+        <expression-string>os.path.exists(curr_msa_version_stats_dump_baseline)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>[weights[ind] for ind in range(len(weights)) if weights[ind] !=0]</expression-string>
+        <expression-string>os.path.exists(curr_msa_version_folder_baseline)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>[c for c in lasso_model.coef_ if c&lt;0]</expression-string>
+        <expression-string>curr_msa_stats[&quot;standard_starting_trees_path&quot;] if RAXML_USE_STANDARD_STARTING_TREES else None</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spr_prune_and_regraft.py" />
-    <entry file="file://$PROJECT_DIR$/config.py" />
-    <entry file="file://$PROJECT_DIR$/help_functions.py" />
-    <entry file="file://$PROJECT_DIR$/ps.py" />
-    <entry file="file://$PROJECT_DIR$/user_code/user_config.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_code/raxml_user_version.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_code/MSA_weights_generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user_code/help_functions_user_version.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -718,13 +662,6 @@
     <entry file="file://$PROJECT_DIR$/parallel_code/__init__.py" />
     <entry file="file://$PROJECT_DIR$/test/log_file.log" />
     <entry file="file://$PROJECT_DIR$/parallel_code/test.cmds" />
-    <entry file="file://$PROJECT_DIR$/parallel_code/generate_cmds.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="37" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/tree_test" />
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/filecmp.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -741,13 +678,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/five_taxa.cmds">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="305" selection-start-column="305" selection-end-column="305" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/five_taxa.cmds" />
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/random.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1950">
@@ -755,85 +686,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/test.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/further_analayze_lasso.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="57" lean-forward="true" selection-start-line="20" selection-start-column="57" selection-end-line="20" selection-end-column="57" />
-          <folding>
-            <element signature="e#1#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/enrich_lasso_results.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#6#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/delete_dir.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/unify_csvs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/get_sequence.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/enrich_spr_results.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-287">
-          <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-          <folding>
-            <element signature="e#1#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../lasso_positions_sampling_results/test_diff/check/check_full_sitelh.raxml.siteLH">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/test.csv" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/test.py" />
+    <entry file="file://$PROJECT_DIR$/../lasso_positions_sampling_results/test_diff/check/check_full_sitelh.raxml.siteLH" />
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
@@ -841,115 +696,173 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/check.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/sp_c.csv" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/test_lasso_on_optimized_trees.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/numbers.txt" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/test_delete.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/old_spr_prune_and_regraft.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/delete_dir.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/divide_numbers.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/trees.test" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/unify_csvs.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/generate_cmds.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/check.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/enrich_lasso_results.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/further_analayze_lasso.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/get_sequence.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/parse_log.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/indel_sim.py" />
+    <entry file="file://$PROJECT_DIR$/../indel_sim/indel_sim.py" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/test.tre3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="51" column="44" selection-start-line="51" selection-start-column="44" selection-end-line="51" selection-end-column="44" />
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/test_general.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="14" column="78" lean-forward="true" selection-start-line="14" selection-start-column="78" selection-end-line="14" selection-end-column="78" />
           <folding>
-            <element signature="e#0#6#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/sp_c.csv">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/../data/LARGE_FILES/total_evidence_4682gene_Pro.nex">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="-95">
+          <caret line="5" column="562" selection-start-line="5" selection-start-column="562" selection-end-line="5" selection-end-column="562" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/test_lasso_on_optimized_trees.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
+    <entry file="file://$PROJECT_DIR$/extra_code/get_sequence.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="68" column="328" selection-start-line="68" selection-start-column="328" selection-end-line="68" selection-end-column="328" />
+        <state>
+          <caret column="21" selection-start-column="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extra_code/change_msa_suffix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="9" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/mlTrees" />
+    <entry file="file://$PROJECT_DIR$/parallel_code/submit_mpi_job.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="65" column="41" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="41" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#135#144#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/enrich_spr_results.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-649">
-          <caret line="93" column="98" lean-forward="true" selection-start-line="93" selection-start-column="30" selection-end-line="93" selection-end-column="98" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="295">
+          <caret line="133" column="42" lean-forward="true" selection-start-line="133" selection-start-column="42" selection-end-line="133" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
+    <entry file="file://$PROJECT_DIR$/extra_code/enrich_lasso_results.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="170" column="38" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="110" selection-start-line="110" selection-end-line="110" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="79" column="78" lean-forward="true" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3930">
-          <caret line="262" column="102" selection-start-line="262" selection-start-column="102" selection-end-line="262" selection-end-column="102" />
+        <state>
           <folding>
             <element signature="e#1#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2314">
-          <caret line="161" column="49" selection-start-line="161" selection-start-column="49" selection-end-line="161" selection-end-column="49" />
+        <state relative-caret-position="149">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
           <folding>
-            <element signature="e#1#27#0" expanded="true" />
+            <element signature="e#1#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="91" column="19" selection-start-line="91" selection-start-column="19" selection-end-line="91" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
+          <folding>
+            <element signature="e#1#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1575">
+          <caret line="106" selection-start-line="106" selection-end-line="106" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <marker date="1616676173261" expanded="true" signature="5129:6205" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1089">
-          <caret line="90" column="62" lean-forward="true" selection-start-line="90" selection-start-column="35" selection-end-line="90" selection-end-column="72" />
+        <state relative-caret-position="1020">
+          <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        <state relative-caret-position="109">
+          <caret line="61" column="68" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="68" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="230" column="86" selection-start-line="230" selection-start-column="86" selection-end-line="230" selection-end-column="86" />
+          <folding>
+            <element signature="e#1#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="200" column="75" selection-start-line="200" selection-start-column="75" selection-end-line="200" selection-end-column="75" />
+        <state relative-caret-position="3810">
+          <caret line="254" column="17" lean-forward="true" selection-start-line="254" selection-start-column="17" selection-end-line="254" selection-end-column="17" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

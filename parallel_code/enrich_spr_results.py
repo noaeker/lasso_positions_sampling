@@ -118,7 +118,7 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
 
 
 
-unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/sp_c_new_spr.csv")
+unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/0.csv")
 output_data= pd.DataFrame(
 )
 unified_df = pd.read_csv(unified_df_path)
