@@ -4,7 +4,7 @@ from raxml import *
 from scipy import stats
 import pickle
 import time
-from relaxed_lasso import RelaxedLassoCV
+
 
 
 def evaluate_lasso_performance_on_test_data(optimized_random_trees_path, curr_msa_stats, curr_run_directory, sampled_alignment_path, weights_file_path, lasso_intercept, opt_brlen = True):
