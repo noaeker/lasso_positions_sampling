@@ -2,7 +2,7 @@ import re
 from help_functions import *
 import os.path
 from spr_prune_and_regraft import *
-
+import datetime
 
 class RE_RUN_ON_REDUCED_VERSION(Exception):
     """Raised when the input value is too large"""
@@ -14,7 +14,7 @@ class GENERAL_RAXML_ERROR(Exception):
 
 
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
-                                      cpus=-1, nodes=-1):
+                                      cpus=-1, nodes=-1,extra_file_path=""):
     if LOCAL_RUN:
         logging.debug("About to run " + command)
         subprocess.run(command, shell=True)
@@ -22,7 +22,7 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
-        while not (os.path.exists(log_file_path) and extract_param_from_log(log_file_path, 'time',
+        while not (os.path.exists(log_file_path) and os.path.exists(extra_file_path) and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
             time.sleep(WAITING_TIME_CSV_UPDATE)
 
@@ -33,6 +33,9 @@ def check_file_existence(path, name):
     else:
         error_msg = "{name} was not generated in: {path}".format(name=name, path=path)
         logging.error(error_msg)
+        while not os.path.exists(path):
+            time.sleep(WAITING_TIME_CSV_UPDATE)
+            logging.info("current time: {} param still not found in file".format(datetime.now()))
         raise GENERAL_RAXML_ERROR(error_msg)
 
 
@@ -191,6 +194,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         msa_stats["orig_reduced_file_path"] = reduced_file
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
+    constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     parsimony_tree_generation_command = (
         "{raxml_exe_path} {threads_config} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
@@ -199,8 +203,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     execute_commnand_and_write_to_log(parsimony_tree_generation_command, curr_run_directory,
                                       job_folder_name="parsimony_generation_job",
                                       job_name="pars_gen", log_file_path=check_log_path,
-                                      cpus=1, nodes=1)
-    constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
+                                      cpus=1, nodes=1,extra_file_path = constant_branch_length_parsimony_tree_path)
     msa_stats["raxml_parsimony_tree_path"] = constant_branch_length_parsimony_tree_path
     check_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
