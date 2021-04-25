@@ -22,7 +22,7 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
-        while not (os.path.exists(log_file_path) and os.path.exists(extra_file_path) and extract_param_from_log(log_file_path, 'time',
+        while not (os.path.exists(log_file_path) and (os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
             logging.info("current time: {} param still not found in file".format(time.time()))
             time.sleep(WAITING_TIME_UPDATE*10)

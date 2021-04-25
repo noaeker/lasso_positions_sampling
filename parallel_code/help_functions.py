@@ -226,6 +226,7 @@ def main_parser():
     parser.add_argument('--only_evaluate_lasso', action='store_true')
     parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
+    parser.add_argument('--msa_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)

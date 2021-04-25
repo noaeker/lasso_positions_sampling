@@ -161,40 +161,6 @@ def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen)
 
 
 
-
-def generate_msa_stats_and_lasso_from_beggining(args,
-                original_alignment_path, file_ind, curr_msa_version_folder,
-                brlen_generators, training_size_options):
-    logging.info(
-        "Generating msa stats and Lasso in {} from beggining (not using a baseline)".format(
-            curr_msa_version_folder))
-    curr_msa_stats = generate_msa_general_stats(
-        original_alignment_path, file_ind, curr_msa_version_folder,args)
-    try:
-
-        logging.info("Computing raxml result on full data:")
-        extract_and_update_RaxML_statistics_from_full_data(
-            curr_msa_stats)
-    except RE_RUN_ON_REDUCED_VERSION:
-        curr_msa_stats = re_run_on_reduced_version(curr_msa_stats, original_alignment_path,
-                                                   file_ind
-                                                   )  # use current curr_msa_stats
-        extract_and_update_RaxML_statistics_from_full_data(
-            curr_msa_stats)
-    lasso_configurations_per_training_size = Lasso_training_and_test(brlen_generators, curr_msa_stats,
-                                                                     training_size_options,
-                                                                     args.random_trees_test_size)
-    curr_msa_stats_dump_path = os.path.join(curr_msa_stats["curr_msa_version_folder"], "curr_msa_stats.dump")
-    with open(curr_msa_stats_dump_path, 'wb') as handle:
-        pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    lasso_configurations_per_training_size_dump_path = os.path.join(curr_msa_stats["curr_msa_version_folder"],
-                                                                    "lasso.dump")
-    with open(lasso_configurations_per_training_size_dump_path, 'wb') as handle:
-        pickle.dump(lasso_configurations_per_training_size, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    return curr_msa_stats, lasso_configurations_per_training_size
-
-
-
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
                                 job_csv_path):
     all_msa_results = pd.DataFrame(
@@ -336,36 +302,48 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 
 
 
+
 def get_msa_stats_and_lasso_configurations(curr_msa_version_folder,original_alignment_path,args,file_ind,training_size_options, brlen_generators):
     curr_msa_version_lasso_dump = os.path.join(curr_msa_version_folder, 'lasso.dump')
     curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
-    curr_msa_version_folder_baseline = curr_msa_version_folder.replace(args.run_prefix, args.lasso_baseline_run_prefix)
     curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(args.run_prefix,
                                                                                args.lasso_baseline_run_prefix)
     curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
                                                                                args.lasso_baseline_run_prefix)
-    if os.path.exists(curr_msa_version_folder_baseline) and os.path.exists(
-            curr_msa_version_lasso_dump_baseline) and os.path.exists(curr_msa_version_stats_dump_baseline):
-        logging.info(
-            "Using dump files in {} to generate msa stats and Lasso".format(curr_msa_version_folder_baseline))
+    if os.path.exists(curr_msa_version_stats_dump):
         with open(curr_msa_version_stats_dump_baseline, 'rb') as handle:
+            logging.info(
+                "Using msa stats dump files in {} ".format(curr_msa_version_stats_dump ))
             curr_msa_stats = pickle.load(handle)
             curr_msa_stats["curr_msa_version_folder"] = curr_msa_version_folder
-        with open(curr_msa_version_lasso_dump_baseline, 'rb') as handle:
-            lasso_configurations_per_training_size = pickle.load(handle)
-        curr_msa_stats.update(vars(args))
-        # curr_msa_stats.update(
-        #     {"run_prefix": args.run_prefix, "lasso_baseline_run_prefix": args.lasso_baseline_run_prefix,
-        #      "spr_baseline_run_prefix": args.spr_baseline_run_prefix, "RAxML_baseline_run_prefix" : args.RAxML_baseline_run_prefix})
+            curr_msa_stats.update(vars(args))
     else:
-        curr_msa_stats, lasso_configurations_per_training_size = generate_msa_stats_and_lasso_from_beggining(args,
-                                                                                                             original_alignment_path,
-                                                                                                             file_ind,
-                                                                                                             curr_msa_version_folder,
-                                                                                                             brlen_generators,
-                                                                                                             training_size_options)
-
+        logging.info(
+            "Generating msa stats from beggining".format(curr_msa_version_stats_dump))
+        curr_msa_stats = generate_msa_general_stats(
+            original_alignment_path, file_ind, curr_msa_version_folder, args)
+        try:
+            extract_and_update_RaxML_statistics_from_full_data(
+                curr_msa_stats)
+        except RE_RUN_ON_REDUCED_VERSION:
+            curr_msa_stats = re_run_on_reduced_version(curr_msa_stats, original_alignment_path,
+                                                       file_ind
+                                                       )  # use current curr_msa_stats
+            extract_and_update_RaxML_statistics_from_full_data(
+                curr_msa_stats)
+    if os.path.exists(curr_msa_version_lasso_dump):
+        with open(curr_msa_version_lasso_dump_baseline, 'rb') as handle:
+            logging.info(
+                "Using lasso dump files in {} ".format(curr_msa_version_lasso_dump))
+            lasso_configurations_per_training_size = pickle.load(handle)
+    else:
+        lasso_configurations_per_training_size = Lasso_training_and_test(brlen_generators, curr_msa_stats,
+                                                                         training_size_options,
+                                                                         args.random_trees_test_size)
     return curr_msa_stats, lasso_configurations_per_training_size
+
+
+
 
 def main():
     parser = job_parser()
