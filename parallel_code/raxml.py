@@ -24,13 +24,13 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
         while not (os.path.exists(log_file_path) and os.path.exists(extra_file_path) and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
-            logging.info("current time: {} param still not found in file".format(datetime.now()))
+            logging.info("current time: {} param still not found in file".format(time.time()))
             time.sleep(WAITING_TIME_UPDATE*10)
 
 
 def wait_for_file_existence(path, name):
     if os.path.exists(path):
-        logging.debug("{name} was succesfully created in: {path}".format(name=name, path=path))
+        logging.info("{name} was succesfully created in: {path}".format(name=name, path=path))
     else:
         error_msg = "{name} was not generated in: {path}".format(name=name, path=path)
         logging.error(error_msg)
