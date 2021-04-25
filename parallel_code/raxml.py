@@ -2,7 +2,8 @@ import re
 from help_functions import *
 import os.path
 from spr_prune_and_regraft import *
-import datetime
+from datetime import datetime
+
 
 class RE_RUN_ON_REDUCED_VERSION(Exception):
     """Raised when the input value is too large"""
@@ -24,8 +25,8 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
         while not (os.path.exists(log_file_path) and (os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
-            logging.info("current time: {} param still not found in file".format(time.time()))
             time.sleep(WAITING_TIME_UPDATE*10)
+        logging.info("*** current time: {} previous job is completed!!***".format(datetime.now()))
 
 
 def wait_for_file_existence(path, name):
@@ -37,7 +38,7 @@ def wait_for_file_existence(path, name):
         start_time = time.time()
         while not os.path.exists(path):
             time.sleep(WAITING_TIME_UPDATE)
-            logging.info("current time {}: file {} does not exist yet in path {}".format(time.time(),name,path))
+            logging.info("current time {}: file {} does not exist yet in path {}".format(datetime.now(),name,path))
             time.sleep(WAITING_TIME_UPDATE)
             if time.time()-start_time > 600:
                 logging.info("Waiting to much for param {}, breaking".format(name))

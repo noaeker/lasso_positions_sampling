@@ -306,7 +306,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 def get_msa_stats_and_lasso_configurations(curr_msa_version_folder,original_alignment_path,args,file_ind,training_size_options, brlen_generators):
     curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
     curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
-                                                                               args.lasso_baseline_run_prefix)
+                                                                               args.msa_baseline_run_prefix)
     curr_msa_version_lasso_dump = os.path.join(curr_msa_version_folder, 'lasso.dump')
     curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(args.run_prefix,
                                                                                args.lasso_baseline_run_prefix)
@@ -364,18 +364,11 @@ def main():
                                                                                                  "job_csv_path"], \
                                                                                              job_related_file_paths[
                                                                                                  "job_status_file"]
-    lasso_baseline_msa_paths_file = job_msa_paths_file.replace(args.run_prefix, args.lasso_baseline_run_prefix)
     with open(job_msa_paths_file, "r") as paths_file:
         curr_job_file_path_list = paths_file.read().splitlines()
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(args.job_ind))
     logging.info("Job arguments : {}".format(args))
-    if not os.path.exists( lasso_baseline_msa_paths_file):
-        logging.info("Not using baseline for this job")
-    elif filecmp.cmp( lasso_baseline_msa_paths_file, job_msa_paths_file):
-        logging.info("Files in the baseline folder are matching")
-    else:
-        logging.error("Files in the baseline aren't matching!!!")
     if args.random_trees_training_size == -1:
         training_size_options = TRAINING_SIZE_OPTIONS
     else:
