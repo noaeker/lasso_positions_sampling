@@ -44,7 +44,7 @@ def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind ="j
         with open(cmds_path, 'w') as cmds_f:
             cmds_f.write(job_line)
         command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {cpus} --nodes {nodes}'
-        logging.info("About to run: {}".format(command))
+        logging.info(f'About to use {cmds_path} generate a pbs file and run it')
         os.system(command)
 
 def submit_local_job(executable, argument_list):

@@ -95,7 +95,7 @@ def main():
             logging.info("Number of jobs still running is : {} ".format(len(csv_path_to_status_path_dict)))
             add_csvs_content(new_csvs_to_update, all_jobs_csv)
             add_csvs_content(new_csvs_to_update, all_jobs_backup_csv)
-        time.sleep(WAITING_TIME_CSV_UPDATE)
+        time.sleep(WAITING_TIME_UPDATE)
     remove_empty_columns(all_jobs_csv)
     remove_empty_columns(all_jobs_backup_csv)
     logging.info(f'All csvs are updated to {all_jobs_csv}. Done!!!')

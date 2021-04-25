@@ -14,28 +14,34 @@ class GENERAL_RAXML_ERROR(Exception):
 
 
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
-                                      cpus=-1, nodes=-1,extra_file_path=""):
-    if LOCAL_RUN:
-        logging.debug("About to run " + command)
+                                      cpus=-1, nodes=-1,extra_file_path="", run_locally = False):
+    if LOCAL_RUN or run_locally:
+        logging.info("About to run locally " + command)
         subprocess.run(command, shell=True)
-        logging.debug("Previous command completed")
+        logging.info("Previous command completed")
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
         while not (os.path.exists(log_file_path) and os.path.exists(extra_file_path) and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
-            time.sleep(WAITING_TIME_CSV_UPDATE)
+            logging.info("current time: {} param still not found in file".format(datetime.now()))
+            time.sleep(WAITING_TIME_UPDATE*10)
 
 
-def check_file_existence(path, name):
+def wait_for_file_existence(path, name):
     if os.path.exists(path):
         logging.debug("{name} was succesfully created in: {path}".format(name=name, path=path))
     else:
         error_msg = "{name} was not generated in: {path}".format(name=name, path=path)
         logging.error(error_msg)
+        start_time = time.time()
         while not os.path.exists(path):
-            time.sleep(WAITING_TIME_CSV_UPDATE)
-            logging.info("current time: {} param still not found in file".format(datetime.now()))
+            time.sleep(WAITING_TIME_UPDATE)
+            logging.info("current time {}: file {} does not exist yet in path {}".format(time.time(),name,path))
+            time.sleep(WAITING_TIME_UPDATE)
+            if time.time()-start_time > 600:
+                logging.info("Waiting to much for param {}, breaking".format(name))
+                break
         raise GENERAL_RAXML_ERROR(error_msg)
 
 
@@ -186,13 +192,17 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         msa_path=full_file_path, prefix=check_validity_prefix, seed=SEED)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
     check_log_path = check_validity_prefix + ".raxml.log"
-    execute_commnand_and_write_to_log(check_validity_command, curr_run_directory, job_folder_name="full_check_validity_job",
-                                      job_name="check_validity", log_file_path=check_log_path,
-                                      cpus=1, nodes=1)
+    execute_commnand_and_write_to_log(check_validity_command, run_locally = True)
     if os.path.exists(reduced_file):
         logging.error("Need to re-calculate data on reduced version in " + reduced_file)
         msa_stats["orig_reduced_file_path"] = reduced_file
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
+    parse_prefix = os.path.join(curr_run_directory, output_name + "_PARSE")
+    parse_command = "{raxml_exe_path} {threads_config} --parse --msa {msa_path} --model WAG+G --prefix {prefix} --seed {seed}".format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_command_prefix(),
+        msa_path=full_file_path, prefix=parse_prefix, seed=SEED)
+    execute_commnand_and_write_to_log(parse_command,run_locally = True)
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     parsimony_tree_generation_command = (
@@ -205,7 +215,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
                                       job_name="pars_gen", log_file_path=check_log_path,
                                       cpus=1, nodes=1,extra_file_path = constant_branch_length_parsimony_tree_path)
     msa_stats["raxml_parsimony_tree_path"] = constant_branch_length_parsimony_tree_path
-    check_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
+    wait_for_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
     parsimony_model_and_bl_evaluation_command = (
         "{raxml_exe_path} {threads_config} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
@@ -213,12 +223,9 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         threads_config=generate_raxml_command_prefix(),
         msa_path=full_file_path, parsimony_tree_path=constant_branch_length_parsimony_tree_path, seed=SEED,
         prefix=parsimony_model_evaluation_prefix)
-    execute_commnand_and_write_to_log(parsimony_model_and_bl_evaluation_command, curr_run_directory,
-                                      job_folder_name="parsimony_eval_job",
-                                      job_name="pars_eval", log_file_path=check_log_path,
-                                      cpus=msa_stats["n_cpus_full"], nodes=msa_stats["n_nodes_full"])
+    execute_commnand_and_write_to_log(parsimony_model_and_bl_evaluation_command, run_locally = True)
     parsimony_log_path = parsimony_model_evaluation_prefix + ".raxml.log"
-    check_file_existence(parsimony_log_path, "Parsimony log")
+    wait_for_file_existence(parsimony_log_path, "Parsimony log")
     parsimony_optimized_tree_path = parsimony_model_evaluation_prefix + ".raxml.bestTree"
     msa_stats["parsimony_optimized_tree_path"] = parsimony_optimized_tree_path
     parsimony_divergence = compute_tree_divergence(parsimony_optimized_tree_path)
@@ -259,7 +266,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
                                       job_name="rand_trees", log_file_path=raxml_log_file,
                                       cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
-    check_file_existence(random_tree_path, "random tree")
+    wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     return random_tree_path, elapsed_running_time
 
@@ -280,7 +287,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     execute_commnand_and_write_to_log(compute_site_ll_run_command, curr_run_directory, job_folder_name="raxml_ll_eval_job_for_training",
                                       job_name="training_opt", log_file_path=raxml_log_file,
                                       cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
-    check_file_existence(sitelh_file, "Sitelh file")
+    wait_for_file_existence(sitelh_file, "Sitelh file")
     sitelh_list = raxml_extract_sitelh(sitelh_file)
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     return sitelh_list, elapsed_running_time
