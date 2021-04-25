@@ -210,10 +210,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_command_prefix(),
         msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix, seed=SEED)
-    execute_commnand_and_write_to_log(parsimony_tree_generation_command, curr_run_directory,
-                                      job_folder_name="parsimony_generation_job",
-                                      job_name="pars_gen", log_file_path=check_log_path,
-                                      cpus=1, nodes=1,extra_file_path = constant_branch_length_parsimony_tree_path)
+    execute_commnand_and_write_to_log(parsimony_tree_generation_command, run_locally = True)
     msa_stats["raxml_parsimony_tree_path"] = constant_branch_length_parsimony_tree_path
     wait_for_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
@@ -233,7 +230,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     if not msa_stats["use_raxml_search"]:
         mad_command = "{mad_exe_path} -t -s {tree_path}".format(mad_exe_path=MAD_COMMAND_PREFIX,
                                                                 tree_path=parsimony_optimized_tree_path)
-        execute_commnand_and_write_to_log(mad_command)
+        execute_commnand_and_write_to_log(mad_command,run_locally = True)
         mad_log_path = parsimony_optimized_tree_path + ".rooted"
         mad = extract_mad_file_statistic(mad_log_path)
         msa_stats["mad"] = mad
