@@ -53,11 +53,11 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_new"
-CURR_JOBS_PREFIX = "test_new"
-LASSO_BASELINE="test_lasso_random" #"raxml_search_test"
+CURR_RUN_PREFIX = "test_new_search_100_comp"
+CURR_JOBS_PREFIX = "test_new_search_100_comp"
+LASSO_BASELINE="no_baseline"#"test_new"#"test_lasso_random" #"raxml_search_test"
 
-FULL_DATA_BASELINE= "test_dilute3"#"raxml_search_test_standard"#"spr_baseline"
+FULL_DATA_BASELINE= "test_new"#"raxml_search_test_standard"#"spr_baseline"
 
 DILUTE_AMOUNT = 100
 DILUTE_MUL = 10

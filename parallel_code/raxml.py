@@ -25,7 +25,7 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         submit_linux_job(job_name, job_folder, command, cpus, nodes)
         while not (os.path.exists(log_file_path) and (os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
-            time.sleep(WAITING_TIME_UPDATE*10)
+            time.sleep(60)
         logging.info("*** current time: {} previous job is completed!!***".format(datetime.now()))
 
 
@@ -254,9 +254,13 @@ def raxml_extract_sitelh(sitelh_file):
 
 def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path, curr_run_directory,
                                                    curr_msa_stats, seed):
+    if curr_msa_stats["use_parsimony_training_trees"]:
+        tree_type="pars"
+    else:
+        tree_type="rand"
     random_tree_generation_command = (
-        "{raxml_exe_path} {threads_config} --force msa  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree rand{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
-        n=n, raxml_exe_path=RAXML_NG_EXE,
+        "{raxml_exe_path} {threads_config} --force msa  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree {tree_type}{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
+        n=n, raxml_exe_path=RAXML_NG_EXE, tree_type = tree_type,
         threads_config=generate_raxml_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
         msa_path=original_file_path, alpha=alpha, prefix=curr_run_directory, seed=seed)
     random_tree_path = curr_run_directory + ".raxml.startTree"
@@ -266,7 +270,47 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
                                       cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
+    if curr_msa_stats["use_parsimony_training_trees"]:
+        rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
+        rf_command = (
+            "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+            raxml_exe_path=RAXML_NG_EXE, rf_file_path=random_tree_path, prefix=rf_prefix)
+        execute_commnand_and_write_to_log(rf_command)
+        rf_distances_file_path = rf_prefix + ".raxml.rfDistances"
+        random_tree_path = extract_unique_topologies(curr_run_directory,random_tree_path, rf_distances_file_path,n)
     return random_tree_path, elapsed_running_time
+
+
+def extract_unique_topologies(curr_run_directory,trees_path, dist_path,n):
+    rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
+    rf_command = (
+        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE, rf_file_path=trees_path, prefix=rf_prefix)
+    execute_commnand_and_write_to_log(rf_command, run_locally= True)
+    unique_file_path = trees_path+"_unique"
+    unique_topology_inds = set(list(range(n)))
+    with open(dist_path,'r') as DIST, open(trees_path,'r') as TREES,open(unique_file_path,'w') as UNIQUE_TREES:
+        distances = DIST.readlines()
+        original_trees = TREES.readlines()
+        for line in distances:
+            lst = line.split("\t")
+            curr_tree, comp_tree, dist = int(lst[0]), int(lst[1]), int(lst[2])
+            if curr_tree in unique_topology_inds and comp_tree in unique_topology_inds and dist==0:
+                unique_topology_inds.remove(comp_tree)
+        unique_trees = [original_trees[ind] for ind in unique_topology_inds]
+        n_unique_top = len(unique_trees)
+        logging.info(f'Writing {n_unique_top} unique topologies to {unique_file_path}')
+        UNIQUE_TREES.writelines(unique_trees)
+    rf_prefix = os.path.join(curr_run_directory, "parsimony_check_rf")
+    rf_command = (
+            "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+            raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
+    execute_commnand_and_write_to_log(rf_command, run_locally=True)
+    return unique_file_path
+
+
+
+
 
 
 def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha,

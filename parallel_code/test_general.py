@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 trees_path = "mlTrees"
 print(os.path.exists(""))
+print("")
 trees_object = generate_multiple_tree_object_from_newick(trees_path)
 branch_lengths_optimized_per_node = {}
 for tree in trees_object:

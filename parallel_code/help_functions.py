@@ -218,7 +218,7 @@ def main_parser():
     parser.add_argument('--random_trees_training_size', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
     parser.add_argument('--exp_brlen',action='store_true')
     parser.add_argument('--uni_brlen', action='store_true')
-    parser.add_argument('--opt_brlen', action='store_true')
+    parser.add_argument('--opt_brlen', action='store_true') #CHANGE
     parser.add_argument('--const_brlen', action='store_true')
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
@@ -232,7 +232,7 @@ def main_parser():
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
-    parser.add_argument('--use_raxml_search', action='store_true', default=True) #CHANGE
+    parser.add_argument('--use_raxml_search', action='store_true', default=True)
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
     parser.add_argument('--alternative_analysis', action='store_true')
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
@@ -242,11 +242,12 @@ def main_parser():
     parser.add_argument('--n_cpus_training', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
-    parser.add_argument('--do_standard_raxml_analysis', action='store_true') # CHANGE
-    parser.add_argument('--do_sampled_raxml_analysis', action='store_true')
+    parser.add_argument('--do_standard_raxml_analysis', action='store_true', default = True) # CHANGE
+    parser.add_argument('--do_sampled_raxml_analysis', action='store_true', default = True)
     parser.add_argument('--dilute_msa', action='store_true')
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
+    parser.add_argument('--use_parsimony_training_trees', action='store_true')
     return parser
 
 def job_parser():
