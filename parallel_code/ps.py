@@ -2,6 +2,7 @@ from help_functions import *
 from config import *
 import time
 import shutil
+import sklearn
 
 
 def generate_results_folder(curr_run_prefix):
@@ -51,6 +52,7 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
 
 
 def main():
+
     parser = main_parser()
     args = parser.parse_args()
     generate_argument_str(args)

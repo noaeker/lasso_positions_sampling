@@ -48,14 +48,14 @@ def get_training_metrics(lasso_model,sitelh_training_df,y_training):
      return y_training_predicted, training_results
 
 
-def extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log):
+def extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log, weights_file_name = "lasso_weights", sampled_alignment_name="sampled"):
     if USE_INTEGER_WEIGHTS:
         weights = [int(lasso_model.coef_[ind] * INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
     else:
         weights = lasso_model.coef_
     chosen_locis = [ind for ind in range(len(weights)) if weights[ind] != 0]
     sampled_alignment_path = os.path.join(curr_run_directory,
-                                          curr_msa_stats["file_name"] + "_sampled" + curr_msa_stats[
+                                          curr_msa_stats["file_name"] + f'_{sampled_alignment_name}' + curr_msa_stats[
                                               "file_type"])
     logging.info("Writing only chosen positions to {}".format(sampled_alignment_path))
     chosen_loci_weights = [weights[ind] for ind in range(len(weights)) if weights[ind] != 0]
@@ -66,7 +66,7 @@ def extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_sta
     lasso_model_file_path = os.path.join(curr_run_directory, "lasso_model.sav")
     pickle.dump(lasso_model, open(lasso_model_file_path, 'wb'))
     weights_file_path = os.path.join(curr_run_directory, curr_msa_stats.get(
-        "file_name") + "_lasso_weights.txt")
+        "file_name") + f'_{weights_file_name}.txt')
     logging.info("About to write weights file to : " + weights_file_path)
     with open(weights_file_path, 'w') as f:
         for weight in chosen_loci_weights:
@@ -97,12 +97,17 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": len(chosen_locis) / curr_msa_stats.get("n_loci"),
                                    "lasso_coeffs": lasso_model.coef_,
                               "lasso_alpha" : lasso_model.alpha_,
+                              "lasso_alphas" : lasso_model.alphas_,
                               "n_iter_lasso": lasso_model.n_iter_,
                               "lasso_training_time" :  lasso_training_time,
                                    "lasso_intercept": lasso_model.intercept_,
+                              "lasso_training_X" : sitelh_training_df,
+                              "lasso_training_Y":  y_training,
                                    "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
                                    "sampled_alignment_path": sampled_alignment_path,
-                                   "lasso_model_file_path":lasso_model_file_path})
+                                   "lasso_model_file_path":lasso_model_file_path}
+
+            )
             Lasso_results.update(training_results)
             Lasso_results.update(test_results)
             return Lasso_results
