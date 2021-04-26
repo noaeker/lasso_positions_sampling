@@ -254,6 +254,7 @@ def raxml_extract_sitelh(sitelh_file):
 
 def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path, curr_run_directory,
                                                    curr_msa_stats, seed):
+    prefix = os.path.join(curr_run_directory,"rand_top")
     if curr_msa_stats["use_parsimony_training_trees"]:
         tree_type="pars"
     else:
@@ -262,7 +263,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         "{raxml_exe_path} {threads_config} --force msa  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree {tree_type}{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
         n=n, raxml_exe_path=RAXML_NG_EXE, tree_type = tree_type,
         threads_config=generate_raxml_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
-        msa_path=original_file_path, alpha=alpha, prefix=curr_run_directory, seed=seed)
+        msa_path=original_file_path, alpha=alpha, prefix=prefix, seed=seed)
     random_tree_path = curr_run_directory + ".raxml.startTree"
     raxml_log_file = curr_run_directory + ".raxml.log"
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
@@ -271,7 +272,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     if curr_msa_stats["use_parsimony_training_trees"]:
-        rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
+        rf_prefix = os.path.join(curr_run_directory, "parsimony_rf_eval")
         rf_command = (
             "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
             raxml_exe_path=RAXML_NG_EXE, rf_file_path=random_tree_path, prefix=rf_prefix)
