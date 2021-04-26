@@ -192,7 +192,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         threads_config=generate_raxml_command_prefix(),
         msa_path=full_file_path, prefix=check_validity_prefix, seed=SEED)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
-    check_log_path = check_validity_prefix + ".raxml.log"
+    #check_log_path = check_validity_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(check_validity_command, run_locally = True)
     if os.path.exists(reduced_file):
         logging.error("Need to re-calculate data on reduced version in " + reduced_file)
@@ -264,14 +264,15 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         n=n, raxml_exe_path=RAXML_NG_EXE, tree_type = tree_type,
         threads_config=generate_raxml_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
         msa_path=original_file_path, alpha=alpha, prefix=prefix, seed=seed)
-    random_tree_path = curr_run_directory + ".raxml.startTree"
-    raxml_log_file = curr_run_directory + ".raxml.log"
+    random_tree_path = prefix + ".raxml.startTree"
+    raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
                                       job_name="rand_trees", log_file_path=raxml_log_file,
                                       cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     if curr_msa_stats["use_parsimony_training_trees"]:
+        logging.info("Removing duplicates parismony topologies")
         rf_prefix = os.path.join(curr_run_directory, "parsimony_rf_eval")
         rf_command = (
             "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
