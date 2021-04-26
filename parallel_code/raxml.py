@@ -275,7 +275,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         rf_command = (
             "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
             raxml_exe_path=RAXML_NG_EXE, rf_file_path=random_tree_path, prefix=rf_prefix)
-        execute_commnand_and_write_to_log(rf_command)
+        execute_commnand_and_write_to_log(rf_command, run_locally=True)
         rf_distances_file_path = rf_prefix + ".raxml.rfDistances"
         random_tree_path = extract_unique_topologies(curr_run_directory,random_tree_path, rf_distances_file_path,n)
     return random_tree_path, elapsed_running_time

@@ -2,8 +2,6 @@
 from generate_SPR import *
 from training_and_test_set_generation import *
 from raxml import *
-import filecmp
-
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
