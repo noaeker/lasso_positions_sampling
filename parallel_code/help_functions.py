@@ -242,8 +242,8 @@ def main_parser():
     parser.add_argument('--n_cpus_training', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
-    parser.add_argument('--do_standard_raxml_analysis', action='store_true') # CHANGE
-    parser.add_argument('--do_sampled_raxml_analysis', action='store_true')
+    parser.add_argument('--do_standard_raxml_analysis', action='store_true', default= True) # CHANGE
+    parser.add_argument('--do_sampled_raxml_analysis', action='store_true', default=True)
     parser.add_argument('--dilute_msa', action='store_true')
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)

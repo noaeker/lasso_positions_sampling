@@ -52,7 +52,6 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
 
 
 def main():
-
     parser = main_parser()
     args = parser.parse_args()
     generate_argument_str(args)

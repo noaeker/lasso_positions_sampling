@@ -142,15 +142,16 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                    'standard_search_elapsed_time': standard_search_dict["elapsed_running_time"],
                    'standard_starting_trees_path': standard_search_dict["starting_trees_path"]}
     else:
-
         if curr_msa_stats["unbias_lasso_weights"]:
            logging.info("Performing linear regression to unbias Lasso before RaxML run:")
-           new_training_data = curr_msa_stats["lasso_training_X"].iloc[:,curr_msa_stats["lasso_chosen_locis"]]
-           #lasso_model = LassoCV(cv=5, normalize=True, max_iter=100000, positive=True, random_state=SEED,
-           #                                   selection='cyclic').fit(new_training_data,
-           #                                                           curr_msa_stats["lasso_training_Y"])  # add positive=True if using RaxML
-
-           reg = LinearRegression(positive = True).fit(new_training_data, curr_msa_stats["lasso_training_Y"])
+           training_data_path = '{base_folder}/Lasso_folder/exponential/training_{size}_random_tree_eval/training.csv'.format(base_folder = curr_msa_stats["curr_msa_version_folder"],
+                                                                                                                          size = curr_msa_stats["actucal_training_size"]
+                                                                                                                          ).replace(curr_msa_stats["run_prefix"],
+                                                                               curr_msa_stats["lasso_baseline_run_prefix"])
+           lasso_training_X = pd.read_csv(training_data_path)
+           lasso_training_Y =  lasso_training_X.sum(axis=1)
+           new_training_data = lasso_training_X.iloc[:,curr_msa_stats["lasso_chosen_locis"]]
+           reg = LinearRegression(positive = True).fit(new_training_data, lasso_training_Y)
            non_zero_indexes = [i for i in range(len(reg.coef_)) if reg.coef_[i]>0]
            orig_non_zero_indexes= [curr_msa_stats["lasso_chosen_locis"][ind] for ind in non_zero_indexes]
            logging.info("Number of positions with non-zero weight is : {size}".format(size=len(orig_non_zero_indexes)))
