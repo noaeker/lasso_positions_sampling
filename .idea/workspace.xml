@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/parallel_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/ps.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/ps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/raxml.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +12,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
@@ -41,7 +39,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3270">
+            <state relative-caret-position="2527">
               <caret line="218" column="57" selection-start-line="218" selection-start-column="57" selection-end-line="218" selection-end-column="57" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -74,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="152" selection-start-line="152" selection-end-line="152" />
+            <state relative-caret-position="381">
+              <caret line="164" column="38" selection-start-line="164" selection-start-column="38" selection-end-line="164" selection-end-column="38" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -233,9 +231,9 @@
         <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
         <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/parallel_code/ps.py" />
-        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
         <option value="$PROJECT_DIR$/parallel_code/help_functions.py" />
         <option value="$PROJECT_DIR$/parallel_code/config.py" />
+        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
       </list>
     </option>
   </component>
@@ -452,7 +450,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.10144927" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.34927535" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.40434784" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.17391305" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -836,19 +834,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="152" selection-start-line="152" selection-end-line="152" />
+        <state relative-caret-position="75">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3270">
+        <state relative-caret-position="2527">
           <caret line="218" column="57" selection-start-line="218" selection-start-column="57" selection-end-line="218" selection-end-column="57" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -856,12 +854,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        <state relative-caret-position="381">
+          <caret line="164" column="38" selection-start-line="164" selection-start-column="38" selection-end-line="164" selection-end-column="38" />
           <folding>
-            <element signature="e#1#15#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

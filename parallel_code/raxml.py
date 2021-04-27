@@ -162,7 +162,7 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
            alternative_weights_file_path = os.path.join(curr_run_directory,"unbiased_weights")
            with open(alternative_weights_file_path , 'w') as f:
                for weight in non_zero_weights:
-                   f.write(str(int(weight*INTEGER_CONST)) + " ")
+                   f.write(str(weight) + " ")
            weights_file_path = alternative_weights_file_path
            sampled_alignment_path = new_sampled_alignment_path
         else:
