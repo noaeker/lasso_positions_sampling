@@ -296,7 +296,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
                                       job_name="rand_trees", log_file_path=raxml_log_file,
-                                      cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
+                                      cpus=1, nodes=1)
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     if curr_msa_stats["use_parsimony_training_trees"]:
