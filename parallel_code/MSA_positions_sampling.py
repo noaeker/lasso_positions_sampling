@@ -207,26 +207,26 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     all_msa_results.to_csv(job_csv_path, index=False)
     curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"],"RaxML_search")
     create_dir_if_not_exists(curr_run_directory)
-    if curr_msa_stats["do_standard_raxml_analysis"]:
-        standard_run_folder= os.path.join(curr_run_directory,"standard_run")
-        create_dir_if_not_exists(standard_run_folder)
-        standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
-        standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
-                                                                         curr_msa_stats["RAxML_baseline_run_prefix"])
-        if os.path.exists(standard_raxml_dump_baseline):
-            logging.info("Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
-            with open(standard_raxml_dump_baseline, 'rb') as handle:
-                standard_raxml_search_results = pickle.load(handle)
-        else:
-            logging.info("Performing standard RAxML search and saving results to {}".format(standard_raxml_results_dump))
-            standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
-                                                                  curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"],
-                                                                  standrad_search=True)
-            with open(standard_raxml_results_dump, 'wb') as handle:
-                pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        curr_msa_stats.update(standard_raxml_search_results)
-        logging.info("Standard RAxML results: \n{}".format(standard_raxml_search_results))
-    if curr_msa_stats["do_sampled_raxml_analysis"]:
+    standard_run_folder= os.path.join(curr_run_directory,"standard_run")
+    create_dir_if_not_exists(standard_run_folder)
+    standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
+    standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
+                                                                     curr_msa_stats["RAxML_baseline_run_prefix"])
+    if os.path.exists(standard_raxml_dump_baseline):
+        logging.info("Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
+        with open(standard_raxml_dump_baseline, 'rb') as handle:
+            standard_raxml_search_results = pickle.load(handle)
+    else:
+        logging.info("Performing standard RAxML search and saving results to {}".format(standard_raxml_results_dump))
+        standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
+                                                              curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"],
+                                                              standrad_search=True)
+        with open(standard_raxml_results_dump, 'wb') as handle:
+            pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    curr_msa_stats.update(standard_raxml_search_results)
+    logging.info("Standard RAxML results: \n{}".format(standard_raxml_search_results))
+    if not curr_msa_stats["only_full_search"]:
+        logging.info("**Now performing a Lasso-based search")
         for brlen_generator_name in brlen_generators:
             brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
@@ -241,10 +241,16 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                 if curr_msa_stats["dilute_msa"]:
                     dilute_msa(curr_msa_stats, curr_run_directory)
                 lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
+                logging.info(f'lasso based RAxML results are:\n{lasso_based_RAxML_results}')
                 curr_msa_stats.update(lasso_based_RAxML_results)
-    all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                              k not in IGNORE_COLS_IN_CSV
-                                              }, ignore_index=True)
+                all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                          k not in IGNORE_COLS_IN_CSV
+                                                          }, ignore_index=True)
+    else:
+        logging.info("Updating full MSA results to csv and finishing")
+        all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                  k not in IGNORE_COLS_IN_CSV
+                                                  }, ignore_index=True)
     all_msa_results.to_csv(job_csv_path)
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
@@ -301,13 +307,27 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 
 
 
-def get_msa_stats_and_lasso_configurations(curr_msa_version_folder,original_alignment_path,args,file_ind,training_size_options, brlen_generators):
-    curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
-    curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
-                                                                               args.msa_baseline_run_prefix)
+def get_lasso_configurations(curr_msa_version_folder,args,brlen_generators, curr_msa_stats,training_size_options):
     curr_msa_version_lasso_dump = os.path.join(curr_msa_version_folder, 'lasso.dump')
     curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(args.run_prefix,
                                                                                args.lasso_baseline_run_prefix)
+    if os.path.exists(curr_msa_version_lasso_dump_baseline):
+        with open(curr_msa_version_lasso_dump_baseline, 'rb') as handle:
+            logging.info(
+                "Using lasso dump files in {} ".format(curr_msa_version_lasso_dump))
+            lasso_configurations_per_training_size = pickle.load(handle)
+    else:
+        lasso_configurations_per_training_size = Lasso_training_and_test(brlen_generators, curr_msa_stats,
+                                                                         training_size_options,
+                                                                         args.random_trees_test_size)
+        with open(curr_msa_version_lasso_dump, 'wb') as handle:
+            pickle.dump(lasso_configurations_per_training_size, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    return lasso_configurations_per_training_size
+
+def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind):
+    curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
+    curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
+                                                                               args.msa_baseline_run_prefix)
 
     if os.path.exists(curr_msa_version_stats_dump_baseline):
         with open(curr_msa_version_stats_dump_baseline, 'rb') as handle:
@@ -332,20 +352,7 @@ def get_msa_stats_and_lasso_configurations(curr_msa_version_folder,original_alig
                 curr_msa_stats)
         with open(curr_msa_version_stats_dump, 'wb') as handle:
             pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    if os.path.exists(curr_msa_version_lasso_dump_baseline):
-        with open(curr_msa_version_lasso_dump_baseline, 'rb') as handle:
-            logging.info(
-                "Using lasso dump files in {} ".format(curr_msa_version_lasso_dump))
-            lasso_configurations_per_training_size = pickle.load(handle)
-    else:
-        lasso_configurations_per_training_size = Lasso_training_and_test(brlen_generators, curr_msa_stats,
-                                                                         training_size_options,
-                                                                         args.random_trees_test_size)
-        with open(curr_msa_version_lasso_dump, 'wb') as handle:
-            pickle.dump(lasso_configurations_per_training_size, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    return curr_msa_stats, lasso_configurations_per_training_size
+    return curr_msa_stats
 
 
 
@@ -379,8 +386,12 @@ def main():
                                                                                             original_alignment_path))
         curr_msa_version_folder = os.path.join(args.curr_job_folder, msa_name)
         create_or_clean_dir(curr_msa_version_folder)
-        curr_msa_stats, lasso_configurations_per_training_size = get_msa_stats_and_lasso_configurations(curr_msa_version_folder, original_alignment_path, args, file_ind,
-                                               training_size_options,brlen_generators)
+        curr_msa_stats = get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind)
+        if not args.only_full_search:
+            lasso_configurations_per_training_size = get_lasso_configurations(curr_msa_version_folder,args,brlen_generators, curr_msa_stats,training_size_options)
+        else:
+            logging.info("Not calculating or using existing Lasso results")
+            lasso_configurations_per_training_size = None
         if args.only_evaluate_lasso:
             perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                         lasso_configurations_per_training_size,

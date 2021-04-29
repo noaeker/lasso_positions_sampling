@@ -35,16 +35,16 @@ def generate_argument_str(args):
         output = output + value +" "
     return output.strip()
 
-def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind ="job"):
+def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind ="job", queue = 'pupkolab'):
         create_dir_if_not_exists(job_folder)
         cmds_path = os.path.join(job_folder, str(job_ind) + ".cmds")
         job_log_path = os.path.join(job_folder, str(job_ind) + "_tmp_log")
         job_line =f'{MODULE_LOAD_STR} {run_command}\t{job_name}'
-        logging.debug("About to run: {}".format(job_line))
+        logging.debug("About to run on {} queue: {}".format( queue, job_line))
         with open(cmds_path, 'w') as cmds_f:
             cmds_f.write(job_line)
-        command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {cpus} --nodes {nodes}'
-        logging.info(f'About to use {cmds_path} generate a pbs file and run it')
+        command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {cpus} --nodes {nodes} -q {queue}'
+        logging.info(f'About to submit a pbs file to {queue} queue based on cmds:{cmds_path}')
         os.system(command)
 
 def submit_local_job(executable, argument_list):
@@ -233,6 +233,7 @@ def main_parser():
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
     parser.add_argument('--use_raxml_search', action='store_true', default=True)
+    parser.add_argument('--queue',type=str, default = "pupkolab")
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
     parser.add_argument('--alternative_analysis', action='store_true')
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
@@ -242,8 +243,7 @@ def main_parser():
     parser.add_argument('--n_cpus_training', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
-    parser.add_argument('--do_standard_raxml_analysis', action='store_true', default= True) # CHANGE
-    parser.add_argument('--do_sampled_raxml_analysis', action='store_true', default=True)
+    parser.add_argument('--only_full_search', action='store_true') # CHANGE
     parser.add_argument('--dilute_msa', action='store_true')
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)

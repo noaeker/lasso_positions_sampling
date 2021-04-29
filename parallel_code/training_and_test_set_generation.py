@@ -118,7 +118,7 @@ def get_training_df(curr_msa_stats, brlen_generator_func, curr_run_directory, ra
     training_output_csv_path = os.path.join(curr_run_directory,
                                             "training" + ".csv")
     training_dump = os.path.join(curr_run_directory, 'training_set.dump')
-    training_dump_baseline = training_dump .replace(curr_msa_stats["run_prefix"],
+    training_dump_baseline = training_dump.replace(curr_msa_stats["run_prefix"],
                                                                      curr_msa_stats["training_set_baseline_run_prefix"])
 
     if os.path.exists(training_dump_baseline):
@@ -138,15 +138,7 @@ def get_training_df(curr_msa_stats, brlen_generator_func, curr_run_directory, ra
     return training_sitelh, training_output_csv_path,training_eval_time
 
 
-def get_test_set_df(curr_msa_stats, brlen_generator_func, curr_run_directory, random_trees_test):
-    test_output_csv_path = os.path.join(curr_run_directory,
-                                        "test" + ".csv")
-    test_sitelh = generate_per_site_ll_on_random_trees_for_training(curr_msa_stats=curr_msa_stats,
-                                                                    random_trees_path=random_trees_test,
-                                                                    brlen_generator_func=brlen_generator_func,
-                                                                    curr_run_directory=curr_run_directory,
-                                                                    output_csv_path=test_output_csv_path)
-    return test_sitelh, test_output_csv_path
+
 
 
 

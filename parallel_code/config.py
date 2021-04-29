@@ -57,7 +57,7 @@ CURR_RUN_PREFIX = "test_unbiassed_lasso3"
 CURR_JOBS_PREFIX = "test_unbiassed_lasso3"
 LASSO_BASELINE="test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
 
-FULL_DATA_BASELINE= "test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+FULL_DATA_BASELINE= "no_baseline"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 
 DILUTE_AMOUNT = 100
 DILUTE_MUL = 10

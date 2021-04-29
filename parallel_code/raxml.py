@@ -16,17 +16,17 @@ class GENERAL_RAXML_ERROR(Exception):
 
 
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
-                                      cpus=-1, nodes=-1,extra_file_path="", run_locally = False):
+                                      cpus=-1, nodes=-1, queue= "pupkolab",extra_file_path="", run_locally = False):
     if LOCAL_RUN or run_locally:
         logging.info("About to run locally " + command)
         subprocess.run(command, shell=True)
         logging.info("Previous command completed")
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
-        submit_linux_job(job_name, job_folder, command, cpus, nodes)
+        submit_linux_job(job_name, job_folder, command, cpus, nodes,queue = queue)
         while not (os.path.exists(log_file_path) and (os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
-            time.sleep(60)
+            time.sleep(300)
         logging.info("*** current time: {} previous job is completed!!***".format(datetime.now()))
 
 
@@ -123,7 +123,7 @@ def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimo
     raxml_log_file = search_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
                                       job_name="raxml_search", log_file_path=raxml_log_file,
-                                      cpus=cpus, nodes=nodes)
+                                      cpus=cpus, nodes=nodes, queue= curr_msa_stats["queue"])
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     best_ll = extract_param_from_log(raxml_log_file, 'search_ll')
     return {'best_ll': best_ll, 'best_tree_path': best_tree_path, 'all_final_trees_path': all_final_trees_path,
@@ -296,7 +296,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
                                       job_name="rand_trees", log_file_path=raxml_log_file,
-                                      cpus=1, nodes=1)
+                                      cpus=1, nodes=1,queue= curr_msa_stats["queue"])
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     if curr_msa_stats["use_parsimony_training_trees"]:
@@ -358,7 +358,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     raxml_log_file = compute_site_ll_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(compute_site_ll_run_command, curr_run_directory, job_folder_name="raxml_ll_eval_job_for_training",
                                       job_name="training_opt", log_file_path=raxml_log_file,
-                                      cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"])
+                                      cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"],queue= curr_msa_stats["queue"])
     wait_for_file_existence(sitelh_file, "Sitelh file")
     sitelh_list = raxml_extract_sitelh(sitelh_file)
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
@@ -390,7 +390,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log( compute_ll_run_command, curr_run_directory, job_folder_name="raxml_optimize_test_trees_job",
                                       job_name="test_opt", log_file_path=raxml_log_file,
-                                      cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"])
+                                      cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"],queue= msa_stats["queue"])
 
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
