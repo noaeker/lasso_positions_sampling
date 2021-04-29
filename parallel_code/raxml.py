@@ -18,12 +18,13 @@ class GENERAL_RAXML_ERROR(Exception):
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
                                       cpus=-1, nodes=-1, queue= "pupkolab",extra_file_path="", run_locally = False):
     if LOCAL_RUN or run_locally:
-        logging.info("About to run locally " + command)
+        logging.info("*** About to run locally " + command)
         subprocess.run(command, shell=True)
-        logging.info("Previous command completed")
+        logging.info("*** Previous command completed")
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
         submit_linux_job(job_name, job_folder, command, cpus, nodes,queue = queue)
+        logging.info(f"*** Waiting for elapsed time in log file {log_file_path}")
         while not (os.path.exists(log_file_path) and (os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_log(log_file_path, 'time',
                                                                             raise_error=False) is not None):
             time.sleep(300)
