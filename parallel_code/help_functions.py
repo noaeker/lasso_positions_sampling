@@ -249,7 +249,7 @@ def main_parser():
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--unbias_lasso_weights', action='store_true') # CHANGE
-    parser.add_argument('--alphas',action='store',type=float, nargs="+", default= -1)
+    parser.add_argument('--alphas',action='store',type=int, nargs="+", default= -1)
     return parser
 
 def job_parser():
