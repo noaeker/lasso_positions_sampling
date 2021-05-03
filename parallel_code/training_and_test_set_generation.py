@@ -76,6 +76,13 @@ def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_
 
 def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path,curr_run_directory):
     local_file_path = curr_msa_stats.get("local_alignment_path")
+    baseline_trees_path = os.path.join(curr_run_directory, "test_opt","test_opt.raxml.mlTrees").replace(curr_msa_stats["run_prefix"],
+                                                             curr_msa_stats["training_set_baseline_run_prefix"])
+    if os.path.exists(baseline_trees_path):
+        logging.info("Using test set in {training_set_baseline_run_prefix} ; path is: {baseline_trees_path}")
+        return baseline_trees_path
+    else:
+        logging.info("Generating test set from beggining")
     optimized_trees_path = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
                                                               curr_run_directory, weights=False, return_trees_file=True)
 
