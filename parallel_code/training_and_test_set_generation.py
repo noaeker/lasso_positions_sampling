@@ -53,10 +53,12 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
             Lasso_results.update({'training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
                                   'training_evaluation_time' : training_eval_time
                                   })
+            logging.info("Lasso results: \n {}".format({k:  Lasso_results[k] for k in  Lasso_results.keys() if
+                                                          k not in ["lasso_training_X","lasso_training_Y","lasso_chosen_locis","lasso_coeffs","lasso_chosen_weights"]
+                                                          }))
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results
-    logging.info("Obtained Lasso results for each training size and branch-lengths distrbution:\n{}".format(run_configurations))
     return run_configurations
 
 

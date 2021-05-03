@@ -80,8 +80,17 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             y_training = sitelh_training_df.sum(axis=1)
             logging.info("Sitelh df dimensions, for lasso computations, are: " + str(sitelh_training_df.shape))
             start_time = time.time()
-            lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True, random_state=SEED, selection='cyclic').fit(sitelh_training_df,
-                                                                                          y_training)  # add positive=True if using RaxML
+            if (curr_msa_stats["alphas"])!=[-1]:
+                logging.info("Using given alphas for the Lasso: {alphas}".format(alphas = curr_msa_stats["alphas"]))
+                lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True, random_state=SEED, selection='cyclic',alphas = curr_msa_stats["alphas"]).fit(sitelh_training_df,
+                                                                                              y_training)  # add positive=True if using RaxML
+
+            else:
+                logging.info("Using default alphas for the Lasso")
+                lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000, positive=True,
+                                                   random_state=SEED, selection='cyclic'
+                                                   ).fit(sitelh_training_df,
+                                                                                        y_training)  # add positive=True if using RaxML
             lasso_training_time = time.time()-start_time
             logging.info("Done training Lasso model. It took {} seconds".format(lasso_training_time))
             chosen_locis, chosen_loci_weights, sampled_alignment_path, lasso_model_file_path, weights_file_path = extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log)

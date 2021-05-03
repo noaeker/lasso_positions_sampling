@@ -131,7 +131,7 @@ ggarrange(g0, g1, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
           ncol = 1, nrow =2)
 
 
-
+g1
 
 
 ```

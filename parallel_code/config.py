@@ -46,18 +46,18 @@ BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimize
 
 WAITING_TIME_UPDATE = 60 #86400
 N_JOBS = 1
-RANDOM_TREES_TEST_SIZE = 10
+RANDOM_TREES_TEST_SIZE = 2
 DELETE_SPR_FILES = True
 EPSILON = 0.1
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_unbiassed_lasso3"
-CURR_JOBS_PREFIX = "test_unbiassed_lasso3"
-LASSO_BASELINE="test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
-
-FULL_DATA_BASELINE= "no_baseline"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+CURR_RUN_PREFIX = "test_alpha4"
+CURR_JOBS_PREFIX = "test_alpha4"
+LASSO_BASELINE = "no_baseline" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
+TRAINING_BASELINE = "test_alpha"
+FULL_DATA_BASELINE = "no_baseline"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 
 DILUTE_AMOUNT = 100
 DILUTE_MUL = 10

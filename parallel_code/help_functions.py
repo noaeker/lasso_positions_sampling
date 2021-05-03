@@ -224,7 +224,7 @@ def main_parser():
     parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true')
-    parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
+    parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=TRAINING_BASELINE)
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--msa_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
@@ -249,6 +249,7 @@ def main_parser():
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--unbias_lasso_weights', action='store_true') # CHANGE
+    parser.add_argument('--alphas',action='store',type=float, nargs="+", default= -1)
     return parser
 
 def job_parser():
