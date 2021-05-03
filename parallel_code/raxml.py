@@ -383,7 +383,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     compute_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
-        threads_config=generate_raxml_command_prefix(msa_stats["n_cpus_full"]),
+        threads_config=generate_raxml_command_prefix(msa_stats["n_cpus_training"]),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command)
     optimized_trees_path = prefix + ".raxml.mlTrees"
