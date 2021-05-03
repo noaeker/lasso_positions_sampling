@@ -3,7 +3,7 @@ import logging
 import random
 
 
-LOCAL_RUN = False #True
+LOCAL_RUN = False
 SEED = 1
 
 N_PARSIMONY_RAXML_SEARCH= 1
