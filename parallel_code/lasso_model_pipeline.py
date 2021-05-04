@@ -98,15 +98,6 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             lasso_training_time = time.time()-start_time
             logging.info("Done training Lasso model. It took {} seconds".format(lasso_training_time))
             chosen_locis, chosen_loci_weights, sampled_alignment_path, lasso_model_file_path, weights_file_path = extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log)
-            y_training_predicted, training_results = get_training_metrics(lasso_model,sitelh_training_df,y_training)
-            test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
-            create_dir_if_not_exists(test_running_directory)
-            y_test_predicted, y_test_true,test_results = evaluate_lasso_performance_on_test_data(
-                test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
-            if GENERATE_LASSO_DESCRIPTIVE:
-                generate_lasso_descriptive(y_training_predicted, y_training,
-                                           y_test_predicted, y_test_true, curr_run_directory)
-
             Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": len(chosen_locis) / curr_msa_stats.get("n_loci"),
                                    "lasso_coeffs": lasso_model.coef_,
                               "lasso_alpha" : lasso_model.alpha_,
@@ -121,7 +112,21 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                                    "lasso_model_file_path":lasso_model_file_path}
 
             )
+            y_training_predicted, training_results = get_training_metrics(lasso_model, sitelh_training_df, y_training)
+
             Lasso_results.update(training_results)
+
+            if test_optimized_trees_path is not None:
+                test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
+                create_dir_if_not_exists(test_running_directory)
+                y_test_predicted, y_test_true,test_results = evaluate_lasso_performance_on_test_data(
+                    test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
+                if GENERATE_LASSO_DESCRIPTIVE:
+                    generate_lasso_descriptive(y_training_predicted, y_training,
+                                               y_test_predicted, y_test_true, curr_run_directory)
             Lasso_results.update(test_results)
+
+
+
             return Lasso_results
 

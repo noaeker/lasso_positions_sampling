@@ -14,14 +14,16 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     test_folder = os.path.join(Lasso_folder, "test_{}_random_trees_eval".format(random_trees_test_size))
     create_dir_if_not_exists(test_folder)
     logging.info("Generating test set based on {} random tree topologies".format(random_trees_test_size))
-    test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(random_trees_test_size, random_trees_folder,
+    if curr_msa_stats["no_test_set"]:
+        test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(random_trees_test_size, random_trees_folder,
                                                                          curr_msa_stats,
                                                                          "test", seed= start_seed_random_trees)
-    logging.info("Optimizing test set tree topologies".format(random_trees_test_size))
-    optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
-                                                                                    test_random_trees_path, test_folder)
-
-    logging.info("Done with test set ")
+        logging.info("Optimizing test set tree topologies".format(random_trees_test_size))
+        optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
+                                                                                        test_random_trees_path, test_folder)
+        logging.info("Done with test set ")
+    else:
+        optimized_test_topologies_path = None
 
     run_configurations = {}
     for training_size in training_size_options:

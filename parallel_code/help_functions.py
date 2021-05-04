@@ -250,6 +250,7 @@ def main_parser():
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--unbias_lasso_weights', action='store_true') # CHANGE
     parser.add_argument('--alphas',action='store', type= str, default= "default")
+    parser.add_argument('--no_test_set',action='store_true')
     return parser
 
 def job_parser():
