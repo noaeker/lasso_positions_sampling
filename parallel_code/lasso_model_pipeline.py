@@ -124,7 +124,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                 if GENERATE_LASSO_DESCRIPTIVE:
                     generate_lasso_descriptive(y_training_predicted, y_training,
                                                y_test_predicted, y_test_true, curr_run_directory)
-            Lasso_results.update(test_results)
+                Lasso_results.update(test_results)
 
 
 
