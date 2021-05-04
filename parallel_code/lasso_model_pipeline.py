@@ -84,7 +84,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                 if "_" in curr_msa_stats["alphas"]:
                     alphas = [float(val) for val in curr_msa_stats["alphas"].split("_")]
                 else:
-                    alphas = float(curr_msa_stats["alphas"])
+                    alphas = [float(curr_msa_stats["alphas"])]
                 logging.info("Using given alphas for the Lasso: {alphas}".format(alphas =  alphas))
                 lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True, random_state=SEED, selection='cyclic',alphas =  alphas).fit(sitelh_training_df,
                                                                                               y_training)  # add positive=True if using RaxML
