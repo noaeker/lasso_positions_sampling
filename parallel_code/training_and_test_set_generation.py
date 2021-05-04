@@ -11,10 +11,10 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     curr_msa_stats["random_trees_folder"] = random_trees_folder
     create_dir_if_not_exists(random_trees_folder)
     start_seed_random_trees = SEED
-    test_folder = os.path.join(Lasso_folder, "test_{}_random_trees_eval".format(random_trees_test_size))
-    create_dir_if_not_exists(test_folder)
-    logging.info("Generating test set based on {} random tree topologies".format(random_trees_test_size))
-    if curr_msa_stats["no_test_set"]:
+    if not curr_msa_stats["no_test_set"]:
+        test_folder = os.path.join(Lasso_folder, "test_{}_random_trees_eval".format(random_trees_test_size))
+        create_dir_if_not_exists(test_folder)
+        logging.info("Generating test set based on {} random tree topologies".format(random_trees_test_size))
         test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(random_trees_test_size, random_trees_folder,
                                                                          curr_msa_stats,
                                                                          "test", seed= start_seed_random_trees)
