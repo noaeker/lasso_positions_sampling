@@ -250,7 +250,7 @@ def main_parser():
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--alphas',action='store', type= str, default= "default")
-    parser.add_argument('--no_test_set',action='store_true')
+    parser.add_argument('--no_test_set',action='store_true', default = True)
     parser.add_argument('--n_partitions', type = int, default =1)
 
     return parser
