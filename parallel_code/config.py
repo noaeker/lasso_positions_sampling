@@ -57,6 +57,7 @@ CURR_RUN_PREFIX = "lasso_test_cv_search_test1"
 CURR_JOBS_PREFIX = "lasso_test_cv_search_test1"
 LASSO_BASELINE = "no_baseline"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
 TRAINING_BASELINE = "new_test" #"opt_new_tests_30"#"test_alpha"
+TEST_SET_BASELINE = "new_test"
 MSA_BASELINE = "new_test"
 FULL_DATA_BASELINE = "new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 

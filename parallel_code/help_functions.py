@@ -228,6 +228,7 @@ def main_parser():
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
     parser.add_argument('--msa_baseline_run_prefix', action='store', type=str, default=MSA_BASELINE)
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
+    parser.add_argument('--test_set_baseline_run_prefix', action='store', type=str, default=TEST_SET_BASELINE)
     parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
@@ -251,6 +252,7 @@ def main_parser():
     parser.add_argument('--alphas',action='store', type= str, default= "default")
     parser.add_argument('--no_test_set',action='store_true')
     parser.add_argument('--n_partitions', type = int, default =1)
+
     return parser
 
 def job_parser():

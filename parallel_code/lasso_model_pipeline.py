@@ -119,7 +119,8 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                       "lasso_training_time":lasso_training_time,
                       "lasso_intercept": lasso_model.intercept_,
                       "lasso_training_X": curr_data,
-        "lasso_training_y" : y_training
+        "lasso_training_y" : y_training,
+            "number_loci_chosen" : len(chosen_locis)
         }
         logging.info(f"Results for the {i}th fold: \n {lasso_results}")
         overall_lasso_results = overall_lasso_results.append(lasso_results, ignore_index= True)

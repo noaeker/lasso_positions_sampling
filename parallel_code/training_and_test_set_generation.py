@@ -43,6 +43,18 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
             training_size_directory = os.path.join(brlen_run_directory,
                                                    "training_{}_random_tree_eval".format(training_size))
             create_dir_if_not_exists(training_size_directory)
+            training_output_csv_path = os.path.join(training_size_directory,
+                                                    "training" + ".csv")
+            training_dump = os.path.join(training_size_directory, 'training_set.dump')
+            training_dump_baseline = training_dump.replace(curr_msa_stats["run_prefix"],
+                                                           curr_msa_stats["training_set_baseline_run_prefix"])
+
+            if os.path.exists(training_dump_baseline):
+                logging.info("Using trainng results in {}".format(training_dump_baseline))
+                with open(training_dump_baseline, 'rb') as handle:
+                    training_results = pickle.load(handle)
+                    training_sitelh, training_eval_time = training_results["training_sitelh"], training_results[
+                        "training_eval_time"]
             training_sitelh, training_sitelh_path,training_eval_time = get_training_df(curr_msa_stats, brlen_generator_func,
                                                                     training_size_directory,
                                                                                     training_random_trees_path)
