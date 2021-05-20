@@ -2,8 +2,10 @@ from sklearn.metrics import *
 from sklearn import linear_model
 from raxml import *
 from scipy import stats
-import pickle
 import time
+import numpy as np
+
+
 
 
 
@@ -48,85 +50,108 @@ def get_training_metrics(lasso_model,sitelh_training_df,y_training):
      return y_training_predicted, training_results
 
 
-def extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log, weights_file_name = "lasso_weights", sampled_alignment_name="sampled"):
-    if USE_INTEGER_WEIGHTS:
-        weights = [int(lasso_model.coef_[ind] * INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
+
+
+
+def apply_lasso_on_given_data(curr_msa_stats, training_df):
+    logging.info("Computing locis and weight using lasso")
+    y_training = training_df.sum(axis=1)
+    logging.info("Sitelh df dimensions, for lasso computations, are: " + str(training_df.shape))
+    start_time = time.time()
+    if (curr_msa_stats["alphas"]) != "default":
+        if "_" in curr_msa_stats["alphas"]:
+            alphas = [float(val) for val in curr_msa_stats["alphas"].split("_")]
+        else:
+            alphas = [float(curr_msa_stats["alphas"])]
+        logging.info("Using given alphas for the Lasso: {alphas}".format(alphas=alphas))
+        lasso_model = linear_model.Lasso(normalize=True, max_iter=100000, positive=True, random_state=SEED,
+                                           selection='cyclic', alpha=alphas).fit(training_df,
+                                                                                  y_training)
+
     else:
-        weights = lasso_model.coef_
-    chosen_locis = [ind for ind in range(len(weights)) if weights[ind] != 0]
-    sampled_alignment_path = os.path.join(curr_run_directory,
-                                          curr_msa_stats["file_name"] + f'_{sampled_alignment_name}' + curr_msa_stats[
-                                              "file_type"])
-    logging.info("Writing only chosen positions to {}".format(sampled_alignment_path))
-    chosen_loci_weights = [weights[ind] for ind in range(len(weights)) if weights[ind] != 0]
-    write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, chosen_locis,
-                                    curr_msa_stats["file_type_biopython"])
-    lasso_log.write("Lasso chosen locis are:" + str(chosen_locis) + "\n")
-    lasso_log.write("Lasso nonzero coefficient are:" + str(chosen_loci_weights) + "\n")
-    lasso_model_file_path = os.path.join(curr_run_directory, "lasso_model.sav")
-    pickle.dump(lasso_model, open(lasso_model_file_path, 'wb'))
-    weights_file_path = os.path.join(curr_run_directory, curr_msa_stats.get(
-        "file_name") + f'_{weights_file_name}.txt')
-    logging.info("About to write weights file to : " + weights_file_path)
-    with open(weights_file_path, 'w') as f:
-        for weight in chosen_loci_weights:
-            f.write(str(weight) + " ")
-    return chosen_locis, chosen_loci_weights, sampled_alignment_path,lasso_model_file_path,weights_file_path
+        logging.info("Using default alphas for the Lasso")
+        lasso_model = linear_model.LassoCV(cv=2, normalize=True, max_iter=100000, positive=True,
+                                           random_state=SEED, selection='cyclic'
+                                           ).fit(training_df,
+                                                 y_training)
+
+    lasso_training_time = time.time() - start_time
+    logging.info("Done training Lasso model. It took {} seconds".format(lasso_training_time))
+    return lasso_model, lasso_training_time,y_training
+
+
+
+
 
 def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df, test_optimized_trees_path):
-    lasso_log_file = os.path.join(curr_run_directory,"lasso.log")
-    with open(lasso_log_file, 'w') as lasso_log:
-            logging.info("Computing locis and weight using lasso")
-            y_training = sitelh_training_df.sum(axis=1)
-            logging.info("Sitelh df dimensions, for lasso computations, are: " + str(sitelh_training_df.shape))
-            start_time = time.time()
-            if (curr_msa_stats["alphas"])!="default":
-                if "_" in curr_msa_stats["alphas"]:
-                    alphas = [float(val) for val in curr_msa_stats["alphas"].split("_")]
-                else:
-                    alphas = [float(curr_msa_stats["alphas"])]
-                logging.info("Using given alphas for the Lasso: {alphas}".format(alphas =  alphas))
-                lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000,positive=True, random_state=SEED, selection='cyclic',alphas =  alphas).fit(sitelh_training_df,
-                                                                                              y_training)  # add positive=True if using RaxML
+    step_size = curr_msa_stats["n_partitions"]
+    indexes = np.array_split(np.arange(len(sitelh_training_df.columns)), step_size)
+    overall_chosen_locis = []
+    overall_weights = []
+    sampled_alignment_path = os.path.join(curr_run_directory,
+                                          curr_msa_stats["file_name"] + "_sampled" + curr_msa_stats[
+                                              "file_type"])
+    weights_file_path = os.path.join(curr_run_directory, curr_msa_stats.get(
+        "file_name") + '_weights.txt')
+    lasso_per_batch_csv_path = os.path.join(curr_run_directory, curr_msa_stats.get(
+        "file_name") + '_lasso_metrics.csv')
+    overall_running_time = 0
+    overall_lasso_results = pd.DataFrame()
+    for i in range(step_size):
+        curr_data = sitelh_training_df.iloc[:,indexes[i]]
+        logging.info(f"Applying {i}th batch of Lasso, based on positions {indexes[i]}")
+        lasso_model, lasso_training_time, y_training = apply_lasso_on_given_data(curr_msa_stats,curr_data)
+        if USE_INTEGER_WEIGHTS:
+            weights = [int(lasso_model.coef_[ind] * INTEGER_CONST) for ind in range(len(lasso_model.coef_))]
+        else:
+            weights = lasso_model.coef_
+        chosen_locis = list(np.array([ind for ind in range(len(weights)) if weights[ind] != 0]) + int(indexes[i][0]))
+        chosen_loci_weights = [weights[ind] for ind in range(len(weights)) if weights[ind] != 0]
+        overall_chosen_locis += chosen_locis
+        overall_weights +=chosen_loci_weights
+        overall_running_time = overall_running_time+lasso_training_time
+        training_r2 = get_training_metrics(lasso_model,curr_data,y_training)[1]["lasso_training_R^2"]
+        lasso_results = {
+            "training_r2" : training_r2,
+                      #"lasso_alpha": lasso_model.alpha_,
+                      #"lasso_alphas": lasso_model.alphas_,
+                      "n_iter_lasso": lasso_model.n_iter_,
+                      "lasso_training_time":lasso_training_time,
+                      "lasso_intercept": lasso_model.intercept_,
+                      "lasso_training_X": curr_data,
+        "lasso_training_y" : y_training
+        }
+        logging.info(f"Results for the {i}th fold: \n {lasso_results}")
+        overall_lasso_results = overall_lasso_results.append(lasso_results, ignore_index= True)
 
-            else:
-                logging.info("Using default alphas for the Lasso")
-                lasso_model = linear_model.LassoCV(cv=5, normalize=True, max_iter=100000, positive=True,
-                                                   random_state=SEED, selection='cyclic'
-                                                   ).fit(sitelh_training_df,
-                                                                                        y_training)  # add positive=True if using RaxML
-            lasso_training_time = time.time()-start_time
-            logging.info("Done training Lasso model. It took {} seconds".format(lasso_training_time))
-            chosen_locis, chosen_loci_weights, sampled_alignment_path, lasso_model_file_path, weights_file_path = extract_required_lasso_results(lasso_model, curr_run_directory, curr_msa_stats, lasso_log)
-            Lasso_results = ({"number_loci_chosen": len(chosen_locis), "lasso_chosen_locis": chosen_locis,"sample_pct": len(chosen_locis) / curr_msa_stats.get("n_loci"),
-                                   "lasso_coeffs": lasso_model.coef_,
-                              "lasso_alpha" : lasso_model.alpha_,
-                              "lasso_alphas" : lasso_model.alphas_,
-                              "n_iter_lasso": lasso_model.n_iter_,
-                              "lasso_training_time" :  lasso_training_time,
-                                   "lasso_intercept": lasso_model.intercept_,
-                              "lasso_training_X" : sitelh_training_df,
-                              "lasso_training_Y":  y_training,
-                                   "lasso_chosen_weights": chosen_loci_weights, "weights_file_path": weights_file_path,
-                                   "sampled_alignment_path": sampled_alignment_path,
-                                   "lasso_model_file_path":lasso_model_file_path}
+    overall_lasso_results.to_csv(lasso_per_batch_csv_path)
+    logging.info("Writing overall chosen positions to {}".format(sampled_alignment_path))
+    write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, overall_chosen_locis,
+                                    curr_msa_stats["file_type_biopython"])
+    logging.info("Writing overall weights to : " + weights_file_path)
+    with open(weights_file_path, 'w') as f:
+        for weight in overall_weights:
+            f.write(str(weight) + " ")
+    Lasso_results = ({"number_loci_chosen": len(overall_chosen_locis), "lasso_chosen_locis": overall_chosen_locis,
+                      "sample_pct": len(overall_chosen_locis) / curr_msa_stats.get("n_loci"),
+                      "lasso_chosen_weights": overall_weights, "weights_file_path": weights_file_path,
+                      "sampled_alignment_path": sampled_alignment_path}
 
-            )
-            y_training_predicted, training_results = get_training_metrics(lasso_model, sitelh_training_df, y_training)
+    )
 
-            Lasso_results.update(training_results)
 
-            if test_optimized_trees_path is not None:
-                test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
-                create_dir_if_not_exists(test_running_directory)
-                y_test_predicted, y_test_true,test_results = evaluate_lasso_performance_on_test_data(
-                    test_optimized_trees_path, curr_msa_stats, test_running_directory,sampled_alignment_path,weights_file_path,lasso_model.intercept_)
-                if GENERATE_LASSO_DESCRIPTIVE:
-                    generate_lasso_descriptive(y_training_predicted, y_training,
-                                               y_test_predicted, y_test_true, curr_run_directory)
-                Lasso_results.update(test_results)
+    if test_optimized_trees_path is not None:
+        test_running_directory = os.path.join(curr_run_directory, "test_ll_evaluations")
+        create_dir_if_not_exists(test_running_directory)
+        y_test_predicted, y_test_true, test_results = evaluate_lasso_performance_on_test_data(
+            test_optimized_trees_path, curr_msa_stats, test_running_directory, sampled_alignment_path,
+            weights_file_path, lasso_model.intercept_)
+        # if GENERATE_LASSO_DESCRIPTIVE:
+        #     generate_lasso_descriptive(y_training_predicted, y_training,
+        #                                y_test_predicted, y_test_true, curr_run_directory)
+        Lasso_results.update(test_results)
+        return Lasso_results
 
 
 
-            return Lasso_results
 

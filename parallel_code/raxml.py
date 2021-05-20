@@ -143,32 +143,8 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                    'standard_search_elapsed_time': standard_search_dict["elapsed_running_time"],
                    'standard_starting_trees_path': standard_search_dict["starting_trees_path"]}
     else:
-        if curr_msa_stats["unbias_lasso_weights"]:
-           logging.info("Performing linear regression to unbias Lasso before RaxML run:")
-           training_data_path = '{base_folder}/Lasso_folder/exponential/training_{size}_random_tree_eval/training.csv'.format(base_folder = curr_msa_stats["curr_msa_version_folder"],
-                                                                                                                          size = curr_msa_stats["actucal_training_size"]
-                                                                                                                          ).replace(curr_msa_stats["run_prefix"],
-                                                                               curr_msa_stats["lasso_baseline_run_prefix"])
-           lasso_training_X = pd.read_csv(training_data_path)
-           lasso_training_Y =  lasso_training_X.sum(axis=1)
-           new_training_data = lasso_training_X.iloc[:,curr_msa_stats["lasso_chosen_locis"]]
-           reg = LinearRegression(positive = True).fit(new_training_data, lasso_training_Y)
-           non_zero_indexes = [i for i in range(len(reg.coef_)) if reg.coef_[i]>0]
-           orig_non_zero_indexes= [curr_msa_stats["lasso_chosen_locis"][ind] for ind in non_zero_indexes]
-           logging.info("Number of positions with non-zero weight is : {size}".format(size=len(orig_non_zero_indexes)))
-           non_zero_weights = [reg.coef_[i] for i in range(len(reg.coef_)) if reg.coef_[i]>0]
-           new_sampled_alignment_path = os.path.join(curr_run_directory,"new_sampled_path")
-           write_to_sampled_alignment_path(curr_msa_stats["alignment_data"],  new_sampled_alignment_path, orig_non_zero_indexes,
-                                           curr_msa_stats["file_type_biopython"])
-           alternative_weights_file_path = os.path.join(curr_run_directory,"unbiased_weights")
-           with open(alternative_weights_file_path , 'w') as f:
-               for weight in non_zero_weights:
-                   f.write(str(weight) + " ")
-           weights_file_path = alternative_weights_file_path
-           sampled_alignment_path = new_sampled_alignment_path
-        else:
-            weights_file_path = curr_msa_stats["weights_file_path"]
-            sampled_alignment_path = curr_msa_stats["sampled_alignment_path"]
+        weights_file_path = curr_msa_stats["weights_file_path"]
+        sampled_alignment_path = curr_msa_stats["sampled_alignment_path"]
 
         first_phase_dict = raxml_search(curr_run_directory, sampled_alignment_path , "first_phase",
                                         curr_msa_stats, n_parsimony_trees,
@@ -200,6 +176,9 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                             'lasso_second_phase_elapsed_time': second_phase_dict["elapsed_running_time"]})
 
     return results
+
+
+
 
 
 def calculate_rf_dist(rf_file_path, curr_run_directory):
@@ -338,7 +317,6 @@ def extract_unique_topologies(curr_run_directory,trees_path, dist_path,n):
             raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     return unique_file_path
-
 
 
 

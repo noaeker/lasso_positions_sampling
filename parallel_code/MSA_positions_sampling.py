@@ -2,6 +2,7 @@
 from generate_SPR import *
 from training_and_test_set_generation import *
 from raxml import *
+import pickle
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
@@ -243,9 +244,13 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                 lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
                 logging.info(f'lasso based RAxML results are:\n{lasso_based_RAxML_results}')
                 curr_msa_stats.update(lasso_based_RAxML_results)
+                best_tree_full_data_path = curr_msa_stats["standard_starting_trees_path"]
+                best_tree_sampled_data_path = curr_msa_stats["lasso_second_phase_best_tree"] if curr_msa_stats["do_raxml_lasso_second_phase"] else curr_msa_stats["lasso_first_phase_best_tree"]
+                #unify_text_files(input_file_path_list, output_file_path)
                 all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                                           k not in IGNORE_COLS_IN_CSV
                                                           }, ignore_index=True)
+
     else:
         logging.info("Updating full MSA results to csv and finishing")
         all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if

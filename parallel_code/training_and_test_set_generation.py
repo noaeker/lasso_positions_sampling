@@ -1,5 +1,6 @@
 
 from lasso_model_pipeline import *
+import pickle
 
 
 def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):

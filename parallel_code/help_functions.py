@@ -64,7 +64,7 @@ def remove_MSAs_with_not_enough_seq(file_path_list,min_seq):
 def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_path, samp_indexes, file_type):
     sampled_sequence = []
     for original_record in original_alignment_data:
-        sampled_seq = Seq(''.join([original_record.seq[ind] for ind in samp_indexes]))
+        sampled_seq = Seq(''.join([str(original_record.seq[ind]) for ind in samp_indexes]))
         sampled_record = SeqRecord(sampled_seq, id=original_record.id, name=original_record.name,
                                    description=original_record.description)
         sampled_sequence.append(sampled_record)
@@ -226,7 +226,7 @@ def main_parser():
     parser.add_argument('--only_evaluate_lasso', action='store_true')
     parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=TRAINING_BASELINE)
     parser.add_argument('--lasso_baseline_run_prefix',action='store', type=str, default=LASSO_BASELINE)
-    parser.add_argument('--msa_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
+    parser.add_argument('--msa_baseline_run_prefix', action='store', type=str, default=MSA_BASELINE)
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
@@ -248,9 +248,9 @@ def main_parser():
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
-    parser.add_argument('--unbias_lasso_weights', action='store_true') # CHANGE
     parser.add_argument('--alphas',action='store', type= str, default= "default")
     parser.add_argument('--no_test_set',action='store_true')
+    parser.add_argument('--n_partitions', type = int, default =1)
     return parser
 
 def job_parser():
