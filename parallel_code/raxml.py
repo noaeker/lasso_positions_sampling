@@ -210,7 +210,9 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_command_prefix(),
         msa_path=full_file_path, prefix=parse_prefix, seed=SEED)
-    execute_commnand_and_write_to_log(parse_command,run_locally = True)
+    execute_commnand_and_write_to_log( parse_command, run_locally=True)
+    binary_msa = parse_prefix+".raxml.rba"
+    msa_stats["local_binary_msa"] = binary_msa
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     parsimony_tree_generation_command = (
