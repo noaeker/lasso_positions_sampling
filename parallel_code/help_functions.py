@@ -80,7 +80,7 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
         logging.error("   #ERROR: Sampled columns not written succesfully to file " + sampled_alignment_path)
 
 
-def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, number_of_sequences,file_type):
+def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, number_of_sequences,file_type,max_n_loci):
     sampled_sequence = []
     seq_values = set()
     random.seed(SEED)
@@ -91,8 +91,11 @@ def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, numbe
         if record.seq in seq_values:
             continue
         else:
-            seq_values.add(record.seq)
-            sampled_sequence.append(record)
+            sampled_seq = Seq((str(record.seq))[0:max_n_loci])
+            sampled_record = SeqRecord(sampled_seq, id=record.id, name=record.name,
+                                       description=record.description)
+            seq_values.add(sampled_seq)
+            sampled_sequence.append(sampled_record)
     try:
         SeqIO.write(sampled_sequence, trimmed_alignment_path, file_type)
         logging.info(" {} sequences written succesfully to new file {}".format(len(sampled_sequence),trimmed_alignment_path))
@@ -242,7 +245,7 @@ def main_parser():
     parser.add_argument('--use_raxml_search', action='store_true', default=True)
     parser.add_argument('--queue',type=str, default = "pupkolab")
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
-    parser.add_argument('--alternative_analysis', action='store_true')
+    parser.add_argument('--alternative_analysis', action='store_true', default= True)
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_nodes_full', action='store', type=int, default=N_NODES)
     parser.add_argument('--n_cpus_Lasso', action='store', type=int, default=CPUS_PER_NODE_LASSO)
@@ -258,8 +261,7 @@ def main_parser():
     parser.add_argument('--sample_thresholds',action='store', type= str, default= MAX_SAMPLE_PCT)
     parser.add_argument('--no_test_set',action='store_true', default = False)
     parser.add_argument('--n_partitions', type = int, default =1)
-
-
+    parser.add_argument('--max_n_loci', type=int, default= MAX_N_LOCI)
 
     return parser
 

@@ -55,19 +55,22 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "raxml_results_30_sample_0.4_2000"
-CURR_JOBS_PREFIX = "raxml_results_30_sample_0.4_2000"
+CURR_RUN_PREFIX = "test_borowiek_small"
+CURR_JOBS_PREFIX = "test_borowiek_small"
 LASSO_BASELINE = "no_baseline"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
 LASSO_PATH_BASELINE = "no_baseline"
-TRAINING_BASELINE =  "raxml_results_30_sample_0.2_2000"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
-TEST_SET_BASELINE =  "raxml_results_30_sample_0.1"
-MSA_BASELINE = "raxml_results_30_sample_0.1"
-FULL_DATA_BASELINE = "raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+TRAINING_BASELINE =  "no_baseline"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
+TEST_SET_BASELINE =  "no_baseline"#"raxml_results_30_sample_0.1"
+MSA_BASELINE = "no_baseline"#"raxml_results_30_sample_0.1"
+FULL_DATA_BASELINE = "no_baseline"#"raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 
 DILUTE_AMOUNT = 15
 DILUTE_MUL = 10
 
+
+
 MAX_N_SEQ = 30
+MAX_N_LOCI = 100000000
 MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
@@ -97,7 +100,7 @@ elif LOCAL_RUN:
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/LARGE_FILES"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/LARGE_FILES/Borowiek_et_al_2015"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
 
 
