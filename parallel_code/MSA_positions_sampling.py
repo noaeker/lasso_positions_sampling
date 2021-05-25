@@ -8,9 +8,8 @@ import pickle
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
     seed=SEED+i
     random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
-    random_tree_path_prefix = os.path.join(random_tree_folder, "starting_tree")
     create_or_clean_dir(random_tree_folder)
-    starting_tree_path = random_tree_path_prefix + ".raxml.startTree"
+    starting_tree_path = os.path.join(random_tree_folder, ".raxml.startTree")
     baseline_starting_tree_path = starting_tree_path.replace(curr_msa_stats["run_prefix"],
                                                              curr_msa_stats["spr_baseline_run_prefix"])
     if os.path.exists(baseline_starting_tree_path):
@@ -18,9 +17,9 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
         shutil.copyfile(baseline_starting_tree_path, starting_tree_path)
     if not os.path.exists(starting_tree_path):
         logging.info("Generating a totally random tree as a starting tree")
-        starting_tree_path = generate_n_random_tree_topology_constant_brlen(n=1, alpha=curr_msa_stats["alpha"],
+        starting_tree_path,elapsed_running_time = generate_n_random_tree_topology_constant_brlen(curr_msa_stats = curr_msa_stats,n=1, alpha=curr_msa_stats["alpha"],
                                                                             original_file_path=curr_msa_stats["local_alignment_path"],
-                                                                            curr_run_directory=random_tree_path_prefix, seed=seed)
+                                                                            curr_run_directory=random_tree_folder, seed=seed)
     return starting_tree_path
 
 
@@ -160,6 +159,8 @@ def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen)
 
 
 
+
+
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats, lasso_configurations_per_training_size,
                                 job_csv_path):
     all_msa_results = pd.DataFrame(
@@ -170,6 +171,14 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
         for training_size in training_size_options:
             curr_msa_stats["actucal_training_size"] = training_size
             lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
+            with open(lasso_results["sampled_alignment_path"]) as sampled_path:
+                sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
+            sampled_alignment_df = alignment_list_to_df( sampled_data )
+            n_seq, n_loci = sampled_alignment_df.shape
+            constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df, n_seq)
+            results_dict = {"constant_sites_pct_sampled" : constant_sites_pct,"avg_entropy_sampled" : avg_entropy, "gap_positions_pct_sampled":gap_positions_pct }
+            logging.info(f"Sampled data metrics: {results_dict}")
+            curr_msa_stats.update(results_dict)
             curr_msa_stats.update(lasso_results)
             logging.info("only evaluating lasso on brlen {} and training size {}: ".format(brlen_generator_name, training_size))
             lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
@@ -239,8 +248,6 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                 lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
                 curr_msa_stats.update(lasso_results)
                 logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
-                if curr_msa_stats["dilute_msa"]:
-                    dilute_msa(curr_msa_stats, curr_run_directory)
                 lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
                 logging.info(f'lasso based RAxML results are:\n{lasso_based_RAxML_results}')
                 curr_msa_stats.update(lasso_based_RAxML_results)
@@ -306,6 +313,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                                                           k not in IGNORE_COLS_IN_CSV
                                                           }, ignore_index=True)
                 all_msa_results.to_csv(job_csv_path)
+
 
 
 

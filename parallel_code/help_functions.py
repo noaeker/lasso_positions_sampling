@@ -9,6 +9,12 @@ import argparse
 import subprocess
 import sys
 
+
+
+
+
+
+
 def generate_argument_list(args):
     output = []
     for arg in vars(args):
@@ -69,9 +75,8 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
                                    description=original_record.description)
         sampled_sequence.append(sampled_record)
     val = SeqIO.write(sampled_sequence, sampled_alignment_path, file_type)
-    if val == len(original_alignment_data):
-        logging.info("   #Sampled columns written succesfully to new file " + sampled_alignment_path)
-    else:
+    if not val == len(original_alignment_data):
+        #logging.info("   #Sampled columns written succesfully to new file " + sampled_alignment_path)
         logging.error("   #ERROR: Sampled columns not written succesfully to file " + sampled_alignment_path)
 
 
@@ -230,6 +235,7 @@ def main_parser():
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--test_set_baseline_run_prefix', action='store', type=str, default=TEST_SET_BASELINE)
     parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
+    parser.add_argument('--lasso_path_baseline_run_prefix',action='store', type=str, default=LASSO_PATH_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
@@ -249,9 +255,11 @@ def main_parser():
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
-    parser.add_argument('--alphas',action='store', type= str, default= "default")
-    parser.add_argument('--no_test_set',action='store_true', default = True)
+    parser.add_argument('--sample_thresholds',action='store', type= str, default= MAX_SAMPLE_PCT)
+    parser.add_argument('--no_test_set',action='store_true', default = False)
     parser.add_argument('--n_partitions', type = int, default =1)
+
+
 
     return parser
 

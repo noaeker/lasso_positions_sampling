@@ -9,29 +9,21 @@ import pickle
 
 def Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, test_seed):
     if not curr_msa_stats["no_test_set"]:
-        test_folder = os.path.join(Lasso_folder, "test_{}_random_trees_eval".format(random_trees_test_size))
-        create_dir_if_not_exists(test_folder)
-        optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
+        test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(
+            random_trees_test_size, random_trees_folder,
+            curr_msa_stats,
+            "test", seed=test_seed)
+        test_optimization_folder = os.path.join(Lasso_folder,
+                                                "test_{}_random_trees_eval".format(random_trees_test_size))
+        create_dir_if_not_exists(test_optimization_folder)
+        test_ll_values,optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
                                                                                         test_random_trees_path,
-                                                                                        test_folder)
-        baseline_optimized_test_topologies_path =  optimized_test_topologies_path.replace(curr_msa_stats["run_prefix"], curr_msa_stats["test_set_baseline_run_prefix"])
-
-
-        if os.path.exists(baseline_optimized_test_topologies_path):
-            logging.info(f"Using optimized test set in {baseline_optimized_test_topologies_path}")
-        else:
-            logging.info("Generating test set based on {} random tree topologies".format(random_trees_test_size))
-            test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(
-                random_trees_test_size, random_trees_folder,
-                curr_msa_stats,
-                "test", seed=test_seed)
-            logging.info("Optimizing test set tree topologies".format(random_trees_test_size))
-            optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
-                                                                                            test_random_trees_path, test_folder)
-            logging.info("Done with test set ")
+                                                                                        test_optimization_folder)
+        curr_msa_stats["test_ll_values"]= test_ll_values
+        curr_msa_stats["optimized_test_topologies_path"]= optimized_test_topologies_path
     else:
-        optimized_test_topologies_path = None
-    return  optimized_test_topologies_path
+            test_ll_values,optimized_test_topologies_path = None,None
+    return  test_ll_values,optimized_test_topologies_path
 
 
 def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,training_size,curr_msa_stats,training_random_trees_path):
@@ -84,7 +76,7 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     curr_msa_stats["random_trees_folder"] = random_trees_folder
     create_dir_if_not_exists(random_trees_folder)
     start_seed_random_trees = SEED
-    optimized_test_topologies_path =Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, start_seed_random_trees)
+    test_ll_values,optimized_test_topologies_path =Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, start_seed_random_trees)
     run_configurations = {}
 
     for training_size in training_size_options:
@@ -129,17 +121,24 @@ def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_
 
 def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path,curr_run_directory):
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    baseline_trees_path = os.path.join(curr_run_directory, "test_opt","test_opt.raxml.mlTrees").replace(curr_msa_stats["run_prefix"],
-                                                             curr_msa_stats["training_set_baseline_run_prefix"])
-    if os.path.exists(baseline_trees_path):
-        logging.info("Using test set in {training_set_baseline_run_prefix} ; path is: {baseline_trees_path}")
-        return baseline_trees_path
-    else:
-        logging.info("Generating test set from beggining")
-    optimized_trees_path = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
-                                                              curr_run_directory, weights=False, return_trees_file=True)
+    test_dump = os.path.join(curr_run_directory, 'test_set.dump')
+    test_dump_baseline = test_dump.replace(curr_msa_stats["run_prefix"],
+                                                   curr_msa_stats["test_set_baseline_run_prefix"])
 
-    return optimized_trees_path
+    if os.path.exists(test_dump_baseline):
+        logging.info("Using test results in {}".format(test_dump_baseline))
+        with open(test_dump_baseline, 'rb') as handle:
+            test_results = pickle.load(handle)
+            trees_ll_on_data, optimized_trees_path = test_results["test_ll_values"], test_results[
+                "test_optimized_trees_path"]
+    else:
+        trees_ll_on_data,optimized_trees_path = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
+                                                              curr_run_directory, weights=False, return_trees_file=True)
+        test_results = {"test_ll_values":trees_ll_on_data,"test_optimized_trees_path":optimized_trees_path}
+        with open(test_dump, 'wb') as handle:
+            pickle.dump(test_results , handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    return trees_ll_on_data,optimized_trees_path
 
 def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_trees_path, brlen_generator_func, curr_run_directory, output_csv_path):
     raxml_ll_eval_directory = os.path.join(curr_run_directory,"raxml_training_per_site_ll_eval")

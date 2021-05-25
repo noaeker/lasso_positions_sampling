@@ -18,9 +18,9 @@ class GENERAL_RAXML_ERROR(Exception):
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
                                       cpus=-1, nodes=-1, queue= "pupkolab",extra_file_path="", run_locally = False):
     if LOCAL_RUN or run_locally:
-        logging.info("*** About to run locally " + command)
+        #logging.info("*** About to run locally " + command)
         subprocess.run(command, shell=True)
-        logging.info("*** Previous command completed")
+        #logging.info("*** Previous command completed")
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
         submit_linux_job(job_name, job_folder, command, cpus, nodes,queue = queue)
@@ -32,9 +32,8 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
 
 
 def wait_for_file_existence(path, name):
-    if os.path.exists(path):
-        logging.info("{name} was succesfully created in: {path}".format(name=name, path=path))
-    else:
+    if not os.path.exists(path):
+        #logging.info("{name} was succesfully created in: {path}".format(name=name, path=path))
         error_msg = "{name} was not generated in: {path}".format(name=name, path=path)
         logging.error(error_msg)
         start_time = time.time()
@@ -72,7 +71,7 @@ def extract_param_from_log(raxml_log_path, param_name, raise_error=True):
             if len(value_floats) == 1:
                 return value_floats[0]
             else:
-                logging.info("{} ll values were extracted from log file".format(len(value_floats)))
+                #logging.info("{} ll values were extracted from log file".format(len(value_floats)))
                 return value_floats
         match = re.search(pattern, data, re.IGNORECASE)
         if match:
@@ -155,7 +154,7 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                                         curr_msa_stats["use_raxml_standard_starting_trees"] else None
 
                                         )
-        first_phase_best_true_ll, first_phase_best_tree = raxml_optimize_trees_for_given_msa(
+        first_phase_best_true_ll, first_phase_best_tree, first_phase_eval_elapsed= raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "first_phase_ll_eval_on_full",
             first_phase_dict["best_tree_path"],
             curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)
@@ -372,8 +371,9 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
                                       cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"],queue= msa_stats["queue"])
 
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
+    elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
     tree_objects = generate_multiple_tree_object_from_newick(optimized_trees_final_path)
     if return_trees_file:
-        return optimized_trees_path
-    return trees_ll_on_data, tree_objects
+        return trees_ll_on_data,optimized_trees_path
+    return trees_ll_on_data, tree_objects, elapsed_running_time

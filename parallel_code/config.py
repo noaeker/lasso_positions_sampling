@@ -38,38 +38,41 @@ def sample_exp(size,start_seed):
 
 
 #Default values
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = 400
+RANDOM_TREES_TRAINING_SIZE = 2000
 TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
 N_JOBS = 1
-RANDOM_TREES_TEST_SIZE = 2
+RANDOM_TREES_TEST_SIZE = 30
 DELETE_SPR_FILES = True
 EPSILON = 0.1
+ALPHA_EPSILON = 0.001
+MAX_SAMPLE_PCT = 0.4
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "lasso_test_cv_search_test1"
-CURR_JOBS_PREFIX = "lasso_test_cv_search_test1"
+CURR_RUN_PREFIX = "raxml_results_30_sample_0.4_2000"
+CURR_JOBS_PREFIX = "raxml_results_30_sample_0.4_2000"
 LASSO_BASELINE = "no_baseline"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
-TRAINING_BASELINE = "new_test" #"opt_new_tests_30"#"test_alpha"
-TEST_SET_BASELINE = "new_test"
-MSA_BASELINE = "new_test"
-FULL_DATA_BASELINE = "new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+LASSO_PATH_BASELINE = "no_baseline"
+TRAINING_BASELINE =  "raxml_results_30_sample_0.2_2000"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
+TEST_SET_BASELINE =  "raxml_results_30_sample_0.1"
+MSA_BASELINE = "raxml_results_30_sample_0.1"
+FULL_DATA_BASELINE = "raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 
-DILUTE_AMOUNT = 100
+DILUTE_AMOUNT = 15
 DILUTE_MUL = 10
 
-MAX_N_SEQ = 200
+MAX_N_SEQ = 30
 MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
-FIRST_MSA_IND = 0
+FIRST_MSA_IND = 1
 
 OUTPUT_CSV_NAME = "spr_raxml"
 

@@ -32,12 +32,12 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
     trees_path = os.path.join(curr_run_directory,"iteration_spr_trees")
     with open(trees_path,'w') as TREES:
         TREES.write(regrafted_trees_newick)
-    trees_ll, trees_optimized_objects = raxml_optimize_trees_for_given_msa(MSA_path, "rgrft_ll_eval", trees_path,
+    trees_ll, trees_optimized_objects, time_rgft_eval = raxml_optimize_trees_for_given_msa(MSA_path, "rgrft_ll_eval", trees_path,
                                                                            curr_msa_stats, curr_run_directory,
                                                                            weights=curr_msa_stats["weights_file_path"] if use_weights else None)
     if use_weights:
         trees_ll = [(ll/INTEGER_CONST)+curr_msa_stats["lasso_intercept"] for ll in trees_ll]
-        trees_true_ll,trees_true_optimized_objects = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"],
+        trees_true_ll,trees_true_optimized_objects,time_rgft_eval_true = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"],
                                                           "rgrft_ll_eval_on_full_MSA", trees_path,
                                                                                         curr_msa_stats, curr_run_directory,
                                                                                         weights=None)
@@ -56,19 +56,19 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
 
 
 def get_true_and_local_starting_tree_ll(MSA_path,run_unique_name,starting_tree_path,curr_msa_stats,curr_run_directory,use_weights):
-    search_starting_tree_ll = raxml_optimize_trees_for_given_msa(MSA_path,
+    search_starting_tree_ll,tree_objects, elapsed_running_time_starting_eval = raxml_optimize_trees_for_given_msa(MSA_path,
                                                                        "starting_tree_ll_eval_" + run_unique_name,
                                                                  starting_tree_path,
                                                                  curr_msa_stats,
                                                                  curr_run_directory=curr_run_directory,
                                                                  weights=curr_msa_stats[
-                                                                           "weights_file_path"] if use_weights else None)[0]
+                                                                           "weights_file_path"] if use_weights else None)
     if use_weights:
         search_starting_tree_ll = curr_msa_stats["lasso_intercept"]+(search_starting_tree_ll/INTEGER_CONST)
-        search_true_starting_tree_ll = raxml_optimize_trees_for_given_msa(
+        search_true_starting_tree_ll,tree_objects, elapsed_running_time_starting_eval_true = raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "starting_tree_ll_eval_on_full_" + run_unique_name,
             starting_tree_path,
-            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)[0]
+            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None)
     else:
         search_true_starting_tree_ll = search_starting_tree_ll
 
@@ -220,6 +220,7 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
                 "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
                 "spearmanr_during_tree_search": prediction_rho_spearman,
                 "spearmanr_during_tree_search_pval": prediction_pval_spearman,
+            "first_phase_running_time" : first_phase_lasso_running_time,
                 "mse_during_tree_search" : mse,
                 "mistake_cnt" : mistake_cnt,
                 "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,
