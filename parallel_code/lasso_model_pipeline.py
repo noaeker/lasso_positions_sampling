@@ -162,7 +162,7 @@ def get_chosen_locis_and_weights(coeff_array, coef_starting_point):
     if USE_INTEGER_WEIGHTS:
         weights = list(((coeff_array * INTEGER_CONST).astype(int)))
     else:
-        weights = list(coeff_array[0])
+        weights = list(coeff_array)
     chosen_locis = list(np.array([ind for ind in range(len(weights)) if weights[ind] != 0]) + coef_starting_point)
     chosen_loci_weights = [weights[ind] for ind in range(len(weights)) if weights[ind] != 0]
     return chosen_locis, chosen_loci_weights
