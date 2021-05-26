@@ -72,7 +72,7 @@ def choose_best_alpha_ind(curr_msa_stats,coeff_path_results):
         #curr_test_r2 = coeff_path_results[i]["test_r_2"]
         curr_sample_pct = coeff_path_results[i]["sample_pct"]
         #next_r_2 = [coeff_path_results[j]["test_r_2"] for j in range(i,len(coeff_path_results))]
-        if curr_sample_pct>=curr_msa_stats["sample_thresholds"]:
+        if curr_sample_pct>=float(curr_msa_stats["sample_thresholds"]):
             return i
     return len(coeff_path_results)-1
 
