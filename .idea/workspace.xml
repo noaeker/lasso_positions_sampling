@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +15,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="58" column="40" selection-start-line="58" selection-start-column="40" selection-end-line="58" selection-end-column="40" />
+            <state relative-caret-position="232">
+              <caret line="52" selection-start-line="52" selection-end-line="52" selection-end-column="14" />
+              <folding>
+                <element signature="e#1#15#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -46,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3450">
-              <caret line="230" column="67" lean-forward="true" selection-start-line="230" selection-start-column="67" selection-end-line="230" selection-end-column="67" />
+            <state relative-caret-position="136">
+              <caret line="260" column="44" selection-start-line="260" selection-start-column="27" selection-end-line="260" selection-end-column="44" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -70,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="164" column="34" selection-start-line="164" selection-start-column="34" selection-end-line="164" selection-end-column="34" />
+            <state relative-caret-position="136">
+              <caret line="151" column="66" selection-start-line="151" selection-start-column="66" selection-end-line="151" selection-end-column="66" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -126,10 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>evaluate_coeffs_on_test_set</find>
-      <find>best</find>
-      <find>e-3</find>
-      <find>eps</find>
       <find>About to run locally</find>
       <find>MAX_SAMP</find>
       <find>SAMPLE_PCT</find>
@@ -149,13 +147,17 @@
       <find>raxml_compute_tree_per_site_ll</find>
       <find>NAME</find>
       <find>Running RaxML statistics from full data and extracting statistics</find>
-      <find>take_up_to_x_sequences</find>
       <find>MAX_</find>
       <find>test</find>
       <find>elapsed</find>
       <find>el</find>
       <find>MAX_N_LO</find>
+      <find>weights = list(coeff_array[0])</find>
       <find>test_s</find>
+      <find>SAMP</find>
+      <find>MAX_SAMPLE_PCT</find>
+      <find>take_up_to_x_sequences</find>
+      <find>choose_best_alpha_ind</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -441,7 +443,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.24492754" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24927536" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.27391306" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -853,16 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="85" column="125" selection-start-line="85" selection-start-column="115" selection-end-line="85" selection-end-column="125" />
-          <folding>
-            <element signature="e#1#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/site-packages/Bio/Seq.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
@@ -880,27 +872,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="52" selection-start-line="52" selection-end-line="52" selection-end-column="14" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3450">
-          <caret line="230" column="67" lean-forward="true" selection-start-line="230" selection-start-column="67" selection-end-line="230" selection-end-column="67" />
+        <state relative-caret-position="136">
+          <caret line="260" column="44" selection-start-line="260" selection-start-column="27" selection-end-line="260" selection-end-column="44" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="58" column="40" selection-start-line="58" selection-start-column="40" selection-end-line="58" selection-end-column="40" />
+        <state relative-caret-position="185">
+          <caret line="85" column="125" selection-start-line="85" selection-start-column="115" selection-end-line="85" selection-end-column="125" />
+          <folding>
+            <element signature="e#1#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="164" column="34" selection-start-line="164" selection-start-column="34" selection-end-line="164" selection-end-column="34" />
+        <state relative-caret-position="136">
+          <caret line="151" column="66" selection-start-line="151" selection-start-column="66" selection-end-line="151" selection-end-column="66" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

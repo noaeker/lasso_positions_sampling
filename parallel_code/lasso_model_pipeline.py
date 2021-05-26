@@ -67,12 +67,12 @@ def get_training_metrics(intercept, overall_chosen_locis, overall_weights,sitelh
 
 
 
-def choose_best_alpha_ind(coeff_path_results):
+def choose_best_alpha_ind(curr_msa_stats,coeff_path_results):
     for i in range(1,len(coeff_path_results)):
         #curr_test_r2 = coeff_path_results[i]["test_r_2"]
         curr_sample_pct = coeff_path_results[i]["sample_pct"]
         #next_r_2 = [coeff_path_results[j]["test_r_2"] for j in range(i,len(coeff_path_results))]
-        if curr_sample_pct>=MAX_SAMPLE_PCT:
+        if curr_sample_pct>=curr_msa_stats["sample_thresholds"]:
             return i
     return len(coeff_path_results)-1
 
@@ -149,7 +149,7 @@ def get_best_lasso_model_on_given_data(curr_msa_stats, training_df, curr_run_dir
     test_set_coeff_evaluation_time = time.time()-start_time
     coeff_path_df = pd.DataFrame(coeff_path_results)
     coeff_path_df.to_csv(os.path.join(curr_run_directory,"alphas_vs_r2.csv"))
-    chosen_coefficient_ind = choose_best_alpha_ind(coeff_path_results)
+    chosen_coefficient_ind = choose_best_alpha_ind(curr_msa_stats,coeff_path_results)
     best_coeffs = rescaled_coeffs_path[chosen_coefficient_ind,:]
     alpha = alphas[chosen_coefficient_ind]
     intercept = y_mean- np.dot(coeffs_path [:,chosen_coefficient_ind],scaler.mean_*np.reciprocal(scaler.scale_))
