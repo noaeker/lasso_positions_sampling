@@ -265,6 +265,7 @@ def main_parser():
     parser.add_argument('--max_n_loci', type=int, default= MAX_N_LOCI)
     parser.add_argument('--lasso_thresholds', action='store', type=str, default = LASSO_THRESHOLDS)
     parser.add_argument('--lasso_thresholds_search', action='store', type=str, default=THRESHOLDS_TO_USE_DURING_SEARCH)
+    parser.add_argument('--run_raxml_commands_locally',action='store_true')
 
     return parser
 

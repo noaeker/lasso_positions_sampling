@@ -123,7 +123,7 @@ def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimo
     raxml_log_file = search_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
                                       job_name="raxml_search", log_file_path=raxml_log_file,
-                                      cpus=cpus, nodes=nodes, queue= curr_msa_stats["queue"])
+                                      cpus=cpus, nodes=nodes, queue= curr_msa_stats["queue"],run_locally = curr_msa_stats["run_raxml_commands_locally"])
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     best_ll = extract_param_from_log(raxml_log_file, 'search_ll')
     return {'best_ll': best_ll, 'best_tree_path': best_tree_path, 'all_final_trees_path': all_final_trees_path,
@@ -185,7 +185,7 @@ def calculate_rf_dist(rf_file_path, curr_run_directory, prefix = "rf"):
     rf_command = (
         "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=rf_file_path, prefix=rf_prefix)
-    execute_commnand_and_write_to_log(rf_command)
+    execute_commnand_and_write_to_log(rf_command, run_locally= True)
     rf_log_file_path = rf_prefix + ".raxml.log"
     relative_rf_dist = extract_param_from_log(rf_log_file_path, "rf_dist")
     return relative_rf_dist
@@ -277,7 +277,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory, job_folder_name="generate_random_trees_job",
                                       job_name="rand_trees", log_file_path=raxml_log_file,
-                                      cpus=1, nodes=1,queue= curr_msa_stats["queue"])
+                                      cpus=1, nodes=1,queue= curr_msa_stats["queue"],run_locally = curr_msa_stats["run_raxml_commands_locally"])
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
     if curr_msa_stats["use_parsimony_training_trees"]:
@@ -338,7 +338,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     raxml_log_file = compute_site_ll_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(compute_site_ll_run_command, curr_run_directory, job_folder_name="raxml_ll_eval_job_for_training",
                                       job_name="training_opt", log_file_path=raxml_log_file,
-                                      cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"],queue= curr_msa_stats["queue"])
+                                      cpus=curr_msa_stats["n_cpus_training"], nodes=curr_msa_stats["n_nodes_training"],queue= curr_msa_stats["queue"],run_locally = curr_msa_stats["run_raxml_commands_locally"])
     wait_for_file_existence(sitelh_file, "Sitelh file")
     sitelh_list = raxml_extract_sitelh(sitelh_file)
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
@@ -370,7 +370,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log( compute_ll_run_command, curr_run_directory, job_folder_name="raxml_optimize_test_trees_job",
                                       job_name="test_opt", log_file_path=raxml_log_file,
-                                      cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"],queue= msa_stats["queue"])
+                                      cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"],queue= msa_stats["queue"],run_locally = msa_stats["run_raxml_commands_locally"])
 
     trees_ll_on_data = extract_param_from_log(raxml_log_file, "ll")
     elapsed_running_time = extract_param_from_log(raxml_log_file, 'time')
