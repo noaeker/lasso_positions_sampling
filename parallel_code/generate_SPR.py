@@ -221,6 +221,7 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
                 "spearmanr_during_tree_search": prediction_rho_spearman,
                 "spearmanr_during_tree_search_pval": prediction_pval_spearman,
             "first_phase_running_time" : first_phase_lasso_running_time,
+            "second_phase_lasso_running_time" : second_phase_lasso_running_time,
                 "mse_during_tree_search" : mse,
                 "mistake_cnt" : mistake_cnt,
                 "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,

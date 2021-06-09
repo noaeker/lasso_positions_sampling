@@ -77,23 +77,23 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     create_dir_if_not_exists(random_trees_folder)
     start_seed_random_trees = SEED
     test_ll_values,optimized_test_topologies_path =Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, start_seed_random_trees)
+    max_training_size = max(training_size_options)
+    training_random_trees_path, training_tree_generation_elapsed_running_time = generate_n_random_topologies_constant_brlen(
+        max(training_size_options), random_trees_folder,
+        curr_msa_stats, "training",
+        seed=start_seed_random_trees)
+
     run_configurations = {}
+    for brlen_generator_name in brlen_generators:
+        training_sitelh, training_eval_time ,training_size_directory = generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,max_training_size,curr_msa_stats,training_random_trees_path)
 
-    for training_size in training_size_options:
-        start_seed_random_trees += 1
-        logging.info(
-            "Generating common topologies for training size {} using seed {}".format(training_size, start_seed_random_trees))
-        training_random_trees_path,training_tree_generation_elapsed_running_time = generate_n_random_topologies_constant_brlen(training_size, random_trees_folder,
-                                                                                 curr_msa_stats, "training",
-                                                                                 seed=start_seed_random_trees)
-        logging.info("Done generating {} random topologies. It took {} seconds.".format(training_size,round(training_tree_generation_elapsed_running_time,2)))
-        for brlen_generator_name in brlen_generators:
-            training_sitelh, training_eval_time ,training_size_directory = generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,training_size,curr_msa_stats,training_random_trees_path)
+        logging.info('Applying Lasso on current training data')
 
-            logging.info('Applying Lasso on current training data')
+        for training_size in training_size_options:
+            training_sitelh_trimmed = training_sitelh.iloc[:training_size]
             Lasso_results = apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,
                                                                              curr_run_directory=training_size_directory,
-                                                                             sitelh_training_df=training_sitelh,
+                                                                             sitelh_training_df=training_sitelh_trimmed,
                                                                              test_optimized_trees_path=optimized_test_topologies_path)  # calculating positions_weight
             Lasso_results.update({'training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
                                   'training_evaluation_time' : training_eval_time

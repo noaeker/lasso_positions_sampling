@@ -180,8 +180,8 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
 
 
 
-def calculate_rf_dist(rf_file_path, curr_run_directory):
-    rf_prefix = os.path.join(curr_run_directory, "rf")
+def calculate_rf_dist(rf_file_path, curr_run_directory, prefix = "rf"):
+    rf_prefix = os.path.join(curr_run_directory, prefix)
     rf_command = (
         "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=rf_file_path, prefix=rf_prefix)

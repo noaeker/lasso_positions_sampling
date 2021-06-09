@@ -58,12 +58,7 @@ def get_positions_stats(alignment_df, n_seq):
     counts_per_position = [dict(alignment_df[col].value_counts()) for col in list(alignment_df)]
     gap_positions_pct = np.mean(
         [counts_per_position[col].get('-', 0) / n_seq for col in range(len(counts_per_position))])
-    position_mode = [
-        sorted(counts_per_position[col].keys(), key=lambda val: counts_per_position[col][val], reverse=True)[0] for col
-        in range(len(counts_per_position))]
-    mode_freq_per_position = [counts_per_position[col][mode] / n_seq for col, mode in enumerate(position_mode)]
-    constant_sites_pct = len([i for i in range(len(counts_per_position)) if
-                                     mode_freq_per_position[i]==1])/len(alignment_df)
+    constant_sites_pct = len((alignment_df.loc[:,alignment_df.apply(pd.Series.nunique) == 1]).columns)/len(alignment_df.columns)
     probabilities = [list(map(lambda x: x / n_seq, counts_per_position[col].values())) for col in
                      list(alignment_df)]
     entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(alignment_df)]
@@ -142,6 +137,9 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
                    }
     reduced_curr_msa_stats.update(
         update_dict)
+    logging.info("Reduced MSA stats computed:\n {reduced_stats}".format(
+        reduced_stats={key: reduced_curr_msa_stats[key] for key in reduced_curr_msa_stats if key not in IGNORE_COLS_IN_CSV}))
+
     return reduced_curr_msa_stats
 
 
@@ -245,18 +243,34 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                 curr_msa_stats["actucal_training_size"] = training_size
                 curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
                 create_dir_if_not_exists(curr_training_size_and_brlen_directory)
-                lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
-                curr_msa_stats.update(lasso_results)
-                logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
-                lasso_based_RAxML_results = raxml_search_pipeline(curr_training_size_and_brlen_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
-                logging.info(f'lasso based RAxML results are:\n{lasso_based_RAxML_results}')
-                curr_msa_stats.update(lasso_based_RAxML_results)
-                best_tree_full_data_path = curr_msa_stats["standard_starting_trees_path"]
-                best_tree_sampled_data_path = curr_msa_stats["lasso_second_phase_best_tree"] if curr_msa_stats["do_raxml_lasso_second_phase"] else curr_msa_stats["lasso_first_phase_best_tree"]
-                #unify_text_files(input_file_path_list, output_file_path)
-                all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                                          k not in IGNORE_COLS_IN_CSV
-                                                          }, ignore_index=True)
+                lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
+                for threshold in lasso_thresholds_during_search:
+                    curr_threshold_directory = os.path.join(curr_training_size_and_brlen_directory , str(threshold))
+                    create_dir_if_not_exists(curr_threshold_directory)
+                    lasso_config_per_threshold = lasso_configurations_per_training_size[brlen_generator_name][
+                        training_size]
+                    if threshold in lasso_config_per_threshold:
+                        lasso_results = lasso_config_per_threshold[threshold]
+                    else:
+                        continue
+                    curr_msa_stats.update(lasso_results)
+                    logging.info("Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(size=training_size, brlen = brlen_generator_name ))
+                    lasso_based_RAxML_results = raxml_search_pipeline(curr_threshold_directory,curr_msa_stats, curr_msa_stats["n_raxml_parsimony_trees"], curr_msa_stats["n_raxml_random_trees"], standrad_search= False)
+                    logging.info(f'lasso based RAxML results are:\n{lasso_based_RAxML_results}')
+                    curr_msa_stats.update(lasso_based_RAxML_results)
+                    best_tree_full_data_path = curr_msa_stats["standard_best_tree_path"]
+                    best_tree_first_phase = curr_msa_stats["lasso_first_phase_best_tree"]
+                    rf_folder = os.path.join(curr_threshold_directory,"rf_calculations")
+                    create_dir_if_not_exists(rf_folder)
+                    rf_first_phase_trees =unify_text_files([best_tree_full_data_path,best_tree_first_phase],os.path.join(rf_folder,"rf_first_phase_trees"))
+                    curr_msa_stats["rf_dist_first_phase"] = calculate_rf_dist(rf_first_phase_trees, rf_folder,prefix="rf_first_phase")
+                    if curr_msa_stats["do_raxml_lasso_second_phase"]:
+                        best_tree_second_phase = curr_msa_stats["lasso_second_phase_best_tree"]
+                        rf_second_phase_trees = unify_text_files([best_tree_full_data_path, best_tree_second_phase],os.path.join(rf_folder,"rf_second_phase_trees"))
+                        curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,prefix="rf_second_phase")
+                    all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                              k not in IGNORE_COLS_IN_CSV
+                                                              }, ignore_index=True)
 
     else:
         logging.info("Updating full MSA results to csv and finishing")
@@ -290,6 +304,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
             with open(naive_spr_results_dump, 'wb') as handle:
                 pickle.dump(naive_spr_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
         curr_msa_stats.update(naive_spr_results)
+        lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
         for brlen_generator_name in brlen_generators:
             brlen_run_directory = os.path.join(starting_tree_run_directory, brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
@@ -298,21 +313,44 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                 curr_msa_stats["actucal_training_size"] = training_size
                 curr_training_size_directory = os.path.join(brlen_run_directory, str(training_size))
                 create_dir_if_not_exists(curr_training_size_directory)
-                lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
-                curr_msa_stats.update(lasso_results)
-                logging.info("Starting Lasso-based SPR on training size: {size}".format(size=training_size))
-                start_time = time.time()
-                lasso_based_spr_results = lasso_based_spr_on_current_starting_tree(starting_tree_path,
-                                                                                   curr_msa_stats,
-                                                                                   curr_training_size_directory)
-                spr_pipeline_running_time = time.time()-start_time
-                curr_msa_stats.update(lasso_based_spr_results)
-                curr_msa_stats.update({'spr_pipeline_running_time':spr_pipeline_running_time})
+                for threshold in  lasso_thresholds_during_search:
+                    curr_threshold_directory = os.path.join(curr_training_size_directory , str(threshold))
+                    create_dir_if_not_exists( curr_threshold_directory )
+                    lasso_config_per_threshold = lasso_configurations_per_training_size[brlen_generator_name][training_size]
+                    if threshold in lasso_config_per_threshold:
+                        lasso_results = lasso_config_per_threshold[threshold]
+                    else:
+                        continue
+                    curr_msa_stats.update(lasso_results)
+                    logging.info("Starting Lasso-based SPR on training size: {size}".format(size=training_size))
+                    start_time = time.time()
+                    lasso_based_spr_results = lasso_based_spr_on_current_starting_tree(starting_tree_path,
+                                                                                       curr_msa_stats,
+                                                                                       curr_threshold_directory)
+                    spr_pipeline_running_time = time.time()-start_time
+                    curr_msa_stats.update(lasso_based_spr_results)
 
-                all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                                          k not in IGNORE_COLS_IN_CSV
-                                                          }, ignore_index=True)
-                all_msa_results.to_csv(job_csv_path)
+                    best_tree_full_newick= curr_msa_stats["naive_SPR_tree_newick"]
+                    best_tree_first_newick= curr_msa_stats["lasso_SPR_first_phase_tree_newick" ]
+                    best_tree_second_phase_newick = curr_msa_stats["lasso_SPR_second_phase_tree_newick"]
+                    rf_folder = os.path.join( curr_threshold_directory, "rf_calculations")
+                    create_dir_if_not_exists(rf_folder)
+                    rf_first_phase_trees = os.path.join(rf_folder, "rf_first_phase_trees")
+                    with open(rf_first_phase_trees,'w') as FIRST_PHASE_RF:
+                        FIRST_PHASE_RF.writelines([best_tree_full_newick,"\n", best_tree_first_newick])
+                    rf_second_phase_trees = os.path.join(rf_folder, "rf_second_phase_trees")
+                    with open( rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
+                        SECOND_PHASE_RF.writelines([best_tree_full_newick,"\n", best_tree_second_phase_newick ])
+
+                    curr_msa_stats["rf_dist_first_phase"] = calculate_rf_dist(rf_first_phase_trees, rf_folder, prefix = "rf_first_phase")
+                    curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder, prefix="rf_second_phase")
+
+                    curr_msa_stats.update({'spr_pipeline_running_time':spr_pipeline_running_time})
+
+                    all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                              k not in IGNORE_COLS_IN_CSV
+                                                              }, ignore_index=True)
+                    all_msa_results.to_csv(job_csv_path)
 
 
 
@@ -387,10 +425,7 @@ def main():
     logging.basicConfig(filename=general_log_path, level=LOGGING_LEVEL)
     logging.info('#Started running on job' + str(args.job_ind))
     logging.info("Job arguments : {}".format(args))
-    if args.random_trees_training_size == -1:
-        training_size_options = TRAINING_SIZE_OPTIONS
-    else:
-        training_size_options = [args.random_trees_training_size]
+    training_size_options = [int(size) for size in args.random_trees_training_size.split("_")]
     brlen_generators = update_chosen_brlen_generators(args.exp_brlen, args.uni_brlen, args.opt_brlen, args.const_brlen)
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
         msa_name = original_alignment_path.replace(MSAs_FOLDER, "").replace("ref_msa.aa.phy", "").replace(os.path.sep,

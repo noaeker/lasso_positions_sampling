@@ -192,6 +192,8 @@ def unify_text_files(input_file_path_list, output_file_path):
         for fname in input_file_path_list:
             with open(fname) as infile:
                 outfile.write(infile.read())
+    return output_file_path
+
 
 
 
@@ -223,7 +225,7 @@ def main_parser():
     parser.add_argument('--n_jobs', action='store', type=int, default=N_JOBS)
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=N_RANDOM_STARTING_TREES)
-    parser.add_argument('--random_trees_training_size', action='store', type=int, default=RANDOM_TREES_TRAINING_SIZE)
+    parser.add_argument('--random_trees_training_size', action='store', type=str, default=RANDOM_TREES_TRAINING_SIZE)
     parser.add_argument('--exp_brlen',action='store_true')
     parser.add_argument('--uni_brlen', action='store_true')
     parser.add_argument('--opt_brlen', action='store_true')
@@ -242,10 +244,10 @@ def main_parser():
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
-    parser.add_argument('--use_raxml_search', action='store_true', default=True)
+    parser.add_argument('--use_raxml_search', action='store_true', default = False) #change
     parser.add_argument('--queue',type=str, default = "pupkolab")
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
-    parser.add_argument('--alternative_analysis', action='store_true', default= True)
+    parser.add_argument('--alternative_analysis', action='store_true')
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_nodes_full', action='store', type=int, default=N_NODES)
     parser.add_argument('--n_cpus_Lasso', action='store', type=int, default=CPUS_PER_NODE_LASSO)
@@ -258,10 +260,11 @@ def main_parser():
     parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
     parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
-    parser.add_argument('--sample_thresholds',action='store', type= str, default= MAX_SAMPLE_PCT)
-    parser.add_argument('--no_test_set',action='store_true', default = False)
+    parser.add_argument('--no_test_set',action='store_true')
     parser.add_argument('--n_partitions', type = int, default =1)
     parser.add_argument('--max_n_loci', type=int, default= MAX_N_LOCI)
+    parser.add_argument('--lasso_thresholds', action='store', type=str, default = LASSO_THRESHOLDS)
+    parser.add_argument('--lasso_thresholds_search', action='store', type=str, default=THRESHOLDS_TO_USE_DURING_SEARCH)
 
     return parser
 

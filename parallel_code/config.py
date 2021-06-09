@@ -40,8 +40,7 @@ def sample_exp(size,start_seed):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = 2000
-TRAINING_SIZE_OPTIONS = [100,200,400,800,1600,3200]
+RANDOM_TREES_TRAINING_SIZE = "100_200_400_800"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
@@ -49,27 +48,28 @@ N_JOBS = 1
 RANDOM_TREES_TEST_SIZE = 30
 DELETE_SPR_FILES = True
 EPSILON = 0.1
-ALPHA_EPSILON = 0.001
-MAX_SAMPLE_PCT = 0.4
+ALPHA_EPSILON = 0.0001
+LASSO_THRESHOLDS  = "0.05_0.1_0.15_0.2_0.25_0.3"
+THRESHOLDS_TO_USE_DURING_SEARCH = "0.05_0.1"
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_borowiek_small"
-CURR_JOBS_PREFIX = "test_borowiek_small"
-LASSO_BASELINE = "no_baseline"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
-LASSO_PATH_BASELINE = "no_baseline"
-TRAINING_BASELINE =  "no_baseline"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
-TEST_SET_BASELINE =  "no_baseline"#"raxml_results_30_sample_0.1"
-MSA_BASELINE = "no_baseline"#"raxml_results_30_sample_0.1"
-FULL_DATA_BASELINE = "no_baseline"#"raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+CURR_RUN_PREFIX = "test_various_thresholds_8"
+CURR_JOBS_PREFIX = "test_various_thresholds_8"
+LASSO_BASELINE = "test_various_thresholds_6"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
+LASSO_PATH_BASELINE = "no_baseline"#"test_20_for_ppt_400"
+TRAINING_BASELINE =   "test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
+TEST_SET_BASELINE =  "test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
+MSA_BASELINE =  "test_various_thresholds_6"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
+FULL_DATA_BASELINE = "no_baseline"#"test_10_for_ppt"#"raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
 
 DILUTE_AMOUNT = 15
 DILUTE_MUL = 10
 
 
 
-MAX_N_SEQ = 30
+MAX_N_SEQ = 5
 MAX_N_LOCI = 100000000
 MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 1
