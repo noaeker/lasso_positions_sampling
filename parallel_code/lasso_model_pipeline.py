@@ -214,7 +214,10 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
                                             y_test_predicted, y_test_true, curr_run_directory)
 
             t_lasso_results.update(test_results)
-            logging.info(f"Unified results for threshold : {threshold} are: \n {t_lasso_results}" )
+            t_lasso_results_print = {key:t_lasso_results[key] for key in t_lasso_results if key not in ["lasso_chosen_locis", "lasso_chosen_weights"] }
+
+
+            logging.info(f"Unified results for threshold : {threshold} are: \n {t_lasso_results_print}" )
         outputs_per_threshold[threshold] = t_lasso_results
     return outputs_per_threshold
 
