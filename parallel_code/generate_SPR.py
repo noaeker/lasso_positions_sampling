@@ -44,7 +44,7 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
     else:
         trees_true_ll = trees_ll
     best_ll = max(trees_ll)
-    logging.info("Out of {} ll values, the best one found is {}".format(len(trees_ll), best_ll))
+    logging.debug("Out of {} ll values, the best one found is {}".format(len(trees_ll), best_ll))
     best_ll_index = trees_ll.index(best_ll)
     best_tree_object= trees_optimized_objects[best_ll_index]
     best_true_ll = trees_true_ll[best_ll_index]
@@ -85,27 +85,26 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         search_starting_tree_ll, search_true_starting_tree_ll = get_true_and_local_starting_tree_ll(MSA_path,run_unique_name,starting_tree_path,curr_msa_stats,curr_run_directory,use_weights)
     else:
         search_starting_tree_ll, search_true_starting_tree_ll = starting_tree_ll, true_starting_tree_ll
-    logging.info("Search starting tree ll = {} Search true starting tree ll = {}".format(search_starting_tree_ll, search_true_starting_tree_ll))
+    logging.debug("Search starting tree ll = {} Search true starting tree ll = {}".format(search_starting_tree_ll, search_true_starting_tree_ll))
     curr_best_tree_ll,curr_best_tree_true_ll = search_starting_tree_ll,search_true_starting_tree_ll
     if starting_tree_object is None:
-        curr_best_tree_object = generate_tree_object_from_newick(starting_tree_path)
-    else:
-        curr_best_tree_object = starting_tree_object
+        starting_tree_object = generate_tree_object_from_newick(starting_tree_path)
+    curr_best_tree_object =  starting_tree_object
     while True:
         curr_iter_run_directory = os.path.join(curr_run_directory , "iter_" + str(spr_iterations_performed_so_far))
         create_or_clean_dir(curr_iter_run_directory)
-        logging.info("iteration number: " + str(spr_iterations_performed_so_far))
+        logging.debug("iteration number: " + str(spr_iterations_performed_so_far))
         curr_best_neighbour_object, curr_best_neighbour_ll, curr_best_neighbour_true_ll, curr_ll_comparison_df = SPR_iteration(
             spr_iterations_performed_so_far, MSA_path, curr_msa_stats, curr_best_tree_object,
             curr_iter_run_directory,
             use_weights
         )
-        logging.info("Our current best tree ll is {} (its true ll is {}), best neighbour ll is {}".format(curr_best_tree_ll, curr_best_tree_true_ll,curr_best_neighbour_ll))
+        logging.debug("Our current best tree ll is {} (its true ll is {}), best neighbour ll is {}".format(curr_best_tree_ll, curr_best_tree_true_ll,curr_best_neighbour_ll))
         ll_comparison_df = pd.concat([ll_comparison_df, curr_ll_comparison_df])
         if curr_best_neighbour_ll -  curr_best_tree_ll <= EPSILON:
-            logging.info("Difference between best spr neighbour and current tree <= {}, stopping SPR search\n".format(EPSILON))
+            logging.debug("Difference between best spr neighbour and current tree <= {}, stopping SPR search\n".format(EPSILON))
             break
-        logging.info("Updating best neighbour to be our current best tree! ")
+        logging.debug("Updating best neighbour to be our current best tree! ")
         ### Updating current iteration results and preparing for next iteration:
         spr_iterations_performed_so_far = spr_iterations_performed_so_far + 1
         curr_best_tree_object = curr_best_neighbour_object
@@ -113,8 +112,10 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         curr_best_tree_true_ll = curr_best_neighbour_true_ll
     return {
         "search_best_ll": curr_best_tree_ll,
+        "search_starting_tree_ll" : starting_tree_ll,
         "search_best_true_ll": curr_best_tree_true_ll,
         "search_best_topology_newick": curr_best_tree_object.write(format=1),
+        "search_starting_tree_newick" : starting_tree_object.write(format=1),
         "ll_comparison_df": ll_comparison_df,
         "true_vs_sampled_ll_per_iteration_list": true_vs_sampled_ll_per_iteration_list,
         "search_best_tree_object": curr_best_tree_object,
@@ -149,13 +150,9 @@ def analyze_ll_comparison_df(ll_comparison_df):
 def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats, curr_run_directory,
                  full_run=False):
     run_unique_name="spr"
-    logging.info("curr run directory=" + curr_run_directory)
     if not os.path.exists(curr_run_directory):
         os.mkdir(curr_run_directory)
-    logging.info(
-        "Starting tree is stored in: {}".format(SPR_chosen_starting_tree_path))
     if (full_run):
-        logging.info("Starting SPR analysis on full data")
         start_time = time.time()
         full_data_param_dict = SPR_search(
             MSA_path=current_file_path,
@@ -166,15 +163,15 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
             curr_run_directory=curr_run_directory, use_weights = False)
         naive_spr_running_time=time.time()-start_time
         full_data_SPR_result = {"naive_SPR_ll": full_data_param_dict["search_best_ll"],
-                                "naive_SPR_spr_moves": full_data_param_dict.get("search_spr_moves"),
+                                "naive_SPR_spr_moves": full_data_param_dict["search_spr_moves"],
                                 "naive_SPR_tree_newick" : full_data_param_dict["search_best_topology_newick"]
                                  , "naive_SPR_ll_per_iteration": full_data_param_dict["true_vs_sampled_ll_per_iteration_list"],
-                                "naive_SPR_running_time" : naive_spr_running_time
+                                "naive_SPR_running_time" : naive_spr_running_time,
+                                "SPR_search_starting_tree_ll" :  full_data_param_dict["search_starting_tree_ll"],
+                                "SPR_search_starting_tree_newick": full_data_param_dict["search_starting_tree_newick"]
                                 }
-        logging.info("Full MSA SPR result: " + str(full_data_SPR_result))
         return (full_data_SPR_result)
     else:
-        logging.info("Starting SPR analysis on sampled data")
         sub_curr_run_directory = os.path.join(curr_run_directory , "_use_sampled_MSA")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
@@ -192,7 +189,6 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
         ll_comparison_df.to_csv(os.path.join(curr_run_directory , "ll_comparison_df.csv"))
         prediction_rho_pearson, prediction_pval_pearson,prediction_rho_spearman, prediction_pval_spearman,mse,mistake_cnt = analyze_ll_comparison_df(ll_comparison_df)
         ### Continue sampling with full data
-        logging.info("Continue SPR analysis using full data")
         # Use previous tree as a starting tree
         sub_curr_run_directory = os.path.join(curr_run_directory ,"_continue_with_full_MSA")
         if not os.path.exists(sub_curr_run_directory):

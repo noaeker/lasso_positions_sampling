@@ -117,15 +117,12 @@ def evaluate_coeffs_on_test_set(coeffs, ind, alpha, curr_run_directory, curr_msa
 
 
 def get_lasso_path_on_given_data(curr_msa_stats, training_df, curr_run_directory):
-    logging.info("Computing locis and weight using lasso")
     y_training = training_df.sum(axis=1)
-    logging.info("Sitelh df dimensions, for lasso computations, are: " + str(training_df.shape))
+    logging.debug("   ***Sitelh df dimensions, for lasso computations, are: " + str(training_df.shape))
     scaler = preprocessing.StandardScaler().fit(training_df.values)
     training_df_scaled = scaler.transform(training_df)
     y_mean = y_training.mean()
     training_y_scaled = (y_training - y_training.mean())
-    lasso_dump_path = os.path.join(curr_run_directory, "lasso_path.dump")
-    logging.info("Computing Lasso path from beggining")
     start_time = time.time()
     lasso_model = linear_model.lasso_path(X=training_df_scaled,
                                               y=training_y_scaled, eps=1e-7, positive=True, n_alphas=100)
@@ -176,7 +173,7 @@ def get_chosen_locis_and_weights(coeff_array, coef_starting_point):
 def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_directory, curr_msa_stats, sitelh_training_df,test_optimized_trees_path):
     outputs_per_threshold = {}
     y_training = sitelh_training_df.sum(axis=1)
-    logging.info("Unifying MSAs and weights for each partition")
+    logging.debug("Unifying MSAs and weights for each partition")
     for threshold in list(results_df_per_threshold_and_partition["threshold"]):
         threshold_folder = os.path.join(curr_run_directory, f"threshold_{threshold}_outputs")
         create_dir_if_not_exists(threshold_folder)
@@ -217,7 +214,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
             t_lasso_results_print = {key:t_lasso_results[key] for key in t_lasso_results if key not in ["lasso_chosen_locis", "lasso_chosen_weights"] }
 
 
-            logging.info(f"Unified results for threshold : {threshold} are: \n {t_lasso_results_print}" )
+            logging.info(f"   ***Unified results for threshold : {threshold} are: \n {t_lasso_results_print}" )
         outputs_per_threshold[threshold] = t_lasso_results
     return outputs_per_threshold
 
@@ -236,7 +233,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
         partition_folder = os.path.join(curr_run_directory,f"partition_{i}_results")
         create_dir_if_not_exists(partition_folder)
         curr_data = sitelh_training_df.iloc[:, partition_indexes[i]]
-        logging.info(f"Applying {i}th batch of Lasso, based on positions {partition_indexes[i]}")
+        logging.debug(f"Applying {i}th batch of Lasso, based on positions {partition_indexes[i]}")
         lasso_path_results = get_lasso_path_on_given_data(curr_msa_stats, curr_data, partition_folder)
         lasso_thresholds = [float(t) for t in curr_msa_stats['lasso_thresholds'].split("_")]
         for threshold in lasso_thresholds:
@@ -258,7 +255,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                                "lasso_running_time" : lasso_path_results["lasso_training_time"]
                                }
             t_lasso_metrics_print = {key: t_lasso_metrics[key] for key in ["threshold","partition","number_loci_chosen","alpha","lasso_intercept"]}
-            logging.info(f"Results for the {i}th fold on threshold {threshold}: \n {t_lasso_metrics_print}")
+            logging.debug(f"Results for the {i}th fold on threshold {threshold}: \n {t_lasso_metrics_print}")
             lasso_results_per_partition_and_threshold = lasso_results_per_partition_and_threshold.append(t_lasso_metrics, ignore_index= True)
     lasso_results_per_partition_and_threshold.to_csv(os.path.join(curr_run_directory,"lasso_results_per_partition_and_threshold.csv"))
 

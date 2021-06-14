@@ -137,7 +137,10 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                                             n_parsimony_trees, n_random_trees, cpus=curr_msa_stats["n_cpus_full"],
                                             nodes=curr_msa_stats["n_nodes_full"],
                                             weights=None, starting_trees_path=None)
+
+
         results = {'standard_best_ll': standard_search_dict["best_ll"],
+                   'standard_ml_trees_path' :  standard_search_dict["all_final_trees_path"],
                    'standard_best_tree_path': standard_search_dict["best_tree_path"],
                    'standard_search_elapsed_time': standard_search_dict["elapsed_running_time"],
                    'standard_starting_trees_path': standard_search_dict["starting_trees_path"]}
@@ -162,6 +165,7 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
             'lasso_first_phase_best_ll': first_phase_best_true_ll,
             'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
             'lasso_first_phase_elapsed_time': first_phase_dict["elapsed_running_time"],
+            'lasso_first_phase_ml_trees':first_phase_dict["all_final_trees_path"]
 
         }
         if curr_msa_stats["do_raxml_lasso_second_phase"]:
@@ -189,6 +193,18 @@ def calculate_rf_dist(rf_file_path, curr_run_directory, prefix = "rf"):
     rf_log_file_path = rf_prefix + ".raxml.log"
     relative_rf_dist = extract_param_from_log(rf_log_file_path, "rf_dist")
     return relative_rf_dist
+
+
+def rf_distance(curr_run_directory,tree_object_a, tree_object_b,name):
+    rf_folder = os.path.join(curr_run_directory, f"rf_calculations_{name}")
+    create_dir_if_not_exists(rf_folder)
+    rf_output_path = os.path.join(rf_folder, name)
+    rf_first_phase_trees = unify_text_files([tree_object_a.write(format=1), tree_object_b.write(format=1)],
+                                            rf_output_path, str_given= True)
+    rf = calculate_rf_dist(rf_first_phase_trees, rf_folder,
+                                                              prefix=name)
+    return rf
+
 
 
 def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):

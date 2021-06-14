@@ -27,7 +27,6 @@ def Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_tr
 
 
 def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,training_size,curr_msa_stats,training_random_trees_path):
-    logging.info("** Working on {} branch-length".format(brlen_generator_name))
     brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
     create_dir_if_not_exists(brlen_run_directory)
     brlen_generator_func = brlen_generators.get(brlen_generator_name)
@@ -56,7 +55,7 @@ def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen
         training_results = {"training_sitelh": training_sitelh, "training_eval_time": training_eval_time}
         with open(training_dump, 'wb') as handle:
             pickle.dump(training_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    logging.info(
+    logging.debug(
         "Done evaluating topologies based on {} branch lengths. It took {} seconds".format(brlen_generator_name,
                                                                                            training_eval_time))
 
@@ -84,23 +83,25 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
         seed=start_seed_random_trees)
 
     run_configurations = {}
+    logging.info(f'Generating Lasso results:')
     for brlen_generator_name in brlen_generators:
-        training_sitelh, training_eval_time ,training_size_directory = generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,max_training_size,curr_msa_stats,training_random_trees_path)
-
-        logging.info('Applying Lasso on current training data')
+        logging.info(f' *Obtaining training data for brlen {brlen_generator_name}:')
+        training_sitelh, training_eval_time ,training_full_size_directory = generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,max_training_size,curr_msa_stats,training_random_trees_path)
 
         for training_size in training_size_options:
-            training_sitelh_trimmed = training_sitelh.iloc[:training_size]
+            logging.info(f'  **Applying Lasso for various alphas on current trimmed training data of size: {training_size}')
+            training_sitelh_trimmed = training_sitelh.iloc[:training_size].copy()
+            trimmed_training_directory = os.path.join(training_full_size_directory, f"trimmed_{training_size}")
+            create_dir_if_not_exists(trimmed_training_directory)
             Lasso_results = apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats,
-                                                                             curr_run_directory=training_size_directory,
+                                                                             curr_run_directory=trimmed_training_directory,
                                                                              sitelh_training_df=training_sitelh_trimmed,
                                                                              test_optimized_trees_path=optimized_test_topologies_path)  # calculating positions_weight
-            Lasso_results.update({'training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
-                                  'training_evaluation_time' : training_eval_time
+            Lasso_results.update({'full_training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
+                                  'full_size_training_evaluation_time' : training_eval_time,
+                                  'lasso_training_size' : training_size,
+                                  'lasso_brlen_generator' : brlen_generator_name
                                   })
-            logging.info("Lasso results: \n {}".format({k:  Lasso_results[k] for k in  Lasso_results.keys() if
-                                                          k not in ["lasso_training_X","lasso_training_Y","lasso_chosen_locis","lasso_coeffs","lasso_chosen_weights"]
-                                                          }))
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results
@@ -165,11 +166,12 @@ def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_tre
     sitelh_df = pd.DataFrame(random_tree_per_site_ll_list, columns=list(range(len(random_tree_per_site_ll_list[0]))),
                              index=list(range(len(random_tree_per_site_ll_list))))
     sitelh_df.to_csv(output_csv_path, index=False)
-    logging.info(
+    logging.debug(
         "Sitelh file is of shape {shape} and stored in {path}".format(shape=sitelh_df.shape, path=output_csv_path))
     logging.info("Deleting dir content of {}".format(raxml_ll_eval_directory))
     #delete_dir_content(raxml_ll_eval_directory)
     return sitelh_df,training_eval_running_time
+
 
 
 

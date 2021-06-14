@@ -1,7 +1,6 @@
 from ete3 import *
 import logging
 
-
 class Edge:
     def __init__(self, node_a, node_b):
         self.node_a= node_a
@@ -129,6 +128,8 @@ def assign_brlen_to_tree_object(tree_object, brlen_list):
         # Do some analysis on node
         node.dist=brlen_list[i]
     return tree_object
+
+
 
 
 

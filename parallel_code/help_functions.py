@@ -187,11 +187,15 @@ def create_dir_if_not_exists(dir):
             os.mkdir(dir)
 
 
-def unify_text_files(input_file_path_list, output_file_path):
+def unify_text_files(input_path_list, output_file_path, str_given = False):
     with open(output_file_path, 'w') as outfile:
-        for fname in input_file_path_list:
-            with open(fname) as infile:
-                outfile.write(infile.read())
+        if str_given:
+            for input in input_path_list:
+                outfile.write(input)
+        else:
+            for fname in input_path_list:
+                with open(fname) as infile:
+                    outfile.write(infile.read())
     return output_file_path
 
 
@@ -240,11 +244,10 @@ def main_parser():
     parser.add_argument('--spr_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
     parser.add_argument('--test_set_baseline_run_prefix', action='store', type=str, default=TEST_SET_BASELINE)
     parser.add_argument('--RAxML_baseline_run_prefix', action='store', type=str, default=FULL_DATA_BASELINE)
-    parser.add_argument('--lasso_path_baseline_run_prefix',action='store', type=str, default=LASSO_PATH_BASELINE)
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
-    parser.add_argument('--use_raxml_search', action='store_true', default = False) #change
+    parser.add_argument('--use_raxml_search', action='store_true') #change
     parser.add_argument('--queue',type=str, default = "pupkolab")
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
     parser.add_argument('--alternative_analysis', action='store_true')

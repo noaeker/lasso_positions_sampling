@@ -116,6 +116,12 @@ p0<-simple.regression(training_optimized_chosen_size_example_data$true_training_
 p1<-simple.regression(test_optimized_chosen_size_example_data$true_test_ll,test_optimized_chosen_size_example_data$predicted_test_ll,"Test set predicted log likelihood vs true log likelihood","Test set true log likelihood","Test set predicted log likelihood",cex=1)
 
 
+ggplot(training_optimized_chosen_size_example_data,aes(true_training_ll,predicted_training_ll))+geom_point()+
+  geom_abline(slope=1, intercept= 0)
+
+
+
+
 
 g0<-ggplot(training_optimized_chosen_size_example_data,aes(true_training_ll, predicted_training_ll)) +theme_classic()+
   geom_smooth(method='lm')+xlab("True-log likelihood")+ylab("Predicted log-likelihood ")+geom_point()+ labs(title="Training set predicted log likelihood vs. true log-likelihood")+theme(plot.title = element_text(hjust = 0.5)) +annotate("text", x=-25000, y=-22000, label= as.expression(substitute(~~italic(r)^2~"="~r2,list(r2 = format(p0[1], digits = 4))))) +annotate("text", x=-25000, y=-23000, label= "p < 2e-324",size=4)
