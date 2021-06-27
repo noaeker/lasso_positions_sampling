@@ -1,0 +1,333 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(tidyverse)
+library(ggpubr)
+library(gridExtra)
+library(tidyverse)
+library(tidymodels)
+library(vip) 
+library(plm)
+
+```
+
+
+```{r}
+lasso_output_data <- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr_results.csv")
+data_source <- read_csv("/Users/noa/Workspace/data/sampled_datasets.csv")
+lasso_output_data<-lasso_output_data%>%mutate(relative_path = str_replace_all(dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',""))
+spr_data= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path", all.x = TRUE)
+
+if (nrow(spr_data)<nrow(lasso_output_data))
+{print("Problem in matching path names")
+  cat("nrow data=",nrow(spr_data), "nrow lasso=",nrow(lasso_output_data))
+}
+```
+```{r}
+spr_data <- spr_data %>% mutate(sample_pct_rd = floor(as.integer(sample_pct*100)/5)*(5/100), delta_ll_first_phase = ifelse(rf_dist_first_phase>0,naive_SPR_ll-lasso_SPR_first_phase_ll,0), delta_ll_second_phase = ifelse(rf_dist_second_phase>0,naive_SPR_ll-lasso_SPR_second_phase_ll,0)) %>% filter(n_seq>=5)
+
+```
+
+```{r}
+spr_data %>% distinct(db,dataset_id) %>% group_by(db)%>% summarize(n=n())
+```
+
+plot for the example MSA 
+
+```{r}
+example_msa_data<- spr_data %>% filter (relative_path=="Selectome/Euteleostomi/ENSGT00660000095541", actucal_training_size==800)
+
+example_msa_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction_grant.csv")
+
+g00<-ggplot(data=example_msa_data, aes(x=sample_pct, y=1-`lasso_test_R^2`)) +theme_classic()+
+geom_line() +geom_point()+labs(title="")+xlab("Percentage of chosen positions")+ ylab("unexplained variance (%)") + theme(plot.title = element_text(hjust = 0.5))+scale_x_continuous(labels = scales::percent)+scale_y_continuous(labels = scales::percent)+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11))
+
+g01<-ggplot(example_msa_ll,aes(true_test_ll, predicted_test_ll)) +theme_classic()+
+  geom_smooth(method='lm')+xlab("True LL")+ylab("Predicted LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11))
+
+
+# g02<-ggplot(data=example_MSA_data_lasso, aes(x=actucal_training_size,color=brlen_generator, y=sample_pct))+theme_classic()+ labs(color = "Branch length distribution")+
+#      geom_line() +geom_point()+
+#    xlab("Training size")+ylab("Positions (%)")+ #theme(axis.title=element_text(size=10),)
+#   guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Median percentage of positions chosen by Lasso")+scale_y_continuous(labels = scales::percent)+ theme(legend.position = "none")+ theme(plot.title = element_text(hjust = 0.5))+labs(color = "Branch length distribution")
+# 
+ggarrange(g00, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+
+
+
+```
+
+General histograms
+
+```{r}
+spr_data_per_dataset <- spr_data %>% group_by(relative_path, gap_pct, divergence, constant_sites_pct, avg_entropy, n_seq, n_loci) %>%
+  summarise(best_delta_ll =  min(delta_ll_first_phase))
+
+ggplot(data = spr_data_per_dataset, aes(n_seq)) +geom_histogram()
+ggplot(data = spr_data_per_dataset, aes(n_loci)) +geom_histogram()
+#ggplot(data = spr_data_per_dataset, aes(x=gap_pct)) +geom_histogram()
+#ggplot(data = spr_data_per_dataset, aes(x=divergence)) +geom_histogram()
+#ggplot(data = spr_data_per_dataset, aes(x=constant_sites_pct)) +geom_histogram()
+#ggplot(data = spr_data_per_dataset, aes(x=avg_entropy)) +geom_histogram()
+ggplot(data = spr_data_per_dataset, aes(x=best_delta_ll)) +geom_histogram()
+
+
+
+
+
+```
+Find datasets in which a better tree was found
+
+```{r}
+good_datasets<-spr_data %>% filter(delta_ll_first_phase<0) %>% distinct(relative_path) %>% pull(relative_path)
+good_datasets
+spr_data %>% filter(relative_path %in% good_datasets ) %>% dplyr::select(relative_path,n_seq, gap_pct,constant_sites_pct,divergence,avg_entropy, actucal_training_size,sample_pct, `R^2_pearson_during_tree_search`,delta_ll_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll, naive_SPR_spr_moves)
+good_datasets
+
+```
+
+Find datasets in which a much worse tree was found
+```{r}
+problematic_datasets<-spr_data %>% filter(delta_ll_first_phase>500) %>% distinct(relative_path) %>% pull(relative_path)
+problematic_datasets
+spr_data  %>% filter(relative_path %in% problematic_datasets) %>% dplyr::select(relative_path,n_seq, actucal_training_size,sample_pct, `R^2_pearson_during_tree_search`,delta_ll_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll, naive_SPR_spr_moves)
+
+
+
+```
+
+Find datasets in which delta ll on second phase is greater than zero
+
+```{r}
+not_best_final_tree_datasets<-spr_data %>% filter(delta_ll_second_phase>0) %>% distinct(relative_path) %>% pull(relative_path)
+problematic_datasets
+spr_data  %>% filter(relative_path %in% not_best_final_tree_datasets) %>% dplyr::select(relative_path,n_seq, actucal_training_size,sample_pct, `R^2_pearson_during_tree_search`,delta_ll_first_phase,delta_ll_second_phase,rf_dist_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll,rf_dist_second_phase, naive_SPR_spr_moves)
+
+
+```
+
+Accuracy metrics as a function of training size and sample percentage
+
+```{r}
+
+
+#spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(paste(actucal_training_size,"\n",sample_pct_rd)),y #=lasso_test_spearmanr )) + geom_boxplot() + labs(x="training_size\nsmple_pct")
+
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(sample_pct_rd),y =delta_ll_first_phase, fill = as.factor(sample_pct_rd) )) + geom_boxplot()+ labs(x="smple_pct") + facet_wrap(~actucal_training_size)
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(sample_pct_rd),y =lasso_test_spearmanr,fill = as.factor(sample_pct_rd) )) + geom_boxplot()+ labs(x="smple_pct") + facet_wrap(~actucal_training_size)
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(sample_pct_rd),y =`lasso_test_R^2`,fill = as.factor(sample_pct_rd) )) + geom_boxplot()+ labs(x="smple_pct") + facet_wrap(~actucal_training_size)
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(sample_pct_rd),y =`R^2_pearson_during_tree_search`,fill = as.factor(sample_pct_rd) )) + geom_boxplot()+ labs(x="smple_pct") + facet_wrap(~actucal_training_size)
+
+
+
+
+
+```
+
+
+minimal training size required for best accuracy + minimum sample percentage required for best accuracy vs. sample percentage
+
+```{r}
+spr_data_ok <- spr_data# %>%   filter(!(relative_path %in% problematic_datasets))
+spr_data_ok_best_rows<- spr_data_ok %>% group_by(relative_path) %>%  summarise (delta_ll_first_phase =min(delta_ll_first_phase)) 
+spr_full_data_best_rows<-spr_data_ok_best_data <- spr_data_ok %>% semi_join(spr_data_ok_best_rows) 
+spr_data_ok_best_data <- spr_full_data_best_rows %>% group_by(relative_path,n_loci, delta_ll_first_phase, n_seq,avg_entropy, gap_pct, constant_sites_pct) 
+min_sample_pct_data <- spr_data_ok_best_data %>% summarise(min_sample_pct = min(sample_pct_rd ))
+min_sample_pct_data %>% ggplot(aes(x=as.factor(n_seq),y=min_sample_pct)) + scale_y_continuous(labels = scales::percent)+ geom_boxplot()
+min_training_size_data <- spr_data_ok_best_data %>% summarise(min_training_size = min(actucal_training_size))
+min_training_size_data %>% ggplot(aes(x=as.factor(n_seq),y=min_training_size )) + geom_boxplot()
+
+#test.training.size<-spr_data_ok_best_data %>% summarise(min_training_size = min(actucal_training_size))  
+#test.sample.pct<-spr_data_ok_best_data %>% summarise(min_sample_pct = min(sample_pct))
+#lm.training.size<-lm(log(min_training_size)~log(n_loci)+n_seq+avg_entropy+ gap_pct+constant_sites_pct, data=test.training.size)
+#lm.sample.pct<-lm(log(min_sample_pct)~log(n_loci)+n_seq+avg_entropy+ gap_pct+constant_sites_pct, data=test.sample.pct)
+
+#summary(lm.training.size)
+#summary(lm.sample.pct)
+
+```
+
+```{r}
+spr_data_ok_best_rows
+spr_full_data_best_rows %>% dplyr::select(relative_path,n_loci, actucal_training_size, sample_pct_rd,delta_ll_first_phase)
+```
+
+
+
+Focusing on datasets with 15 sequences, what is the best cuttoff?
+
+```{r}
+
+spr_data %>%filter(n_seq==15)%>% group_by(actucal_training_size, sample_pct_rd) %>% summarize(pct_identical = sum(rf_dist_first_phase==0)/sum(rf_dist_first_phase==0 | rf_dist_first_phase>0), identical_topo= sum(rf_dist_first_phase==0), diff_topo = sum(rf_dist_first_phase>0), max_rf = max(rf_dist_first_phase), max_delta_ll= max(delta_ll_first_phase),median_delta_ll= median(delta_ll_first_phase[rf_dist_first_phase>0]),mean_delta_ll = mean(delta_ll_first_phase[rf_dist_first_phase>0]), max_spr_dist = max(lasso_SPR_second_phase_spr_moves), )
+
+
+
+spr_data %>%filter(n_seq==15) %>% filter(!(relative_path %in% problematic_datasets)) %>% filter(rf_dist_first_phase>0) %>% ggplot(aes(x=as.factor(sample_pct_rd),y= delta_ll_first_phase)) + geom_boxplot() + facet_wrap(~as.factor(actucal_training_size))
+
+spr_data %>%filter(n_seq==15) %>% filter(!(relative_path %in% problematic_datasets)) %>% filter(rf_dist_first_phase>0) %>% ggplot(aes(x=as.factor(sample_pct_rd),y= delta_ll_first_phase)) + geom_boxplot() + facet_wrap(~as.factor(actucal_training_size))
+
+
+
+
+```
+
+
+Focusing on datasets with less than 15 sequences, what is the best cuttoff?
+
+```{r}
+
+spr_data %>%filter(n_seq<15)%>% group_by(actucal_training_size, sample_pct_rd) %>% summarize(pct_identical = sum(rf_dist_first_phase==0)/sum(rf_dist_first_phase==0 | rf_dist_first_phase>0), identical_topo= sum(rf_dist_first_phase==0), diff_topo = sum(rf_dist_first_phase>0), max_rf = max(rf_dist_first_phase), max_delta_ll= max(delta_ll_first_phase),median_delta_ll= median(delta_ll_first_phase[rf_dist_first_phase>0]),mean_delta_ll = mean(delta_ll_first_phase[rf_dist_first_phase>0]), max_spr_dist = max(lasso_SPR_second_phase_spr_moves), )
+
+
+
+spr_data %>%filter(n_seq<15) %>% filter(rf_dist_first_phase>0) %>% ggplot(aes(x=as.factor(sample_pct_rd),y= delta_ll_first_phase)) + geom_boxplot() +facet_wrap(~as.factor(actucal_training_size))
+
+
+
+
+```
+
+
+```{r}
+
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=`lasso_test_R^2`,y =`R^2_pearson_during_tree_search` )) +geom_point()
+
+print(cor(spr_data$`lasso_test_R^2`, spr_data$`R^2_pearson_during_tree_search`))
+
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=`lasso_test_R^2`,y = delta_ll_first_phase )) +geom_point()
+
+print(cor(spr_data$`lasso_test_R^2`, spr_data$delta_ll_first_phase))
+
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=`R^2_pearson_during_tree_search`,y = delta_ll_first_phase )) +geom_point()
+
+print(cor(spr_data$`R^2_pearson_during_tree_search`, spr_data$delta_ll_first_phase ))
+
+
+spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x= mistake_cnt,y = delta_ll_first_phase )) +geom_point()
+
+print(cor(spr_data$mistake_cnt, spr_data$delta_ll_first_phase ))
+```
+
+
+Looking at each dataset separately. How delta ll changes with training size and sample pct
+
+```{r}
+
+for (dataset in unique(spr_data$relative_path)) {
+   
+print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)
+     
+}
+
+```
+Looking at each dataset separately. How R2 changes with training size and sample pct
+
+```{r}
+for (dataset in unique(spr_data$relative_path)) {
+   
+print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=`lasso_test_R^2`, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)
+     
+}
+```
+
+
+All datasets with 15 sequences
+
+```{r}
+
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==800) & (n_seq==15)) %>% ggplot(aes(x=sample_pct_rd,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 800")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==400) & (n_seq==15)) %>% ggplot(aes(x=sample_pct_rd,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 400")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==200) & n_seq==15) %>% ggplot(aes(x=sample_pct_rd,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 200")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==100) & n_seq==15) %>% ggplot(aes(x=sample_pct_rd,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 100")
+
+
+
+```
+
+Less than 15 sequences
+
+```{r}
+
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==800) & (n_seq<15)) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_point() + geom_line()+ theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 800")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==400) & (n_seq<15)) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line()+ geom_point() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 400")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==200) & n_seq<15) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line()+ geom_point() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 200")
+
+spr_data %>%filter(!(relative_path %in% problematic_datasets) & (actucal_training_size==100) & n_seq<15) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group= relative_path, colour = relative_path)) + geom_line()+ geom_point() + theme(legend.position = "none") + scale_x_continuous(labels = scales::percent)+labs(title="training size 100")
+
+
+
+```
+
+
+
+```{r}
+spr_data_datasets_test<- spr_data %>% filter(delta_ll_first_phase>0 & actucal_training_size==800 & sample_pct_rd==0.2)  %>% pull(relative_path)
+
+
+
+for (dataset in spr_data_datasets_test) {
+   
+print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=delta_ll_first_phase, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)
+#print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=`lasso_test_R^2`, group = as.factor(actucal_training_size), colour = #as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)
+#print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=`R^2_pearson_during_tree_search`, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)
+     
+}
+
+
+
+spr_data %>% filter (relative_path %in% spr_data_datasets_test) %>% distinct (relative_path,n_loci, n_seq)
+                                                                                                                                                     
+```
+
+
+
+
+```{r}
+library(nlme)
+lasso_split <- initial_split(spr_data_ok, prop = 0.75)
+lasso_training <- lasso_split  %>% 
+                        training()
+lasso_test<- lasso_split  %>% 
+                        testing()
+
+
+model.exponential<-lme((delta_ll_first_phase)~actucal_training_size+ sample_pct+divergence+mad+gap_pct+number_loci_chosen+number_loci_chosen+n_loci,random=~1|relative_path, data=spr_data_ok)
+plot(model.exponential)
+print(summary(model.exponential))
+print(intervals(model.exponential,which = "fixed"))
+qqnorm(model.exponential, ~ranef(., level=1))
+
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

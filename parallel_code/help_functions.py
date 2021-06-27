@@ -230,7 +230,7 @@ def main_parser():
     parser.add_argument('--first_msa_ind', action='store', type=int, default=0)
     parser.add_argument('--n_random_starting_trees', action='store', type=int, default=N_RANDOM_STARTING_TREES)
     parser.add_argument('--random_trees_training_size', action='store', type=str, default=RANDOM_TREES_TRAINING_SIZE)
-    parser.add_argument('--exp_brlen',action='store_true')
+    parser.add_argument('--exp_brlen',action='store_true', default  = True)
     parser.add_argument('--uni_brlen', action='store_true')
     parser.add_argument('--opt_brlen', action='store_true')
     parser.add_argument('--const_brlen', action='store_true')
@@ -247,7 +247,7 @@ def main_parser():
     parser.add_argument('--n_raxml_parsimony_trees', action='store', type=int, default=N_PARSIMONY_RAXML_SEARCH)
     parser.add_argument('--n_raxml_random_trees', action='store', type=int, default=N_RANDOM_RAXML_SEARCH)
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default = True)
-    parser.add_argument('--use_raxml_search', action='store_true') #change
+    parser.add_argument('--use_raxml_search', action='store_true', default = True) #change
     parser.add_argument('--queue',type=str, default = "pupkolab")
     parser.add_argument('--do_raxml_lasso_second_phase',action='store_true')
     parser.add_argument('--alternative_analysis', action='store_true')

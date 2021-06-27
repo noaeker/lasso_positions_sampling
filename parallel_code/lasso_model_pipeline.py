@@ -208,7 +208,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
 
             if GENERATE_LASSO_DESCRIPTIVE:
                  generate_lasso_descriptive(y_training_predicted,y_test_predicted_no_opt, y_training,
-                                            y_test_predicted, y_test_true, curr_run_directory)
+                                            y_test_predicted, y_test_true, threshold_folder)
 
             t_lasso_results.update(test_results)
             t_lasso_results_print = {key:t_lasso_results[key] for key in t_lasso_results if key not in ["lasso_chosen_locis", "lasso_chosen_weights"] }

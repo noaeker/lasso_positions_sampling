@@ -3,7 +3,7 @@ import logging
 import random
 
 
-LOCAL_RUN = False
+LOCAL_RUN = True
 SEED = 1
 
 N_PARSIMONY_RAXML_SEARCH= 1
@@ -55,9 +55,9 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test3"#"test_various_thresholds_8"
-CURR_JOBS_PREFIX = "test3"#"test_various_thresholds_8"
-LASSO_BASELINE = "test"#"test_various_thresholds_6"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
+CURR_RUN_PREFIX = "test5"#"test_various_thresholds_8"
+CURR_JOBS_PREFIX = "test5"#"test_various_thresholds_8"
+LASSO_BASELINE = "no_baseline"#"test_various_thresholds_6"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
 TRAINING_BASELINE =   "no_baseline"#"test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
 TEST_SET_BASELINE =  "no_baseline"#"test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
 MSA_BASELINE =  "no_baseline"#"test_various_thresholds_6"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
