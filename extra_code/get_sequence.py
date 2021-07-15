@@ -1,6 +1,6 @@
 from Bio import SeqIO
 
-original_alignment_path = "/Users/noa/Workspace/data/ABC_DR/Selectome/Euteleostomi/ENSGT00660000095541/ref_msa.aa.phy"
+original_alignment_path = "/Users/noa/Workspace/data/ABC_DR/Selectome/Euteleostomi/ENSGT00680000099951/ref_msa.aa.phy"
 with open(original_alignment_path) as original:
     original_alignment_data = list(SeqIO.parse(original, 'phylip-relaxed'))
 

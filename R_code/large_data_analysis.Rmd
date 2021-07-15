@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+#dataset <- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_borowik_results.csv")
+dataset <- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/shen_100_8000_raxml.csv")
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+data<-dataset %>% mutate(delta_ll =standard_best_ll-lasso_first_phase_best_ll, sample_pct_rd = case_when(sample_pct>=0.2 ~ 0.2, sample_pct>=0.15 ~0.15, sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05,sample_pct>=0.01 ~ 0.01),lasso.test.R.2= `lasso_test_R^2` ) %>% dplyr::select(actual_training_size,sample_pct_rd ,raxml_curr_starting_tree_ind,sample_pct, number_loci_chosen,lasso_first_phase_best_ll,delta_ll, raxml_lasso_first_phase_vs_standard_rf,lasso.test.R.2,lasso_first_phase_elapsed_time, standard_search_elapsed_time) 
+
+data
+```
+
+```{r}
+
+ data %>% ggplot(aes(x=sample_pct,y=1-lasso.test.R.2, group = as.factor(actual_training_size), colour = as.factor(actual_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent)+theme_classic()
+```
+
+
+
+```{r}
+data %>% ggplot(aes(x=sample_pct,y=delta_ll, group = as.factor(actual_training_size), colour = as.factor(actual_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="log-likelihood difference", title="log-likelihood differences") +theme_classic()
+
+```
+```{r}
+dataset  %>% filter (actual_training_size==8000) %>% select (actual_training_size,sample_pct, raxml_curr_starting_tree_ll,raxml_curr_starting_tree_standard_output_tree_ll,raxml_curr_starting_tree_lasso_first_phase_output_tree,
+                    raxml_lasso_first_phase_vs_standard_rf,raxml_start_vs_standard_output_rf)
+                    
+```
+```{r}
+data  %>%  select(actual_training_size, sample_pct_rd, lasso_first_phase_elapsed_time, standard_search_elapsed_time) %>% distinct()
+```
+

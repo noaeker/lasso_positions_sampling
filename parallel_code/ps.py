@@ -42,7 +42,7 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
                 )
         job_name = args.jobs_prefix + str(job_ind)
         if not LOCAL_RUN:
-            submit_linux_job(job_name, curr_job_folder, run_command, 1, 1, job_ind)
+            submit_linux_job(job_name, curr_job_folder, run_command, 1, 1, job_ind, queue = args.queue)
         else:
             submit_local_job(MAIN_CODE_PATH, ["--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder
              ] + generate_argument_list(args))

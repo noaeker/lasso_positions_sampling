@@ -1,0 +1,2082 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={R Notebook},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{R Notebook}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+This is an \href{http://rmarkdown.rstudio.com}{R Markdown} Notebook.
+When you execute code within the notebook, the results appear beneath
+the code.
+
+Try executing this chunk by clicking the \emph{Run} button within the
+chunk or by placing your cursor inside it and pressing
+\emph{Cmd+Shift+Enter}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lme4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(plotrix)}
+\KeywordTok{library}\NormalTok{(visreg)}
+\KeywordTok{library}\NormalTok{(stringr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+\end{verbatim}
+
+\begin{verbatim}
+## v tibble  3.1.0     v purrr   0.3.4
+## v tidyr   1.1.2     v dplyr   1.0.4
+## v readr   1.4.0     v forcats 0.5.0
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x tidyr::expand() masks Matrix::expand()
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## x tidyr::pack()   masks Matrix::pack()
+## x tidyr::unpack() masks Matrix::unpack()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggpubr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Registered S3 methods overwritten by 'car':
+##   method                          from
+##   influence.merMod                lme4
+##   cooks.distance.influence.merMod lme4
+##   dfbeta.influence.merMod         lme4
+##   dfbetas.influence.merMod        lme4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(gridExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'gridExtra'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(tidymodels)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages -------------------------------------- tidymodels 0.1.2 --
+\end{verbatim}
+
+\begin{verbatim}
+## v broom     0.7.3      v recipes   0.1.15
+## v dials     0.0.9      v rsample   0.0.9 
+## v infer     0.5.4      v tune      0.1.3 
+## v modeldata 0.1.0      v workflows 0.2.2 
+## v parsnip   0.1.5      v yardstick 0.0.8
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ----------------------------------------- tidymodels_conflicts() --
+## x gridExtra::combine() masks dplyr::combine()
+## x scales::discard()    masks purrr::discard()
+## x tidyr::expand()      masks Matrix::expand()
+## x dplyr::filter()      masks stats::filter()
+## x recipes::fixed()     masks stringr::fixed()
+## x dplyr::lag()         masks stats::lag()
+## x tidyr::pack()        masks Matrix::pack()
+## x yardstick::spec()    masks readr::spec()
+## x recipes::step()      masks stats::step()
+## x tidyr::unpack()      masks Matrix::unpack()
+## x recipes::update()    masks Matrix::update(), stats::update()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(vip) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'vip'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     vi
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(plm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'plm'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     between, lag, lead
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lasso_output_data <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"/Users/noa/Workspace/lasso_positions_sampling_results/new_spr_results.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_double(),
+##   Lasso_folder = col_character(),
+##   RAxML_baseline_run_prefix = col_character(),
+##   SPR_search_starting_tree_ll = col_logical(),
+##   SPR_search_starting_tree_newick = col_character(),
+##   alphas = col_character(),
+##   alternative_files_folder = col_character(),
+##   brlen_generator = col_character(),
+##   curr_job_folder = col_character(),
+##   curr_msa_version_folder = col_character(),
+##   dataset_id = col_character(),
+##   file_name = col_character(),
+##   file_type = col_character(),
+##   file_type_biopython = col_character(),
+##   jobs_prefix = col_character(),
+##   lasso_SPR_first_phase_tree_newick = col_character(),
+##   lasso_SPR_second_phase_tree_newick = col_character(),
+##   lasso_SPR_starting_tree_path = col_character(),
+##   lasso_baseline_run_prefix = col_character(),
+##   lasso_ll_per_iteration_first_phase = col_character(),
+##   lasso_ll_per_iteration_second_phase = col_character()
+##   # ... with 21 more columns
+## )
+## i Use `spec()` for the full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data_source <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"/Users/noa/Workspace/data/sampled_datasets.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Missing column names filled in: 'X1' [1]
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   X1 = col_double(),
+##   path = col_character(),
+##   db = col_character(),
+##   ntaxa = col_double(),
+##   nchars = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lasso_output_data<-lasso_output_data}\OperatorTok{%>%}\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{relative_path =} \KeywordTok{str_replace_all}\NormalTok{(dataset_id,}\StringTok{'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)'}\NormalTok{,}\StringTok{""}\NormalTok{))}
+\NormalTok{spr_data=}\StringTok{ }\KeywordTok{merge}\NormalTok{(lasso_output_data,data_source,}\DataTypeTok{by.x=}\StringTok{"relative_path"}\NormalTok{,}\DataTypeTok{by.y=}\StringTok{"path"}\NormalTok{, }\DataTypeTok{all.x =} \OtherTok{TRUE}\NormalTok{)}
+
+\ControlFlowTok{if}\NormalTok{ (}\KeywordTok{nrow}\NormalTok{(spr_data)}\OperatorTok{<}\KeywordTok{nrow}\NormalTok{(lasso_output_data))}
+\NormalTok{\{}\KeywordTok{print}\NormalTok{(}\StringTok{"Problem in matching path names"}\NormalTok{)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"nrow data="}\NormalTok{,}\KeywordTok{nrow}\NormalTok{(spr_data), }\StringTok{"nrow lasso="}\NormalTok{,}\KeywordTok{nrow}\NormalTok{(lasso_output_data))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data <-}\StringTok{ }\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{sample_pct_rd =} \KeywordTok{floor}\NormalTok{(}\KeywordTok{as.integer}\NormalTok{(sample_pct}\OperatorTok{*}\DecValTok{100}\NormalTok{)}\OperatorTok{/}\DecValTok{5}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{5}\OperatorTok{/}\DecValTok{100}\NormalTok{), }\DataTypeTok{delta_ll_first_phase =} \KeywordTok{ifelse}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{,naive_SPR_ll}\OperatorTok{-}\NormalTok{lasso_SPR_first_phase_ll,}\DecValTok{0}\NormalTok{), }\DataTypeTok{delta_ll_second_phase =} \KeywordTok{ifelse}\NormalTok{(rf_dist_second_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{,naive_SPR_ll}\OperatorTok{-}\NormalTok{lasso_SPR_second_phase_ll,}\DecValTok{0}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{>=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{distinct}\NormalTok{(db,dataset_id) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(db)}\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{n=}\KeywordTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   db            n
+## * <chr>     <int>
+## 1 Selectome    49
+\end{verbatim}
+
+plot for the example MSA
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example_msa_data<-}\StringTok{ }\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{ (relative_path}\OperatorTok{==}\StringTok{"Selectome/Euteleostomi/ENSGT00660000095541"}\NormalTok{, actucal_training_size}\OperatorTok{==}\DecValTok{800}\NormalTok{)}
+
+\NormalTok{example_msa_ll<-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction_grant.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Missing column names filled in: 'X1' [1]
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   X1 = col_double(),
+##   predicted_test_ll = col_double(),
+##   true_test_ll = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g00<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{example_msa_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct, }\DataTypeTok{y=}\DecValTok{1}\OperatorTok{-}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{)) }\OperatorTok{+}\KeywordTok{theme_classic}\NormalTok{()}\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{""}\NormalTok{)}\OperatorTok{+}\KeywordTok{xlab}\NormalTok{(}\StringTok{"Percentage of chosen positions"}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{ylab}\NormalTok{(}\StringTok{"unexplained variance (%)"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}\OperatorTok{+}\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}\OperatorTok{+}\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\DecValTok{11}\NormalTok{),}
+        \DataTypeTok{axis.title=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\DecValTok{11}\NormalTok{))}
+
+\NormalTok{g01<-}\KeywordTok{ggplot}\NormalTok{(example_msa_ll,}\KeywordTok{aes}\NormalTok{(true_test_ll, predicted_test_ll)) }\OperatorTok{+}\KeywordTok{theme_classic}\NormalTok{()}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\StringTok{'lm'}\NormalTok{)}\OperatorTok{+}\KeywordTok{xlab}\NormalTok{(}\StringTok{"True LL"}\NormalTok{)}\OperatorTok{+}\KeywordTok{ylab}\NormalTok{(}\StringTok{"Predicted LL "}\NormalTok{)}\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{""}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}\OperatorTok{+}\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\DecValTok{11}\NormalTok{),}
+        \DataTypeTok{axis.title=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size=}\DecValTok{11}\NormalTok{))}
+
+
+\CommentTok{# g02<-ggplot(data=example_MSA_data_lasso, aes(x=actucal_training_size,color=brlen_generator, y=sample_pct))+theme_classic()+ labs(color = "Branch length distribution")+}
+\CommentTok{#      geom_line() +geom_point()+}
+\CommentTok{#    xlab("Training size")+ylab("Positions (%)")+ #theme(axis.title=element_text(size=10),)}
+\CommentTok{#   guides(fill=guide_legend(title="Branch length distribution"))+ggtitle("Median percentage of positions chosen by Lasso")+scale_y_continuous(labels = scales::percent)+ theme(legend.position = "none")+ theme(plot.title = element_text(hjust = 0.5))+labs(color = "Branch length distribution")}
+\CommentTok{# }
+\KeywordTok{ggarrange}\NormalTok{(g00, g01, }\DataTypeTok{hjust=}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\DataTypeTok{vjust=}\DecValTok{1}\NormalTok{, }\DataTypeTok{heights=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DataTypeTok{common.legend=}\OtherTok{TRUE}\NormalTok{,}
+          \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{),}
+          \DataTypeTok{ncol =} \DecValTok{1}\NormalTok{, }\DataTypeTok{nrow =}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+General histograms
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data_per_dataset <-}\StringTok{ }\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(relative_path, gap_pct, divergence, constant_sites_pct, avg_entropy, n_seq, n_loci) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{best_delta_ll =}  \KeywordTok{min}\NormalTok{(delta_ll_first_phase))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'relative_path', 'gap_pct', 'divergence', 'constant_sites_pct', 'avg_entropy', 'n_seq'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ spr_data_per_dataset, }\KeywordTok{aes}\NormalTok{(n_seq)) }\OperatorTok{+}\KeywordTok{geom_histogram}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ spr_data_per_dataset, }\KeywordTok{aes}\NormalTok{(n_loci)) }\OperatorTok{+}\KeywordTok{geom_histogram}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#ggplot(data = spr_data_per_dataset, aes(x=gap_pct)) +geom_histogram()}
+\CommentTok{#ggplot(data = spr_data_per_dataset, aes(x=divergence)) +geom_histogram()}
+\CommentTok{#ggplot(data = spr_data_per_dataset, aes(x=constant_sites_pct)) +geom_histogram()}
+\CommentTok{#ggplot(data = spr_data_per_dataset, aes(x=avg_entropy)) +geom_histogram()}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ spr_data_per_dataset, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{best_delta_ll)) }\OperatorTok{+}\KeywordTok{geom_histogram}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-6-3.pdf}
+Find datasets in which a better tree was found
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{good_datasets<-spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta_ll_first_phase}\OperatorTok{<}\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{distinct}\NormalTok{(relative_path) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(relative_path)}
+\NormalTok{good_datasets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Selectome/Euteleostomi/ENSGT00610000085715"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{good_datasets ) }\OperatorTok{%>%}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(relative_path,n_seq, gap_pct,constant_sites_pct,divergence,avg_entropy, actucal_training_size,sample_pct, }\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{,delta_ll_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll, naive_SPR_spr_moves)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                 relative_path n_seq  gap_pct constant_sites_pct
+## 1  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 2  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 3  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 4  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 5  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 6  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 7  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 8  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 9  Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 10 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 11 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 12 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 13 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 14 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+## 15 Selectome/Euteleostomi/ENSGT00610000085715    15 0.156883           0.460311
+##    divergence avg_entropy actucal_training_size sample_pct
+## 1    2.243368   0.5095171                   100 0.05033354
+## 2    2.243368   0.5095171                   100 0.10673135
+## 3    2.243368   0.5095171                   100 0.15069739
+## 4    2.243368   0.5095171                   200 0.05033354
+## 5    2.243368   0.5095171                   200 0.10278957
+## 6    2.243368   0.5095171                   200 0.15191025
+## 7    2.243368   0.5095171                   200 0.20345664
+## 8    2.243368   0.5095171                   400 0.05336568
+## 9    2.243368   0.5095171                   400 0.10097029
+## 10   2.243368   0.5095171                   400 0.15918739
+## 11   2.243368   0.5095171                   400 0.20103093
+## 12   2.243368   0.5095171                   800 0.05457853
+## 13   2.243368   0.5095171                   800 0.10097029
+## 14   2.243368   0.5095171                   800 0.16040024
+## 15   2.243368   0.5095171                   800 0.21012735
+##    R^2_pearson_during_tree_search delta_ll_first_phase
+## 1                       0.9972836             39.56902
+## 2                       0.9974341             39.56902
+## 3                       0.9974476             39.56902
+## 4                       0.9959274             14.61358
+## 5                       0.9976673             24.39893
+## 6                       0.9979647             14.61216
+## 7                       0.9980697             14.61211
+## 8                       0.9962233             17.09511
+## 9                       0.9988556             -8.24523
+## 10                      0.9993877             -8.24533
+## 11                      0.9995859              0.00000
+## 12                      0.9952662              0.00000
+## 13                      0.9988922              0.00000
+## 14                      0.9996887              0.00000
+## 15                      0.9998079              0.00000
+##    lasso_SPR_first_phase_spr_moves lasso_SPR_second_phase_spr_moves
+## 1                                9                                4
+## 2                                9                                4
+## 3                                9                                4
+## 4                                8                                1
+## 5                                8                                2
+## 6                                8                                1
+## 7                                8                                1
+## 8                                9                                1
+## 9                               11                                0
+## 10                              11                                0
+## 11                               9                                0
+## 12                               9                                0
+## 13                               9                                0
+## 14                               9                                0
+## 15                               9                                0
+##    lasso_SPR_second_phase_ll naive_SPR_spr_moves
+## 1                  -32617.21                   9
+## 2                  -32617.21                   9
+## 3                  -32617.21                   9
+## 4                  -32625.46                   9
+## 5                  -32625.46                   9
+## 6                  -32625.46                   9
+## 7                  -32625.46                   9
+## 8                  -32625.46                   9
+## 9                  -32617.21                   9
+## 10                 -32617.21                   9
+## 11                 -32625.46                   9
+## 12                 -32625.46                   9
+## 13                 -32625.46                   9
+## 14                 -32625.46                   9
+## 15                 -32625.46                   9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{good_datasets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Selectome/Euteleostomi/ENSGT00610000085715"
+\end{verbatim}
+
+Find datasets in which a much worse tree was found
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{problematic_datasets<-spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta_ll_first_phase}\OperatorTok{>}\DecValTok{500}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{distinct}\NormalTok{(relative_path) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(relative_path)}
+\NormalTok{problematic_datasets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Selectome/Euteleostomi/ENSGT00530000063613"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data  }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(relative_path,n_seq, actucal_training_size,sample_pct, }\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{,delta_ll_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll, naive_SPR_spr_moves)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                 relative_path n_seq actucal_training_size
+## 1  Selectome/Euteleostomi/ENSGT00530000063613    15                   100
+## 2  Selectome/Euteleostomi/ENSGT00530000063613    15                   100
+## 3  Selectome/Euteleostomi/ENSGT00530000063613    15                   100
+## 4  Selectome/Euteleostomi/ENSGT00530000063613    15                   200
+## 5  Selectome/Euteleostomi/ENSGT00530000063613    15                   200
+## 6  Selectome/Euteleostomi/ENSGT00530000063613    15                   200
+## 7  Selectome/Euteleostomi/ENSGT00530000063613    15                   200
+## 8  Selectome/Euteleostomi/ENSGT00530000063613    15                   400
+## 9  Selectome/Euteleostomi/ENSGT00530000063613    15                   400
+## 10 Selectome/Euteleostomi/ENSGT00530000063613    15                   400
+## 11 Selectome/Euteleostomi/ENSGT00530000063613    15                   400
+## 12 Selectome/Euteleostomi/ENSGT00530000063613    15                   800
+## 13 Selectome/Euteleostomi/ENSGT00530000063613    15                   800
+## 14 Selectome/Euteleostomi/ENSGT00530000063613    15                   800
+## 15 Selectome/Euteleostomi/ENSGT00530000063613    15                   800
+##    sample_pct R^2_pearson_during_tree_search delta_ll_first_phase
+## 1  0.05047619                   0.9639670425           196.915489
+## 2  0.10000000                   0.9674205207           196.915473
+## 3  0.15047619                   0.9675463847           196.915471
+## 4  0.05333333                   0.0357239348            33.313029
+## 5  0.10000000                   0.9891195085            33.312525
+## 6  0.15000000                   0.9926534354            33.313327
+## 7  0.20333333                   0.9928443892            33.313304
+## 8  0.05095238                   0.0001182295          1135.849709
+## 9  0.10571429                   0.9870208159             7.007565
+## 10 0.15761905                   0.9945275417             0.000000
+## 11 0.20285714                   0.9969693788             0.000000
+## 12 0.05333333                   0.7636069038            14.451666
+## 13 0.10619048                   0.9826162149            14.454136
+## 14 0.15000000                   0.9926471995             0.000000
+## 15 0.20333333                   0.9980377302             0.000000
+##    lasso_SPR_first_phase_spr_moves lasso_SPR_second_phase_spr_moves
+## 1                                7                                6
+## 2                                7                                6
+## 3                                7                                6
+## 4                                8                                2
+## 5                                9                                2
+## 6                                8                                2
+## 7                                8                                2
+## 8                                7                                4
+## 9                                8                                1
+## 10                               9                                0
+## 11                               8                                0
+## 12                               8                                1
+## 13                               8                                1
+## 14                               8                                0
+## 15                               8                                0
+##    lasso_SPR_second_phase_ll naive_SPR_spr_moves
+## 1                  -21434.01                   9
+## 2                  -21434.01                   9
+## 3                  -21434.01                   9
+## 4                  -21434.01                   9
+## 5                  -21434.01                   9
+## 6                  -21434.01                   9
+## 7                  -21434.01                   9
+## 8                  -21434.01                   9
+## 9                  -21434.01                   9
+## 10                 -21434.01                   9
+## 11                 -21434.01                   9
+## 12                 -21434.01                   9
+## 13                 -21434.01                   9
+## 14                 -21434.01                   9
+## 15                 -21434.01                   9
+\end{verbatim}
+
+Find datasets in which delta ll on second phase is greater than zero
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{not_best_final_tree_datasets<-spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta_ll_second_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{distinct}\NormalTok{(relative_path) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(relative_path)}
+\NormalTok{problematic_datasets}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Selectome/Euteleostomi/ENSGT00530000063613"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data  }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{not_best_final_tree_datasets) }\OperatorTok{%>%}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(relative_path,n_seq, actucal_training_size,sample_pct, }\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{,delta_ll_first_phase,delta_ll_second_phase,rf_dist_first_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll,rf_dist_second_phase, naive_SPR_spr_moves)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                            relative_path n_seq actucal_training_size sample_pct
+## 1 Selectome/Primates/ENSGT00690000101961     8                   100 0.05089383
+## 2 Selectome/Primates/ENSGT00690000101961     8                   200 0.05417731
+## 3 Selectome/Primates/ENSGT00690000101961     8                   400 0.05271799
+## 4 Selectome/Primates/ENSGT00690000101961     8                   800 0.05034659
+##   R^2_pearson_during_tree_search delta_ll_first_phase delta_ll_second_phase
+## 1                      0.9836755              0.0e+00               0.0e+00
+## 2                      0.9987137              6.3e-05               6.3e-05
+## 3                      0.9923572              0.0e+00               0.0e+00
+## 4                      0.9950682              0.0e+00               0.0e+00
+##   rf_dist_first_phase lasso_SPR_first_phase_spr_moves
+## 1                 0.0                               3
+## 2                 0.2                               3
+## 3                 0.0                               3
+## 4                 0.0                               3
+##   lasso_SPR_second_phase_spr_moves lasso_SPR_second_phase_ll
+## 1                                0                 -18406.75
+## 2                                0                 -18406.75
+## 3                                0                 -18406.75
+## 4                                0                 -18406.75
+##   rf_dist_second_phase naive_SPR_spr_moves
+## 1                  0.0                   3
+## 2                  0.2                   3
+## 3                  0.0                   3
+## 4                  0.0                   3
+\end{verbatim}
+
+Accuracy metrics as a function of training size and sample percentage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#spr_data %>% filter(!relative_path %in% problematic_datasets) %>% ggplot(aes(x=as.factor(paste(actucal_training_size,"\textbackslash{}n",sample_pct_rd)),y #=lasso_test_spearmanr )) + geom_boxplot() + labs(x="training_size\textbackslash{}nsmple_pct")}
+
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y =}\NormalTok{delta_ll_first_phase, }\DataTypeTok{fill =} \KeywordTok{as.factor}\NormalTok{(sample_pct_rd) )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"smple_pct"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{actucal_training_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y =}\NormalTok{lasso_test_spearmanr,}\DataTypeTok{fill =} \KeywordTok{as.factor}\NormalTok{(sample_pct_rd) )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"smple_pct"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{actucal_training_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y =}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{,}\DataTypeTok{fill =} \KeywordTok{as.factor}\NormalTok{(sample_pct_rd) )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"smple_pct"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{actucal_training_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-10-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y =}\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{,}\DataTypeTok{fill =} \KeywordTok{as.factor}\NormalTok{(sample_pct_rd) )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"smple_pct"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{actucal_training_size)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-10-4.pdf}
+
+minimal training size required for best accuracy + minimum sample
+percentage required for best accuracy vs.~sample percentage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data_ok <-}\StringTok{ }\NormalTok{spr_data}\CommentTok{# %>%   filter(!(relative_path %in% problematic_datasets))}
+\NormalTok{spr_data_ok_best_rows<-}\StringTok{ }\NormalTok{spr_data_ok }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(relative_path) }\OperatorTok{%>%}\StringTok{  }\KeywordTok{summarise}\NormalTok{ (}\DataTypeTok{delta_ll_first_phase =}\KeywordTok{min}\NormalTok{(delta_ll_first_phase)) }
+\NormalTok{spr_full_data_best_rows<-spr_data_ok_best_data <-}\StringTok{ }\NormalTok{spr_data_ok }\OperatorTok{%>%}\StringTok{ }\KeywordTok{semi_join}\NormalTok{(spr_data_ok_best_rows) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining, by = c("relative_path", "delta_ll_first_phase")
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data_ok_best_data <-}\StringTok{ }\NormalTok{spr_full_data_best_rows }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(relative_path,n_loci, delta_ll_first_phase, n_seq,avg_entropy, gap_pct, constant_sites_pct) }
+\NormalTok{min_sample_pct_data <-}\StringTok{ }\NormalTok{spr_data_ok_best_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{min_sample_pct =} \KeywordTok{min}\NormalTok{(sample_pct_rd ))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'relative_path', 'n_loci', 'delta_ll_first_phase', 'n_seq', 'avg_entropy', 'gap_pct'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{min_sample_pct_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(n_seq),}\DataTypeTok{y=}\NormalTok{min_sample_pct)) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{min_training_size_data <-}\StringTok{ }\NormalTok{spr_data_ok_best_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{min_training_size =} \KeywordTok{min}\NormalTok{(actucal_training_size))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'relative_path', 'n_loci', 'delta_ll_first_phase', 'n_seq', 'avg_entropy', 'gap_pct'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{min_training_size_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(n_seq),}\DataTypeTok{y=}\NormalTok{min_training_size )) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-11-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#test.training.size<-spr_data_ok_best_data %>% summarise(min_training_size = min(actucal_training_size))  }
+\CommentTok{#test.sample.pct<-spr_data_ok_best_data %>% summarise(min_sample_pct = min(sample_pct))}
+\CommentTok{#lm.training.size<-lm(log(min_training_size)~log(n_loci)+n_seq+avg_entropy+ gap_pct+constant_sites_pct, data=test.training.size)}
+\CommentTok{#lm.sample.pct<-lm(log(min_sample_pct)~log(n_loci)+n_seq+avg_entropy+ gap_pct+constant_sites_pct, data=test.sample.pct)}
+
+\CommentTok{#summary(lm.training.size)}
+\CommentTok{#summary(lm.sample.pct)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data_ok_best_rows}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 49 x 2
+##    relative_path                           delta_ll_first_phase
+##  * <chr>                                                  <dbl>
+##  1 Selectome/Drosophila/EMGT00050000000090                    0
+##  2 Selectome/Drosophila/EMGT00050000000389                    0
+##  3 Selectome/Drosophila/EMGT00050000001468                    0
+##  4 Selectome/Drosophila/EMGT00050000001647                    0
+##  5 Selectome/Drosophila/EMGT00050000002195                    0
+##  6 Selectome/Drosophila/EMGT00050000002674                    0
+##  7 Selectome/Drosophila/EMGT00050000002706                    0
+##  8 Selectome/Drosophila/EMGT00050000004134                    0
+##  9 Selectome/Drosophila/EMGT00050000004763                    0
+## 10 Selectome/Drosophila/EMGT00050000004968                    0
+## # ... with 39 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_full_data_best_rows }\OperatorTok{%>%}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(relative_path,n_loci, actucal_training_size, sample_pct_rd,delta_ll_first_phase)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                  relative_path n_loci actucal_training_size
+## 1      Selectome/Drosophila/EMGT00050000000090   3014                   400
+## 2      Selectome/Drosophila/EMGT00050000000090   3014                   400
+## 3      Selectome/Drosophila/EMGT00050000000090   3014                   800
+## 4      Selectome/Drosophila/EMGT00050000000090   3014                   800
+## 5      Selectome/Drosophila/EMGT00050000000090   3014                   800
+## 6      Selectome/Drosophila/EMGT00050000000389   2438                   100
+## 7      Selectome/Drosophila/EMGT00050000000389   2438                   100
+## 8      Selectome/Drosophila/EMGT00050000000389   2438                   100
+## 9      Selectome/Drosophila/EMGT00050000000389   2438                   200
+## 10     Selectome/Drosophila/EMGT00050000000389   2438                   200
+## 11     Selectome/Drosophila/EMGT00050000000389   2438                   200
+## 12     Selectome/Drosophila/EMGT00050000000389   2438                   200
+## 13     Selectome/Drosophila/EMGT00050000000389   2438                   400
+## 14     Selectome/Drosophila/EMGT00050000000389   2438                   400
+## 15     Selectome/Drosophila/EMGT00050000000389   2438                   400
+## 16     Selectome/Drosophila/EMGT00050000000389   2438                   400
+## 17     Selectome/Drosophila/EMGT00050000000389   2438                   800
+## 18     Selectome/Drosophila/EMGT00050000000389   2438                   800
+## 19     Selectome/Drosophila/EMGT00050000000389   2438                   800
+## 20     Selectome/Drosophila/EMGT00050000000389   2438                   800
+## 21     Selectome/Drosophila/EMGT00050000001468   2447                   200
+## 22     Selectome/Drosophila/EMGT00050000001468   2447                   200
+## 23     Selectome/Drosophila/EMGT00050000001468   2447                   200
+## 24     Selectome/Drosophila/EMGT00050000001468   2447                   400
+## 25     Selectome/Drosophila/EMGT00050000001468   2447                   400
+## 26     Selectome/Drosophila/EMGT00050000001468   2447                   400
+## 27     Selectome/Drosophila/EMGT00050000001468   2447                   800
+## 28     Selectome/Drosophila/EMGT00050000001468   2447                   800
+## 29     Selectome/Drosophila/EMGT00050000001468   2447                   800
+## 30     Selectome/Drosophila/EMGT00050000001468   2447                   800
+## 31     Selectome/Drosophila/EMGT00050000001647   2479                   100
+## 32     Selectome/Drosophila/EMGT00050000001647   2479                   100
+## 33     Selectome/Drosophila/EMGT00050000001647   2479                   100
+## 34     Selectome/Drosophila/EMGT00050000001647   2479                   200
+## 35     Selectome/Drosophila/EMGT00050000001647   2479                   200
+## 36     Selectome/Drosophila/EMGT00050000001647   2479                   200
+## 37     Selectome/Drosophila/EMGT00050000001647   2479                   400
+## 38     Selectome/Drosophila/EMGT00050000001647   2479                   400
+## 39     Selectome/Drosophila/EMGT00050000001647   2479                   400
+## 40     Selectome/Drosophila/EMGT00050000002195   3092                   100
+## 41     Selectome/Drosophila/EMGT00050000002195   3092                   100
+## 42     Selectome/Drosophila/EMGT00050000002195   3092                   100
+## 43     Selectome/Drosophila/EMGT00050000002195   3092                   200
+## 44     Selectome/Drosophila/EMGT00050000002195   3092                   200
+## 45     Selectome/Drosophila/EMGT00050000002195   3092                   200
+## 46     Selectome/Drosophila/EMGT00050000002195   3092                   200
+## 47     Selectome/Drosophila/EMGT00050000002195   3092                   400
+## 48     Selectome/Drosophila/EMGT00050000002195   3092                   400
+## 49     Selectome/Drosophila/EMGT00050000002195   3092                   400
+## 50     Selectome/Drosophila/EMGT00050000002195   3092                   400
+## 51     Selectome/Drosophila/EMGT00050000002195   3092                   800
+## 52     Selectome/Drosophila/EMGT00050000002195   3092                   800
+## 53     Selectome/Drosophila/EMGT00050000002195   3092                   800
+## 54     Selectome/Drosophila/EMGT00050000002195   3092                   800
+## 55     Selectome/Drosophila/EMGT00050000002674   3355                   100
+## 56     Selectome/Drosophila/EMGT00050000002674   3355                   100
+## 57     Selectome/Drosophila/EMGT00050000002674   3355                   100
+## 58     Selectome/Drosophila/EMGT00050000002674   3355                   200
+## 59     Selectome/Drosophila/EMGT00050000002674   3355                   200
+## 60     Selectome/Drosophila/EMGT00050000002674   3355                   400
+## 61     Selectome/Drosophila/EMGT00050000002674   3355                   400
+## 62     Selectome/Drosophila/EMGT00050000002674   3355                   400
+## 63     Selectome/Drosophila/EMGT00050000002674   3355                   400
+## 64     Selectome/Drosophila/EMGT00050000002674   3355                   800
+## 65     Selectome/Drosophila/EMGT00050000002674   3355                   800
+## 66     Selectome/Drosophila/EMGT00050000002674   3355                   800
+## 67     Selectome/Drosophila/EMGT00050000002674   3355                   800
+## 68     Selectome/Drosophila/EMGT00050000002706   2367                   100
+## 69     Selectome/Drosophila/EMGT00050000002706   2367                   100
+## 70     Selectome/Drosophila/EMGT00050000002706   2367                   100
+## 71     Selectome/Drosophila/EMGT00050000002706   2367                   100
+## 72     Selectome/Drosophila/EMGT00050000002706   2367                   200
+## 73     Selectome/Drosophila/EMGT00050000002706   2367                   200
+## 74     Selectome/Drosophila/EMGT00050000002706   2367                   200
+## 75     Selectome/Drosophila/EMGT00050000002706   2367                   200
+## 76     Selectome/Drosophila/EMGT00050000002706   2367                   400
+## 77     Selectome/Drosophila/EMGT00050000002706   2367                   400
+## 78     Selectome/Drosophila/EMGT00050000002706   2367                   400
+## 79     Selectome/Drosophila/EMGT00050000002706   2367                   400
+## 80     Selectome/Drosophila/EMGT00050000002706   2367                   800
+## 81     Selectome/Drosophila/EMGT00050000002706   2367                   800
+## 82     Selectome/Drosophila/EMGT00050000002706   2367                   800
+## 83     Selectome/Drosophila/EMGT00050000002706   2367                   800
+## 84     Selectome/Drosophila/EMGT00050000004134   2717                   100
+## 85     Selectome/Drosophila/EMGT00050000004134   2717                   100
+## 86     Selectome/Drosophila/EMGT00050000004134   2717                   100
+## 87     Selectome/Drosophila/EMGT00050000004134   2717                   100
+## 88     Selectome/Drosophila/EMGT00050000004134   2717                   200
+## 89     Selectome/Drosophila/EMGT00050000004134   2717                   200
+## 90     Selectome/Drosophila/EMGT00050000004134   2717                   200
+## 91     Selectome/Drosophila/EMGT00050000004134   2717                   200
+## 92     Selectome/Drosophila/EMGT00050000004134   2717                   400
+## 93     Selectome/Drosophila/EMGT00050000004134   2717                   400
+## 94     Selectome/Drosophila/EMGT00050000004134   2717                   400
+## 95     Selectome/Drosophila/EMGT00050000004134   2717                   400
+## 96     Selectome/Drosophila/EMGT00050000004134   2717                   800
+## 97     Selectome/Drosophila/EMGT00050000004134   2717                   800
+## 98     Selectome/Drosophila/EMGT00050000004134   2717                   800
+## 99     Selectome/Drosophila/EMGT00050000004134   2717                   800
+## 100    Selectome/Drosophila/EMGT00050000004763   3072                   200
+## 101    Selectome/Drosophila/EMGT00050000004763   3072                   400
+## 102    Selectome/Drosophila/EMGT00050000004763   3072                   400
+## 103    Selectome/Drosophila/EMGT00050000004763   3072                   400
+## 104    Selectome/Drosophila/EMGT00050000004763   3072                   800
+## 105    Selectome/Drosophila/EMGT00050000004763   3072                   800
+## 106    Selectome/Drosophila/EMGT00050000004763   3072                   800
+## 107    Selectome/Drosophila/EMGT00050000004968   2815                   100
+## 108    Selectome/Drosophila/EMGT00050000004968   2815                   100
+## 109    Selectome/Drosophila/EMGT00050000004968   2815                   100
+## 110    Selectome/Drosophila/EMGT00050000004968   2815                   100
+## 111    Selectome/Drosophila/EMGT00050000004968   2815                   200
+## 112    Selectome/Drosophila/EMGT00050000004968   2815                   200
+## 113    Selectome/Drosophila/EMGT00050000004968   2815                   200
+## 114    Selectome/Drosophila/EMGT00050000004968   2815                   200
+## 115    Selectome/Drosophila/EMGT00050000004968   2815                   400
+## 116    Selectome/Drosophila/EMGT00050000004968   2815                   800
+## 117    Selectome/Drosophila/EMGT00050000005225   2944                   100
+## 118    Selectome/Drosophila/EMGT00050000005225   2944                   100
+## 119    Selectome/Drosophila/EMGT00050000005225   2944                   100
+## 120    Selectome/Drosophila/EMGT00050000005225   2944                   200
+## 121    Selectome/Drosophila/EMGT00050000005225   2944                   200
+## 122    Selectome/Drosophila/EMGT00050000005225   2944                   200
+## 123    Selectome/Drosophila/EMGT00050000005225   2944                   200
+## 124    Selectome/Drosophila/EMGT00050000005225   2944                   400
+## 125    Selectome/Drosophila/EMGT00050000005225   2944                   400
+## 126    Selectome/Drosophila/EMGT00050000005225   2944                   400
+## 127    Selectome/Drosophila/EMGT00050000005225   2944                   400
+## 128    Selectome/Drosophila/EMGT00050000005225   2944                   800
+## 129    Selectome/Drosophila/EMGT00050000005225   2944                   800
+## 130    Selectome/Drosophila/EMGT00050000005225   2944                   800
+## 131    Selectome/Drosophila/EMGT00050000005225   2944                   800
+## 132    Selectome/Drosophila/EMGT00050000006992   2414                   200
+## 133    Selectome/Drosophila/EMGT00050000006992   2414                   200
+## 134    Selectome/Drosophila/EMGT00050000006992   2414                   200
+## 135    Selectome/Drosophila/EMGT00050000006992   2414                   800
+## 136    Selectome/Drosophila/EMGT00050000006992   2414                   800
+## 137    Selectome/Drosophila/EMGT00050000006992   2414                   800
+## 138    Selectome/Drosophila/EMGT00050000008452   3837                   100
+## 139    Selectome/Drosophila/EMGT00050000008452   3837                   100
+## 140    Selectome/Drosophila/EMGT00050000008452   3837                   200
+## 141    Selectome/Drosophila/EMGT00050000008452   3837                   200
+## 142    Selectome/Drosophila/EMGT00050000008452   3837                   200
+## 143    Selectome/Drosophila/EMGT00050000008452   3837                   400
+## 144    Selectome/Drosophila/EMGT00050000008452   3837                   400
+## 145    Selectome/Drosophila/EMGT00050000008452   3837                   400
+## 146    Selectome/Drosophila/EMGT00050000008452   3837                   800
+## 147    Selectome/Drosophila/EMGT00050000008452   3837                   800
+## 148    Selectome/Drosophila/EMGT00050000008452   3837                   800
+## 149    Selectome/Drosophila/EMGT00050000012421   2297                   200
+## 150    Selectome/Drosophila/EMGT00050000012421   2297                   200
+## 151    Selectome/Drosophila/EMGT00050000012421   2297                   200
+## 152    Selectome/Drosophila/EMGT00050000012421   2297                   200
+## 153    Selectome/Drosophila/EMGT00050000012421   2297                   400
+## 154    Selectome/Drosophila/EMGT00050000012421   2297                   400
+## 155    Selectome/Drosophila/EMGT00050000012421   2297                   400
+## 156    Selectome/Drosophila/EMGT00050000012421   2297                   400
+## 157    Selectome/Drosophila/EMGT00050000012421   2297                   800
+## 158    Selectome/Drosophila/EMGT00050000012421   2297                   800
+## 159    Selectome/Drosophila/EMGT00050000012421   2297                   800
+## 160    Selectome/Drosophila/EMGT00050000015309   4411                   100
+## 161    Selectome/Drosophila/EMGT00050000015309   4411                   100
+## 162    Selectome/Drosophila/EMGT00050000015309   4411                   200
+## 163    Selectome/Drosophila/EMGT00050000015309   4411                   400
+## 164    Selectome/Drosophila/EMGT00050000015309   4411                   400
+## 165    Selectome/Drosophila/EMGT00050000015309   4411                   400
+## 166    Selectome/Drosophila/EMGT00050000015309   4411                   800
+## 167    Selectome/Drosophila/EMGT00050000015309   4411                   800
+## 168    Selectome/Drosophila/EMGT00050000015309   4411                   800
+## 169    Selectome/Drosophila/EMGT00080000029836   2667                   100
+## 170    Selectome/Drosophila/EMGT00080000029836   2667                   100
+## 171    Selectome/Drosophila/EMGT00080000029836   2667                   100
+## 172    Selectome/Drosophila/EMGT00080000029836   2667                   100
+## 173    Selectome/Drosophila/EMGT00080000029836   2667                   200
+## 174    Selectome/Drosophila/EMGT00080000029836   2667                   200
+## 175    Selectome/Drosophila/EMGT00080000029836   2667                   200
+## 176    Selectome/Drosophila/EMGT00080000029836   2667                   400
+## 177    Selectome/Drosophila/EMGT00080000029836   2667                   400
+## 178    Selectome/Drosophila/EMGT00080000029836   2667                   400
+## 179    Selectome/Drosophila/EMGT00080000029836   2667                   800
+## 180    Selectome/Drosophila/EMGT00080000029836   2667                   800
+## 181    Selectome/Drosophila/EMGT00080000029836   2667                   800
+## 182    Selectome/Drosophila/EMGT00090000036830   1739                   200
+## 183    Selectome/Drosophila/EMGT00090000036830   1739                   200
+## 184    Selectome/Drosophila/EMGT00090000036830   1739                   200
+## 185    Selectome/Drosophila/EMGT00090000036830   1739                   400
+## 186    Selectome/Drosophila/EMGT00090000036830   1739                   400
+## 187    Selectome/Drosophila/EMGT00090000036830   1739                   400
+## 188    Selectome/Drosophila/EMGT00090000036830   1739                   800
+## 189    Selectome/Drosophila/EMGT00090000036830   1739                   800
+## 190    Selectome/Drosophila/EMGT00120000049727   3082                   100
+## 191    Selectome/Drosophila/EMGT00120000049727   3082                   100
+## 192    Selectome/Drosophila/EMGT00120000049727   3082                   100
+## 193    Selectome/Drosophila/EMGT00120000049727   3082                   100
+## 194    Selectome/Drosophila/EMGT00120000049727   3082                   200
+## 195    Selectome/Drosophila/EMGT00120000049727   3082                   200
+## 196    Selectome/Drosophila/EMGT00120000049727   3082                   200
+## 197    Selectome/Drosophila/EMGT00120000049727   3082                   200
+## 198    Selectome/Drosophila/EMGT00120000049727   3082                   400
+## 199    Selectome/Drosophila/EMGT00120000049727   3082                   400
+## 200    Selectome/Drosophila/EMGT00120000049727   3082                   400
+## 201    Selectome/Drosophila/EMGT00120000049727   3082                   400
+## 202    Selectome/Drosophila/EMGT00120000049727   3082                   800
+## 203    Selectome/Drosophila/EMGT00120000049727   3082                   800
+## 204    Selectome/Drosophila/EMGT00120000049727   3082                   800
+## 205    Selectome/Drosophila/EMGT00120000049727   3082                   800
+## 206    Selectome/Drosophila/EMGT00120000049887   3902                   400
+## 207    Selectome/Drosophila/EMGT00120000049887   3902                   400
+## 208    Selectome/Drosophila/EMGT00130000056250   2531                   100
+## 209    Selectome/Drosophila/EMGT00130000056250   2531                   100
+## 210    Selectome/Drosophila/EMGT00130000056250   2531                   100
+## 211    Selectome/Drosophila/EMGT00130000056250   2531                   100
+## 212    Selectome/Drosophila/EMGT00130000056250   2531                   200
+## 213    Selectome/Drosophila/EMGT00130000056250   2531                   200
+## 214    Selectome/Drosophila/EMGT00130000056250   2531                   200
+## 215    Selectome/Drosophila/EMGT00130000056250   2531                   200
+## 216    Selectome/Drosophila/EMGT00130000056250   2531                   400
+## 217    Selectome/Drosophila/EMGT00130000056250   2531                   400
+## 218 Selectome/Euteleostomi/ENSGT00390000006373   6879                   200
+## 219 Selectome/Euteleostomi/ENSGT00390000006373   6879                   200
+## 220 Selectome/Euteleostomi/ENSGT00390000006373   6879                   200
+## 221 Selectome/Euteleostomi/ENSGT00390000006373   6879                   400
+## 222 Selectome/Euteleostomi/ENSGT00390000006373   6879                   400
+## 223 Selectome/Euteleostomi/ENSGT00390000006373   6879                   400
+## 224 Selectome/Euteleostomi/ENSGT00390000006373   6879                   800
+## 225 Selectome/Euteleostomi/ENSGT00390000006373   6879                   800
+## 226 Selectome/Euteleostomi/ENSGT00390000006373   6879                   800
+## 227 Selectome/Euteleostomi/ENSGT00390000006373   6879                   800
+## 228 Selectome/Euteleostomi/ENSGT00390000014091   2843                   400
+## 229 Selectome/Euteleostomi/ENSGT00390000015500   2594                   800
+## 230 Selectome/Euteleostomi/ENSGT00390000015500   2594                   800
+## 231 Selectome/Euteleostomi/ENSGT00510000047886   1784                   200
+## 232 Selectome/Euteleostomi/ENSGT00510000047886   1784                   200
+## 233 Selectome/Euteleostomi/ENSGT00510000047886   1784                   800
+## 234 Selectome/Euteleostomi/ENSGT00510000047886   1784                   800
+## 235 Selectome/Euteleostomi/ENSGT00510000047886   1784                   800
+## 236 Selectome/Euteleostomi/ENSGT00530000063613   2100                   400
+## 237 Selectome/Euteleostomi/ENSGT00530000063613   2100                   400
+## 238 Selectome/Euteleostomi/ENSGT00530000063613   2100                   800
+## 239 Selectome/Euteleostomi/ENSGT00530000063613   2100                   800
+## 240 Selectome/Euteleostomi/ENSGT00530000063749   3031                   800
+## 241 Selectome/Euteleostomi/ENSGT00530000063749   3031                   800
+## 242 Selectome/Euteleostomi/ENSGT00530000063855   2012                   400
+## 243 Selectome/Euteleostomi/ENSGT00530000063855   2012                   800
+## 244 Selectome/Euteleostomi/ENSGT00530000063855   2012                   800
+## 245 Selectome/Euteleostomi/ENSGT00530000063889   2868                   400
+## 246 Selectome/Euteleostomi/ENSGT00530000063889   2868                   400
+## 247 Selectome/Euteleostomi/ENSGT00530000063889   2868                   400
+## 248 Selectome/Euteleostomi/ENSGT00530000063889   2868                   800
+## 249 Selectome/Euteleostomi/ENSGT00530000063889   2868                   800
+## 250 Selectome/Euteleostomi/ENSGT00530000064150   2585                   200
+## 251 Selectome/Euteleostomi/ENSGT00530000064150   2585                   200
+## 252 Selectome/Euteleostomi/ENSGT00530000064150   2585                   200
+## 253 Selectome/Euteleostomi/ENSGT00530000064150   2585                   400
+## 254 Selectome/Euteleostomi/ENSGT00530000064150   2585                   400
+## 255 Selectome/Euteleostomi/ENSGT00530000064150   2585                   400
+## 256 Selectome/Euteleostomi/ENSGT00530000064150   2585                   400
+## 257 Selectome/Euteleostomi/ENSGT00530000064150   2585                   800
+## 258 Selectome/Euteleostomi/ENSGT00530000064150   2585                   800
+## 259 Selectome/Euteleostomi/ENSGT00530000064150   2585                   800
+## 260 Selectome/Euteleostomi/ENSGT00550000074417   2041                   800
+## 261 Selectome/Euteleostomi/ENSGT00550000074417   2041                   800
+## 262 Selectome/Euteleostomi/ENSGT00550000074575   3220                   800
+## 263 Selectome/Euteleostomi/ENSGT00550000074575   3220                   800
+## 264 Selectome/Euteleostomi/ENSGT00550000074575   3220                   800
+## 265 Selectome/Euteleostomi/ENSGT00600000084481   2635                   400
+## 266 Selectome/Euteleostomi/ENSGT00600000084481   2635                   400
+## 267 Selectome/Euteleostomi/ENSGT00600000084481   2635                   800
+## 268 Selectome/Euteleostomi/ENSGT00600000084481   2635                   800
+## 269 Selectome/Euteleostomi/ENSGT00610000085715   3298                   400
+## 270 Selectome/Euteleostomi/ENSGT00610000085984   2896                   800
+## 271 Selectome/Euteleostomi/ENSGT00610000085984   2896                   800
+## 272 Selectome/Euteleostomi/ENSGT00620000087781   3111                   400
+## 273 Selectome/Euteleostomi/ENSGT00620000087781   3111                   800
+## 274 Selectome/Euteleostomi/ENSGT00620000087781   3111                   800
+## 275 Selectome/Euteleostomi/ENSGT00620000087781   3111                   800
+## 276 Selectome/Euteleostomi/ENSGT00640000091542   2476                   800
+## 277 Selectome/Euteleostomi/ENSGT00660000095541   3146                   400
+## 278 Selectome/Euteleostomi/ENSGT00670000097694   1699                   800
+## 279 Selectome/Euteleostomi/ENSGT00670000097765   1082                   200
+## 280 Selectome/Euteleostomi/ENSGT00670000097765   1082                   200
+## 281 Selectome/Euteleostomi/ENSGT00670000097765   1082                   200
+## 282 Selectome/Euteleostomi/ENSGT00670000097765   1082                   400
+## 283 Selectome/Euteleostomi/ENSGT00670000097765   1082                   400
+## 284 Selectome/Euteleostomi/ENSGT00670000097765   1082                   400
+## 285 Selectome/Euteleostomi/ENSGT00670000097765   1082                   800
+## 286 Selectome/Euteleostomi/ENSGT00670000097765   1082                   800
+## 287 Selectome/Euteleostomi/ENSGT00670000097765   1082                   800
+## 288 Selectome/Euteleostomi/ENSGT00670000097915   2324                   400
+## 289 Selectome/Euteleostomi/ENSGT00670000097915   2324                   400
+## 290 Selectome/Euteleostomi/ENSGT00670000097915   2324                   400
+## 291 Selectome/Euteleostomi/ENSGT00670000097915   2324                   400
+## 292 Selectome/Euteleostomi/ENSGT00670000097915   2324                   800
+## 293 Selectome/Euteleostomi/ENSGT00670000097915   2324                   800
+## 294 Selectome/Euteleostomi/ENSGT00670000097915   2324                   800
+## 295 Selectome/Euteleostomi/ENSGT00680000099519   2104                   400
+## 296 Selectome/Euteleostomi/ENSGT00680000099519   2104                   400
+## 297 Selectome/Euteleostomi/ENSGT00680000099665   2001                   400
+## 298 Selectome/Euteleostomi/ENSGT00680000099694   1795                   100
+## 299 Selectome/Euteleostomi/ENSGT00680000099694   1795                   100
+## 300 Selectome/Euteleostomi/ENSGT00680000099694   1795                   400
+## 301 Selectome/Euteleostomi/ENSGT00680000099694   1795                   400
+## 302 Selectome/Euteleostomi/ENSGT00680000099694   1795                   800
+## 303 Selectome/Euteleostomi/ENSGT00680000099694   1795                   800
+## 304 Selectome/Euteleostomi/ENSGT00680000099708   4004                   400
+## 305 Selectome/Euteleostomi/ENSGT00680000099708   4004                   400
+## 306 Selectome/Euteleostomi/ENSGT00680000099708   4004                   400
+## 307 Selectome/Euteleostomi/ENSGT00680000099708   4004                   400
+## 308 Selectome/Euteleostomi/ENSGT00680000099708   4004                   800
+## 309 Selectome/Euteleostomi/ENSGT00680000099708   4004                   800
+## 310 Selectome/Euteleostomi/ENSGT00680000099708   4004                   800
+## 311 Selectome/Euteleostomi/ENSGT00680000099708   4004                   800
+## 312 Selectome/Euteleostomi/ENSGT00680000099951   1994                   400
+## 313 Selectome/Euteleostomi/ENSGT00680000099951   1994                   400
+## 314 Selectome/Euteleostomi/ENSGT00680000099951   1994                   800
+## 315 Selectome/Euteleostomi/ENSGT00680000099951   1994                   800
+## 316 Selectome/Euteleostomi/ENSGT00680000099951   1994                   800
+## 317       Selectome/Glires/ENSGT00530000063496   3282                   100
+## 318       Selectome/Glires/ENSGT00530000063496   3282                   100
+## 319       Selectome/Glires/ENSGT00530000063496   3282                   100
+## 320       Selectome/Glires/ENSGT00530000063496   3282                   200
+## 321       Selectome/Glires/ENSGT00530000063496   3282                   200
+## 322       Selectome/Glires/ENSGT00530000063496   3282                   200
+## 323       Selectome/Glires/ENSGT00530000063496   3282                   200
+## 324       Selectome/Glires/ENSGT00530000063496   3282                   400
+## 325       Selectome/Glires/ENSGT00530000063496   3282                   400
+## 326       Selectome/Glires/ENSGT00530000063496   3282                   400
+## 327       Selectome/Glires/ENSGT00530000063496   3282                   400
+## 328       Selectome/Glires/ENSGT00530000063496   3282                   800
+## 329       Selectome/Glires/ENSGT00530000063496   3282                   800
+## 330       Selectome/Glires/ENSGT00530000063496   3282                   800
+## 331       Selectome/Glires/ENSGT00530000063496   3282                   800
+## 332     Selectome/Primates/ENSGT00390000013029   3053                   100
+## 333     Selectome/Primates/ENSGT00390000013029   3053                   100
+## 334     Selectome/Primates/ENSGT00390000013029   3053                   200
+## 335     Selectome/Primates/ENSGT00390000013029   3053                   200
+## 336     Selectome/Primates/ENSGT00390000013029   3053                   200
+## 337     Selectome/Primates/ENSGT00390000013029   3053                   400
+## 338     Selectome/Primates/ENSGT00390000013029   3053                   400
+## 339     Selectome/Primates/ENSGT00390000013029   3053                   400
+## 340     Selectome/Primates/ENSGT00390000013029   3053                   800
+## 341     Selectome/Primates/ENSGT00390000013029   3053                   800
+## 342     Selectome/Primates/ENSGT00390000013029   3053                   800
+## 343     Selectome/Primates/ENSGT00440000037606   2446                   200
+## 344     Selectome/Primates/ENSGT00440000037606   2446                   200
+## 345     Selectome/Primates/ENSGT00440000037606   2446                   400
+## 346     Selectome/Primates/ENSGT00440000037606   2446                   400
+## 347     Selectome/Primates/ENSGT00440000037606   2446                   800
+## 348     Selectome/Primates/ENSGT00440000037606   2446                   800
+## 349     Selectome/Primates/ENSGT00690000101961   5482                   100
+## 350     Selectome/Primates/ENSGT00690000101961   5482                   400
+## 351     Selectome/Primates/ENSGT00690000101961   5482                   800
+##     sample_pct_rd delta_ll_first_phase
+## 1            0.15             0.000000
+## 2            0.20             0.000000
+## 3            0.10             0.000000
+## 4            0.15             0.000000
+## 5            0.20             0.000000
+## 6            0.05             0.000000
+## 7            0.10             0.000000
+## 8            0.15             0.000000
+## 9            0.05             0.000000
+## 10           0.10             0.000000
+## 11           0.15             0.000000
+## 12           0.20             0.000000
+## 13           0.05             0.000000
+## 14           0.10             0.000000
+## 15           0.15             0.000000
+## 16           0.20             0.000000
+## 17           0.05             0.000000
+## 18           0.10             0.000000
+## 19           0.15             0.000000
+## 20           0.20             0.000000
+## 21           0.10             0.000000
+## 22           0.15             0.000000
+## 23           0.20             0.000000
+## 24           0.10             0.000000
+## 25           0.15             0.000000
+## 26           0.20             0.000000
+## 27           0.05             0.000000
+## 28           0.10             0.000000
+## 29           0.15             0.000000
+## 30           0.20             0.000000
+## 31           0.05             0.000000
+## 32           0.10             0.000000
+## 33           0.15             0.000000
+## 34           0.10             0.000000
+## 35           0.15             0.000000
+## 36           0.20             0.000000
+## 37           0.10             0.000000
+## 38           0.15             0.000000
+## 39           0.20             0.000000
+## 40           0.05             0.000000
+## 41           0.10             0.000000
+## 42           0.15             0.000000
+## 43           0.05             0.000000
+## 44           0.10             0.000000
+## 45           0.15             0.000000
+## 46           0.20             0.000000
+## 47           0.05             0.000000
+## 48           0.10             0.000000
+## 49           0.15             0.000000
+## 50           0.20             0.000000
+## 51           0.05             0.000000
+## 52           0.10             0.000000
+## 53           0.15             0.000000
+## 54           0.20             0.000000
+## 55           0.05             0.000000
+## 56           0.10             0.000000
+## 57           0.15             0.000000
+## 58           0.10             0.000000
+## 59           0.15             0.000000
+## 60           0.05             0.000000
+## 61           0.10             0.000000
+## 62           0.15             0.000000
+## 63           0.20             0.000000
+## 64           0.05             0.000000
+## 65           0.10             0.000000
+## 66           0.15             0.000000
+## 67           0.20             0.000000
+## 68           0.05             0.000000
+## 69           0.10             0.000000
+## 70           0.15             0.000000
+## 71           0.20             0.000000
+## 72           0.05             0.000000
+## 73           0.10             0.000000
+## 74           0.15             0.000000
+## 75           0.20             0.000000
+## 76           0.05             0.000000
+## 77           0.10             0.000000
+## 78           0.15             0.000000
+## 79           0.20             0.000000
+## 80           0.05             0.000000
+## 81           0.10             0.000000
+## 82           0.15             0.000000
+## 83           0.20             0.000000
+## 84           0.05             0.000000
+## 85           0.10             0.000000
+## 86           0.15             0.000000
+## 87           0.20             0.000000
+## 88           0.05             0.000000
+## 89           0.10             0.000000
+## 90           0.15             0.000000
+## 91           0.20             0.000000
+## 92           0.05             0.000000
+## 93           0.10             0.000000
+## 94           0.15             0.000000
+## 95           0.20             0.000000
+## 96           0.05             0.000000
+## 97           0.10             0.000000
+## 98           0.15             0.000000
+## 99           0.20             0.000000
+## 100          0.20             0.000000
+## 101          0.10             0.000000
+## 102          0.15             0.000000
+## 103          0.20             0.000000
+## 104          0.10             0.000000
+## 105          0.15             0.000000
+## 106          0.20             0.000000
+## 107          0.05             0.000000
+## 108          0.10             0.000000
+## 109          0.15             0.000000
+## 110          0.20             0.000000
+## 111          0.05             0.000000
+## 112          0.10             0.000000
+## 113          0.15             0.000000
+## 114          0.20             0.000000
+## 115          0.05             0.000000
+## 116          0.05             0.000000
+## 117          0.10             0.000000
+## 118          0.15             0.000000
+## 119          0.20             0.000000
+## 120          0.05             0.000000
+## 121          0.10             0.000000
+## 122          0.15             0.000000
+## 123          0.20             0.000000
+## 124          0.05             0.000000
+## 125          0.10             0.000000
+## 126          0.15             0.000000
+## 127          0.20             0.000000
+## 128          0.05             0.000000
+## 129          0.10             0.000000
+## 130          0.15             0.000000
+## 131          0.20             0.000000
+## 132          0.10             0.000000
+## 133          0.15             0.000000
+## 134          0.20             0.000000
+## 135          0.10             0.000000
+## 136          0.15             0.000000
+## 137          0.20             0.000000
+## 138          0.05             0.000000
+## 139          0.10             0.000000
+## 140          0.05             0.000000
+## 141          0.10             0.000000
+## 142          0.15             0.000000
+## 143          0.05             0.000000
+## 144          0.10             0.000000
+## 145          0.15             0.000000
+## 146          0.05             0.000000
+## 147          0.10             0.000000
+## 148          0.15             0.000000
+## 149          0.05             0.000000
+## 150          0.10             0.000000
+## 151          0.15             0.000000
+## 152          0.20             0.000000
+## 153          0.05             0.000000
+## 154          0.10             0.000000
+## 155          0.15             0.000000
+## 156          0.20             0.000000
+## 157          0.10             0.000000
+## 158          0.15             0.000000
+## 159          0.20             0.000000
+## 160          0.05             0.000000
+## 161          0.10             0.000000
+## 162          0.10             0.000000
+## 163          0.05             0.000000
+## 164          0.10             0.000000
+## 165          0.15             0.000000
+## 166          0.05             0.000000
+## 167          0.10             0.000000
+## 168          0.15             0.000000
+## 169          0.05             0.000000
+## 170          0.10             0.000000
+## 171          0.15             0.000000
+## 172          0.20             0.000000
+## 173          0.10             0.000000
+## 174          0.15             0.000000
+## 175          0.20             0.000000
+## 176          0.10             0.000000
+## 177          0.15             0.000000
+## 178          0.20             0.000000
+## 179          0.10             0.000000
+## 180          0.15             0.000000
+## 181          0.20             0.000000
+## 182          0.10             0.000000
+## 183          0.15             0.000000
+## 184          0.20             0.000000
+## 185          0.10             0.000000
+## 186          0.15             0.000000
+## 187          0.20             0.000000
+## 188          0.15             0.000000
+## 189          0.20             0.000000
+## 190          0.05             0.000000
+## 191          0.10             0.000000
+## 192          0.15             0.000000
+## 193          0.20             0.000000
+## 194          0.05             0.000000
+## 195          0.10             0.000000
+## 196          0.15             0.000000
+## 197          0.20             0.000000
+## 198          0.05             0.000000
+## 199          0.10             0.000000
+## 200          0.15             0.000000
+## 201          0.20             0.000000
+## 202          0.05             0.000000
+## 203          0.10             0.000000
+## 204          0.15             0.000000
+## 205          0.20             0.000000
+## 206          0.15             0.000000
+## 207          0.20             0.000000
+## 208          0.05             0.000000
+## 209          0.10             0.000000
+## 210          0.15             0.000000
+## 211          0.20             0.000000
+## 212          0.05             0.000000
+## 213          0.10             0.000000
+## 214          0.15             0.000000
+## 215          0.20             0.000000
+## 216          0.15             0.000000
+## 217          0.20             0.000000
+## 218          0.05             0.000000
+## 219          0.10             0.000000
+## 220          0.15             0.000000
+## 221          0.10             0.000000
+## 222          0.15             0.000000
+## 223          0.20             0.000000
+## 224          0.05             0.000000
+## 225          0.10             0.000000
+## 226          0.15             0.000000
+## 227          0.20             0.000000
+## 228          0.15             6.971234
+## 229          0.15             0.000000
+## 230          0.20             0.000000
+## 231          0.15             0.000000
+## 232          0.20             0.000000
+## 233          0.10             0.000000
+## 234          0.15             0.000000
+## 235          0.20             0.000000
+## 236          0.15             0.000000
+## 237          0.20             0.000000
+## 238          0.15             0.000000
+## 239          0.20             0.000000
+## 240          0.15             0.000000
+## 241          0.20             0.000000
+## 242          0.20             0.000000
+## 243          0.15             0.000000
+## 244          0.20             0.000000
+## 245          0.10             0.000000
+## 246          0.15             0.000000
+## 247          0.20             0.000000
+## 248          0.15             0.000000
+## 249          0.20             0.000000
+## 250          0.10             0.000000
+## 251          0.15             0.000000
+## 252          0.20             0.000000
+## 253          0.05             0.000000
+## 254          0.10             0.000000
+## 255          0.15             0.000000
+## 256          0.20             0.000000
+## 257          0.10             0.000000
+## 258          0.15             0.000000
+## 259          0.20             0.000000
+## 260          0.10             0.000000
+## 261          0.15             0.000000
+## 262          0.10             0.000000
+## 263          0.15             0.000000
+## 264          0.20             0.000000
+## 265          0.10             0.000000
+## 266          0.15             0.000000
+## 267          0.15             0.000000
+## 268          0.20             0.000000
+## 269          0.15            -8.245330
+## 270          0.15             0.000000
+## 271          0.20             0.000000
+## 272          0.20             0.000000
+## 273          0.10             0.000000
+## 274          0.15             0.000000
+## 275          0.20             0.000000
+## 276          0.20             0.000000
+## 277          0.20             0.000000
+## 278          0.20             0.000000
+## 279          0.10             0.000000
+## 280          0.15             0.000000
+## 281          0.20             0.000000
+## 282          0.10             0.000000
+## 283          0.15             0.000000
+## 284          0.20             0.000000
+## 285          0.10             0.000000
+## 286          0.15             0.000000
+## 287          0.20             0.000000
+## 288          0.05             0.000000
+## 289          0.10             0.000000
+## 290          0.15             0.000000
+## 291          0.20             0.000000
+## 292          0.10             0.000000
+## 293          0.15             0.000000
+## 294          0.20             0.000000
+## 295          0.15             0.000000
+## 296          0.20             0.000000
+## 297          0.10             0.000000
+## 298          0.10             0.000000
+## 299          0.15             0.000000
+## 300          0.15             0.000000
+## 301          0.20             0.000000
+## 302          0.15             0.000000
+## 303          0.20             0.000000
+## 304          0.05             0.000000
+## 305          0.10             0.000000
+## 306          0.15             0.000000
+## 307          0.20             0.000000
+## 308          0.05             0.000000
+## 309          0.10             0.000000
+## 310          0.15             0.000000
+## 311          0.20             0.000000
+## 312          0.15             0.000000
+## 313          0.20             0.000000
+## 314          0.10             0.000000
+## 315          0.15             0.000000
+## 316          0.20             0.000000
+## 317          0.05             0.000000
+## 318          0.10             0.000000
+## 319          0.15             0.000000
+## 320          0.05             0.000000
+## 321          0.10             0.000000
+## 322          0.15             0.000000
+## 323          0.20             0.000000
+## 324          0.05             0.000000
+## 325          0.10             0.000000
+## 326          0.15             0.000000
+## 327          0.20             0.000000
+## 328          0.05             0.000000
+## 329          0.10             0.000000
+## 330          0.15             0.000000
+## 331          0.20             0.000000
+## 332          0.05             0.000000
+## 333          0.10             0.000000
+## 334          0.05             0.000000
+## 335          0.10             0.000000
+## 336          0.15             0.000000
+## 337          0.05             0.000000
+## 338          0.10             0.000000
+## 339          0.15             0.000000
+## 340          0.05             0.000000
+## 341          0.10             0.000000
+## 342          0.15             0.000000
+## 343          0.05             0.000000
+## 344          0.10             0.000000
+## 345          0.05             0.000000
+## 346          0.10             0.000000
+## 347          0.05             0.000000
+## 348          0.10             0.000000
+## 349          0.05             0.000000
+## 350          0.05             0.000000
+## 351          0.05             0.000000
+\end{verbatim}
+
+Focusing on datasets with 15 sequences, what is the best cuttoff?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{)}\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(actucal_training_size, sample_pct_rd) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{pct_identical =} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0}\NormalTok{)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0} \OperatorTok{|}\StringTok{ }\NormalTok{rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{), }\DataTypeTok{identical_topo=} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0}\NormalTok{), }\DataTypeTok{diff_topo =} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{), }\DataTypeTok{max_rf =} \KeywordTok{max}\NormalTok{(rf_dist_first_phase), }\DataTypeTok{max_delta_ll=} \KeywordTok{max}\NormalTok{(delta_ll_first_phase),}\DataTypeTok{median_delta_ll=} \KeywordTok{median}\NormalTok{(delta_ll_first_phase[rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{]),}\DataTypeTok{mean_delta_ll =} \KeywordTok{mean}\NormalTok{(delta_ll_first_phase[rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{]), }\DataTypeTok{max_spr_dist =} \KeywordTok{max}\NormalTok{(lasso_SPR_second_phase_spr_moves), )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'actucal_training_size'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 16 x 10
+## # Groups:   actucal_training_size [4]
+##    actucal_training~ sample_pct_rd pct_identical identical_topo diff_topo max_rf
+##                <dbl>         <dbl>         <dbl>          <int>     <int>  <dbl>
+##  1               100          0.05        0                   0        26  0.583
+##  2               100          0.1         0.0385              1        25  0.583
+##  3               100          0.15        0.0417              1        23  0.583
+##  4               100          0.2         0                   0        12  0.417
+##  5               200          0.05        0.0385              1        25  0.333
+##  6               200          0.1         0.154               4        22  0.333
+##  7               200          0.15        0.192               5        21  0.333
+##  8               200          0.2         0.167               4        20  0.333
+##  9               400          0.05        0.115               3        23  0.417
+## 10               400          0.1         0.346               9        17  0.25 
+## 11               400          0.15        0.462              12        14  0.25 
+## 12               400          0.2         0.577              15        11  0.167
+## 13               800          0.05        0.115               3        23  0.333
+## 14               800          0.1         0.423              11        15  0.333
+## 15               800          0.15        0.769              20         6  0.167
+## 16               800          0.2         0.808              21         5  0.167
+## # ... with 4 more variables: max_delta_ll <dbl>, median_delta_ll <dbl>,
+## #   mean_delta_ll <dbl>, max_spr_dist <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y=}\NormalTok{ delta_ll_first_phase)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\KeywordTok{as.factor}\NormalTok{(actucal_training_size))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y=}\NormalTok{ delta_ll_first_phase)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\KeywordTok{as.factor}\NormalTok{(actucal_training_size))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-13-2.pdf}
+
+Focusing on datasets with less than 15 sequences, what is the best
+cuttoff?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{)}\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(actucal_training_size, sample_pct_rd) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{pct_identical =} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0}\NormalTok{)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0} \OperatorTok{|}\StringTok{ }\NormalTok{rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{), }\DataTypeTok{identical_topo=} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{==}\DecValTok{0}\NormalTok{), }\DataTypeTok{diff_topo =} \KeywordTok{sum}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{), }\DataTypeTok{max_rf =} \KeywordTok{max}\NormalTok{(rf_dist_first_phase), }\DataTypeTok{max_delta_ll=} \KeywordTok{max}\NormalTok{(delta_ll_first_phase),}\DataTypeTok{median_delta_ll=} \KeywordTok{median}\NormalTok{(delta_ll_first_phase[rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{]),}\DataTypeTok{mean_delta_ll =} \KeywordTok{mean}\NormalTok{(delta_ll_first_phase[rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{]), }\DataTypeTok{max_spr_dist =} \KeywordTok{max}\NormalTok{(lasso_SPR_second_phase_spr_moves), )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'actucal_training_size'. You can override using the `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 16 x 10
+## # Groups:   actucal_training_size [4]
+##    actucal_training~ sample_pct_rd pct_identical identical_topo diff_topo max_rf
+##                <dbl>         <dbl>         <dbl>          <int>     <int>  <dbl>
+##  1               100          0.05         0.652             15         8  0.333
+##  2               100          0.1          0.682             15         7  0.333
+##  3               100          0.15         0.706             12         5  0.333
+##  4               100          0.2          0.875              7         1  0.143
+##  5               200          0.05         0.565             13        10  0.25 
+##  6               200          0.1          0.864             19         3  0.143
+##  7               200          0.15         0.85              17         3  0.143
+##  8               200          0.2          1                 15         0  0    
+##  9               400          0.05         0.652             15         8  0.25 
+## 10               400          0.1          0.773             17         5  0.143
+## 11               400          0.15         0.905             19         2  0.143
+## 12               400          0.2          0.889             16         2  0.143
+## 13               800          0.05         0.652             15         8  0.167
+## 14               800          0.1          0.818             18         4  0.167
+## 15               800          0.15         0.810             17         4  0.167
+## 16               800          0.2          0.778             14         4  0.167
+## # ... with 4 more variables: max_delta_ll <dbl>, median_delta_ll <dbl>,
+## #   mean_delta_ll <dbl>, max_spr_dist <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(rf_dist_first_phase}\OperatorTok{>}\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.factor}\NormalTok{(sample_pct_rd),}\DataTypeTok{y=}\NormalTok{ delta_ll_first_phase)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\KeywordTok{as.factor}\NormalTok{(actucal_training_size))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{,}\DataTypeTok{y =}\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{ )) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{cor}\NormalTok{(spr_data}\OperatorTok{$}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{, spr_data}\OperatorTok{$}\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2751959
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{,}\DataTypeTok{y =}\NormalTok{ delta_ll_first_phase )) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-15-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{cor}\NormalTok{(spr_data}\OperatorTok{$}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{, spr_data}\OperatorTok{$}\NormalTok{delta_ll_first_phase))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.2942886
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{,}\DataTypeTok{y =}\NormalTok{ delta_ll_first_phase )) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-15-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{cor}\NormalTok{(spr_data}\OperatorTok{$}\StringTok{`}\DataTypeTok{R^2_pearson_during_tree_search}\StringTok{`}\NormalTok{, spr_data}\OperatorTok{$}\NormalTok{delta_ll_first_phase ))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.6809226
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{ mistake_cnt,}\DataTypeTok{y =}\NormalTok{ delta_ll_first_phase )) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-15-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{cor}\NormalTok{(spr_data}\OperatorTok{$}\NormalTok{mistake_cnt, spr_data}\OperatorTok{$}\NormalTok{delta_ll_first_phase ))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2461368
+\end{verbatim}
+
+Looking at each dataset separately. How delta ll changes with training
+size and sample pct
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (dataset }\ControlFlowTok{in} \KeywordTok{unique}\NormalTok{(spr_data}\OperatorTok{$}\NormalTok{relative_path)) \{}
+   
+\KeywordTok{print}\NormalTok{(spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(relative_path}\OperatorTok{==}\NormalTok{dataset ) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size), }\DataTypeTok{colour =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size))) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\NormalTok{dataset)}
+     
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-2.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-3.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-4.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-5.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-6.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-7.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-8.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-9.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-10.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-11.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-12.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-13.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-14.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-15.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-16.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-17.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-18.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-19.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-20.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-21.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-22.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-23.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-24.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-25.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-26.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-27.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-28.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-29.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-30.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-31.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-32.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-33.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-34.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-35.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-36.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-37.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-38.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-39.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-40.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-41.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-42.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-43.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-44.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-45.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-46.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-47.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-48.pdf}
+
+\begin{verbatim}
+## geom_path: Each group consists of only one observation. Do you need to adjust
+## the group aesthetic?
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-16-49.pdf}
+Looking at each dataset separately. How R2 changes with training size
+and sample pct
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (dataset }\ControlFlowTok{in} \KeywordTok{unique}\NormalTok{(spr_data}\OperatorTok{$}\NormalTok{relative_path)) \{}
+   
+\KeywordTok{print}\NormalTok{(spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(relative_path}\OperatorTok{==}\NormalTok{dataset ) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\StringTok{`}\DataTypeTok{lasso_test_R^2}\StringTok{`}\NormalTok{, }\DataTypeTok{group =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size), }\DataTypeTok{colour =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size))) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\NormalTok{dataset)}
+     
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-2.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-3.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-4.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-5.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-6.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-7.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-8.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-9.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-10.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-11.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-12.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-13.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-14.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-15.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-16.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-17.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-18.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-19.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-20.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-21.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-22.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-23.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-24.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-25.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-26.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-27.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-28.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-29.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-30.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-31.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-32.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-33.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-34.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-35.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-36.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-37.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-38.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-39.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-40.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-41.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-42.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-43.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-44.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-45.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-46.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-47.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-48.pdf}
+
+\begin{verbatim}
+## geom_path: Each group consists of only one observation. Do you need to adjust
+## the group aesthetic?
+\end{verbatim}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-17-49.pdf}
+
+All datasets with 15 sequences
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{800}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct_rd,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 800"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{400}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct_rd,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 400"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-18-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{200}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct_rd,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 200"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-18-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{100}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{n_seq}\OperatorTok{==}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct_rd,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 100"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-18-4.pdf}
+
+Less than 15 sequences
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{800}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 800"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{400}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 400"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-19-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{200}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 200"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-19-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{problematic_datasets) }\OperatorTok{&}\StringTok{ }\NormalTok{(actucal_training_size}\OperatorTok{==}\DecValTok{100}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{n_seq}\OperatorTok{<}\DecValTok{15}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group=}\NormalTok{ relative_path, }\DataTypeTok{colour =}\NormalTok{ relative_path)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)}\OperatorTok{+}\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"training size 100"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-19-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data_datasets_test<-}\StringTok{ }\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta_ll_first_phase}\OperatorTok{>}\DecValTok{0} \OperatorTok{&}\StringTok{ }\NormalTok{actucal_training_size}\OperatorTok{==}\DecValTok{800} \OperatorTok{&}\StringTok{ }\NormalTok{sample_pct_rd}\OperatorTok{==}\FloatTok{0.2}\NormalTok{)  }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(relative_path)}
+
+
+
+\ControlFlowTok{for}\NormalTok{ (dataset }\ControlFlowTok{in}\NormalTok{ spr_data_datasets_test) \{}
+   
+\KeywordTok{print}\NormalTok{(spr_data }\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(relative_path}\OperatorTok{==}\NormalTok{dataset ) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sample_pct,}\DataTypeTok{y=}\NormalTok{delta_ll_first_phase, }\DataTypeTok{group =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size), }\DataTypeTok{colour =} \KeywordTok{as.factor}\NormalTok{(actucal_training_size))) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{percent)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\NormalTok{dataset)}
+\CommentTok{#print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=`lasso_test_R^2`, group = as.factor(actucal_training_size), colour = #as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)}
+\CommentTok{#print(spr_data %>%filter(relative_path==dataset ) %>% ggplot(aes(x=sample_pct,y=`R^2_pearson_during_tree_search`, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) + geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent)) + labs(title=dataset)}
+     
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-2.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-3.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-4.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-5.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-6.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-7.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-8.pdf}
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-20-9.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{spr_data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{ (relative_path }\OperatorTok{%in%}\StringTok{ }\NormalTok{spr_data_datasets_test) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{distinct}\NormalTok{ (relative_path,n_loci, n_seq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                relative_path n_loci n_seq
+## 1    Selectome/Drosophila/EMGT00050000001647   2479     9
+## 2    Selectome/Drosophila/EMGT00050000004968   2815    10
+## 3    Selectome/Drosophila/EMGT00120000049887   3902    10
+## 4    Selectome/Drosophila/EMGT00130000056250   2531    10
+## 5 Selectome/Euteleostomi/ENSGT00390000014091   2843    15
+## 6 Selectome/Euteleostomi/ENSGT00550000074417   2041    15
+## 7 Selectome/Euteleostomi/ENSGT00660000095541   3146    15
+## 8 Selectome/Euteleostomi/ENSGT00680000099519   2104    15
+## 9 Selectome/Euteleostomi/ENSGT00680000099665   2001    15
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(nlme)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'nlme'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     collapse
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:lme4':
+## 
+##     lmList
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lasso_split <-}\StringTok{ }\KeywordTok{initial_split}\NormalTok{(spr_data_ok, }\DataTypeTok{prop =} \FloatTok{0.75}\NormalTok{)}
+\NormalTok{lasso_training <-}\StringTok{ }\NormalTok{lasso_split  }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                        }\KeywordTok{training}\NormalTok{()}
+\NormalTok{lasso_test<-}\StringTok{ }\NormalTok{lasso_split  }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                        }\KeywordTok{testing}\NormalTok{()}
+
+
+\NormalTok{model.exponential<-}\KeywordTok{lme}\NormalTok{((delta_ll_first_phase)}\OperatorTok{~}\NormalTok{actucal_training_size}\OperatorTok{+}\StringTok{ }\NormalTok{sample_pct}\OperatorTok{+}\NormalTok{divergence}\OperatorTok{+}\NormalTok{mad}\OperatorTok{+}\NormalTok{gap_pct}\OperatorTok{+}\NormalTok{number_loci_chosen}\OperatorTok{+}\NormalTok{number_loci_chosen}\OperatorTok{+}\NormalTok{n_loci,}\DataTypeTok{random=}\OperatorTok{~}\DecValTok{1}\OperatorTok{|}\NormalTok{relative_path, }\DataTypeTok{data=}\NormalTok{spr_data_ok)}
+\KeywordTok{plot}\NormalTok{(model.exponential)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{summary}\NormalTok{(model.exponential))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear mixed-effects model fit by REML
+##   Data: spr_data_ok 
+##       AIC      BIC   logLik
+##   7460.64 7506.265 -3720.32
+## 
+## Random effects:
+##  Formula: ~1 | relative_path
+##         (Intercept) Residual
+## StdDev:    14.17437 42.82097
+## 
+## Fixed effects:  (delta_ll_first_phase) ~ actucal_training_size + sample_pct +      divergence + mad + gap_pct + number_loci_chosen + number_loci_chosen +      n_loci 
+##                            Value Std.Error  DF    t-value p-value
+## (Intercept)             33.06624  18.38649 664  1.7983991  0.0726
+## actucal_training_size   -0.01558   0.00600 664 -2.5965972  0.0096
+## sample_pct            -212.10157  98.37620 664 -2.1560252  0.0314
+## divergence               6.98289   2.43229  44  2.8709160  0.0063
+## mad                     18.25780  45.82359  44  0.3984367  0.6922
+## gap_pct                -14.07896  21.49188  44 -0.6550826  0.5158
+## number_loci_chosen       0.04663   0.03478 664  1.3407615  0.1805
+## n_loci                  -0.00704   0.00492  44 -1.4312500  0.1594
+##  Correlation: 
+##                       (Intr) actc__ smpl_p dvrgnc mad    gp_pct nmbr__
+## actucal_training_size -0.125                                          
+## sample_pct            -0.561  0.020                                   
+## divergence            -0.088  0.011  0.009                            
+## mad                   -0.414 -0.007 -0.105 -0.040                     
+## gap_pct               -0.364 -0.006 -0.021 -0.522  0.052              
+## number_loci_chosen     0.521 -0.046 -0.955 -0.018  0.118  0.022       
+## n_loci                -0.756  0.023  0.761  0.095 -0.104  0.090 -0.787
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -1.94134172 -0.16773593 -0.04219261  0.08660650 24.29976918 
+## 
+## Number of Observations: 716
+## Number of Groups: 49
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{intervals}\NormalTok{(model.exponential,}\DataTypeTok{which =} \StringTok{"fixed"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Approximate 95% confidence intervals
+## 
+##  Fixed effects:
+##                               lower          est.         upper
+## (Intercept)             -3.03641723  3.306624e+01  69.168906814
+## actucal_training_size   -0.02736692 -1.558304e-02  -0.003799168
+## sample_pct            -405.26747683 -2.121016e+02 -18.935660060
+## divergence               2.08094016  6.982894e+00  11.884848424
+## mad                    -74.09358547  1.825780e+01 110.609186418
+## gap_pct                -57.39299592 -1.407896e+01  29.235083136
+## number_loci_chosen      -0.02165783  4.662627e-02   0.114910369
+## n_loci                  -0.01694211 -7.035418e-03   0.002871274
+## attr(,"label")
+## [1] "Fixed effects:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(model.exponential, }\OperatorTok{~}\KeywordTok{ranef}\NormalTok{(., }\DataTypeTok{level=}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{new_lasso_results_files/figure-latex/unnamed-chunk-21-2.pdf}
+
+Add a new chunk by clicking the \emph{Insert Chunk} button on the
+toolbar or by pressing \emph{Cmd+Option+I}.
+
+When you save the notebook, an HTML file containing the code and output
+will be saved alongside it (click the \emph{Preview} button or press
+\emph{Cmd+Shift+K} to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the
+editor. Consequently, unlike \emph{Knit}, \emph{Preview} does not run
+any R code chunks. Instead, the output of the chunk when it was last run
+in the editor is displayed.
+
+\end{document}

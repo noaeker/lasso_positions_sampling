@@ -124,8 +124,9 @@ def get_lasso_path_on_given_data(curr_msa_stats, training_df, curr_run_directory
     y_mean = y_training.mean()
     training_y_scaled = (y_training - y_training.mean())
     start_time = time.time()
+    selection = 'random' if curr_msa_stats["random_lasso"] else 'cyclic'
     lasso_model = linear_model.lasso_path(X=training_df_scaled,
-                                              y=training_y_scaled, eps=1e-7, positive=True, n_alphas=100)
+                                              y=training_y_scaled, eps=1e-7, positive=True, n_alphas=100, selection= selection)
     lasso_training_time = time.time() - start_time
     coeffs_path = lasso_model[1]
     alphas = lasso_model[0]

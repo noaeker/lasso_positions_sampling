@@ -343,7 +343,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
                                    curr_msa_stats,
                                    opt_brlen=True):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
-    brlen_command = "--opt-branches off" if not opt_brlen else ""
+    brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
     compute_site_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(
         raxml_exe_path=RAXML_NG_EXE,
