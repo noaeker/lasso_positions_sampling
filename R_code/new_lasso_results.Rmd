@@ -27,17 +27,20 @@ library(plm)
 
 ```
 
+```{r}
+spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/large_spr_data.csv") %>% mutate(relative_path = dataset_id)
+```
 
 ```{r}
-lasso_output_data <- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr_results.csv")
-data_source <- read_csv("/Users/noa/Workspace/data/sampled_datasets.csv")
-lasso_output_data<-lasso_output_data%>%mutate(relative_path = str_replace_all(dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',""))
-spr_data= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path", all.x = TRUE)
-
-if (nrow(spr_data)<nrow(lasso_output_data))
-{print("Problem in matching path names")
-  cat("nrow data=",nrow(spr_data), "nrow lasso=",nrow(lasso_output_data))
-}
+# lasso_output_data <- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr_results.csv")
+# data_source <- read_csv("/Users/noa/Workspace/data/sampled_datasets.csv")
+# lasso_output_data<-lasso_output_data%>%mutate(relative_path = str_replace_all(dataset_id,'(/groups/pupko/noaeker/data/ABC_DR/)|(/ref_msa.aa.phy)',""))
+# spr_data= merge(lasso_output_data,data_source,by.x="relative_path",by.y="path", all.x = TRUE)
+# 
+# if (nrow(spr_data)<nrow(lasso_output_data))
+# {print("Problem in matching path names")
+#   cat("nrow data=",nrow(spr_data), "nrow lasso=",nrow(lasso_output_data))
+# }
 ```
 ```{r}
 spr_data <- spr_data %>% mutate(actucal_sample_pct =case_when(sample_pct>=0.2 ~ 0.2, sample_pct>=0.15 ~0.15, sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05) ,
@@ -48,7 +51,7 @@ spr_data <- spr_data %>% mutate(actucal_sample_pct =case_when(sample_pct>=0.2 ~ 
 Distribution on number of sequences
 
 ```{r}
-spr_data %>% distinct(db,dataset_id, n_seq) %>% group_by(db, n_seq)%>% summarize(n=n())
+hist(spr_data$constant_sites_pct)
 ```
 
 Summaries
@@ -56,6 +59,14 @@ Summaries
 ```{r}
 summary(spr_data$lasso_running_time/60)
 ```
+
+```{r}
+n_distinct(spr_data$dataset_id)
+
+spr_data  %>% count(actucal_training_size,actucal_sample_pct, sort = TRUE) %>% arrange(actucal_training_size, actucal_sample_pct)
+  
+```
+
 
 
 
@@ -110,6 +121,10 @@ ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
 
 
 ```
+
+
+
+
 ```{r}
 hist(example_msa_training_ll$predicted_training_ll-example_msa_training_ll$true_training_ll)
 hist(example_msa_test_ll$predicted_test_ll-example_msa_test_ll$true_test_ll)
@@ -142,6 +157,15 @@ spr_data %>% filter (relative_path=="Selectome/Euteleostomi/ENSGT00680000099951"
 
 
 ```
+
+
+
+```{r}
+
+```
+
+
+
 
 Find datasets in which a much worse tree was found
 
@@ -257,13 +281,13 @@ Unexplained variance on all MSAs
 
 ```{r}
 
-full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_r_2 = median(valid_test_r2)) %>% ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent, limits = c(0,0.025))+theme_classic() 
+full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_r_2 = median(valid_test_r2)) %>% ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent) +theme_classic() 
 
 full_data %>% filter (actucal_training_size==800 & actucal_sample_pct==0.2) %>% summarize(median_r_2 = median(valid_test_r2))
 
 ```
 ```{r}
-full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_delta_ll = median(valid_delta_ll_first_phase )) %>% ggplot(aes(x=actucal_sample_pct,y=median_delta_ll , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="log-likelihood differences", title="Median log-likelihood differences") +theme_classic() 
+full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_delta_ll = median(valid_delta_ll_first_phase )) %>% filter(!(actucal_training_size==100 & actucal_sample_pct>0.05) & !(actucal_training_size==200 & actucal_sample_pct>0.15)) %>% ggplot(aes(x=actucal_sample_pct,y=median_delta_ll , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="log-likelihood differences", title="Median log-likelihood differences") +theme_classic() 
 
 
 
@@ -291,6 +315,11 @@ full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summariz
 ```
 
 
+
+```{r}
+full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_run_time_factor = median(run_time_factor )) %>% filter(!(actucal_training_size==100 & actucal_sample_pct>0.05) & !(actucal_training_size==200 & actucal_sample_pct>0.15)) %>% ggplot(aes(x=actucal_sample_pct,y=median_run_time_factor , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="log-likelihood differences", title="Median run-time factor") +theme_classic()+expand_limits(x = 0, y = 0)
+
+```
 
 
 

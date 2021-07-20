@@ -1,0 +1,59 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+library(tidyverse)
+library(tidymodels)
+library(tictoc)
+
+#glmnet(x = x, y = y, weights = wts, alpha = 0.2, nlambda = 20)
+
+training_data<-read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/training.csv") 
+```
+
+
+```{r}
+training_data<- training_data %>% rowwise() %>% mutate (y=sum(c_across(is.numeric)))
+y <- training_data %>% pull(y)
+X <- training_data %>% select (-y)
+
+```
+
+
+```{r}
+lasso_path = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0)
+#lasso = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0,relax = TRUE, gamma =0)
+lasso_path_coefs_sum_tidy = tidy(lasso_path$df)
+lasso_path_coefs_matrix_tidy = tidy(lasso_path$beta)
+lasso_path_tidy = tidy(lasso_path)
+
+```
+```{r}
+coefs_cnt <- rowid_to_column(lasso_path_coefs_sum_tidy) %>% rename(step = rowid, non_zero_cnt = x)  
+n_loci = ncol(X)
+pcts = c(0.01,0.05,0.1,0.15)
+counts = pcts*n_loci
+relevant_non_zero_cnts<-coefs_cnt %>% crossing(counts) %>% mutate(diff = abs(counts-non_zero_cnt)) %>% group_by(counts) %>% filter (diff ==min(diff)) %>% pull(non_zero_cnt) 
+#lasso_path = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0, relax = TRUE)
+output <- lasso_path_tidy %>% inner_join(coefs_cnt) %>% filter (non_zero_cnt %in% relevant_non_zero_cnts) %>% rename(loci = term)
+relevant_output<-
+write_csv(output,"test.csv")
+```
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

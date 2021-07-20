@@ -38,6 +38,9 @@ def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen
     training_dump = os.path.join(training_size_directory, 'training_set.dump')
     training_dump_baseline = training_dump.replace(curr_msa_stats["run_prefix"],
                                                    curr_msa_stats["training_set_baseline_run_prefix"])
+    alternative_data_path = (
+        os.path.join(curr_msa_stats["curr_msa_version_folder"], "actual_search_training_df.csv")).replace(
+        curr_msa_stats["run_prefix"], curr_msa_stats["alternative_training_prefix"])
 
     if os.path.exists(training_dump_baseline):
         logging.info("Using trainng results in {}".format(training_dump_baseline))
@@ -45,6 +48,12 @@ def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen
             training_results = pickle.load(handle)
             training_sitelh, training_eval_time = training_results["training_sitelh"], training_results[
                 "training_eval_time"]
+    elif(os.path.exists(alternative_data_path) and curr_msa_stats["alternative_training"]):
+        logging.info(f"Using alternative training set in {alternative_data_path}")
+        training_sitelh = pd.read_csv(alternative_data_path)
+        training_eval_time =0
+        random.seed(SEED)
+        training_sitelh = training_sitelh.sample(frac=1)
     else:
         training_sitelh, training_eval_time = generate_per_site_ll_on_random_trees_for_training(
             curr_msa_stats=curr_msa_stats,

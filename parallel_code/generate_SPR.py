@@ -37,12 +37,19 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
                                                                            weights=curr_msa_stats["weights_file_path"] if use_weights else None)
     if use_weights:
         trees_ll = [(ll/INTEGER_CONST)+curr_msa_stats["lasso_intercept"] for ll in trees_ll]
-        trees_true_ll,trees_true_optimized_objects,time_rgft_eval_true = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"],
-                                                          "rgrft_ll_eval_on_full_MSA", trees_path,
-                                                                                        curr_msa_stats, curr_run_directory,
-                                                                                        weights=None)
+
+        random_tree_per_site_ll_list, random_tree_per_site_ll_list_eval_time = raxml_compute_tree_per_site_ll(curr_run_directory, curr_msa_stats["local_alignment_path"],
+                                       trees_path, "rgrft_ll_eval_on_full_MSA", alpha= curr_msa_stats["alpha"],
+                                       curr_msa_stats=curr_msa_stats,
+                                       opt_brlen=True)
+        true_sitelh_df = pd.DataFrame(random_tree_per_site_ll_list,
+                                 columns=list(range(len(random_tree_per_site_ll_list[0]))),
+                                 index=list(range(len(random_tree_per_site_ll_list))))
+        trees_true_ll = list(true_sitelh_df.sum(axis=1))
+
     else:
         trees_true_ll = trees_ll
+        true_sitelh_df = pd.DataFrame()
     best_ll = max(trees_ll)
     logging.debug("Out of {} ll values, the best one found is {}".format(len(trees_ll), best_ll))
     best_ll_index = trees_ll.index(best_ll)
@@ -51,7 +58,7 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
     ll_comparison_df = pd.DataFrame(
         {'full msa ll': trees_true_ll, 'sampled msa ll': trees_ll, 'iteration number': iteration_number}
     )
-    return best_tree_object, best_ll, best_true_ll,  ll_comparison_df
+    return best_tree_object, best_ll, best_true_ll,  ll_comparison_df, true_sitelh_df
 
 
 
@@ -79,6 +86,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                curr_run_directory,
                use_weights,starting_tree_ll = None ,true_starting_tree_ll = None):
     ll_comparison_df = pd.DataFrame()
+    actual_search_training_df = pd.DataFrame()
     true_vs_sampled_ll_per_iteration_list = []
     spr_iterations_performed_so_far = 0
     if not starting_tree_ll:
@@ -94,13 +102,14 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         curr_iter_run_directory = os.path.join(curr_run_directory , "iter_" + str(spr_iterations_performed_so_far))
         create_or_clean_dir(curr_iter_run_directory)
         logging.debug("iteration number: " + str(spr_iterations_performed_so_far))
-        curr_best_neighbour_object, curr_best_neighbour_ll, curr_best_neighbour_true_ll, curr_ll_comparison_df = SPR_iteration(
+        curr_best_neighbour_object, curr_best_neighbour_ll, curr_best_neighbour_true_ll, curr_ll_comparison_df, curr_true_sitelh_df = SPR_iteration(
             spr_iterations_performed_so_far, MSA_path, curr_msa_stats, curr_best_tree_object,
             curr_iter_run_directory,
             use_weights
         )
         logging.debug("Our current best tree ll is {} (its true ll is {}), best neighbour ll is {}".format(curr_best_tree_ll, curr_best_tree_true_ll,curr_best_neighbour_ll))
-        ll_comparison_df = pd.concat([ll_comparison_df, curr_ll_comparison_df])
+        ll_comparison_df = ll_comparison_df.append(curr_ll_comparison_df)
+        actual_search_training_df = actual_search_training_df.append(curr_true_sitelh_df)
         if curr_best_neighbour_ll -  curr_best_tree_ll <= EPSILON:
             logging.debug("Difference between best spr neighbour and current tree <= {}, stopping SPR search\n".format(EPSILON))
             break
@@ -117,6 +126,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         "search_best_topology_newick": curr_best_tree_object.write(format=1),
         "search_starting_tree_newick" : starting_tree_object.write(format=1),
         "ll_comparison_df": ll_comparison_df,
+        "actual_search_training_df":curr_true_sitelh_df,
         "true_vs_sampled_ll_per_iteration_list": true_vs_sampled_ll_per_iteration_list,
         "search_best_tree_object": curr_best_tree_object,
         "search_spr_moves": spr_iterations_performed_so_far,
@@ -187,6 +197,9 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
         first_phase_lasso_running_time = time.time()-start_time
         ll_comparison_df = first_optimized_param_dict["ll_comparison_df"]
         ll_comparison_df.to_csv(os.path.join(curr_run_directory , "ll_comparison_df.csv"))
+        actual_search_training_df = first_optimized_param_dict["actual_search_training_df"]
+        actual_search_training_path = os.path.join(curr_msa_stats["curr_msa_version_folder"], "actual_search_training_df.csv")
+        actual_search_training_df.to_csv(  actual_search_training_path)
         prediction_rho_pearson, prediction_pval_pearson,prediction_rho_spearman, prediction_pval_spearman,mse,mistake_cnt = analyze_ll_comparison_df(ll_comparison_df)
         ### Continue sampling with full data
         # Use previous tree as a starting tree
@@ -222,7 +235,8 @@ def SPR_analysis(current_file_path,SPR_chosen_starting_tree_path, curr_msa_stats
                 "mistake_cnt" : mistake_cnt,
                 "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,
             "lasso_ll_per_iteration_first_phase": first_optimized_param_dict["true_vs_sampled_ll_per_iteration_list"],
-            "lasso_ll_per_iteration_second_phase": next_optimized_tree_param_dict["true_vs_sampled_ll_per_iteration_list"]
+            "lasso_ll_per_iteration_second_phase": next_optimized_tree_param_dict["true_vs_sampled_ll_per_iteration_list"],
+            "actual_search_training_path" : actual_search_training_path
 
                 }
         return data
