@@ -82,6 +82,7 @@ OUTPUT_CSV_NAME = "spr_raxml"
 IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func","lasso_first_phase_ml_trees_objects","orig_reduced_file_path","alternative_analysis"]
 MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load R/3.5.1; module load python/python-anaconda3.6.5-orenavr2; module load intel/parallel_studio_xe_2020.4.omnipath;"
 
+
 #module load mpi/openmpi-x86_64
 
 if not LOCAL_RUN:
@@ -93,6 +94,7 @@ if not LOCAL_RUN:
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
     ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/example"
     MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
+    R_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/R_code/lasso_glmnet.R"
 elif LOCAL_RUN:
     IQTREE_PATH = "/Users/noa/Programs/iqtree-1.6.12-MacOSX/iqtree"
     RAXML_NG_EXE = "/Users/noa/Programs/Raxml/raxml-ng  "
@@ -102,6 +104,7 @@ elif LOCAL_RUN:
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
     ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/LARGE_FILES/Borowiek_et_al_2015"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
+    R_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/R_code/lasso_glmnet.R"
 
 
 
