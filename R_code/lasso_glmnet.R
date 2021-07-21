@@ -6,6 +6,10 @@ library(broom)
 
 options(echo=TRUE) # if you want see commands in output file
 args <- commandArgs(trailingOnly = TRUE)
+install.packages("glmnet")
+install.packages("tidyverse")
+install.packages("broom")
+
 print(args)
 #rm(args)
 training_data<-read_csv(args[1]) 
