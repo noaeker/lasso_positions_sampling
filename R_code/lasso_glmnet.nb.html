@@ -1741,7 +1741,7 @@ pre code {
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkodGlkeW1vZGVscylcbmxpYnJhcnkodGljdG9jKVxuXG4jZ2xtbmV0KHggPSB4LCB5ID0geSwgd2VpZ2h0cyA9IHd0cywgYWxwaGEgPSAwLjIsIG5sYW1iZGEgPSAyMClcblxuI3RyYWluaW5nX2RhdGE8LXJlYWRfY3N2KFwiL1VzZXJzL25vYS9Xb3Jrc3BhY2UvbGFzc29fcG9zaXRpb25zX3NhbXBsaW5nX3Jlc3VsdHMvdHJhaW5pbmcuY3N2XCIpIFxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkodGlkeW1vZGVscylcbmxpYnJhcnkodGljdG9jKVxuXG4jZ2xtbmV0KHggPSB4LCB5ID0geSwgd2VpZ2h0cyA9IHd0cywgYWxwaGEgPSAwLjIsIG5sYW1iZGEgPSAyMClcblxudHJhaW5pbmdfZGF0YTwtcmVhZF9jc3YoXCIvVXNlcnMvbm9hL1dvcmtzcGFjZS9sYXNzb19wb3NpdGlvbnNfc2FtcGxpbmdfcmVzdWx0cy90cmFpbmluZy5jc3ZcIikgXG5gYGAifQ== -->
 <pre class="r"><code>library(tidyverse)
 library(tidyverse)
 library(tidymodels)
@@ -1749,59 +1749,45 @@ library(tictoc)
 
 #glmnet(x = x, y = y, weights = wts, alpha = 0.2, nlambda = 20)
 
-#training_data&lt;-read_csv(&quot;/Users/noa/Workspace/lasso_positions_sampling_results/training.csv&quot;) </code></pre>
+training_data&lt;-read_csv(&quot;/Users/noa/Workspace/lasso_positions_sampling_results/training.csv&quot;) </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG7ilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5jb2xzKFxuICAuZGVmYXVsdCA9IGNvbF9kb3VibGUoKVxuKVxu4oS5IFVzZSBgc3BlYygpYCBmb3IgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb25zLlxuIn0= -->
+<pre><code>
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+cols(
+  .default = col_double()
+)
+ℹ Use `spec()` for the full column specifications.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW5pbmdfZGF0YTwtIHRyYWluaW5nX2RhdGEgJT4lIHJvd3dpc2UoKSAlPiUgbXV0YXRlICh5PXN1bShjX2Fjcm9zcyhpcy5udW1lcmljKSkpXG55IDwtIHRyYWluaW5nX2RhdGEgJT4lIHB1bGwoeSlcblggPC0gdHJhaW5pbmdfZGF0YSAlPiUgc2VsZWN0ICgteSlcblxuYGBgIn0= -->
-<pre class="r"><code>training_data&lt;- training_data %&gt;% rowwise() %&gt;% mutate (y=sum(c_across(is.numeric)))
-y &lt;- training_data %&gt;% pull(y)
-X &lt;- training_data %&gt;% select (-y)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3B0aW9ucyhlY2hvPVRSVUUpICMgaWYgeW91IHdhbnQgc2VlIGNvbW1hbmRzIGluIG91dHB1dCBmaWxlXG5hcmdzIDwtIGNvbW1hbmRBcmdzKHRyYWlsaW5nT25seSA9IFRSVUUpXG5wcmludChhcmdzKVxuYGBgIn0= -->
+<pre class="r"><code>options(echo=TRUE) # if you want see commands in output file
+args &lt;- commandArgs(trailingOnly = TRUE)
+print(args)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiY2hhcmFjdGVyKDApXG4ifQ== -->
+<pre><code>character(0)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3JtKGFyZ3MpXG50cmFpbmluZ19kYXRhPC1yZWFkX2Nzdih0cmFpbmluZ19kYXRhKSBcbmBgYCJ9 -->
+<pre class="r"><code>#rm(args)
+training_data&lt;-read_csv(training_data) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IGBmaWxlYCBtdXN0IGJlIGEgc3RyaW5nLCByYXcgdmVjdG9yIG9yIGEgY29ubmVjdGlvbi5cbiJ9 -->
+<pre><code>Error: `file` must be a string, raw vector or a connection.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGFzc29fcGF0aCA9IGdsbW5ldCh4ID0gWCwgeSA9IHksIG5sYW1iZGEgPSAzLCBhbHBoYSA9MSxsb3dlci5saW1pdHM9MCwgcmVsYXggPSBUUlVFKVxuI2xhc3NvID0gZ2xtbmV0KHggPSBYLCB5ID0geSwgbmxhbWJkYSA9IDEwMCwgYWxwaGEgPTEsbG93ZXIubGltaXRzPTAscmVsYXggPSBUUlVFLCBnYW1tYSA9MClcbmxhc3NvX3BhdGhfY29lZnNfc3VtX3RpZHkgPSB0aWR5KGxhc3NvX3BhdGgkZGYpXG5gYGAifQ== -->
-<pre class="r"><code>lasso_path = glmnet(x = X, y = y, nlambda = 3, alpha =1,lower.limits=0, relax = TRUE)
-#lasso = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0,relax = TRUE, gamma =0)
-lasso_path_coefs_sum_tidy = tidy(lasso_path$df)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiJ3RpZHkubnVtZXJpYycgaXMgZGVwcmVjYXRlZC5cblNlZSBoZWxwKFwiRGVwcmVjYXRlZFwiKVxuIn0= -->
-<pre><code>&#39;tidy.numeric&#39; is deprecated.
-See help(&quot;Deprecated&quot;)</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGFzc29fcGF0aF9jb2Vmc19tYXRyaXhfdGlkeSA9IHRpZHkobGFzc29fcGF0aCRiZXRhKVxuYGBgIn0= -->
-<pre class="r"><code>lasso_path_coefs_matrix_tidy = tidy(lasso_path$beta)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiJ3RpZHkuZGdDTWF0cml4JyBpcyBkZXByZWNhdGVkLlxuU2VlIGhlbHAoXCJEZXByZWNhdGVkXCIpJ3RpZHkuZGdUTWF0cml4JyBpcyBkZXByZWNhdGVkLlxuU2VlIGhlbHAoXCJEZXByZWNhdGVkXCIpXG4ifQ== -->
-<pre><code>&#39;tidy.dgCMatrix&#39; is deprecated.
-See help(&quot;Deprecated&quot;)&#39;tidy.dgTMatrix&#39; is deprecated.
-See help(&quot;Deprecated&quot;)</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGFzc29fcGF0aF90aWR5ID0gdGlkeShsYXNzb19wYXRoKVxuXG5gYGAifQ== -->
-<pre class="r"><code>lasso_path_tidy = tidy(lasso_path)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29lZnNfY250IDwtIHJvd2lkX3RvX2NvbHVtbihsYXNzb19wYXRoX2NvZWZzX3N1bV90aWR5KSAlPiUgcmVuYW1lKHN0ZXAgPSByb3dpZCwgbm9uX3plcm9fY250ID0geCkgIFxubl9sb2NpID0gbmNvbChYKVxucGN0cyA9IGMoMC4wMSwwLjA1LDAuMSwwLjE1KVxuY291bnRzID0gcGN0cypuX2xvY2lcbnJlbGV2YW50X25vbl96ZXJvX2NudHM8LWNvZWZzX2NudCAlPiUgY3Jvc3NpbmcoY291bnRzKSAlPiUgbXV0YXRlKGRpZmYgPSBhYnMoY291bnRzLW5vbl96ZXJvX2NudCkpICU+JSBncm91cF9ieShjb3VudHMpICU+JSBmaWx0ZXIgKGRpZmYgPT1taW4oZGlmZikpICU+JSBwdWxsKG5vbl96ZXJvX2NudCkgXG4jbGFzc29fcGF0aCA9IGdsbW5ldCh4ID0gWCwgeSA9IHksIG5sYW1iZGEgPSAxMDAsIGFscGhhID0xLGxvd2VyLmxpbWl0cz0wLCByZWxheCA9IFRSVUUpXG5vdXRwdXQgPC0gbGFzc29fcGF0aF90aWR5ICU+JSBpbm5lcl9qb2luKGNvZWZzX2NudCkgJT4lIGZpbHRlciAobm9uX3plcm9fY250ICVpbiUgcmVsZXZhbnRfbm9uX3plcm9fY250cykgJT4lIHJlbmFtZShsb2NpID0gdGVybSlcbmBgYCJ9 -->
-<pre class="r"><code>coefs_cnt &lt;- rowid_to_column(lasso_path_coefs_sum_tidy) %&gt;% rename(step = rowid, non_zero_cnt = x)  
-n_loci = ncol(X)
-pcts = c(0.01,0.05,0.1,0.15)
-counts = pcts*n_loci
-relevant_non_zero_cnts&lt;-coefs_cnt %&gt;% crossing(counts) %&gt;% mutate(diff = abs(counts-non_zero_cnt)) %&gt;% group_by(counts) %&gt;% filter (diff ==min(diff)) %&gt;% pull(non_zero_cnt) 
-#lasso_path = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0, relax = TRUE)
-output &lt;- lasso_path_tidy %&gt;% inner_join(coefs_cnt) %&gt;% filter (non_zero_cnt %in% relevant_non_zero_cnts) %&gt;% rename(loci = term)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiSm9pbmluZywgYnkgPSBcInN0ZXBcIlxuIn0= -->
-<pre><code>Joining, by = &quot;step&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KG91dHB1dCxcInRlc3QuY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>write_csv(output,&quot;test.csv&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGFzc29fcGF0aF9yZWxheGVkIDwtICBnbG1uZXQoeCA9IFgsIHkgPSB5LCBsYW1iZGEgPSByZWxldmFudF9sYW1iZGFzLCBhbHBoYSA9MSxsb3dlci5saW1pdHM9MCwgcmVsYXggPSBUUlVFKVxubGFzc29fcGF0aF9yZWxheGVkX3RpZHkgPSB0aWR5KGxhc3NvX3BhdGhfcmVsYXhlZClcbnJlbGF4ZWRfY29lZnNfc3VtX3RpZHkgPSB0aWR5KGxhc3NvX3BhdGhfcmVsYXhlZCRkZilcbnJlbGF4ZWRfY29lZnNfY250IDwtIHJvd2lkX3RvX2NvbHVtbihyZWxheGVkX2NvZWZzX3N1bV90aWR5KSAlPiUgcmVuYW1lKHN0ZXAgPSByb3dpZCwgbm9uX3plcm9fY250ID0geCkgIFxucmVsYXhlZF9vdXRwdXQgPC0gbGFzc29fcGF0aF9yZWxheGVkX3RpZHkgICU+JSBpbm5lcl9qb2luKHJlbGF4ZWRfY29lZnNfY250KSAlPiUgcmVuYW1lKGxvY2kgPSB0ZXJtKVxuYGBgIn0= -->
+<pre class="r"><code>lasso_path_relaxed &lt;-  glmnet(x = X, y = y, lambda = relevant_lambdas, alpha =1,lower.limits=0, relax = TRUE)
+lasso_path_relaxed_tidy = tidy(lasso_path_relaxed)
+relaxed_coefs_sum_tidy = tidy(lasso_path_relaxed$df)
+relaxed_coefs_cnt &lt;- rowid_to_column(relaxed_coefs_sum_tidy) %&gt;% rename(step = rowid, non_zero_cnt = x)  
+relaxed_output &lt;- lasso_path_relaxed_tidy  %&gt;% inner_join(relaxed_coefs_cnt) %&gt;% rename(loci = term)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1810,7 +1796,7 @@ output &lt;- lasso_path_tidy %&gt;% inner_join(coefs_cnt) %&gt;% filter (non_zer
 <p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KHRpZHltb2RlbHMpCmxpYnJhcnkodGljdG9jKQoKI2dsbW5ldCh4ID0geCwgeSA9IHksIHdlaWdodHMgPSB3dHMsIGFscGhhID0gMC4yLCBubGFtYmRhID0gMjApCgp0cmFpbmluZ19kYXRhPC1yZWFkX2NzdigiL1VzZXJzL25vYS9Xb3Jrc3BhY2UvbGFzc29fcG9zaXRpb25zX3NhbXBsaW5nX3Jlc3VsdHMvdHJhaW5pbmcuY3N2IikgCmBgYAoKCmBgYHtyfQp0cmFpbmluZ19kYXRhPC0gdHJhaW5pbmdfZGF0YSAlPiUgcm93d2lzZSgpICU+JSBtdXRhdGUgKHk9c3VtKGNfYWNyb3NzKGlzLm51bWVyaWMpKSkKeSA8LSB0cmFpbmluZ19kYXRhICU+JSBwdWxsKHkpClggPC0gdHJhaW5pbmdfZGF0YSAlPiUgc2VsZWN0ICgteSkKCmBgYAoKCmBgYHtyfQpsYXNzb19wYXRoID0gZ2xtbmV0KHggPSBYLCB5ID0geSwgbmxhbWJkYSA9IDEwMCwgYWxwaGEgPTEsbG93ZXIubGltaXRzPTApCiNsYXNzbyA9IGdsbW5ldCh4ID0gWCwgeSA9IHksIG5sYW1iZGEgPSAxMDAsIGFscGhhID0xLGxvd2VyLmxpbWl0cz0wLHJlbGF4ID0gVFJVRSwgZ2FtbWEgPTApCmxhc3NvX3BhdGhfY29lZnNfc3VtX3RpZHkgPSB0aWR5KGxhc3NvX3BhdGgkZGYpCmxhc3NvX3BhdGhfY29lZnNfbWF0cml4X3RpZHkgPSB0aWR5KGxhc3NvX3BhdGgkYmV0YSkKbGFzc29fcGF0aF90aWR5ID0gdGlkeShsYXNzb19wYXRoKQoKYGBgCmBgYHtyfQpjb2Vmc19jbnQgPC0gcm93aWRfdG9fY29sdW1uKGxhc3NvX3BhdGhfY29lZnNfc3VtX3RpZHkpICU+JSByZW5hbWUoc3RlcCA9IHJvd2lkLCBub25femVyb19jbnQgPSB4KSAgCm5fbG9jaSA9IG5jb2woWCkKcGN0cyA9IGMoMC4wMSwwLjA1LDAuMSwwLjE1KQpjb3VudHMgPSBwY3RzKm5fbG9jaQpyZWxldmFudF9ub25femVyb19jbnRzPC1jb2Vmc19jbnQgJT4lIGNyb3NzaW5nKGNvdW50cykgJT4lIG11dGF0ZShkaWZmID0gYWJzKGNvdW50cy1ub25femVyb19jbnQpKSAlPiUgZ3JvdXBfYnkoY291bnRzKSAlPiUgZmlsdGVyIChkaWZmID09bWluKGRpZmYpKSAlPiUgcHVsbChub25femVyb19jbnQpIAojbGFzc29fcGF0aCA9IGdsbW5ldCh4ID0gWCwgeSA9IHksIG5sYW1iZGEgPSAxMDAsIGFscGhhID0xLGxvd2VyLmxpbWl0cz0wLCByZWxheCA9IFRSVUUpCm91dHB1dCA8LSBsYXNzb19wYXRoX3RpZHkgJT4lIGlubmVyX2pvaW4oY29lZnNfY250KSAlPiUgZmlsdGVyIChub25femVyb19jbnQgJWluJSByZWxldmFudF9ub25femVyb19jbnRzKSAlPiUgcmVuYW1lKGxvY2kgPSB0ZXJtKQpyZWxldmFudF9vdXRwdXQ8LQp3cml0ZV9jc3Yob3V0cHV0LCJ0ZXN0LmNzdiIpCmBgYAoKCgoKCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDbWQrT3B0aW9uK0kqLgoKV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDbWQrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4gCgpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KHRpZHltb2RlbHMpCmxpYnJhcnkodGljdG9jKQoKI2dsbW5ldCh4ID0geCwgeSA9IHksIHdlaWdodHMgPSB3dHMsIGFscGhhID0gMC4yLCBubGFtYmRhID0gMjApCgp0cmFpbmluZ19kYXRhPC1yZWFkX2NzdigiL1VzZXJzL25vYS9Xb3Jrc3BhY2UvbGFzc29fcG9zaXRpb25zX3NhbXBsaW5nX3Jlc3VsdHMvdHJhaW5pbmcuY3N2IikgCmBgYAoKCmBgYHtyfQpvcHRpb25zKGVjaG89VFJVRSkgIyBpZiB5b3Ugd2FudCBzZWUgY29tbWFuZHMgaW4gb3V0cHV0IGZpbGUKYXJncyA8LSBjb21tYW5kQXJncyh0cmFpbGluZ09ubHkgPSBUUlVFKQpwcmludChhcmdzKQojcm0oYXJncykKdHJhaW5pbmdfZGF0YTwtIHRyYWluaW5nX2RhdGEgJT4lIHJvd3dpc2UoKSAlPiUgbXV0YXRlICh5PXN1bShjX2Fjcm9zcyhpcy5udW1lcmljKSkpCnkgPC0gdHJhaW5pbmdfZGF0YSAlPiUgcHVsbCh5KQpYIDwtIHRyYWluaW5nX2RhdGEgJT4lIHNlbGVjdCAoLXkpCmxhc3NvX3BhdGggPSBnbG1uZXQoeCA9IFgsIHkgPSB5LCBubGFtYmRhID0gMTAwLCBsYW1iZGEubWluLnJhdGlvID0gMC4wMDAwMDAxLCBhbHBoYSA9MSxsb3dlci5saW1pdHM9MCkKI2xhc3NvID0gZ2xtbmV0KHggPSBYLCB5ID0geSwgbmxhbWJkYSA9IDEwMCwgYWxwaGEgPTEsbG93ZXIubGltaXRzPTAscmVsYXggPSBUUlVFLCBnYW1tYSA9MCkKbGFzc29fcGF0aF9jb2Vmc19zdW1fdGlkeSA9IHRpZHkobGFzc29fcGF0aCRkZikKbGFzc29fcGF0aF9jb2Vmc19tYXRyaXhfdGlkeSA9IHRpZHkobGFzc29fcGF0aCRiZXRhKQpsYXNzb19wYXRoX3RpZHkgPSB0aWR5KGxhc3NvX3BhdGgpCgpjb2Vmc19jbnQgPC0gcm93aWRfdG9fY29sdW1uKGxhc3NvX3BhdGhfY29lZnNfc3VtX3RpZHkpICU+JSByZW5hbWUoc3RlcCA9IHJvd2lkLCBub25femVyb19jbnQgPSB4KSAgCmNvZWZzX2NudApuX2xvY2kgPSBuY29sKFgpCnBjdHMgPSBjKDAuMDA1LDAuMDEsMC4wNSwwLjEsMC4xNSkKY291bnRzID0gcGN0cypuX2xvY2kKcmVsZXZhbnRfbm9uX3plcm9fY250czwtY29lZnNfY250ICU+JSBjcm9zc2luZyhwY3RzKSAlPiUgIG11dGF0ZShjb3VudHMgPSBwY3RzKm5fbG9jaSxkaWZmID0gKGNvdW50cy1ub25femVyb19jbnQpKSAlPiUgZmlsdGVyIChkaWZmPj0wKSAlPiUgZ3JvdXBfYnkoY291bnRzLCBwY3RzKSAlPiUgZmlsdGVyIChkaWZmID09bWluKGRpZmYpKSAlPiUgcHVsbChub25femVyb19jbnQpIAojbGFzc29fcGF0aCA9IGdsbW5ldCh4ID0gWCwgeSA9IHksIG5sYW1iZGEgPSAxMDAsIGFscGhhID0xLGxvd2VyLmxpbWl0cz0wLCByZWxheCA9IFRSVUUpCm91dHB1dCA8LSBsYXNzb19wYXRoX3RpZHkgJT4lIGlubmVyX2pvaW4oY29lZnNfY250KSAlPiUgZmlsdGVyIChub25femVyb19jbnQgJWluJSByZWxldmFudF9ub25femVyb19jbnRzKSAlPiUgcmVuYW1lKGxvY2kgPSB0ZXJtKQp3cml0ZV9jc3Yob3V0cHV0LHBhc3RlKHN0cl90cmltKGFyZ3NbMl0pLCIvcl9sYXNzby5jc3YiLHNlcD0iIikpCgpyZWxldmFudF9sYW1iZGFzPC0gb3V0cHV0ICU+JSBkaXN0aW5jdCAobGFtYmRhKSAlPiUgcHVsbChsYW1iZGEpCgoKCmBgYAoKCgpgYGB7cn0KbGFzc29fcGF0aF9yZWxheGVkIDwtICBnbG1uZXQoeCA9IFgsIHkgPSB5LCBsYW1iZGEgPSByZWxldmFudF9sYW1iZGFzLCBhbHBoYSA9MSxsb3dlci5saW1pdHM9MCwgcmVsYXggPSBUUlVFKQpsYXNzb19wYXRoX3JlbGF4ZWRfdGlkeSA9IHRpZHkobGFzc29fcGF0aF9yZWxheGVkKQpyZWxheGVkX2NvZWZzX3N1bV90aWR5ID0gdGlkeShsYXNzb19wYXRoX3JlbGF4ZWQkZGYpCnJlbGF4ZWRfY29lZnNfY250IDwtIHJvd2lkX3RvX2NvbHVtbihyZWxheGVkX2NvZWZzX3N1bV90aWR5KSAlPiUgcmVuYW1lKHN0ZXAgPSByb3dpZCwgbm9uX3plcm9fY250ID0geCkgIApyZWxheGVkX291dHB1dCA8LSBsYXNzb19wYXRoX3JlbGF4ZWRfdGlkeSAgJT4lIGlubmVyX2pvaW4ocmVsYXhlZF9jb2Vmc19jbnQpICU+JSByZW5hbWUobG9jaSA9IHRlcm0pCmBgYAoKQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkNtZCtPcHRpb24rSSouCgpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkNtZCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLiAKClRoZSBwcmV2aWV3IHNob3dzIHlvdSBhIHJlbmRlcmVkIEhUTUwgY29weSBvZiB0aGUgY29udGVudHMgb2YgdGhlIGVkaXRvci4gQ29uc2VxdWVudGx5LCB1bmxpa2UgKktuaXQqLCAqUHJldmlldyogZG9lcyBub3QgcnVuIGFueSBSIGNvZGUgY2h1bmtzLiBJbnN0ZWFkLCB0aGUgb3V0cHV0IG9mIHRoZSBjaHVuayB3aGVuIGl0IHdhcyBsYXN0IHJ1biBpbiB0aGUgZWRpdG9yIGlzIGRpc3BsYXllZC4KCg==</div>
 
 
 

@@ -341,12 +341,17 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
     spr_searches_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "spr_results")
     create_dir_if_not_exists(spr_searches_run_directory)
     logging.info("\n\nStarting SPR searches")
-    for i in range(curr_msa_stats["n_random_starting_trees"]):
+    n_starting_trees = curr_msa_stats["n_random_starting_trees"] if not curr_msa_stats["use_spr_parsimony_starting_tree"] else 1
+    for i in range(n_starting_trees):
         logging.info(f" *Starting tree {i}:")
         starting_tree_run_directory = os.path.join(spr_searches_run_directory,
                                                    'starting_tree_{i}'.format(i=i))
         create_dir_if_not_exists(starting_tree_run_directory)
-        starting_tree_path = generate_or_copy_random_starting_tree(i, starting_tree_run_directory, curr_msa_stats)
+        if curr_msa_stats["use_spr_parsimony_starting_tree"]:
+            logging.info(f"Using a parsimony starting tree to spr search")
+            starting_tree_path = curr_msa_stats["parsimony_optimized_tree_path"]
+        else:
+            starting_tree_path = generate_or_copy_random_starting_tree(i, starting_tree_run_directory, curr_msa_stats)
         curr_msa_stats["starting_tree_path"] = starting_tree_path
         naive_spr_results_dump = os.path.join(starting_tree_run_directory, 'naive_spr.dump')
         naive_spr_results_dump_baseline = naive_spr_results_dump.replace(curr_msa_stats["run_prefix"],

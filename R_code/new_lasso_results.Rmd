@@ -65,6 +65,8 @@ n_distinct(spr_data$dataset_id)
 
 spr_data  %>% count(actucal_training_size,actucal_sample_pct, sort = TRUE) %>% arrange(actucal_training_size, actucal_sample_pct)
   
+hist(spr_data %>% filter (actucal_training_size==800, actucal_sample_pct==0.1) %>% pull(lasso_SPR_second_phase_spr_moves))
+hist(spr_data %>% filter (actucal_training_size==800, actucal_sample_pct==0.1) %>% pull(lasso_SPR_first_phase_spr_moves))
 ```
 
 
@@ -130,16 +132,20 @@ hist(example_msa_training_ll$predicted_training_ll-example_msa_training_ll$true_
 hist(example_msa_test_ll$predicted_test_ll-example_msa_test_ll$true_test_ll)
 summary(example_msa_test_ll$predicted_test_ll-example_msa_test_ll$true_test_ll)
 ```
+```{r}
+spr_data %>% distinct (relative_path, job_ind) %>% arrange (job_ind)
+```
+
 
 Unexplained variance on the example MSA
 
 ```{r}
 
-unexplained_variance_data<- spr_data %>% filter (relative_path=="Selectome/Euteleostomi/ENSGT00680000099951")  %>% select (sample_pct,actucal_training_size,`lasso_test_R^2`, lasso_test_spearmanr) %>% mutate (unexplained_var =1-`lasso_test_R^2` )
+unexplained_variance_data<- spr_data %>% filter (relative_path=="/groups/pupko/noaeker/data/LARGE_FILES_edited/_Borowiek_et_al_2015_TaxaMin30.phy")  %>% select (sample_pct,actucal_training_size,`lasso_test_R^2`, lasso_test_spearmanr) %>% mutate (unexplained_var =1-`lasso_test_R^2` )
 
 unexplained_variance_data
 
-unexplained_variance_data %>% ggplot(aes(x=sample_pct,y=unexplained_var, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set") +  scale_y_continuous(labels = scales::percent, limits = c(0,0.025))+theme_classic()
+unexplained_variance_data %>% ggplot(aes(x=sample_pct,y=unexplained_var, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set") +  scale_y_continuous(labels = scales::percent)+theme_classic()
 
 
 
@@ -281,11 +287,19 @@ Unexplained variance on all MSAs
 
 ```{r}
 
-full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_r_2 = median(valid_test_r2)) %>% ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent) +theme_classic() 
+full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% filter(!(actucal_training_size==100 & actucal_sample_pct>0.05) & !(actucal_training_size==200 & actucal_sample_pct>0.15)) summarize(median_r_2 = median(valid_test_r2)) %>%
+  ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point()+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent) +theme_classic() 
 
 full_data %>% filter (actucal_training_size==800 & actucal_sample_pct==0.2) %>% summarize(median_r_2 = median(valid_test_r2))
 
 ```
+
+
+```{r}
+
+```
+
+
 ```{r}
 full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarize(median_delta_ll = median(valid_delta_ll_first_phase )) %>% filter(!(actucal_training_size==100 & actucal_sample_pct>0.05) & !(actucal_training_size==200 & actucal_sample_pct>0.15)) %>% ggplot(aes(x=actucal_sample_pct,y=median_delta_ll , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage (t)",y="log-likelihood differences", title="Median log-likelihood differences") +theme_classic() 
 
@@ -323,6 +337,9 @@ full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summariz
 
 
 
+```{r}
+select()
+```
 
 
 
