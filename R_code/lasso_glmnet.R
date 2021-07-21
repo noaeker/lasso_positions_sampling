@@ -1,7 +1,3 @@
-install.packages("glmnet")
-install.packages("tidyverse")
-install.packages("broom")
-
 
 library(glmnet)
 library(tidyverse)
