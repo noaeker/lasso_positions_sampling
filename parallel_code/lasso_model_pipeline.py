@@ -246,10 +246,10 @@ def get_glmnet_lasso_path_on_given_data(curr_msa_stats,curr_data, partition_fold
                 relaxed_lasso = 1 if curr_msa_stats["relaxed_lasso"] else 0
                 curr_data_path = os.path.join(partition_folder,f"partition_{i}_sitelh.csv")
                 curr_data.to_csv(curr_data_path,index=False)
-                command = f"Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso}"
+                command = f"module load R/3.6.1;Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso}"
                 logging.info(f"About to run lasso command in glmnet: {command}")
                 lasso_start_time  = time.time()
-                os.system('module load R/3.6.1')
+                # os.system('module load R/3.6.1')
                 os.system(command)
                 logging.info("R glmnet command is done!")
                 lasso_output_file_path=  os.path.join(partition_folder,"r_lasso_relaxed.csv") if curr_msa_stats["relaxed_lasso"] else os.path.join(partition_folder,"r_lasso.csv")
