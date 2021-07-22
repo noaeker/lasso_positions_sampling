@@ -55,13 +55,14 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_lasso_sklearn_7_taxa_800_"#"test_various_thresholds_8"
-CURR_JOBS_PREFIX =  "test_lasso_sklearn_7_taxa_800_"#"test_various_thresholds_8"
-LASSO_BASELINE = "test_lasso_sklearn_7_taxa_800_"#"test_various_thresholds_6"#"new_test" #"test_unbiassed_lasso"#"test_new"#"test_lasso_random" #"raxml_search_test"
-TRAINING_BASELINE =    "test_lasso_glmnet_7_taxa_800"#test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"no_baseline"#"new_test" #"opt_new_tests_30"#"test_alpha"
-TEST_SET_BASELINE =  "test_lasso_glmnet_7_taxa_800"#"test_various_thresholds_6"#"test_various_thresholds"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
-MSA_BASELINE =  "test_lasso_glmnet_7_taxa"#"test_various_thresholds_6"#"test_20_for_ppt_400"#"raxml_results_30_sample_0.1"
-FULL_DATA_BASELINE = "test_lasso_glmnet_7_taxa"#"test_10_for_ppt"#"raxml_results_30_sample_0.1"#"new_test2_raxml" #"opt_new_tests_30"#"test_unbiassed_lasso"#"raxml_search_test_standard"#"spr_baseline"
+CURR_RUN_PREFIX = "test_curr"
+CURR_JOBS_PREFIX =  "test_curr"
+
+LASSO_BASELINE ="no_baseline"
+TRAINING_BASELINE =    "no_baseline"
+TEST_SET_BASELINE =  "no_baseline"
+MSA_BASELINE =  "no_baseline"
+FULL_DATA_BASELINE = "no_baseline"
 ALTERNATIVE_TRAINING_BASELINE = "no_baseline"
 
 DILUTE_AMOUNT = 15
@@ -69,9 +70,9 @@ DILUTE_MUL = 10
 
 
 
-MAX_N_SEQ =  7
+MAX_N_SEQ =  5
 MAX_N_LOCI = 100000000
-MIN_N_SEQ = 7
+MIN_N_SEQ = 5
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1

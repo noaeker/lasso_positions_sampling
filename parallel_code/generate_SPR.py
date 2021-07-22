@@ -37,16 +37,24 @@ def SPR_iteration(iteration_number,MSA_path, curr_msa_stats, starting_tree_objec
                                                                            weights=curr_msa_stats["weights_file_path"] if use_weights else None)
     if use_weights:
         trees_ll = [(ll/INTEGER_CONST)+curr_msa_stats["lasso_intercept"] for ll in trees_ll]
+    if curr_msa_stats["spr_compare_to_full"]:
+        if curr_msa_stats["compute_per_site_ll_values"]:
 
-        random_tree_per_site_ll_list, random_tree_per_site_ll_list_eval_time = raxml_compute_tree_per_site_ll(curr_run_directory, curr_msa_stats["local_alignment_path"],
-                                       trees_path, "rgrft_ll_eval_on_full_MSA", alpha= curr_msa_stats["alpha"],
-                                       curr_msa_stats=curr_msa_stats,
-                                       opt_brlen=True)
-        true_sitelh_df = pd.DataFrame(random_tree_per_site_ll_list,
-                                 columns=list(range(len(random_tree_per_site_ll_list[0]))),
-                                 index=list(range(len(random_tree_per_site_ll_list))))
-        trees_true_ll = list(true_sitelh_df.sum(axis=1))
-
+            random_tree_per_site_ll_list, random_tree_per_site_ll_list_eval_time = raxml_compute_tree_per_site_ll(curr_run_directory, curr_msa_stats["local_alignment_path"],
+                                           trees_path, "rgrft_ll_eval_on_full_MSA", alpha= curr_msa_stats["alpha"],
+                                           curr_msa_stats=curr_msa_stats,
+                                           opt_brlen=True)
+            true_sitelh_df = pd.DataFrame(random_tree_per_site_ll_list,
+                                     columns=list(range(len(random_tree_per_site_ll_list[0]))),
+                                     index=list(range(len(random_tree_per_site_ll_list))))
+            trees_true_ll = list(true_sitelh_df.sum(axis=1))
+        else:
+            trees_true_ll, trees_true_optimized_objects, time_rgft_eval_true = raxml_optimize_trees_for_given_msa(
+                curr_msa_stats["local_alignment_path"],
+                "rgrft_ll_eval_on_full_MSA", trees_path,
+                curr_msa_stats, curr_run_directory,
+                weights=None)
+            true_sitelh_df = pd.DataFrame()
     else:
         trees_true_ll = trees_ll
         true_sitelh_df = pd.DataFrame()

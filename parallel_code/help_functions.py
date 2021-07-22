@@ -275,6 +275,8 @@ def main_parser():
     parser.add_argument('--use_glmnet_lasso',action='store_true')
     parser.add_argument('--relaxed_lasso', action = 'store_true')
     parser.add_argument('--use_spr_parsimony_starting_tree',action = 'store_true')
+    parser.add_argument('--spr_compare_to_full',action = 'store_true')
+    parser.add_argument('--compute_per_site_ll_values', action='store_true')
     return parser
 
 def job_parser():
