@@ -6,6 +6,7 @@ import time
 import numpy as np
 from sklearn import preprocessing
 import itertools
+import math
 
 
 def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
@@ -163,17 +164,15 @@ def get_sklearn_coeffs_for_given_threshold(threshold, lasso_path_results):
 
 
 def get_glmnet_coeffs_for_given_threshold(threshold,MSA_n_loci, glmnet_lasso_path):
-    n_loci_options = sorted(glmnet_lasso_path["non_zero_cnt"])
-    for n_loci in n_loci_options:
-        if n_loci>=threshold*MSA_n_loci:
-            relevant_data = glmnet_lasso_path[glmnet_lasso_path["non_zero_cnt"]==n_loci]
-            t_intercept = float(relevant_data[relevant_data["loci"]=="(Intercept)"].iloc[0]["estimate"])
-            t_lambda =max(relevant_data["lambda"])
-            t_coefficients_data = relevant_data[relevant_data["loci"]!="(Intercept)"][["loci","estimate"]]
-            t_coefficients =np.zeros(MSA_n_loci)
-            np.put(t_coefficients,t_coefficients_data["loci"],t_coefficients_data["estimate"])
-            return t_coefficients, t_intercept, t_lambda
-    return None, None, None
+    relevant_data = glmnet_lasso_path[glmnet_lasso_path["desired_pcts"]==threshold]
+    if relevant_data.empty:
+        return None,None,None
+    t_intercept = float(relevant_data[relevant_data["loci"]=="(Intercept)"].iloc[0]["estimate"])
+    t_lambda =max(relevant_data["lambda"])
+    t_coefficients_data = relevant_data[relevant_data["loci"]!="(Intercept)"][["loci","estimate"]]
+    t_coefficients =np.zeros(MSA_n_loci)
+    np.put(t_coefficients,t_coefficients_data["loci"],t_coefficients_data["estimate"])
+    return t_coefficients, t_intercept, t_lambda
 
 
 
@@ -246,12 +245,14 @@ def get_glmnet_lasso_path_on_given_data(curr_msa_stats,curr_data, partition_fold
                 relaxed_lasso = 1 if curr_msa_stats["relaxed_lasso"] else 0
                 curr_data_path = os.path.join(partition_folder,f"partition_{i}_sitelh.csv")
                 curr_data.to_csv(curr_data_path,index=False)
-                command = f"module load R/3.6.1;Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso}"
+                lasso_thresholds = curr_msa_stats['lasso_thresholds']
+                command = f"module load R/3.6.1;Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso} {lasso_thresholds}"
                 logging.info(f"About to run lasso command in glmnet: {command}")
                 lasso_start_time  = time.time()
                 # os.system('module load R/3.6.1')
                 os.system(command)
                 logging.info("R glmnet command is done!")
+
                 lasso_output_file_path=  os.path.join(partition_folder,"r_lasso_relaxed.csv") if curr_msa_stats["relaxed_lasso"] else os.path.join(partition_folder,"r_lasso.csv")
                 glmnet_lasso_path =  pd.read_csv(lasso_output_file_path)
                 glmnet_running_time = time.time() -lasso_start_time

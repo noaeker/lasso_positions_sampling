@@ -53,6 +53,11 @@ relevant_lambdas
 ```
 
 ```{r}
+lasso_path_tidy %>% inner_join(coefs_cnt)
+
+```
+
+```{r}
 coefs_cnt %>% crossing(pcts) %>%  mutate(counts = as.integer(pcts*n_loci),diff = (non_zero_cnt-counts)) %>% filter (diff>=0) %>% group_by(counts, pcts) %>% filter (diff ==min(diff))
 ```
 

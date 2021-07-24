@@ -55,13 +55,13 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 1000 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr"
-CURR_JOBS_PREFIX =  "test_curr"
+CURR_RUN_PREFIX = "test_curr2"
+CURR_JOBS_PREFIX =  "test_curr2"
 
 LASSO_BASELINE ="no_baseline"
-TRAINING_BASELINE =    "no_baseline"
-TEST_SET_BASELINE =  "no_baseline"
-MSA_BASELINE =  "no_baseline"
+TRAINING_BASELINE =    "test_curr"
+TEST_SET_BASELINE =  "test_curr"
+MSA_BASELINE =  "test_curr"
 FULL_DATA_BASELINE = "no_baseline"
 ALTERNATIVE_TRAINING_BASELINE = "no_baseline"
 
