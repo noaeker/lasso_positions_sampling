@@ -15,7 +15,7 @@ training_data<- training_data %>% rowwise() %>% mutate (y=sum(c_across(is.numeri
 y <- training_data %>% pull(y)
 X <- training_data %>% select (-y)
 # fdev = 1.0e-5, devmax = 0.999
-lasso_path = glmnet(x = X, y = y, nlambda = 1000, lambda.min.ratio = 0.00000000001, alpha =1,lower.limits=0,devmax = 0.9999,fdev = 1.0e-10)
+lasso_path = glmnet(x = X, y = y, nlambda = 1000, lambda.min.ratio = 0.00000000001, alpha =1,lower.limits=0,devmax = 0.999999,fdev = 1.0e-10)
 #lasso = glmnet(x = X, y = y, nlambda = 100, alpha =1,lower.limits=0,relax = TRUE, gamma =0)
 lasso_path_coefs_sum_tidy = tidy(lasso_path$df)
 lasso_path_coefs_matrix_tidy = tidy(lasso_path$beta)

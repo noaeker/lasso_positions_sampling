@@ -42,8 +42,8 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
     return lasso_ll_values_adjusted, lasso_ll_values_adjusted_no_opt, true_ll_values, results
 
 
-def generate_lasso_descriptive(training_predicted_values, training_predicted_values_no_opt, training_true_values,
-                               test_predicted_values, test_true_values, curr_run_directory):
+def generate_lasso_descriptive(training_predicted_values, training_true_values,
+                               test_predicted_values,test_predicted_values_no_opt, test_true_values, curr_run_directory):
     training_sitelh_df_prediction = pd.DataFrame(
         {'predicted_training_ll': training_predicted_values, 'true_training_ll': training_true_values})
     training_sitelh_df_prediction.to_csv(
@@ -53,7 +53,7 @@ def generate_lasso_descriptive(training_predicted_values, training_predicted_val
     test_sitelh_df_prediction.to_csv(
         os.path.join(curr_run_directory, "test_sitelh_df_prediction.csv"))
     test_sitelh_df_prediction = pd.DataFrame(
-        {'predicted_test_ll_no_opt': training_predicted_values_no_opt, 'true_test_ll_no_opt': test_true_values})
+        {'predicted_test_ll_no_opt': test_predicted_values_no_opt, 'true_test_ll_no_opt': test_true_values})
     test_sitelh_df_prediction.to_csv(
         os.path.join(curr_run_directory, "test_sitelh_df_prediction_no_opt.csv"))
 
@@ -227,9 +227,8 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
                 t_weights_file_path, t_intercept)
 
             if GENERATE_LASSO_DESCRIPTIVE:
-                generate_lasso_descriptive(y_training_predicted, y_test_predicted_no_opt, y_training,
-                                           y_test_predicted, y_test_true, threshold_folder)
-
+                generate_lasso_descriptive(y_training_predicted, y_training,
+                               y_test_predicted,y_test_predicted_no_opt,y_test_true, threshold_folder)
             t_lasso_results.update(test_results)
             t_lasso_results_print = {key: t_lasso_results[key] for key in t_lasso_results if
                                      key not in ["lasso_chosen_locis", "lasso_chosen_weights"]}
@@ -239,6 +238,10 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
     return outputs_per_threshold
 
     return outputs_per_threshold
+
+
+#generate_lasso_descriptive(training_predicted_values, training_predicted_values_no_opt, training_true_values,
+#                               test_predicted_values, test_true_values, curr_run_directory)
 
 
 def get_glmnet_lasso_path_on_given_data(curr_msa_stats,curr_data, partition_folder, i):
@@ -278,7 +281,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             if curr_msa_stats["use_glmnet_lasso"]:
                 t_coefficients, t_intercept, t_lambda = get_glmnet_coeffs_for_given_threshold(threshold,curr_msa_stats["n_loci"], glmnet_lasso_path)
             else:
-                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold, sklearn_lasso_path)
+                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold, xh)
             if t_coefficients is None:
                 continue
             t_chosen_locis, t_chosen_loci_weights = get_chosen_locis_and_weights(t_coefficients,
