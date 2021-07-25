@@ -281,7 +281,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             if curr_msa_stats["use_glmnet_lasso"]:
                 t_coefficients, t_intercept, t_lambda = get_glmnet_coeffs_for_given_threshold(threshold,curr_msa_stats["n_loci"], glmnet_lasso_path)
             else:
-                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold, xh)
+                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold,sklearn_lasso_path)
             if t_coefficients is None:
                 continue
             t_chosen_locis, t_chosen_loci_weights = get_chosen_locis_and_weights(t_coefficients,
