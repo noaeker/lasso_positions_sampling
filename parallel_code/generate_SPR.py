@@ -302,8 +302,4 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
             "actual_search_training_path": actual_search_training_path
 
         }
-        final_search_print = {k: data [k] for k in first_optimized_param_dict.keys() if
-                                 k not in ["actual_search_training_path","lasso_SPR_starting_tree_path"]
-                                 }
-        logging.info(f"Overall search results: {final_search_print }")
         return data

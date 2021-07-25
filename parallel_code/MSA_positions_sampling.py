@@ -369,9 +369,9 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                                              curr_msa_stats,
                                              curr_run_directory=curr_starting_tree_full_run_directory,
                                              full_run=True)
-            logging.info(f"  **full results results are: \n  {naive_spr_results} ")
             with open(naive_spr_results_dump, 'wb') as handle:
                 pickle.dump(naive_spr_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        logging.info(f"  **full results results are: \n  {naive_spr_results} ")
         curr_msa_stats.update(naive_spr_results)
         lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
         logging.info("  **Running Lasso-based SPR searches:")
@@ -400,7 +400,11 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                     lasso_based_spr_results = SPR_analysis(curr_msa_stats.get("local_alignment_path"),
                                                            starting_tree_path, curr_msa_stats,
                                                            curr_run_directory=curr_threshold_directory, full_run=False)
-                    logging.info(f"     *****Lasso results are: \n  {lasso_based_spr_results} ")
+
+                    lasso_based_spr_results_print =  {k:lasso_based_spr_results[k] for k in lasso_based_spr_results.keys() if
+                                k not in ["lasso_SPR_first_phase_tree_newick","lasso_SPR_second_phase_tree_newick","lasso_ll_per_iteration_first_phase","lasso_ll_per_iteration_second_phase","actual_search_training_path"]
+                                }
+                    logging.info(f"     *****Lasso results are: \n  {lasso_based_spr_results_print} ")
                     spr_pipeline_running_time = time.time() - start_time
                     curr_msa_stats.update(lasso_based_spr_results)
 

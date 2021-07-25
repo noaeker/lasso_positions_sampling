@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/R_code/lasso_glmnet.R" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/lasso_glmnet.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/new_lasso_results.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/new_lasso_results.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/new_lasso_results.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/new_lasso_results.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/generate_SPR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="328" column="79" lean-forward="true" selection-start-line="326" selection-start-column="57" selection-end-line="328" selection-end-column="79" />
+            <state relative-caret-position="254">
+              <caret line="406" column="98" selection-start-line="406" selection-start-column="98" selection-end-line="406" selection-end-column="98" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -51,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="307" column="67" selection-start-line="307" selection-start-column="67" selection-end-line="307" selection-end-column="67" />
+            <state relative-caret-position="148">
+              <caret line="251" column="8" selection-start-line="251" selection-start-column="8" selection-end-line="253" selection-end-column="33" />
               <folding>
                 <element signature="e#1#20#0" expanded="true" />
               </folding>
@@ -78,7 +73,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
+            <state relative-caret-position="-1291">
               <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
@@ -122,7 +117,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>to_csv</find>
       <find>None</find>
       <find>lasso_running_time</find>
       <find>submit</find>
@@ -148,10 +142,11 @@
       <find>raxml_optimize_trees_for_given_msa</find>
       <find>compute_true_ll_of_best_tree_of_spr_iteration</find>
       <find>use_parsimony_training_trees</find>
+      <find>spr_baseline_run_prefix</find>
       <find>test_curr</find>
       <find>exp_</find>
+      <find>Lasso results are</find>
       <find>best_true_l</find>
-      <find>spr_baseline_run_prefix</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -212,11 +207,11 @@
         <option value="$PROJECT_DIR$/parallel_code/test.py" />
         <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
         <option value="$PROJECT_DIR$/extra_code/get_sequence.py" />
-        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
         <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/parallel_code/config.py" />
         <option value="$PROJECT_DIR$/parallel_code/help_functions.py" />
         <option value="$PROJECT_DIR$/parallel_code/generate_SPR.py" />
+        <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
       </list>
     </option>
   </component>
@@ -539,7 +534,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>402</line>
+          <line>406</line>
           <option name="timeStamp" value="326" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -554,7 +549,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py</url>
-          <line>517</line>
+          <line>521</line>
           <option name="timeStamp" value="332" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -885,16 +880,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="230" column="102" selection-start-line="230" selection-start-column="102" selection-end-line="230" selection-end-column="102" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -907,7 +892,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
+        <state relative-caret-position="-1291">
           <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
@@ -925,22 +910,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+    <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="328" column="79" lean-forward="true" selection-start-line="326" selection-start-column="57" selection-end-line="328" selection-end-column="79" />
+        <state relative-caret-position="360">
+          <caret line="230" column="102" selection-start-line="230" selection-start-column="102" selection-end-line="230" selection-end-column="102" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="307" column="67" selection-start-line="307" selection-start-column="67" selection-end-line="307" selection-end-column="67" />
+        <state relative-caret-position="148">
+          <caret line="251" column="8" selection-start-line="251" selection-start-column="8" selection-end-line="253" selection-end-column="33" />
           <folding>
             <element signature="e#1#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="406" column="98" selection-start-line="406" selection-start-column="98" selection-end-line="406" selection-end-column="98" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
