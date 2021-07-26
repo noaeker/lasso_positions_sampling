@@ -1,0 +1,75 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_800_0.1_borowik.csv")
+  #read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_400_0.1_job0.csv")
+```
+
+
+
+```{r}
+plot_r2<-ll_comparison_data %>% group_by(`iteration number`) %>% summarise(R_2 = cor(`full msa ll`, `sampled msa ll`)**2) %>% ungroup() %>% ggplot(aes(x=as.factor(`iteration number`), y= R_2)) + geom_point(size=3) + geom_line(group = 1)+ xlab("iteration_number") + ggtitle("R2 between true and approximated LL")
+#ll_comparison_data %>% group_by(`iteration number`) %>% rmse(`full msa ll`, `sampled msa ll`)  
+plot_spearmanr<-ll_comparison_data %>% group_by(`iteration number`) %>% summarise(spearman_r = cor(`full msa ll`, `sampled msa ll`, method = 'spearman')) %>% ggplot(aes(x=as.factor(`iteration number`), y= spearman_r)) + geom_point(size=3) +geom_line(group = 1 )+ xlab("iteration_number") + ggtitle("Spearman-R between true and approximated LL")
+
+ggarrange(plot_r2, plot_spearmanr, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+plot_a_top<-ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 30) %>% summarise(spearman_r = cor(`full msa ll`, `sampled msa ll`, method = 'spearman')) %>% ggplot(aes(x=as.factor(`iteration number`), y= spearman_r)) + geom_point(size=3) +geom_line(group = 1 ) + xlab("iteration_number") + ggtitle ("Spearman R of top  neighbours")
+
+plot_b_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 30)  %>% summarise(full_data_variance = sqrt(var(`full msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `full_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("True LL variance of top  neighbours") + xlab("iteration_number")
+
+plot_c_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`sampled msa ll`, n = 30)  %>% summarise(sampled_data_variance = sqrt(var(`sampled msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `sampled_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("Sampled LL variance of top  neighbours") + xlab("iteration_number")
+
+
+ggarrange(plot_a_top, plot_b_top,plot_c_top,hjust=-1,vjust=2, heights=c(2,2),common.legend=TRUE,
+          ncol = 1, nrow =3)
+
+
+ll_comparison_data %>% ggplot(aes (x=`full msa ll`, y= `sampled msa ll`, colour = as.factor(`iteration number`))) + geom_point()  + ggtitle ("Sampled MSA LL vs True MSA LL")
+
+```
+
+```{r}
+true_rank_data <- ll_comparison_data %>% select (`full msa ll`, X1, `iteration number`) %>% group_by(`iteration number`) %>% mutate(true_rank = dense_rank(desc(`full msa ll`)))
+
+approximated_rank_data <- ll_comparison_data %>% select (`sampled msa ll`, X1, `iteration number`) %>% group_by(`iteration number`) %>% mutate(approx_rank = dense_rank(desc(`sampled msa ll`)))
+
+approximated_rank_data %>% arrange(approx_rank)
+
+approximated_rank_data %>% filter (approx_rank==1) %>% inner_join(true_rank_data) %>% ggplot (aes(x = as.factor(`iteration number`), y=true_rank)) + geom_point(size=3) + geom_line (group=1) + xlab ("iteration") + ggtitle ("True ranks of approximated best SPR neighbours at each iteration")
+
+
+true_rank_data %>% filter (true_rank==1) %>% inner_join(approximated_rank_data ) %>% ggplot (aes(x = as.factor(`iteration number`), y=approx_rank)) + geom_point(size=3) + geom_line (group=1) + xlab ("iteration") + ggtitle ("Approx ranks of true best SPR neighbours at each iteration")
+
+
+
+#ll_comparison_data %>% group_by(`iteration number`) %>% group_by(`iteration number`) %>% filter (`sampled msa ll` == max (`sampled msa ll`)) %>% #inner_join(ll_comparison_data, by = `iteration number`)
+```
+
+
+
+```{r}
+ll_comparison_data %>% group_by(`iteration number`)   %>% pivot_longer(cols = c("full msa ll","sampled msa ll"), names_to = "LL_type", values_to = "LL") %>% group_by(LL_type, `iteration number`) %>% filter (LL == max (LL)) %>% ggplot (aes(x = as.factor(`iteration number`), y=LL, color = LL_type)) + geom_point(size=1) +geom_text(aes(label=X1),hjust=0, vjust=0) + xlab("spr iteration") + ggtitle("Chosen SPR neighbour at each iteration")
+
+
+```
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

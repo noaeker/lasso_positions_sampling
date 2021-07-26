@@ -272,12 +272,14 @@ def main_parser():
     parser.add_argument('--run_raxml_commands_locally',action='store_true')
     parser.add_argument('--random_lasso', action='store_true')
     parser.add_argument('--alternative_training',action='store_true')
-    parser.add_argument('--use_glmnet_lasso',action='store_true')
+    parser.add_argument('--use_glmnet_lasso',action='store_true', default= True)
     parser.add_argument('--relaxed_lasso', action = 'store_true'
                         )
     parser.add_argument('--use_spr_parsimony_starting_tree',action = 'store_true')
     parser.add_argument('--compute_all_true_ll',action = 'store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
+    parser.add_argument('--top_ind_to_test_first_phase',action='store', type = int, default= 3)
+    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
     return parser
 
 def job_parser():

@@ -410,7 +410,6 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
 
                     best_tree_full_newick = curr_msa_stats["naive_SPR_tree_newick"]
                     best_tree_first_newick = curr_msa_stats["lasso_SPR_first_phase_tree_newick"]
-                    best_tree_second_phase_newick = curr_msa_stats["lasso_SPR_second_phase_tree_newick"]
                     starting_tree_newick = curr_msa_stats["SPR_search_starting_tree_newick"]
                     rf_folder = os.path.join(curr_threshold_directory, "rf_calculations")
                     create_dir_if_not_exists(rf_folder)
@@ -418,18 +417,20 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                     with open(rf_first_phase_trees, 'w') as FIRST_PHASE_RF:
                         FIRST_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_first_newick])
                     rf_second_phase_trees = os.path.join(rf_folder, "rf_second_phase_trees")
-                    with open(rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
-                        SECOND_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_second_phase_newick])
                     rf_standard_vs_start = os.path.join(rf_folder, "rf_full_vs_start")
                     with open(rf_standard_vs_start, 'w') as STANDARD_VS_STARTING_RF:
                         STANDARD_VS_STARTING_RF.writelines([best_tree_full_newick, "\n", starting_tree_newick])
 
                     curr_msa_stats["rf_dist_first_phase"] = calculate_rf_dist(rf_first_phase_trees, rf_folder,
                                                                               prefix="rf_first_phase")
-                    curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
-                                                                               prefix="rf_second_phase")
                     curr_msa_stats["rf_dist_full_vs_start"] = calculate_rf_dist(rf_standard_vs_start, rf_folder,
                                                                                prefix="rf_full_vs_start")
+                    if curr_msa_stats["do_second_phase_naive_spr"]:
+                        best_tree_second_phase_newick = curr_msa_stats["lasso_SPR_second_phase_tree_newick"]
+                        with open(rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
+                            SECOND_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_second_phase_newick])
+                        curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
+                                                                                   prefix="rf_second_phase")
 
                     curr_msa_stats.update({'spr_pipeline_running_time': spr_pipeline_running_time})
 

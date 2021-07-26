@@ -2,8 +2,7 @@ import glmnet
 
 import glmnet
 import pandas as pd
+import numpy as np
 
-X  = pd.read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/training.csv")
-y = X.sum(axis=1)
-mfit = glmnet(x = X.copy(), y = y.copy(), family = 'mgaussian')
-#fit = glmnet(x = X.copy(), y = y.copy(), family = 'gaussian', nlambda = 20)
+a = (-np.array([-5,-3,-56,-7,-9,-10,-1])).argsort()[:2]
+print(a)
