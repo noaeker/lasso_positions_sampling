@@ -320,10 +320,6 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
             "actual_search_training_path": actual_search_training_path
 
         }
-
-
-
-        if curr_msa_stats["do_second_phase_naive_spr"]:
-            data.update(second_phase_data)
+        data.update(second_phase_data)
 
         return data
