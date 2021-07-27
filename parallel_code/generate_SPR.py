@@ -160,8 +160,11 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                                                                                                     curr_msa_stats,
                                                                                                     curr_run_directory,
                                                                                                     use_weights)
+
     else:
         search_starting_tree_ll, search_true_starting_tree_ll = starting_tree_ll, true_starting_tree_ll
+    if top_x_true_trees > 1:
+        search_starting_tree_ll = search_true_starting_tree_ll
     logging.debug("Search starting tree ll = {} Search true starting tree ll = {}".format(search_starting_tree_ll,
                                                                                           search_true_starting_tree_ll))
     curr_best_tree_ll, curr_best_tree_true_ll = search_starting_tree_ll, search_true_starting_tree_ll
