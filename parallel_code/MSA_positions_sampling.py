@@ -431,6 +431,12 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                     curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
                                                                                prefix="rf_second_phase")
 
+                    best_tree_final_phase_newick = curr_msa_stats["lasso_SPR_final_phase_tree_newick"]
+                    with open(rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
+                        SECOND_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_final_phase_newick])
+                    curr_msa_stats["rf_dist_final_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
+                                                                               prefix="rf_final_phase")
+
                     curr_msa_stats.update({'spr_pipeline_running_time': spr_pipeline_running_time})
 
                     all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if

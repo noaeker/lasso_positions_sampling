@@ -94,7 +94,7 @@ def SPR_iteration(iteration_number, MSA_path, curr_msa_stats, starting_tree_obje
                                                                                                "weights_file_path"] if use_weights else None)
     trees_ll = regression_correct_lasso_ll_values(use_weights, curr_msa_stats, trees_ll)
     if top_x_true_trees>1 and use_weights:
-        logging.info(f"SPR iteration {iteration_number} : testing {top_x_true_trees} best Lasso tree objects")
+        logging.debug(f"SPR iteration {iteration_number} : testing {top_x_true_trees} best Lasso tree objects")
         top_ll_indices = (-np.array(trees_ll)) .argsort()[:top_x_true_trees]
         top_ll_tree_objects = np.array(trees_optimized_objects)[top_ll_indices]
         top_ll_trees_newick = "\n".join([tree_object.write(format=1) for tree_object in top_ll_tree_objects ])
@@ -257,10 +257,9 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
                                 }
         return (full_data_SPR_result)
     else:
-        sub_curr_run_directory = os.path.join(curr_run_directory, "_use_sampled_MSA")
+        sub_curr_run_directory = os.path.join(curr_run_directory, "_use_sampled_MSA_first_phase")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
-        start_time = time.time()
         first_optimized_param_dict = SPR_search(
             MSA_path=curr_msa_stats["sampled_alignment_path"],
             run_unique_name=run_unique_name,
@@ -275,22 +274,18 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
                                 }
         logging.info(f"First phase search results: { first_optimized_print}")
 
-        first_phase_lasso_running_time = time.time() - start_time
-        ll_comparison_df = first_optimized_param_dict["ll_comparison_df"]
-        ll_comparison_df.to_csv(os.path.join(curr_run_directory, "ll_comparison_df.csv"))
-        actual_search_training_df = first_optimized_param_dict["actual_search_training_df"]
+        first_optimized_param_dict["ll_comparison_df"].to_csv(os.path.join(curr_run_directory, "ll_comparison_df.csv"))
         actual_search_training_path = os.path.join(curr_msa_stats["curr_msa_version_folder"],
                                                    "actual_search_training_df.csv")
-        actual_search_training_df.to_csv(actual_search_training_path)
+        first_optimized_param_dict["actual_search_training_df"].to_csv(actual_search_training_path)
         prediction_rho_pearson, prediction_pval_pearson, prediction_rho_spearman, prediction_pval_spearman, mse, mistake_cnt = analyze_ll_comparison_df(
-            ll_comparison_df)
+            first_optimized_param_dict["ll_comparison_df"])
         ### Continue sampling with full data
         # Use previous tree as a starting tree
-        sub_curr_run_directory = os.path.join(curr_run_directory, "_continue_with_full_MSA")
+        sub_curr_run_directory = os.path.join(curr_run_directory, "_use_sampled_MSA_second_phase")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
-        start_time = time.time()
-        next_optimized_tree_param_dict = SPR_search(
+        second_phase_param_dict = SPR_search(
             MSA_path=curr_msa_stats["sampled_alignment_path"], run_unique_name=run_unique_name,
             curr_msa_stats=curr_msa_stats,
             starting_tree_path=None,
@@ -302,12 +297,44 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
             true_starting_tree_ll=first_optimized_param_dict["search_best_true_ll"]
 
         )
-        second_phase_lasso_running_time = time.time() - start_time
-        second_phase_data = {"lasso_SPR_second_phase_ll": next_optimized_tree_param_dict["search_best_ll"],
-                             "lasso_SPR_second_phase_tree_newick": next_optimized_tree_param_dict[
+        second_phase_data = {"lasso_SPR_second_phase_ll": second_phase_param_dict["search_best_ll"],
+                             "lasso_SPR_second_phase_tree_newick": second_phase_param_dict[
                                  "search_best_topology_newick"],
-                             "lasso_SPR_second_phase_spr_moves": next_optimized_tree_param_dict["search_spr_moves"],
-                             "second_phase_lasso_running_time": second_phase_lasso_running_time}
+                             "lasso_SPR_second_phase_spr_moves": second_phase_param_dict["search_spr_moves"]
+                            }
+        second_optimized_print = {k: second_phase_param_dict[k] for k in second_phase_param_dict.keys() if
+                                 k not in ["ll_comparison_df", "actual_search_training_df"]
+                                 }
+        logging.info(f"Second phase search results: {second_optimized_print}")
+
+        sub_curr_run_directory = os.path.join(curr_run_directory, "_finalize_with_full_MSA")
+        if not os.path.exists(sub_curr_run_directory):
+            os.mkdir(sub_curr_run_directory)
+
+        final_optimized_tree_param_dict = SPR_search(
+            MSA_path=curr_msa_stats["local_alignment_path"], run_unique_name=run_unique_name,
+            curr_msa_stats=curr_msa_stats,
+            starting_tree_path=None,
+            starting_tree_object=second_phase_param_dict["search_best_tree_object"],
+            curr_run_directory=sub_curr_run_directory,
+            use_weights=False,
+            top_x_true_trees=-1,
+            starting_tree_ll=second_phase_param_dict["search_best_true_ll"],
+            true_starting_tree_ll=second_phase_param_dict["search_best_true_ll"]
+
+        )
+        final_phase_data = {"lasso_SPR_final_phase_ll": final_optimized_tree_param_dict["search_best_ll"],
+                             "lasso_SPR_final_phase_tree_newick": final_optimized_tree_param_dict[
+                                 "search_best_topology_newick"],
+                             "lasso_SPR_final_phase_spr_moves": final_optimized_tree_param_dict["search_spr_moves"]
+                            }
+        final_optimized_print = {k:  final_optimized_tree_param_dict[k] for k in  final_optimized_tree_param_dict.keys() if
+                                  k not in ["ll_comparison_df", "actual_search_training_df"]
+                                  }
+        logging.info(f"Final phase search results: {final_optimized_print}")
+
+
+
         data = {
             "lasso_SPR_first_phase_ll": first_optimized_param_dict["search_best_true_ll"],
             "lasso_SPR_first_phase_tree_newick": first_optimized_param_dict["search_best_topology_newick"],
@@ -316,7 +343,6 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
             "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
             "spearmanr_during_tree_search": prediction_rho_spearman,
             "spearmanr_during_tree_search_pval": prediction_pval_spearman,
-            "first_phase_running_time": first_phase_lasso_running_time,
             "mse_during_tree_search": mse,
             "mistake_cnt": mistake_cnt,
             "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,
@@ -324,5 +350,6 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
 
         }
         data.update(second_phase_data)
+        data.update(final_phase_data)
 
         return data

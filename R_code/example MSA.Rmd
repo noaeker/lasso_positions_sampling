@@ -8,8 +8,8 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-ll_comparison_data = #read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_800_0.1_borowik.csv")
-  read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_400_0.1_job0.csv")
+ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_800_0.1_borowik.csv")
+  #read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_400_0.1_job0.csv")
 ```
 
 

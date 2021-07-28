@@ -1,0 +1,44 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(tidyverse)
+library(ggpubr)
+library(gridExtra)
+library(tidyverse)
+library(tidymodels)
+library(vip) 
+library(plm)
+```
+
+
+
+```{r}
+new_format_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_format_spr.csv") %>%
+  mutate(actucal_sample_pct =case_when(sample_pct>=0.2 ~ 0.2, sample_pct>=0.15 ~0.15, sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05) ,
+                                delta_ll_first_phase = ifelse(rf_dist_first_phase>0,naive_SPR_ll-lasso_SPR_first_phase_ll,0), delta_ll_second_phase = ifelse(rf_dist_second_phase>0,naive_SPR_ll-lasso_SPR_second_phase_ll,0), spr_neighbours = 2*(n_seq-3)*((2*n_seq)- 7), run_time_lasso =  actucal_sample_pct*lasso_SPR_first_phase_spr_moves+ (60/spr_neighbours)*(lasso_SPR_second_phase_spr_moves), run_time_full = naive_SPR_spr_moves ) 
+
+
+new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarise(median_first_phase = median(delta_ll_first_phase),max_first_phase = max(delta_ll_first_phase), median_second_phase = median (delta_ll_second_phase), max_second_phase = max (delta_ll_second_phase), median_run_time_factor = median(run_time_full/run_time_lasso) )
+
+new_format_spr_data %>% filter (actucal_training_size==400, new_format_spr_data$rf_dist_second_phase>0) 
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
