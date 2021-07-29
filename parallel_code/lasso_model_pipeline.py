@@ -212,9 +212,18 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
                             "lasso_chosen_weights": t_weights, "weights_file_path": t_weights_file_path,
                             "lambds": t_lambds,
                             "sampled_alignment_path": t_sampled_alignment_path, "lasso_intercept": t_intercept,
-                            "lasso_running_time": t_running_time}
+                            "lasso_running_time": t_running_time, "lasso_threshold": threshold}
 
         )
+
+        with open(t_lasso_results["sampled_alignment_path"]) as sampled_path:
+            sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
+        sampled_alignment_df = alignment_list_to_df(sampled_data)
+        n_seq, n_loci = sampled_alignment_df.shape
+        constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df)
+        results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
+                        "lasso_gap_positions_pct": gap_positions_pct}
+        t_lasso_results.update(results_dict)
 
         y_training_predicted, training_results = get_training_metrics(t_intercept, t_chosen_locis, t_weights,
                                                                       sitelh_training_df, y_training)

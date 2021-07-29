@@ -8,6 +8,7 @@ from config import *
 import argparse
 import subprocess
 import sys
+import numpy as np
 
 
 
@@ -217,6 +218,18 @@ def remove_empty_columns(csv_path):
         df = pd.read_csv(csv_path)
         df = df.dropna(how='all', axis=1)
         df.to_csv(csv_path, index = False)
+
+
+def get_positions_stats(alignment_df):
+    alignment_df_fixed = alignment_df.replace('-', np.nan)
+    gap_positions_pct = np.mean(alignment_df_fixed.isnull().sum() / len(alignment_df_fixed))
+    counts_per_position = [dict( alignment_df_fixed[col].value_counts(dropna=True)) for col in list(alignment_df)]
+    probabilities = [list(map(lambda x: x / sum(counts_per_position[col].values()), counts_per_position[col].values())) for col in
+                     list(alignment_df)]
+    entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(alignment_df)]
+    avg_entropy = np.mean(entropy)
+    constant_sites_pct = sum([1 for et in entropy if et==0])/ len (entropy)
+    return constant_sites_pct, avg_entropy, gap_positions_pct
 
 
 

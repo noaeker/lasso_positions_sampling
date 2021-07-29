@@ -106,6 +106,7 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
                                                                              curr_run_directory=trimmed_training_directory,
                                                                              sitelh_training_df=training_sitelh_trimmed,
                                                                              test_optimized_trees_path=optimized_test_topologies_path)  # calculating positions_weight
+
             Lasso_results.update({'full_training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
                                   'full_size_training_evaluation_time' : training_eval_time,
                                   'lasso_training_size' : training_size,

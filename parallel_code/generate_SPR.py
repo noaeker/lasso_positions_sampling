@@ -282,6 +282,19 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
             first_optimized_param_dict["ll_comparison_df"])
         ### Continue sampling with full data
         # Use previous tree as a starting tree
+        first_phase_data = {
+            "lasso_SPR_first_phase_ll": first_optimized_param_dict["search_best_true_ll"],
+            "lasso_SPR_first_phase_tree_newick": first_optimized_param_dict["search_best_topology_newick"],
+            "lasso_SPR_first_phase_spr_moves": first_optimized_param_dict["search_spr_moves"],
+            "R^2_pearson_during_tree_search": prediction_rho_pearson ** 2,
+            "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
+            "spearmanr_during_tree_search": prediction_rho_spearman,
+            "spearmanr_during_tree_search_pval": prediction_pval_spearman,
+            "mse_during_tree_search": mse,
+            "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,
+            "actual_search_training_path": actual_search_training_path
+
+        }
         sub_curr_run_directory = os.path.join(curr_run_directory, "_use_sampled_MSA_second_phase")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
@@ -335,21 +348,8 @@ def SPR_analysis(current_file_path, SPR_chosen_starting_tree_path, curr_msa_stat
 
 
 
-        data = {
-            "lasso_SPR_first_phase_ll": first_optimized_param_dict["search_best_true_ll"],
-            "lasso_SPR_first_phase_tree_newick": first_optimized_param_dict["search_best_topology_newick"],
-            "lasso_SPR_first_phase_spr_moves": first_optimized_param_dict["search_spr_moves"],
-            "R^2_pearson_during_tree_search": prediction_rho_pearson ** 2,
-            "R^2_pearson_during_tree_search_pval": prediction_pval_pearson,
-            "spearmanr_during_tree_search": prediction_rho_spearman,
-            "spearmanr_during_tree_search_pval": prediction_pval_spearman,
-            "mse_during_tree_search": mse,
-            "mistake_cnt": mistake_cnt,
-            "lasso_SPR_starting_tree_path": SPR_chosen_starting_tree_path,
-            "actual_search_training_path": actual_search_training_path
 
-        }
-        data.update(second_phase_data)
-        data.update(final_phase_data)
+        first_phase_data.update(second_phase_data)
+        first_phase_data.update(final_phase_data)
 
-        return data
+        return first_phase_data

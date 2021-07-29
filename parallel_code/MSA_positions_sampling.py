@@ -52,17 +52,7 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
     extract_raxml_statistics_from_msa(full_data_path, full_data_unique_name, curr_msa_stats, curr_run_directory)
 
 
-def get_positions_stats(alignment_df, n_seq):
-    counts_per_position = [dict(alignment_df[col].value_counts()) for col in list(alignment_df)]
-    gap_positions_pct = np.mean(
-        [counts_per_position[col].get('-', 0) / n_seq for col in range(len(counts_per_position))])
-    constant_sites_pct = len((alignment_df.loc[:, alignment_df.apply(pd.Series.nunique) == 1]).columns) / len(
-        alignment_df.columns)
-    probabilities = [list(map(lambda x: x / n_seq, counts_per_position[col].values())) for col in
-                     list(alignment_df)]
-    entropy = [sum(list(map(lambda x: -x * np.log(x), probabilities[col]))) for col in list(alignment_df)]
-    avg_entropy = np.mean(entropy)
-    return constant_sites_pct, avg_entropy, gap_positions_pct
+
 
 
 def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_version_folder, args
@@ -82,7 +72,7 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)
     n_seq, n_loci = reduced_local_alignment_df.shape
-    constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(reduced_local_alignment_df, n_seq)
+    constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(reduced_local_alignment_df)
     curr_msa_stats = {"n_seq": n_seq, "MSA_original_n_seq": orig_n_seq,
                       "n_seq_before_reduction_by_RaxML": n_seq,
                       "n_loci": n_loci, "MSA_original_n_loci": n_loci, "dataset_id": dataset_id,
@@ -121,15 +111,15 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
         n_loci_reduced = len(reduced_data[0].seq)
         n_seq_reduced = len(reduced_data)  # supposed to stay the same as "n_seq_before_reduction"
     original_alignment_df_reduced = alignment_list_to_df(reduced_data)
-    informative_columns_count_reduced, avg_entropy_reduced, gap_pct_reduced = get_positions_stats(
-        original_alignment_df_reduced,
-        n_seq_reduced)
+    constant_sites_pct_reduced, avg_entropy_reduced, gap_pct_reduced = get_positions_stats(
+        original_alignment_df_reduced
+        )
     reduced_curr_msa_stats = curr_msa_stats.copy()
     update_dict = {"file_name": file_name_reduced, "local_alignment_path": raxml_reduced_file_renamed,
                    "n_seq": n_seq_reduced,
                    "n_loci": n_loci_reduced,
                    "alignment_data": reduced_data,
-                   "informative_columns_count": informative_columns_count_reduced,
+                   "constant_sites_pct": constant_sites_pct_reduced,
                    "avg_entropy": avg_entropy_reduced,
                    "gap_pct": gap_pct_reduced
                    }
@@ -165,15 +155,6 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
         for training_size in training_size_options:
             curr_msa_stats["actual_training_size"] = training_size
             lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
-            with open(lasso_results["sampled_alignment_path"]) as sampled_path:
-                sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
-            sampled_alignment_df = alignment_list_to_df(sampled_data)
-            n_seq, n_loci = sampled_alignment_df.shape
-            constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df, n_seq)
-            results_dict = {"constant_sites_pct_sampled": constant_sites_pct, "avg_entropy_sampled": avg_entropy,
-                            "gap_positions_pct_sampled": gap_positions_pct}
-            logging.info(f"Sampled data metrics: {results_dict}")
-            curr_msa_stats.update(results_dict)
             curr_msa_stats.update(lasso_results)
             logging.info(
                 "only evaluating lasso on brlen {} and training size {}: ".format(brlen_generator_name, training_size))
