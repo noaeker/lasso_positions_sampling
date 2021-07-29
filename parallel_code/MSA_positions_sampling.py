@@ -100,7 +100,7 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
     raxml_reduced_file = curr_msa_stats["orig_reduced_file_path"]
     reduced_dir, rediced_fname = os.path.split(raxml_reduced_file)
     raxml_reduced_file_renamed = os.path.join(reduced_dir, curr_msa_stats["file_name"] + "_fixed" + extract_file_type(
-        original_alignment_path))
+        raxml_reduced_file))
     file_name_reduced = str(file_ind) + "_fixed"
     os.rename(raxml_reduced_file, raxml_reduced_file_renamed)
     logging.warning("Reduced version of previous file is found in " + raxml_reduced_file_renamed)
@@ -121,7 +121,8 @@ def re_run_on_reduced_version(curr_msa_stats, original_alignment_path, file_ind)
                    "alignment_data": reduced_data,
                    "constant_sites_pct": constant_sites_pct_reduced,
                    "avg_entropy": avg_entropy_reduced,
-                   "gap_pct": gap_pct_reduced
+                   "gap_pct": gap_pct_reduced,
+                   "file_type_biopython": file_type_biopython
                    }
     reduced_curr_msa_stats.update(
         update_dict)

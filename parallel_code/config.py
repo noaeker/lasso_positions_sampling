@@ -71,7 +71,7 @@ DILUTE_MUL = 10
 
 
 MAX_N_SEQ =  6
-MAX_N_LOCI = 100000000
+MAX_N_LOCI = 10000
 MIN_N_SEQ = 6
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
@@ -103,7 +103,7 @@ elif LOCAL_RUN:
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/LARGE_FILES/Borowiek_et_al_2015"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/R_code/lasso_glmnet.R"
 

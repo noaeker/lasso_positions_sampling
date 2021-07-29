@@ -32,7 +32,7 @@ for path in training_set_paths:
             continue
     print(n_loci, n_seq)
     if n_loci >=10000 and n_seq>=15:
-        new_file_name =path.replace('/Users/noa/Workspace/data',"").replace('/',"_")
+        new_file_name =path.replace('/Users/noa/Workspace/data',"").replace('/',"_").replace('aln','fasta')
         shutil.copy2(path, os.path.join(dst,new_file_name))
 
 
