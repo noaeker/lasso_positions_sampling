@@ -81,7 +81,7 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
         logging.error("   #ERROR: Sampled columns not written succesfully to file " + sampled_alignment_path)
 
 
-def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, number_of_sequences,file_type,max_n_loci):
+def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, number_of_sequences,file_type,max_n_loci, loci_shift):
     sampled_sequence = []
     seq_values = set()
     random.seed(SEED)
@@ -92,7 +92,7 @@ def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, numbe
         if record.seq in seq_values:
             continue
         else:
-            sampled_seq = Seq((str(record.seq))[0:max_n_loci])
+            sampled_seq = Seq((str(record.seq))[loci_shift:(loci_shift +max_n_loci)])
             sampled_record = SeqRecord(sampled_seq, id=record.id, name=record.name,
                                        description=record.description)
             seq_values.add(sampled_seq)
@@ -291,8 +291,10 @@ def main_parser():
     parser.add_argument('--use_spr_parsimony_starting_tree',action = 'store_true')
     parser.add_argument('--compute_all_true_ll',action = 'store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
-    parser.add_argument('--top_ind_to_test_first_phase',action='store', type = int, default= 3)
-    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
+    parser.add_argument('--top_ind_to_test_first_phase',action='store', type = int, default= 1)
+    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=1)
+    parser.add_argument('--loci_shift', action='store', type=int, default=0)
+
     return parser
 
 def job_parser():
