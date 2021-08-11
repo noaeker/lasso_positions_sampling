@@ -17,23 +17,36 @@ def generate_training_sets(path):
 
 
 
+
+
+
+
 training_set_paths = generate_training_sets(PATH)
 dst = '/Users/noa/Workspace/data/supermatrices_edited'
 os.mkdir(dst)
 
 for path in training_set_paths:
-    with open(path) as original:
         try:
-            reduced_local_alignment_data = list(SeqIO.parse(original, 'fasta'))
-            n_seq = len(reduced_local_alignment_data)
-            n_loci = len(reduced_local_alignment_data[0].seq)
+            with open(path) as original:
+                reduced_local_alignment_data = list(SeqIO.parse(original, 'fasta'))
+                n_seq = len(reduced_local_alignment_data)
+                n_loci = len(reduced_local_alignment_data[0].seq)
+                new_file_name = path.replace('/Users/noa/Workspace/data', "").replace('/', "_").replace('aln', 'fasta')
 
         except:
-            continue
-    print(n_loci, n_seq)
-    if n_loci >=10000 and n_seq>=15:
-        new_file_name =path.replace('/Users/noa/Workspace/data',"").replace('/',"_").replace('aln','fasta')
-        shutil.copy2(path, os.path.join(dst,new_file_name))
+            try:
+                with open(path) as original:
+                    reduced_local_alignment_data = list(SeqIO.parse(original, 'phylip-relaxed'))
+                    n_seq = len(reduced_local_alignment_data)
+                    n_loci = len(reduced_local_alignment_data[0].seq)
+                    new_file_name = path.replace('/Users/noa/Workspace/data', "").replace('/', "_").replace('aln',
+                                                                                                            'phy')
+            except:
+                    print("got here")
+
+        print(n_loci, n_seq)
+        if n_loci >=10000 and n_seq>=15:
+            shutil.copy2(path, os.path.join(dst,new_file_name))
 
 
 

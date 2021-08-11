@@ -219,7 +219,6 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
         with open(t_lasso_results["sampled_alignment_path"]) as sampled_path:
             sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
         sampled_alignment_df = alignment_list_to_df(sampled_data)
-        n_seq, n_loci = sampled_alignment_df.shape
         constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df)
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
                         "lasso_gap_positions_pct": gap_positions_pct}

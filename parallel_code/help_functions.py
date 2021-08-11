@@ -77,29 +77,48 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
         sampled_sequence.append(sampled_record)
     val = SeqIO.write(sampled_sequence, sampled_alignment_path, file_type)
     if not val == len(original_alignment_data):
-        #logging.info("   #Sampled columns written succesfully to new file " + sampled_alignment_path)
         logging.error("   #ERROR: Sampled columns not written succesfully to file " + sampled_alignment_path)
 
 
-def take_up_to_x_sequences(original_alignment_data,trimmed_alignment_path, number_of_sequences,file_type,max_n_loci, loci_shift):
-    sampled_sequence = []
+
+def remove_gaps_and_trim_locis(sample_records,max_n_loci, loci_shift):
+    all_data = np.array([list(record.seq) for record in sample_records])
+    count_gaps_per_column = np.count_nonzero(all_data=="-", axis=0)
+    non_gapped_data= all_data[:,count_gaps_per_column<all_data.shape[0]]
+    loci_trimmed_data = non_gapped_data[:,loci_shift:loci_shift+max_n_loci]
+    new_sampled_records = []
+    for i,old_record in enumerate(sample_records):
+        sampled_record = SeqRecord(Seq("".join(list(loci_trimmed_data[i,:]))), id=old_record.id, name=old_record.name,
+                                   description=old_record.description)
+        new_sampled_records.append(sampled_record)
+    return new_sampled_records
+
+
+
+def trim_n_seq(original_seq_records, number_of_sequences):
+    seq_trimmed_seq_records = []
     seq_values = set()
     random.seed(SEED)
-    random.shuffle(original_alignment_data)
-    for record in original_alignment_data:
-        if len(sampled_sequence)>=number_of_sequences:
+    random.shuffle(original_seq_records)
+    for record in original_seq_records:
+        if len(seq_trimmed_seq_records)>=number_of_sequences:
             break
-        if record.seq in seq_values:
+        if str(record.seq) in seq_values:
             continue
         else:
-            sampled_seq = Seq((str(record.seq))[loci_shift:(loci_shift +max_n_loci)])
-            sampled_record = SeqRecord(sampled_seq, id=record.id, name=record.name,
+            sampled_record = SeqRecord(record.seq, id=record.id, name=record.name,
                                        description=record.description)
-            seq_values.add(sampled_seq)
-            sampled_sequence.append(sampled_record)
+            seq_values.add(str(record.seq))
+            seq_trimmed_seq_records.append(sampled_record)
+    return seq_trimmed_seq_records
+
+
+def trim_MSA(original_alignment_data, trimmed_alignment_path, number_of_sequences, file_type, max_n_loci, loci_shift):
+    seq_trimmed_seq_records = trim_n_seq(original_alignment_data,number_of_sequences)
+    loci_trimmed_seq_records = remove_gaps_and_trim_locis(seq_trimmed_seq_records,max_n_loci, loci_shift)
     try:
-        SeqIO.write(sampled_sequence, trimmed_alignment_path, file_type)
-        logging.info(" {} sequences written succesfully to new file {}".format(len(sampled_sequence),trimmed_alignment_path))
+        SeqIO.write(loci_trimmed_seq_records, trimmed_alignment_path, file_type)
+        logging.info(" {} sequences written succesfully to new file {}".format(len(seq_trimmed_seq_records),trimmed_alignment_path))
     except:
         logging.error("ERROR! {} sequences NOT written succesfully to new file {}".format(number_of_sequences,trimmed_alignment_path))
 
@@ -289,10 +308,10 @@ def main_parser():
     parser.add_argument('--relaxed_lasso', action = 'store_true'
                         )
     parser.add_argument('--use_spr_parsimony_starting_tree',action = 'store_true')
-    parser.add_argument('--compute_all_true_ll',action = 'store_true')
+    parser.add_argument('--compute_all_true_ll',action = 'store_true', default = True)
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
     parser.add_argument('--top_ind_to_test_first_phase',action='store', type = int, default= 1)
-    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=1)
+    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default= 1)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
 
     return parser

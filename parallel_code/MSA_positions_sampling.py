@@ -66,8 +66,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
         original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     orig_n_seq = len(original_alignment_data)
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
-    take_up_to_x_sequences(original_alignment_data, local_full_msa_path, args.max_n_seq, file_type_biopython,
-                           args.max_n_loci, args.loci_shift)
+    trim_MSA(original_alignment_data, local_full_msa_path, args.max_n_seq, file_type_biopython,
+             args.max_n_loci, args.loci_shift)
     with open(local_full_msa_path) as original:
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)
@@ -88,7 +88,6 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
                       "constant_sites_pct": constant_sites_pct,
                       "avg_entropy": avg_entropy,
                       "gap_pct": gap_positions_pct,
-
                       }
     curr_msa_stats.update(vars(args))
     logging.info("Basic MSA stats computed:\n {curr_msa_stats}".format(

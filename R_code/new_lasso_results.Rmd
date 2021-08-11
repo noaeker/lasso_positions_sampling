@@ -344,9 +344,7 @@ full_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>% summariz
 
 
 
-```{r}
-select()
-```
+
 
 
 

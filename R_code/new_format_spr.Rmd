@@ -1,6 +1,7 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  pdf_document: default
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
@@ -22,19 +23,180 @@ library(vip)
 library(plm)
 ```
 
+Read the three datasets
+```{r}
+new_format_spr_data_zero<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices.csv") %>% mutate (msa_positions = "0_10000")
+new_format_spr_data_one<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices_one.csv") %>% mutate (msa_positions = "1000_20000")
+new_format_spr_data_two<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices_two.csv") %>% mutate (msa_positions = "20000_30000")
+
+new_format_spr_data <- bind_rows(new_format_spr_data_zero,new_format_spr_data_one,new_format_spr_data_two)
+new_format_spr_data  %>% count(msa_positions)
+
+```
+
+
+
+Expand data
+
+```{r}
+new_format_spr_data<- new_format_spr_data %>%
+  mutate(actucal_sample_pct =case_when(sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05, sample_pct>=0.01 ~ 0.01) ,
+                                delta_ll_first_phase = ifelse(rf_dist_first_phase>0,naive_SPR_ll-lasso_SPR_first_phase_ll,0), delta_ll_second_phase = ifelse(rf_dist_second_phase>0,naive_SPR_ll-lasso_SPR_second_phase_ll,0),
+         delta_ll_final_phase = ifelse(rf_dist_final_phase>0,naive_SPR_ll-lasso_SPR_final_phase_ll,0),
+         spr_neighbours = 2*(n_seq-3)*((2*n_seq)- 7), run_time_lasso_first_phase =  actucal_sample_pct*lasso_SPR_first_phase_spr_moves+
+           (lasso_SPR_first_phase_spr_moves*(10/spr_neighbours)), run_time_lasso_second_phase =  actucal_sample_pct*lasso_SPR_second_phase_spr_moves+
+           lasso_SPR_second_phase_spr_moves*(100/spr_neighbours), run_time_lasso_final_phase = lasso_SPR_final_phase_spr_moves,
+           run_time_lasso_overall =run_time_lasso_first_phase + run_time_lasso_second_phase + run_time_lasso_final_phase, run_time_full = naive_SPR_spr_moves, run_time_factor = run_time_full/run_time_lasso_overall ) %>%  separate(dataset_id, "_supermatrices_",
+                into = c("prefix", "last_value"), 
+                remove = FALSE) %>% separate(last_value,"_",into = c("dataset_name", "suffix")) %>%  select(-c("prefix","suffix"))
+
+
+```
+
+
+General metrics
+```{r}
+new_format_spr_data %>% group_by(actucal_training_size) %>% summarise(lasso_running_time = mean(lasso_running_time))
+new_format_spr_data %>% count(actucal_training_size, actucal_sample_pct)
+summary(new_format_spr_data$n_loci)
+```
+
+Example MSA data
+
+```{r}
+example_msa_data<- new_format_spr_data %>% filter (job_ind==1,msa_positions == "0_10000")
+
+example_msa_data_400_005<- new_format_spr_data %>% filter (job_ind==1,msa_positions == "0_10000", actucal_sample_pct==0.05, actucal_training_size==400)
+
+example_msa_training_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_df_prediction_Shen.csv")
+example_msa_test_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction_Shen.csv")
+
+
+example_msa_training_ll %>% mutate(error_pct = round(abs((true_training_ll-predicted_training_ll)/true_training_ll)*100,3)) %>% head(5)
+example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) %>% head(5)
+
+g01<-ggplot(example_msa_test_ll,aes(true_test_ll, predicted_test_ll)) +theme_classic()+
+  geom_smooth(method='lm')+xlab("True test LL")+ylab("Predicted test LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11)) + ggtitle("Test set predicted log-likelihood vs. true log-likelihood")
+
+g02<-ggplot(example_msa_training_ll,aes(true_training_ll, predicted_training_ll)) +theme_classic()+
+  geom_smooth(method='lm')+xlab("True training LL")+ylab("Predicted training LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11)) +ggtitle("Training set predicted log-likelihood vs. true log-likelihood")
+
+ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+
+r2.taining<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll )
+r2.test<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll )
+
+r2.taining
+r2.test
+
+r2.taining.spearman<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll, method = "spearman" )
+r2.test.spearman<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll, method = "spearman" )
+
+r2.taining.spearman
+r2.test.spearman
+
+
+
+```
+Unexplained variance on example MSA
+
+```{r}
+unexplained_variance_data<- example_msa_data %>% mutate (unexplained_var =1-`lasso_test_R^2` )
+
+unexplained_variance_data %>% select (actucal_training_size, actucal_sample_pct,`lasso_test_R^2`, unexplained_var)
+
+unexplained_variance_data %>% ggplot(aes(x=actucal_sample_pct,y=unexplained_var, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size =3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set") +  scale_y_continuous(labels = scales::percent)+theme_classic()
+
+
+example_msa_data %>% select (actucal_training_size, actucal_training_size, lasso_running_time)
+```
+
+
+
+
 
 
 ```{r}
-new_format_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_format_spr.csv") %>%
-  mutate(actucal_sample_pct =case_when(sample_pct>=0.2 ~ 0.2, sample_pct>=0.15 ~0.15, sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05) ,
-                                delta_ll_first_phase = ifelse(rf_dist_first_phase>0,naive_SPR_ll-lasso_SPR_first_phase_ll,0), delta_ll_second_phase = ifelse(rf_dist_second_phase>0,naive_SPR_ll-lasso_SPR_second_phase_ll,0), spr_neighbours = 2*(n_seq-3)*((2*n_seq)- 7), run_time_lasso =  actucal_sample_pct*lasso_SPR_first_phase_spr_moves+ (60/spr_neighbours)*(lasso_SPR_second_phase_spr_moves), run_time_full = naive_SPR_spr_moves ) 
+new_format_spr_data %>% select(dataset_name,msa_positions,actucal_training_size, actucal_sample_pct, ,`lasso_test_R^2`) %>% arrange(dataset_name)
 
 
-new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarise(median_first_phase = median(delta_ll_first_phase),max_first_phase = max(delta_ll_first_phase), median_second_phase = median (delta_ll_second_phase), max_second_phase = max (delta_ll_second_phase), median_run_time_factor = median(run_time_full/run_time_lasso) )
-
-new_format_spr_data %>% filter (actucal_training_size==400, new_format_spr_data$rf_dist_second_phase>0) 
+new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(`lasso_test_R^2`)) %>% select(actucal_training_size, actucal_sample_pct,median_r_2)
+new_format_spr_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(`lasso_test_R^2`)) %>%
+  ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent) +theme_classic() 
 
 ```
+
+
+Tree search on the example MSA
+
+```{r}
+
+ #%>% filter(actucal_sample_pct==0.05, actucal_training_size==400)
+example_msa_data %>% select (actucal_sample_pct,actucal_training_size, run_time_factor, delta_ll_first_phase,delta_ll_second_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,delta_ll_final_phase, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves, naive_SPR_spr_moves) 
+
+example_msa_data %>% select (actucal_sample_pct,actucal_training_size, delta_ll_first_phase,delta_ll_second_phase,delta_ll_final_phase) %>%
+  rename("first" = delta_ll_first_phase,"second" = delta_ll_second_phase,"final" = delta_ll_final_phase ) %>%
+  pivot_longer(cols= c("first","second","final"), values_to="ll_diff", names_to = "ll_type") %>%
+  mutate(ll_type =  factor(ll_type, levels=c("first","second","final"))) %>%
+  ggplot(aes(x=ll_type, y=ll_diff,group = interaction(actucal_training_size,actucal_sample_pct), colour =interaction(actucal_training_size,actucal_sample_pct) )) + geom_point(size=2)+geom_line (groups=1) +labs(colour="Training size (r)",x="search phase",y="LL difference", title="Log-likelihood difference", subtitle = "Log likelihood difference between standard search and Lasso-based searches")+theme_classic() + facet_grid(rows = vars(actucal_sample_pct), cols =  vars(actucal_training_size))+ theme(legend.position = "none") + theme(strip.text.y = element_text(angle = 0))+ theme(axis.text.x = element_text(angle = 60, vjust = 0.8, hjust=1))
+  
+
+# 
+# example_msa_data  %>% filter(actucal_training_size==400) %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=run_time_factor , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="run time factor", title="Run time factor") +theme_classic()
+# example_msa_data  %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=run_time_factor , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="run time factor", title="Run time factor") +theme_classic() 
+
+```
+
+
+
+agg data
+```{r}
+new_format_spr_data_agg<-new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>% summarise(median_first_phase = median(delta_ll_first_phase),max_first_phase = max(delta_ll_first_phase), median_second_phase = median (delta_ll_second_phase), max_second_phase = max (delta_ll_second_phase), median_final_phase = median (delta_ll_final_phase), max_final_phase = max (delta_ll_final_phase),median_run_time_factor = median(run_time_factor),std_run_time_factor = sqrt(var(run_time_factor)),
+                                                                                                mean_run_time_factor = mean(run_time_factor),median_first_phase_moves = median(lasso_SPR_first_phase_spr_moves), median_second_phase_moves = median(lasso_SPR_second_phase_spr_moves), median_final_phase_moves = median(lasso_SPR_final_phase_spr_moves), median_spearmanr = median(lasso_test_spearmanr), mean_spearmanr = mean(lasso_test_spearmanr), median_lasso_running_time = median(lasso_running_time),
+                                                                                                min_run_time_factor = min(run_time_factor),max_run_time_factor = max(run_time_factor)
+                                                                                                )
+
+new_format_spr_data_agg %>% select (actucal_training_size, actucal_sample_pct,median_run_time_factor,std_run_time_factor,min_run_time_factor,max_run_time_factor)
+
+new_format_spr_data_agg  %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=median_first_phase , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="Delta LL after first phase", title="Median delta LL after first phase") +theme_classic() 
+
+new_format_spr_data_agg  %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=mean_spearmanr , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="run time factor", title="Mean spearmanr") +theme_classic() 
+
+new_format_spr_data_agg  %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=median_run_time_factor , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="run time factor", title="Median run time factor",subtitle="Median run time factor between Lasso-based search and the standard search") +theme_classic() 
+
+```
+
+```{r}
+new_format_spr_data  %>%  ggplot(aes(x=as.factor(actucal_sample_pct*100),y=run_time_factor , group = interaction(actucal_sample_pct, actucal_training_size), colour = as.factor(actucal_training_size)))  + geom_boxplot() +labs(color="Training size",x="Sample percentage (%)",y="run time factor", title="Distribution of run time increase factor",subtitle="run time increase factor between Lasso-based search and the standard search") +theme_classic()
+
+new_format_spr_data  %>% filter(delta_ll_final_phase>0) %>%  ggplot(aes(x=delta_ll_final_phase , fill = dataset_name))  + geom_histogram() +labs(fill="Dataset",, title="Distribution of final delta log-likelihood",subtitle="delta log-likelihood between Lasso-based search and the standard search") +theme_classic()+facet_grid(rows= vars(as.factor(actucal_sample_pct*100)), cols = vars(as.factor(actucal_training_size)))
+
+new_format_spr_data %>% filter(delta_ll_final_phase>0 & rf_dist_final_phase>0) %>% select (dataset_id, msa_positions, actucal_training_size, actucal_sample_pct,delta_ll_final_phase,rf_dist_first_phase,rf_dist_second_phase, rf_dist_final_phase)
+```
+```{r}
+new_format_spr_data %>%select (dataset_id, msa_positions, actucal_training_size, actucal_sample_pct,delta_ll_final_phase,rf_dist_first_phase,rf_dist_second_phase, rf_dist_final_phase) %>% filter (rf_dist_final_phase!=rf_dist_second_phase)
+# new_format_spr_data %>% mutate(configuration = paste("r=",actucal_training_size,"sample percentage=",actucal_sample_pct*100,"%")) %>%   ggplot(aes(y=run_time_factor, x= as.factor(dataset_name), colour = as.factor(dataset_name))) + geom_point(size=2) +labs(x="dataset",y="Run-time factor", title="Run-time factor", subtitle = "Run-time factor of Lasso-based search vs. standard search") +theme_classic() +coord_flip() + facet_grid(rows = vars(actucal_sample_pct), cols =  vars(actucal_training_size))+ theme(legend.position = "none") + theme(legend.position = "none") + theme(strip.text.y = element_text(angle = 0))
+
+
+
+```
+
+
+
+```{r}
+
+new_format_spr_data  %>%  ggplot(aes(x=lasso_test_spearmanr,y=run_time_factor))  + geom_point(size=1.5)
+                                 
+                                 #group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))
+
+```
+
+
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
