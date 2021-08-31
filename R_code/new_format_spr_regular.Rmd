@@ -25,14 +25,17 @@ library(plm)
 
 Read the three datasets and merge them
 ```{r}
-new_format_spr_data_zero<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices.csv") %>% mutate (msa_positions = "0_10000")
-new_format_spr_data_one<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices_one.csv") %>% mutate (msa_positions = "10000_20000")
-new_format_spr_data_two<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/n_supermatrices_two.csv") %>% mutate (msa_positions = "20000_30000")
+new_format_spr_data_zero<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/supermatrices.csv") %>% mutate (msa_positions = "0_10000") %>% select (-file_name)
+new_format_spr_data_one<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/supermatrices_one.csv") %>% mutate (msa_positions = "10000_20000") %>% select (-file_name)
+new_format_spr_data_two<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/supermatrices_two.csv") %>% mutate (msa_positions = "20000_30000")  %>% select (-file_name)
 
-new_format_spr_data <- bind_rows(new_format_spr_data_zero,new_format_spr_data_one,new_format_spr_data_two)
-new_format_spr_data  %>% count(msa_positions)
+new_format_spr_data <- bind_rows(new_format_spr_data_zero,new_format_spr_data_one)
+#new_format_spr_data  %>% count(msa_positions)
 
 ```
+
+
+
 Expand data
 
 ```{r}
@@ -109,8 +112,6 @@ r2.test.spearman
 
 
 ```
-
-
 Unexplained variance and Lasso running time on the example MSA
 
 ```{r}
@@ -118,7 +119,7 @@ unexplained_variance_data<- example_msa_data %>% mutate (unexplained_var =1-`las
 
 unexplained_variance_data %>% select (actucal_training_size, actucal_sample_pct,`lasso_test_R^2`, unexplained_var)
 
-unexplained_variance_data %>% ggplot(aes(x=actucal_sample_pct,y=unexplained_var, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size =3)+ scale_x_continuous(breaks = c(0.01,0.05,0.1) ,labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set")  + scale_y_continuous(labels = scales::percent)+theme_classic() +coord_cartesian(ylim = c(NA, 0.11))
+unexplained_variance_data %>% ggplot(aes(x=actucal_sample_pct,y=unexplained_var, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size =3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set") + coord_cartesian(ylim = c(0, 0.12))+  scale_y_continuous(labels = scales::percent)+theme_classic()
 
 example_msa_data %>% select (actucal_training_size, actucal_training_size, lasso_running_time)
 ```
@@ -130,25 +131,23 @@ new_format_spr_data %>% select(dataset_name,msa_positions,actucal_training_size,
 
 new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_lasso_running_time = median(lasso_running_time))
 
-new_format_spr_data   %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(unexplained_var),std_r_2 = sd(unexplained_var))
-
-
-new_format_spr_data   %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(unexplained_var),std_r_2 = sd(unexplained_var)) %>%
-  ggplot(aes(x=actucal_sample_pct,y=median_r_2, group = as.factor(actucal_training_size), color = as.factor(actucal_training_size))) +geom_line(size=0.5) + geom_point(size=2) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.05,0.1)) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test sets") + scale_y_continuous(labels = scales::percent, expand = c(0,0)) +theme_classic()+# coord_cartesian(ylim = c(0, NA))+
-  geom_errorbar(aes(ymin=max(median_r_2-std_r_2,0), ymax=median_r_2+std_r_2),position=position_dodge(0.005)) #+facet_wrap(~actucal_training_size)
+new_format_spr_data %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(`lasso_test_R^2`)) %>% select(actucal_training_size, actucal_sample_pct,median_r_2)
+new_format_spr_data   %>% group_by(actucal_training_size, actucal_sample_pct) %>%summarize(median_r_2 = median(`lasso_test_R^2`)) %>%
+  ggplot(aes(x=actucal_sample_pct,y=1-median_r_2, group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3)+ scale_x_continuous(labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Median percentage of unexplained variance on test set") + scale_y_continuous(labels = scales::percent) +theme_classic()+coord_cartesian(ylim = c(0, 0.12))
 
 ```
-
-
 
 Tree search on the example MSA
 
 ```{r}
 
-example_msa_data<- new_format_spr_data %>% filter (job_ind==1,msa_positions == "0_10000", actucal_training_size==800)
-
 example_msa_data %>% select (actucal_sample_pct,actucal_training_size, run_time_factor, delta_ll_first_phase,delta_ll_second_phase,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,delta_ll_final_phase, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves, naive_SPR_spr_moves) 
 
+example_msa_data %>% select (actucal_sample_pct,actucal_training_size, delta_ll_first_phase,delta_ll_second_phase,delta_ll_final_phase) %>%
+  rename("first" = delta_ll_first_phase,"second" = delta_ll_second_phase,"final" = delta_ll_final_phase ) %>%
+  pivot_longer(cols= c("first","second","final"), values_to="ll_diff", names_to = "ll_type") %>%
+  mutate(ll_type =  factor(ll_type, levels=c("first","second","final"))) %>%
+  ggplot(aes(x=ll_type, y=ll_diff,group = interaction(actucal_training_size,actucal_sample_pct), colour =interaction(actucal_training_size,actucal_sample_pct) )) + geom_point(size=2)+geom_line (groups=1) +labs(colour="Training size (r)",x="search phase",y="LL difference", title="Log-likelihood difference", subtitle = "Log likelihood difference between standard search and Lasso-based searches")+theme_classic() + facet_grid(rows = vars(actucal_sample_pct), cols =  vars(actucal_training_size))+ theme(legend.position = "none") + theme(strip.text.y = element_text(angle = 0))+ theme(axis.text.x = element_text(angle = 60, vjust = 0.8, hjust=1))
   
 # 
 # example_msa_data  %>% filter(actucal_training_size==400) %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=run_time_factor , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="run time factor", title="Run time factor") +theme_classic()
@@ -161,7 +160,7 @@ Looking at the search results across iterations on the example MSA
 library(tidytext)
 options(digits=10)
 
-example_msa_data<- new_format_spr_data %>% filter (job_ind==1,msa_positions == "0_10000",actucal_training_size==800)
+#example_msa_data<- new_format_spr_data %>% filter (job_ind==1,msa_positions == "0_10000")
 
 
 naive_spr_steps<- example_msa_data %>%  select (actucal_training_size, actucal_sample_pct,naive_SPR_spr_moves,naive_SPR_ll_per_iteration, naive_SPR_ll) %>%
@@ -172,27 +171,22 @@ first_phase_spr_steps<- example_msa_data  %>% group_by(actucal_sample_pct, actuc
 
 second_phase_spr_steps<- example_msa_data  %>% group_by(actucal_sample_pct, actucal_training_size,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_second_phase_ll, naive_SPR_ll) %>% unnest_tokens(word,second_phase_ll_per_iteration)  %>% mutate(actucal_sample_pct, actucal_training_size,iter = row_number() + lasso_SPR_first_phase_spr_moves,ll =-parse_number(word),type = "Lasso second phase") %>% ungroup() %>%   filter (iter>lasso_SPR_first_phase_spr_moves+1) %>% select (iter,ll, type, actucal_training_size, actucal_sample_pct,best_naive_ll = naive_SPR_ll)
 
-final_phase_spr_steps<- example_msa_data  %>% group_by(actucal_sample_pct, actucal_training_size,lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_ll, naive_SPR_ll) %>% unnest_tokens(word,final_phase_ll_per_iteration)  %>% mutate(actucal_sample_pct, actucal_training_size,iter = row_number() + lasso_SPR_first_phase_spr_moves+lasso_SPR_second_phase_spr_moves,ll =-parse_number(word),type = "Lasso final phase") %>% ungroup() %>%   filter (iter>lasso_SPR_first_phase_spr_moves+lasso_SPR_second_phase_spr_moves+1) %>% select (iter,ll, type, actucal_training_size, actucal_sample_pct,best_naive_ll = naive_SPR_ll)
-
 #
 
-all_data<- bind_rows (first_phase_spr_steps, second_phase_spr_steps,final_phase_spr_steps,naive_spr_steps) %>% arrange(actucal_sample_pct, actucal_training_size, iter) %>% mutate(delta_ll = best_naive_ll-ll) 
+all_data<- bind_rows (first_phase_spr_steps, second_phase_spr_steps,naive_spr_steps) %>% arrange(actucal_sample_pct, actucal_training_size, iter) %>% mutate(delta_ll = best_naive_ll-ll) 
 #coalesce(ll_naive,best_naive_ll)
 
-all_data$type <- factor(all_data$type, levels = c("Lasso first phase","Lasso second phase","Lasso final phase","Standard search"))
+all_data
 
-all_data  %>% filter (iter>=5) %>% ggplot(aes(x= iter-1,y= delta_ll,colour = type)) + geom_point(size=2)+labs(x="Iteration number" ,y = "Delta log-likelihood")+ facet_grid(rows = vars(actucal_sample_pct))+ geom_line()+theme_classic()+guides(col=guide_legend("Search type"))+theme(strip.text.y = element_text(angle = 0))
-
-all_data  %>% filter (iter>=6, actucal_sample_pct==0.01) %>% ggplot(aes(x= iter-1,y= delta_ll,colour = type)) + geom_point(size=2)+labs(x="Iteration number" ,y = "Delta log-likelihood", title = "Tree search on the example MSA", subtitle = "Based on sample percentage of 1% and using 800 trees for training")+ geom_line()+theme_classic()+guides(col=guide_legend("Search type"))+theme(strip.text.y = element_text(angle = 0))
+all_data  %>% filter (iter>=6) %>% ggplot(aes(x= iter-1,y= delta_ll,colour = type)) + geom_point(size=2)+labs(x="Iteration number" ,y = "Delta log-likelihood")+ facet_grid(cols =vars(actucal_training_size), rows = vars(actucal_sample_pct))+ geom_line()+theme_classic()+guides(col=guide_legend("Search type"))+theme(strip.text.y = element_text(angle = 0))
 
 
 
 ```
 
-
-
 ```{r}
-new_format_spr_data %>% filter (job_ind==2, msa_positions=="0_10000") %>% select (alpha, n_loci, number_loci_chosen,actucal_training_size, actucal_sample_pct, run_time_factor, lasso_SPR_final_phase_spr_moves, test_s)
+new_format_spr_data %>% filter (delta_ll_final_phase>0.1) %>% distinct (dataset_name,actucal_training_size, actucal_sample_pct,delta_ll_final_phase,msa_positions)
+
 ```
 
 
@@ -207,8 +201,6 @@ new_format_spr_data_agg<-new_format_spr_data %>% group_by(actucal_training_size,
                                                                                                 )
 new_format_spr_data_agg
 new_format_spr_data_agg %>% select (actucal_training_size, actucal_sample_pct,median_run_time_factor)
-
-new_format_spr_data_agg %>% select (actucal_training_size, actucal_sample_pct,median_run_time_factor,median_second_phase_moves,median_final_phase_moves)
 
 new_format_spr_data_agg  %>%  ggplot(aes(x=as.factor(actucal_sample_pct),y=median_first_phase , group = as.factor(actucal_training_size), colour = as.factor(actucal_training_size))) +geom_line() + geom_point(size=3) +labs(color="Training size",x="Sample percentage",y="Delta LL after first phase", title="Median delta LL after first phase") +theme_classic() 
 
@@ -232,27 +224,6 @@ new_format_spr_data_agg %>% select (actucal_sample_pct,actucal_training_size, me
 
 #title="Log-likelihood difference", subtitle = "Log likelihood difference between standard search and Lasso-based searches"
 ```
-
-```{r}
-new_format_spr_data %>% filter (lasso_SPR_final_phase_spr_moves>7) %>% select (job_ind,actucal_sample_pct,actucal_training_size,`lasso_test_R^2`, lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves, msa_positions)
-
-
-```
-
-
-
-```{r}
-new_format_spr_data %>% select (actucal_sample_pct,actucal_training_size, lasso_SPR_first_phase_spr_moves, lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves) %>%
-  rename("second" = lasso_SPR_second_phase_spr_moves,"final" = lasso_SPR_final_phase_spr_moves ) %>%
-  pivot_longer(cols= c("second","final"), values_to="spr_moves", names_to = "type") %>%
-  mutate(type =  factor(type, levels=c("second","final"))) %>%
-  ggplot(aes(x=type, y=spr_moves, colour =interaction(actucal_training_size,actucal_sample_pct) )) +geom_boxplot (groups=1) +labs(colour="Training size (r)",x="search phase",y="SPR moves")+theme_classic() + facet_grid(rows = vars(actucal_sample_pct), cols =  vars(actucal_training_size))+ theme(legend.position = "none") + theme(strip.text.y = element_text(angle = 0))+ theme(axis.text.x = element_text(angle = 60, vjust = 0.8, hjust=1))
-```
-
-
-
-
-
 
 
 
@@ -280,6 +251,20 @@ new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size=
 
 
 
+Drafts
+
+
+
+```{r}
+new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size==800) %>% ggplot(
+       aes(x = as.factor(dataset_name), 
+           y=run_time_factor,
+           col = as.factor(dataset_name)))+
+geom_point(size=3)+coord_flip()
+```
+
+
+
 
 ```{r}
 new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size==800) %>% ggplot(
@@ -289,17 +274,7 @@ new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size=
   #viridis::scale_color_viridis(discrete = TRUE)+
   geom_point(size     = 3,
              alpha    = .8, 
-             position = "jitter") + labs(color="Dataset name",x="Unexplained variance on test-set",y="run time factor") +theme_classic()
-```
-
-
-Drafts
-
-```{r}
-new_format_spr_data  %>% filter (actucal_sample_pct==0.05, actucal_training_size>=400,actucal_training_size<=800) %>% ggplot(aes(x=run_time_factor , group = interaction(actucal_sample_pct, actucal_training_size), fill = as.factor(actucal_training_size)))  + geom_histogram() +labs(color="Training size",x="Sample percentage (%)",y="run time factor", title="Distribution of run time increase factor",subtitle="run time increase factor between Lasso-based search and the standard search") +theme_classic()
-
-new_format_spr_data  %>% filter (actucal_sample_pct==0.05, actucal_training_size==800) %>% ggplot(aes(x=run_time_factor , group = interaction(actucal_sample_pct, actucal_training_size), fill = as.factor(actucal_training_size)))  + geom_histogram() +labs(color="Training size",x="Sample percentage (%)",y="run time factor", title="Distribution of run time increase factor",subtitle="run time increase factor between Lasso-based search and the standard search") +theme_classic()
-
+             position = "jitter")
 ```
 
 
@@ -316,8 +291,8 @@ new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size=
 
 ```{r}
 new_format_spr_data %>% filter (actucal_sample_pct==0.05, actucal_training_size==800) %>% ggplot(
-       aes(x = divergence, 
-           y =`lasso_test_R^2`, 
+       aes(x = mad, 
+           y = run_time_factor, 
            col = as.factor(dataset_name)))+
   #viridis::scale_color_viridis(discrete = TRUE)+
   geom_point(size     = 3,

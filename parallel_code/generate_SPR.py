@@ -85,8 +85,9 @@ def SPR_iteration(iteration_number, MSA_path, curr_msa_stats, starting_tree_obje
     trees_path = os.path.join(curr_run_directory, "iteration_spr_trees")
     with open(trees_path, 'w') as TREES:
         TREES.write(regrafted_trees_newick)
+    unique_trees_path = filter_unique_topologies(curr_run_directory, trees_path, len(regrafted_trees))
     trees_ll, trees_optimized_objects, time_rgft_eval = raxml_optimize_trees_for_given_msa(MSA_path, "rgrft_ll_eval",
-                                                                                           trees_path,
+                                                                                           unique_trees_path,
                                                                                            curr_msa_stats,
                                                                                            curr_run_directory,
                                                                                            weights=curr_msa_stats[

@@ -83,7 +83,7 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
 
 def remove_gaps_and_trim_locis(sample_records,max_n_loci, loci_shift):
     all_data = np.array([list(record.seq) for record in sample_records])
-    count_gaps_per_column = np.count_nonzero(all_data=="-", axis=0)
+    count_gaps_per_column = np.count_nonzero(((all_data=="-") | (all_data=="X")), axis=0)
     non_gapped_data= all_data[:,count_gaps_per_column<all_data.shape[0]]
     loci_trimmed_data = non_gapped_data[:,loci_shift:loci_shift+max_n_loci]
     new_sampled_records = []
