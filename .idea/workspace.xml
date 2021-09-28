@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/parallel_code/rate4site.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/new_format_spr.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/new_format_spr.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extra_code/check.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/check.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extra_code/check_lasso_brlen_optimization.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/check_lasso_brlen_optimization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extra_code/generate_training_sets.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/generate_training_sets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/enrich_spr_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/generate_SPR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/raxml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/sp_c_tmp_new_spr.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/test.tre3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/test_general.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="214" column="70" selection-start-line="214" selection-start-column="70" selection-end-line="214" selection-end-column="70" />
+            <state relative-caret-position="123">
+              <caret line="270" column="15" selection-start-line="270" selection-start-column="9" selection-end-line="270" selection-end-column="15" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -67,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="280" column="58" selection-start-line="280" selection-start-column="58" selection-end-line="280" selection-end-column="58" />
+            <state relative-caret-position="531">
+              <caret line="306" column="38" lean-forward="true" selection-start-line="306" selection-start-column="38" selection-end-line="306" selection-end-column="38" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -123,8 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print</find>
-      <find>a=</find>
       <find>generate_or_copy_random_starting_tree</find>
       <find>extract_and_update_RaxML_statistics_from_full_data</find>
       <find>get_rate</find>
@@ -153,6 +133,8 @@
       <find>per_st</find>
       <find>unify_msa_and_weights</find>
       <find>thres</find>
+      <find>n_cpus</find>
+      <find>{raxml</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -213,11 +195,11 @@
         <option value="$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
-        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
         <option value="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" />
         <option value="$PROJECT_DIR$/extra_code/generate_training_sets.py" />
         <option value="$PROJECT_DIR$/parallel_code/config.py" />
         <option value="$PROJECT_DIR$/parallel_code/help_functions.py" />
+        <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
       </list>
     </option>
   </component>
@@ -436,12 +418,12 @@
     <frame x="0" y="29" width="1440" height="782" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24242425" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24242425" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.1884058" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.35652173" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4304348" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -942,16 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="214" column="70" selection-start-line="214" selection-start-column="70" selection-end-line="214" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
@@ -1002,8 +974,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="280" column="58" selection-start-line="280" selection-start-column="58" selection-end-line="280" selection-end-column="58" />
+        <state relative-caret-position="531">
+          <caret line="306" column="38" lean-forward="true" selection-start-line="306" selection-start-column="38" selection-end-line="306" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="270" column="15" selection-start-line="270" selection-start-column="9" selection-end-line="270" selection-end-column="15" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

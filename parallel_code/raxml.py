@@ -128,7 +128,7 @@ def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimo
             n_random_trees=n_random_trees)
     search_prefix = os.path.join(curr_run_directory, prefix)
     search_command = (
-        "{raxml_exe_path}  {threads_config} --force msa --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path}  {threads_config} --force msa --force perf_threads --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(cpus),
         alpha=alpha, msa_path=msa_path, starting_trees_command=starting_trees_command, seed=SEED,
@@ -220,7 +220,7 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
 def calculate_rf_dist(rf_file_path, curr_run_directory, prefix="rf"):
     rf_prefix = os.path.join(curr_run_directory, prefix)
     rf_command = (
-        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=rf_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     rf_log_file_path = rf_prefix + ".raxml.log"
@@ -246,7 +246,7 @@ def rf_distance(curr_run_directory, tree_object_a, tree_object_b, name):
 def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
     check_validity_command = (
-        "{raxml_exe_path} {threads_config} --check --msa {msa_path} --model WAG+G --prefix {prefix} --seed {seed}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --check --msa {msa_path} --model WAG+G --prefix {prefix} --seed {seed}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
         msa_path=full_file_path, prefix=check_validity_prefix, seed=SEED)
@@ -258,7 +258,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         msa_stats["orig_reduced_file_path"] = reduced_file
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
     parse_prefix = os.path.join(curr_run_directory, output_name + "_PARSE")
-    parse_command = "{raxml_exe_path} {threads_config} --parse --msa {msa_path} --model WAG+G --prefix {prefix} --seed {seed}".format(
+    parse_command = "{raxml_exe_path} --force msa --force perf_threads {threads_config} --parse --msa {msa_path} --model WAG+G --prefix {prefix} --seed {seed}".format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
         msa_path=full_file_path, prefix=parse_prefix, seed=SEED)
@@ -268,7 +268,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     parsimony_tree_generation_command = (
-        "{raxml_exe_path} {threads_config} --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --start --msa {msa_path} --model WAG+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
         msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix, seed=SEED)
@@ -277,7 +277,7 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     wait_for_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
     parsimony_model_and_bl_evaluation_command = (
-        "{raxml_exe_path} {threads_config} --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model WAG+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
         msa_path=full_file_path, parsimony_tree_path=constant_branch_length_parsimony_tree_path, seed=SEED,
@@ -321,7 +321,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     else:
         tree_type = "rand"
     random_tree_generation_command = (
-        "{raxml_exe_path} {threads_config} --force msa  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree {tree_type}{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree {tree_type}{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
         n=n, raxml_exe_path=RAXML_NG_EXE, tree_type=tree_type,
         threads_config=generate_raxml_ng_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
         msa_path=original_file_path, alpha=alpha, prefix=prefix, seed=seed)
@@ -338,7 +338,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
         logging.info("Removing duplicates parismony topologies")
         rf_prefix = os.path.join(curr_run_directory, "parsimony_rf_eval")
         rf_command = (
-            "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+            "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
             raxml_exe_path=RAXML_NG_EXE, rf_file_path=random_tree_path, prefix=rf_prefix)
         execute_commnand_and_write_to_log(rf_command, run_locally=True)
         rf_distances_file_path = rf_prefix + ".raxml.rfDistances"
@@ -350,7 +350,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
 def extract_parsimony_unique_topologies(curr_run_directory, trees_path, dist_path, n):
     rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
     rf_command = (
-        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=trees_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     unique_file_path = trees_path + "_unique"
@@ -369,7 +369,7 @@ def extract_parsimony_unique_topologies(curr_run_directory, trees_path, dist_pat
         UNIQUE_TREES.writelines(unique_trees)
     rf_prefix = os.path.join(curr_run_directory, "parsimony_check_rf")
     rf_command = (
-        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     return unique_file_path
@@ -379,7 +379,7 @@ def filter_unique_topologies(curr_run_directory, trees_path, n):
     logging.debug("Removing duplicate SPR neighbours")
     rf_prefix = os.path.join(curr_run_directory, "SPR_neighbours")
     rf_command = (
-        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=trees_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     rf_distances_file_path = rf_prefix + ".raxml.rfDistances"
@@ -400,7 +400,7 @@ def filter_unique_topologies(curr_run_directory, trees_path, n):
         UNIQUE_TREES.writelines(unique_trees)
     rf_prefix = os.path.join(curr_run_directory, "SPR_neighbours_check")
     rf_command = (
-        "{raxml_exe_path} --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
     execute_commnand_and_write_to_log(rf_command, run_locally=True)
     return unique_file_path
@@ -412,7 +412,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
     compute_site_ll_run_command = (
-        "{raxml_exe_path} {threads_config} --force msa --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --sitelh --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
@@ -446,7 +446,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
     compute_ll_run_command = (
-        "{raxml_exe_path} {threads_config} --force msa --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(msa_stats["n_cpus_training"]),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
