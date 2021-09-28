@@ -21,7 +21,7 @@ def get_ll_and_tree(prefix,tree_file,msa_path,brlen_command="", weight_path_comm
     subprocess.run(command, shell=True)
     raxml_log_file = prefix + ".raxml.log"
     tree_path = prefix + ".raxml.bestTree"
-    ll = extract_param_from_log(raxml_log_file,"ll")
+    ll = extract_param_from_raxmlNG_log(raxml_log_file, "ll")
     return ll,tree_path
 
 

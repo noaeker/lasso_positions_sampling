@@ -118,20 +118,20 @@ def enrich_curr_msa_results(curr_msa_results, curr_run_directory):
 
 
 
-unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/0.csv")
-output_data= pd.DataFrame(
-)
-unified_df = pd.read_csv(unified_df_path)
-curr_run_directory = "/Users/noa/Workspace/lasso_positions_sampling_results/test_dir"
-create_dir_if_not_exists(curr_run_directory)
-for dataset_id in unified_df["dataset_id"].unique():
-    dataset_id_res = unified_df.loc[unified_df["dataset_id"]==dataset_id]
-    enrich_curr_msa_results(dataset_id_res,curr_run_directory)
-    if output_data.empty:
-        output_data= dataset_id_res
-    else:
-        output_data=pd.concat([output_data,dataset_id_res])
-output_data.to_csv("sp_c_tmp_new_spr.csv")
+# unified_df_path = ("/Users/noa/Workspace/lasso_positions_sampling_results/0.csv")
+# output_data= pd.DataFrame(
+# )
+# unified_df = pd.read_csv(unified_df_path)
+# curr_run_directory = "/Users/noa/Workspace/lasso_positions_sampling_results/test_dir"
+# create_dir_if_not_exists(curr_run_directory)
+# for dataset_id in unified_df["dataset_id"].unique():
+#     dataset_id_res = unified_df.loc[unified_df["dataset_id"]==dataset_id]
+#     enrich_curr_msa_results(dataset_id_res,curr_run_directory)
+#     if output_data.empty:
+#         output_data= dataset_id_res
+#     else:
+#         output_data=pd.concat([output_data,dataset_id_res])
+# output_data.to_csv("sp_c_tmp_new_spr.csv")
 
 
 

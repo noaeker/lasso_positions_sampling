@@ -143,7 +143,7 @@ def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_t
             trees_ll_on_data, optimized_trees_path = test_results["test_ll_values"], test_results[
                 "test_optimized_trees_path"]
     else:
-        trees_ll_on_data,optimized_trees_path = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
+        trees_ll_on_data,optimized_trees_path,elapsed_time = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
                                                               curr_run_directory, weights=False, return_trees_file=True)
         test_results = {"test_ll_values":trees_ll_on_data,"test_optimized_trees_path":optimized_trees_path}
         with open(test_dump, 'wb') as handle:

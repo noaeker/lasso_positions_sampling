@@ -60,7 +60,7 @@ compute_standard_ll_run_command = (
 subprocess.run(compute_standard_ll_run_command, shell=True)
 raxml_log_file_standard = prefix_standard + ".raxml.log"
 standard_tree = prefix_standard+ ".raxml.bestTree"
-tree_ll_on_data_no_weights = extract_param_from_log(raxml_log_file_standard, "ll")
+tree_ll_on_data_no_weights = extract_param_from_raxmlNG_log(raxml_log_file_standard, "ll")
 
 
 lasso_weights_path_command = "--site-weights {}".format(lasso_weights_file_path)
@@ -72,7 +72,7 @@ compute_lasso_on_standard_ll_run_command = (
 subprocess.run(compute_lasso_on_standard_ll_run_command , shell=True)
 raxml_log_file_lasso_standard = prefix_lasso_on_standard + ".raxml.log"
 lasso_tree = prefix_lasso_on_standard + ".raxml.bestTree"
-ll_standard_using_lasso = extract_param_from_log(raxml_log_file_lasso_standard , "ll") / INTEGER_CONST + intercept
+ll_standard_using_lasso = extract_param_from_raxmlNG_log(raxml_log_file_lasso_standard, "ll") / INTEGER_CONST + intercept
 
 
 
@@ -97,7 +97,7 @@ subprocess.run(
 compute_ll_run_command_alternative , shell=True)
 raxml_log_file_alternative = prefix_alternative + ".raxml.log"
 alternative_tree = prefix_alternative + ".raxml.bestTree"
-tree_ll_on_data_alternative_weights = extract_param_from_log(raxml_log_file_alternative, "ll")
+tree_ll_on_data_alternative_weights = extract_param_from_raxmlNG_log(raxml_log_file_alternative, "ll")
 
 
 
@@ -109,7 +109,7 @@ compute_ll_run_command_alternative_make_sure = (
 subprocess.run(
 compute_ll_run_command_alternative_make_sure  , shell=True)
 raxml_log_file_alternative_make_sure = prefix_alternative_make_sure + ".raxml.log"
-tree_ll_on_data_alternative_weights_make_sure = extract_param_from_log(raxml_log_file_alternative_make_sure, "ll")
+tree_ll_on_data_alternative_weights_make_sure = extract_param_from_raxmlNG_log(raxml_log_file_alternative_make_sure, "ll")
 alternative_tree_make_sure = prefix_alternative_make_sure+ ".raxml.bestTree"
 
 
@@ -130,7 +130,7 @@ compute_constant_weights_ll_run_command = (
     prefix=prefix_constant_weights, weights_path_command=constant_weights_path_command,brlen_command=brlen_command)
 subprocess.run(compute_constant_weights_ll_run_command, shell=True)
 raxml_log_file_constant_weights = prefix_constant_weights + ".raxml.log"
-half_tree_ll_on_data_constant_weights = extract_param_from_log(raxml_log_file_constant_weights, "ll") / 200
+half_tree_ll_on_data_constant_weights = extract_param_from_raxmlNG_log(raxml_log_file_constant_weights, "ll") / 200
 constant_weight_tree = prefix_constant_weights+ ".raxml.bestTree"
 
 
@@ -155,7 +155,7 @@ compute_standard_ll_run_command = (
 subprocess.run(compute_standard_ll_run_command, shell=True)
 raxml_log_file_lasso = prefix_lasso + ".raxml.log"
 lasso_tree = prefix_lasso + ".raxml.bestTree"
-ll_based_on_lasso = extract_param_from_log(raxml_log_file_lasso, "ll") / INTEGER_CONST
+ll_based_on_lasso = extract_param_from_raxmlNG_log(raxml_log_file_lasso, "ll") / INTEGER_CONST
 
 
 
@@ -167,7 +167,7 @@ compute_lasso_ll_run_command_on_lasso = (
     prefix=prefix_lasso_on_lasso  ,weights_path_command=lasso_weights_path_command, brlen_command= brlen_command)
 subprocess.run(compute_lasso_ll_run_command_on_lasso, shell=True)
 raxml_log_file_lasso_on_lasso =prefix_lasso_on_lasso   + ".raxml.log"
-ll_lasso_on_lasso = extract_param_from_log(raxml_log_file_lasso_on_lasso, "ll") / INTEGER_CONST + intercept
+ll_lasso_on_lasso = extract_param_from_raxmlNG_log(raxml_log_file_lasso_on_lasso, "ll") / INTEGER_CONST + intercept
 
 
 compute_standard_ll_run_command_on_lasso = (
@@ -177,7 +177,7 @@ compute_standard_ll_run_command_on_lasso = (
     prefix=prefix_standard_on_lasso , brlen_command= brlen_command)
 subprocess.run(compute_standard_ll_run_command_on_lasso, shell=True)
 raxml_log_file_standard_on_lasso = prefix_standard_on_lasso  + ".raxml.log"
-true_ll_lasso_tree = extract_param_from_log(raxml_log_file_standard_on_lasso, "ll")
+true_ll_lasso_tree = extract_param_from_raxmlNG_log(raxml_log_file_standard_on_lasso, "ll")
 
 
 

@@ -78,7 +78,7 @@ def SPR_iteration(iteration_number, MSA_path, curr_msa_stats, starting_tree_obje
     add_internal_names(starting_tree_object)
     starting_tree_object.get_tree_root().name = "ROOT"
     logging.debug(str(starting_tree_object.write(format=1)) + "\n")
-    starting_tree_spr_neighbours = get_possible_spr_moves(get_list_of_edges(starting_tree_object))
+    starting_tree_spr_neighbours = get_possible_spr_moves(starting_tree_object, rearr_dist = curr_msa_stats["rearr_dist"])
     regrafted_trees = [generate_neighbour(starting_tree_object, spr_neighbour) for spr_neighbour in
                        starting_tree_spr_neighbours]
     regrafted_trees_newick = "\n".join([regrafted_tree.write(format=1) for regrafted_tree in regrafted_trees])
@@ -93,6 +93,7 @@ def SPR_iteration(iteration_number, MSA_path, curr_msa_stats, starting_tree_obje
                                                                                            weights=curr_msa_stats[
                                                                                                "weights_file_path"] if use_weights else None)
     trees_ll = regression_correct_lasso_ll_values(use_weights, curr_msa_stats, trees_ll)
+    time_rgft_eval_true = 0
     if top_x_true_trees > 1 and use_weights:
         logging.debug(f"SPR iteration {iteration_number} : testing {top_x_true_trees} best Lasso tree objects")
         top_ll_indices = (-np.array(trees_ll)).argsort()[:top_x_true_trees]
@@ -122,7 +123,7 @@ def SPR_iteration(iteration_number, MSA_path, curr_msa_stats, starting_tree_obje
         {'full msa ll': trees_true_ll, 'sampled msa ll': trees_ll, 'iteration number': iteration_number}
     )
 
-    return best_tree_object, best_ll, best_true_ll, ll_comparison_df, true_sitelh_df
+    return best_tree_object, best_ll, best_true_ll, ll_comparison_df, true_sitelh_df,time_rgft_eval, time_rgft_eval_true
 
 
 def get_true_and_local_starting_tree_ll(MSA_path, run_unique_name, starting_tree_path, curr_msa_stats,
@@ -151,6 +152,8 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                curr_run_directory,
                use_weights, top_x_true_trees, starting_tree_ll=None, true_starting_tree_ll=None):
     ll_comparison_df = pd.DataFrame()
+    running_times_per_iter = []
+    running_times_per_iter_extra = []
     actual_search_training_df = pd.DataFrame()
     spr_iterations_performed_so_far = 0
     if not starting_tree_ll:
@@ -177,7 +180,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         curr_iter_run_directory = os.path.join(curr_run_directory, "iter_" + str(spr_iterations_performed_so_far))
         create_or_clean_dir(curr_iter_run_directory)
         logging.debug("iteration number: " + str(spr_iterations_performed_so_far))
-        curr_best_neighbour_object, curr_best_neighbour_ll, curr_best_neighbour_true_ll, curr_ll_comparison_df, curr_true_sitelh_df = SPR_iteration(
+        curr_best_neighbour_object, curr_best_neighbour_ll, curr_best_neighbour_true_ll, curr_ll_comparison_df, curr_true_sitelh_df,curr_time_rgft_eval, curr_time_rgft_eval_true = SPR_iteration(
             spr_iterations_performed_so_far, MSA_path, curr_msa_stats, curr_best_tree_object,
             curr_iter_run_directory,
             use_weights,
@@ -188,6 +191,8 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                                                                                                  curr_best_tree_true_ll,
                                                                                                  curr_best_neighbour_ll))
         ll_comparison_df = ll_comparison_df.append(curr_ll_comparison_df)
+        running_times_per_iter.append(curr_time_rgft_eval)
+        running_times_per_iter_extra.append(curr_time_rgft_eval_true)
         actual_search_training_df = actual_search_training_df.append(curr_true_sitelh_df)
         if curr_best_neighbour_ll - curr_best_tree_ll <= EPSILON:
             logging.debug(
@@ -202,6 +207,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         LL_per_iteration_list += [curr_best_tree_ll]
         TRUE_LL_per_iteration_list += [curr_best_tree_true_ll]
 
+    total_running_time = sum(running_times_per_iter) + sum(running_times_per_iter_extra)
     search_results = {
         "search_best_ll": curr_best_tree_ll,
         "search_starting_tree_ll": starting_tree_ll,
@@ -214,10 +220,12 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
         "TRUE_ll_per_iteration_list": TRUE_LL_per_iteration_list,
         "search_best_tree_object": curr_best_tree_object,
         "search_spr_moves": spr_iterations_performed_so_far,
+        "running_times_per_iter": running_times_per_iter,
+        "running_times_per_iter_extra" : running_times_per_iter_extra,
+        "total_search_running_time" : total_running_time
     }
 
     return search_results
-
 
 def analyze_ll_comparison_df(ll_comparison_df):
     mistake_cnt = 0

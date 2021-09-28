@@ -43,7 +43,8 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
 
 
 def generate_lasso_descriptive(training_predicted_values, training_true_values,
-                               test_predicted_values,test_predicted_values_no_opt, test_true_values, curr_run_directory):
+                               test_predicted_values, test_predicted_values_no_opt, test_true_values,
+                               curr_run_directory):
     training_sitelh_df_prediction = pd.DataFrame(
         {'predicted_training_ll': training_predicted_values, 'true_training_ll': training_true_values})
     training_sitelh_df_prediction.to_csv(
@@ -128,7 +129,7 @@ def get_sklearn_lasso_path_on_given_data(curr_msa_stats, training_df, curr_run_d
     selection = 'random' if curr_msa_stats["random_lasso"] else 'cyclic'
     lasso_model = linear_model.lasso_path(X=training_df_scaled,
                                           y=training_y_scaled, eps=1e-7, positive=True, n_lambds=100,
-                                          selection=selection,random_state = SEED)
+                                          selection=selection, random_state=SEED)
     lasso_training_time = time.time() - start_time
     coeffs_path = lasso_model[1]
     lambds = lasso_model[0]
@@ -163,17 +164,16 @@ def get_sklearn_coeffs_for_given_threshold(threshold, lasso_path_results):
     return best_coeffs, intercept, lambd
 
 
-def get_glmnet_coeffs_for_given_threshold(threshold,MSA_n_loci, glmnet_lasso_path):
-    relevant_data = glmnet_lasso_path[glmnet_lasso_path["desired_pcts"]==threshold]
+def get_glmnet_coeffs_for_given_threshold(threshold, MSA_n_loci, glmnet_lasso_path):
+    relevant_data = glmnet_lasso_path[glmnet_lasso_path["desired_pcts"] == threshold]
     if relevant_data.empty:
-        return None,None,None
-    t_intercept = float(relevant_data[relevant_data["loci"]=="(Intercept)"].iloc[0]["estimate"])
-    t_lambda =max(relevant_data["lambda"])
-    t_coefficients_data = relevant_data[relevant_data["loci"]!="(Intercept)"][["loci","estimate"]]
-    t_coefficients =np.zeros(MSA_n_loci)
-    np.put(t_coefficients,t_coefficients_data["loci"],t_coefficients_data["estimate"])
+        return None, None, None
+    t_intercept = float(relevant_data[relevant_data["loci"] == "(Intercept)"].iloc[0]["estimate"])
+    t_lambda = max(relevant_data["lambda"])
+    t_coefficients_data = relevant_data[relevant_data["loci"] != "(Intercept)"][["loci", "estimate"]]
+    t_coefficients = np.zeros(MSA_n_loci)
+    np.put(t_coefficients, t_coefficients_data["loci"], t_coefficients_data["estimate"])
     return t_coefficients, t_intercept, t_lambda
-
 
 
 def get_chosen_locis_and_weights(coeff_array, coef_starting_point):
@@ -220,8 +220,11 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
             sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
         sampled_alignment_df = alignment_list_to_df(sampled_data)
         constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df)
+        rate4_site_values = [curr_msa_stats["rate4site_scores"][i] for i in t_lasso_results["lasso_chosen_locis"]]
+        mean_rate4_site = np.mean(rate4_site_values)
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
-                        "lasso_gap_positions_pct": gap_positions_pct}
+                        "lasso_gap_positions_pct": gap_positions_pct, "lasso_rates_4_site": rate4_site_values, "lasso"
+                                                                                                               "_mean_rate4site": mean_rate4_site}
         t_lasso_results.update(results_dict)
 
         y_training_predicted, training_results = get_training_metrics(t_intercept, t_chosen_locis, t_weights,
@@ -236,7 +239,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
 
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(y_training_predicted, y_training,
-                               y_test_predicted,y_test_predicted_no_opt,y_test_true, threshold_folder)
+                                           y_test_predicted, y_test_predicted_no_opt, y_test_true, threshold_folder)
             t_lasso_results.update(test_results)
             t_lasso_results_print = {key: t_lasso_results[key] for key in t_lasso_results if
                                      key not in ["lasso_chosen_locis", "lasso_chosen_weights"]}
@@ -248,27 +251,29 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
     return outputs_per_threshold
 
 
-#generate_lasso_descriptive(training_predicted_values, training_predicted_values_no_opt, training_true_values,
+# generate_lasso_descriptive(training_predicted_values, training_predicted_values_no_opt, training_true_values,
 #                               test_predicted_values, test_true_values, curr_run_directory)
 
 
-def get_glmnet_lasso_path_on_given_data(curr_msa_stats,curr_data, partition_folder, i):
-                relaxed_lasso = 1 if curr_msa_stats["relaxed_lasso"] else 0
-                curr_data_path = os.path.join(partition_folder,f"partition_{i}_sitelh.csv")
-                curr_data.to_csv(curr_data_path,index=False)
-                lasso_thresholds = curr_msa_stats['lasso_thresholds']
-                command = f"module load R/3.6.1;Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso} {lasso_thresholds}"
-                logging.info(f"About to run lasso command in glmnet: {command}")
-                lasso_start_time  = time.time()
-                # os.system('module load R/3.6.1')
-                os.system(command)
-                logging.info("R glmnet command is done!")
+def get_glmnet_lasso_path_on_given_data(curr_msa_stats, curr_data, partition_folder, i):
+    relaxed_lasso = 1 if curr_msa_stats["relaxed_lasso"] else 0
+    curr_data_path = os.path.join(partition_folder, f"partition_{i}_sitelh.csv")
+    curr_data.to_csv(curr_data_path, index=False)
+    lasso_thresholds = curr_msa_stats['lasso_thresholds']
+    command = f"module load R/3.6.1;Rscript --vanila {R_CODE_PATH} {curr_data_path} {partition_folder} {relaxed_lasso} {lasso_thresholds}"
+    logging.info(f"About to run lasso command in glmnet: {command}")
+    lasso_start_time = time.time()
+    # os.system('module load R/3.6.1')
+    os.system(command)
+    logging.info("R glmnet command is done!")
 
-                lasso_output_file_path=  os.path.join(partition_folder,"r_lasso_relaxed.csv") if curr_msa_stats["relaxed_lasso"] else os.path.join(partition_folder,"r_lasso.csv")
-                glmnet_lasso_path =  pd.read_csv(lasso_output_file_path)
-                glmnet_running_time = time.time() -lasso_start_time
-                logging.info(f"Lasso results should be found in : { lasso_output_file_path} ")
-                return glmnet_lasso_path, glmnet_running_time
+    lasso_output_file_path = os.path.join(partition_folder, "r_lasso_relaxed.csv") if curr_msa_stats[
+        "relaxed_lasso"] else os.path.join(partition_folder, "r_lasso.csv")
+    glmnet_lasso_path = pd.read_csv(lasso_output_file_path)
+    glmnet_running_time = time.time() - lasso_start_time
+    logging.info(f"Lasso results should be found in : {lasso_output_file_path} ")
+    return glmnet_lasso_path, glmnet_running_time
+
 
 def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df,
                                                      test_optimized_trees_path):
@@ -281,15 +286,20 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
         curr_data = sitelh_training_df.iloc[:, partition_indexes[i]]
         logging.debug(f"Applying {i}th batch of Lasso, based on positions {partition_indexes[i]}")
         if curr_msa_stats["use_glmnet_lasso"]:
-            glmnet_lasso_path, glmnet_lasso_running_time =  get_glmnet_lasso_path_on_given_data(curr_msa_stats,curr_data, partition_folder, i)
+            glmnet_lasso_path, glmnet_lasso_running_time = get_glmnet_lasso_path_on_given_data(curr_msa_stats,
+                                                                                               curr_data,
+                                                                                               partition_folder, i)
         else:
             sklearn_lasso_path = get_sklearn_lasso_path_on_given_data(curr_msa_stats, curr_data, partition_folder)
         lasso_thresholds = [float(t) for t in curr_msa_stats['lasso_thresholds'].split("_")]
         for threshold in lasso_thresholds:
             if curr_msa_stats["use_glmnet_lasso"]:
-                t_coefficients, t_intercept, t_lambda = get_glmnet_coeffs_for_given_threshold(threshold,curr_msa_stats["n_loci"], glmnet_lasso_path)
+                t_coefficients, t_intercept, t_lambda = get_glmnet_coeffs_for_given_threshold(threshold,
+                                                                                              curr_msa_stats["n_loci"],
+                                                                                              glmnet_lasso_path)
             else:
-                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold,sklearn_lasso_path)
+                t_coefficients, t_intercept, t_lambda = get_sklearn_coeffs_for_given_threshold(threshold,
+                                                                                               sklearn_lasso_path)
             if t_coefficients is None:
                 continue
             t_chosen_locis, t_chosen_loci_weights = get_chosen_locis_and_weights(t_coefficients,
@@ -304,7 +314,8 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
                                "lambd": t_lambda,
                                "lasso_intercept": t_intercept,
                                "number_loci_chosen": len(t_chosen_locis),
-                               "lasso_running_time": glmnet_lasso_running_time if curr_msa_stats["use_glmnet_lasso"] else sklearn_lasso_path["lasso_training_time"],
+                               "lasso_running_time": glmnet_lasso_running_time if curr_msa_stats[
+                                   "use_glmnet_lasso"] else sklearn_lasso_path["lasso_training_time"],
 
                                }
             t_lasso_metrics_print = {key: t_lasso_metrics[key] for key in
@@ -313,7 +324,7 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
             lasso_results_per_partition_and_threshold = lasso_results_per_partition_and_threshold.append(
                 t_lasso_metrics, ignore_index=True)
     lasso_results_per_partition_and_threshold.to_csv(
-        os.path.join(curr_run_directory, "lasso_results_per_partition_and_threshold.csv"),index=False)
+        os.path.join(curr_run_directory, "lasso_results_per_partition_and_threshold.csv"), index=False)
 
     outputs_per_threshold = unify_msa_and_weights(lasso_results_per_partition_and_threshold, curr_run_directory,
                                                   curr_msa_stats, sitelh_training_df, test_optimized_trees_path)

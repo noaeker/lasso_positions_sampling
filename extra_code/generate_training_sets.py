@@ -22,7 +22,7 @@ def generate_training_sets(path):
 
 
 training_set_paths = generate_training_sets(PATH)
-dst = '/Users/noa/Workspace/data/supermatrices_edited'
+dst = '/Users/noa/Workspace/data/supermatrices_edited3'
 os.mkdir(dst)
 
 for path in training_set_paths:
@@ -44,7 +44,7 @@ for path in training_set_paths:
             except:
                     print("got here")
 
-        print(n_loci, n_seq)
+        print(new_file_name,n_loci, n_seq)
         if n_loci >=10000 and n_seq>=15:
             shutil.copy2(path, os.path.join(dst,new_file_name))
 

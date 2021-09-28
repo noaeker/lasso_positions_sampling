@@ -2,6 +2,7 @@ from generate_SPR import *
 from training_and_test_set_generation import *
 from raxml import *
 import pickle
+from rate4site import *
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
@@ -165,27 +166,27 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
             all_msa_results.to_csv(job_csv_path, index=False)
 
 
-def dilute_msa(curr_msa_stats, curr_run_directory):
-    dilute_amount = curr_msa_stats["dilute_amount"]
-    sampled_alignment_path_extended = os.path.join(curr_run_directory, "diluted_sampled_msa")
-    weights_path_extended = os.path.join(curr_run_directory, "diluted_weights")
-    logging.info('Diluting MSA with {} positions, writing results to {} and writing weights to {}'.format(dilute_amount,
-                                                                                                          sampled_alignment_path_extended,
-                                                                                                          weights_path_extended))
-    total_lasso_weights = sum(curr_msa_stats["lasso_chosen_weights"])
-    random.seed(SEED)
-    diluted_samp_indexes = curr_msa_stats["lasso_chosen_locis"] + random.sample(list(range(curr_msa_stats["n_loci"])),
-                                                                                curr_msa_stats["dilute_amount"])
-    write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path_extended,
-                                    diluted_samp_indexes, curr_msa_stats["file_type_biopython"])
-    curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path_extended
-    extra_weights = [total_lasso_weights / (dilute_amount * curr_msa_stats["dilute_mul"])] * dilute_amount
-    with open(weights_path_extended, 'w') as f:
-        for weight in curr_msa_stats["lasso_chosen_weights"] + extra_weights:
-            if USE_INTEGER_WEIGHTS:
-                weight = int(weight)
-            f.write(str(weight) + " ")
-    curr_msa_stats["weights_file_path"] = weights_path_extended
+# def dilute_msa(curr_msa_stats, curr_run_directory):
+#     dilute_amount = curr_msa_stats["dilute_amount"]
+#     sampled_alignment_path_extended = os.path.join(curr_run_directory, "diluted_sampled_msa")
+#     weights_path_extended = os.path.join(curr_run_directory, "diluted_weights")
+#     logging.info('Diluting MSA with {} positions, writing results to {} and writing weights to {}'.format(dilute_amount,
+#                                                                                                           sampled_alignment_path_extended,
+#                                                                                                           weights_path_extended))
+#     total_lasso_weights = sum(curr_msa_stats["lasso_chosen_weights"])
+#     random.seed(SEED)
+#     diluted_samp_indexes = curr_msa_stats["lasso_chosen_locis"] + random.sample(list(range(curr_msa_stats["n_loci"])),
+#                                                                                 curr_msa_stats["dilute_amount"])
+#     write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path_extended,
+#                                     diluted_samp_indexes, curr_msa_stats["file_type_biopython"])
+#     curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path_extended
+#     extra_weights = [total_lasso_weights / (dilute_amount * curr_msa_stats["dilute_mul"])] * dilute_amount
+#     with open(weights_path_extended, 'w') as f:
+#         for weight in curr_msa_stats["lasso_chosen_weights"] + extra_weights:
+#             if USE_INTEGER_WEIGHTS:
+#                 weight = int(weight)
+#             f.write(str(weight) + " ")
+#     curr_msa_stats["weights_file_path"] = weights_path_extended
 
 
 def perform_standrad_raxml_search(standard_run_folder, curr_msa_stats):
@@ -253,6 +254,45 @@ def perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_
     return  lasso_overall_results
 
 
+def rf_distances_per_starting_tree_raxml(lasso_result,lasso_result_rf_folder,starting_tree_ind,ml_standard_tree_objects,starting_tree_objects,curr_msa_stats,standard_raxml_search_results,starting_trees_ll_on_data,ml_standard_trees_ll):
+    starting_tree_lasso_result_rf_folder = os.path.join(lasso_result_rf_folder,
+                                                        "starting_tree_" + str(starting_tree_ind))
+    create_dir_if_not_exists(starting_tree_lasso_result_rf_folder)
+    lasso_result["raxml_curr_starting_tree_ind"] = starting_tree_ind
+    lasso_result["raxml_curr_starting_tree_ll"] = starting_trees_ll_on_data[starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_standard_output_tree_ll"] = ml_standard_trees_ll[
+        starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_lasso_first_phase_output_tree"] = \
+        lasso_result["lasso_first_phase_ml_trees_ll"][
+            starting_tree_ind]
+    lasso_result["raxml_lasso_first_phase_vs_standard_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                         ml_standard_tree_objects[
+                                                                             starting_tree_ind],
+                                                                         lasso_result[
+                                                                             "lasso_first_phase_ml_trees_objects"][
+                                                                             starting_tree_ind],
+                                                                         "first_phase_vs_standard")
+    lasso_result["raxml_start_vs_standard_output_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                    ml_standard_tree_objects[
+                                                                        starting_tree_ind],
+                                                                    starting_tree_objects
+                                                                    [starting_tree_ind],
+                                                                    "start_vs_standard")
+    if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
+        lasso_result["raxml_lasso_final_nni_vs_standard_rf"] = rf_distance(
+            starting_tree_lasso_result_rf_folder,
+            standard_raxml_search_results["standard_best_tree_path"],
+            lasso_result["lasso_nni_best_tree"],
+            "nni_vs_standard")
+    result_per_starting_tree = {k: lasso_result[k] for k in lasso_result.keys() if
+                                              k not in IGNORE_COLS_IN_CSV
+                                              }
+    return result_per_starting_tree
+
+
+
+
+
 def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                   lasso_configurations_per_training_size,
                                   job_csv_path):
@@ -263,7 +303,7 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     create_dir_if_not_exists(curr_run_directory)
     standard_run_folder = os.path.join(curr_run_directory, "standard_run")
     create_dir_if_not_exists(standard_run_folder)
-    standard_raxml_search_results = perform_standrad_raxml_search(curr_run_directory, curr_msa_stats)
+    standard_raxml_search_results = perform_standrad_raxml_search(standard_run_folder, curr_msa_stats)
     starting_trees_ll_on_data, starting_tree_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
         curr_msa_stats["local_alignment_path"], "opt_raxml_starting_trees",
         standard_raxml_search_results['standard_starting_trees_path'], curr_msa_stats,
@@ -278,36 +318,15 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     if not curr_msa_stats["only_full_search"]:
         lasso_results = perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
                                                          lasso_configurations_per_training_size, training_size_options)
+        logging.info("Lasso results are:")
         for lasso_result_ind,lasso_result in enumerate(lasso_results):
             lasso_result_rf_folder = os.path.join(curr_run_directory,"lasso_"+str(lasso_result_ind))
             create_dir_if_not_exists(lasso_result_rf_folder)
+            lasso_ml_tree_objects = lasso_result[
+                "lasso_first_phase_ml_trees_objects"]
             for starting_tree_ind in range(len(starting_tree_objects)):
-                starting_tree_lasso_result_rf_folder = os.path.join(lasso_result_rf_folder , "starting_tree_"+str(starting_tree_ind))
-                create_dir_if_not_exists(starting_tree_lasso_result_rf_folder)
-                lasso_result["raxml_curr_starting_tree_ind"] = starting_tree_ind
-                lasso_result["raxml_curr_starting_tree_ll"] = starting_trees_ll_on_data[starting_tree_ind]
-                lasso_result["raxml_curr_starting_tree_standard_output_tree_ll"] = ml_standard_trees_ll[
-                    starting_tree_ind]
-                lasso_result["raxml_curr_starting_tree_lasso_first_phase_output_tree"] = \
-                    lasso_result["lasso_first_phase_ml_trees_ll"][
-                        starting_tree_ind]
-                lasso_result["raxml_lasso_first_phase_vs_standard_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
-                                                                                       ml_standard_tree_objects[
-                                                                                           starting_tree_ind],
-                                                                                       lasso_result[
-                                                                                           "lasso_first_phase_ml_trees_objects"][
-                                                                                           starting_tree_ind],
-                                                                                       "first_phase_vs_standard")
-                lasso_result["raxml_start_vs_standard_output_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
-                                                                                  ml_standard_tree_objects[
-                                                                                      starting_tree_ind],
-                                                                                  starting_tree_objects
-                                                                                      [starting_tree_ind],
-                                                                                  "start_vs_standard")
-
-                all_msa_results = all_msa_results.append({k: lasso_result[k] for k in lasso_result.keys() if
-                                                          k not in IGNORE_COLS_IN_CSV
-                                                          }, ignore_index=True)
+                results_per_starting_tree = rf_distances_per_starting_tree_raxml(lasso_result,lasso_result_rf_folder,starting_tree_ind,ml_standard_tree_objects,starting_tree_objects,curr_msa_stats,standard_raxml_search_results,starting_trees_ll_on_data,ml_standard_trees_ll)
+                all_msa_results = all_msa_results.append( results_per_starting_tree, ignore_index=True)
                 all_msa_results.to_csv(job_csv_path)
 
     all_msa_results.to_csv(job_csv_path)
@@ -472,6 +491,15 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
                 curr_msa_stats)
         with open(curr_msa_version_stats_dump, 'wb') as handle:
             pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        try:
+            rate4site_output_path = os.path.join( curr_msa_version_folder,"r4s.res")
+            get_rate4site(curr_msa_stats["local_alignment_path"], curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
+            rate4site_scores = parse_rate4site(rate4site_output_path)
+            curr_msa_stats["rate4site_scores"] = rate4site_scores
+            curr_msa_stats["mean_rate4site_scores"] = np.mean(rate4site_scores)
+            logging.info("Succesfully obtained rate4site weights")
+        except:
+            logging.error("Encountered an error while running rate4site")
     return curr_msa_stats
 
 

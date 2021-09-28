@@ -13,6 +13,7 @@ CPUS_PER_NODE_LASSO = 1
 N_NODES = 1
 N_NODES_LASSO=1
 MPI_PROC_PER_NODE = 1
+CPUS_PER_NODE_NNI = 2
 
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
@@ -40,7 +41,7 @@ def sample_exp(size,start_seed):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = "200"
+RANDOM_TREES_TRAINING_SIZE = "1000"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
@@ -55,23 +56,20 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr"
-CURR_JOBS_PREFIX =  "test_curr"
+CURR_RUN_PREFIX = "test_curr_newest"
+CURR_JOBS_PREFIX =  "test_curr_newest"
 
 LASSO_BASELINE ="x"
 TRAINING_BASELINE =    "x"
-TEST_SET_BASELINE =  "x"
+TEST_SET_BASELINE = "x"
 MSA_BASELINE =  "x"
 FULL_DATA_BASELINE = "x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
-DILUTE_AMOUNT = 15
-DILUTE_MUL = 10
 
 
-
-MAX_N_SEQ =  6
-MAX_N_LOCI = 1000
+MAX_N_SEQ =  30
+MAX_N_LOCI = 10000
 MIN_N_SEQ = 6
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
@@ -96,10 +94,14 @@ if not LOCAL_RUN:
     ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/example"
     MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/R_code/lasso_glmnet.R"
+    RAXML_HPC_EXE = "/groups/pupko/noaeker/standard-RAxML/raxmlHPC"
+    RATE4SITE_COMMAND_PREFIX = "/Users/noa/Programs/rate4site/rate4site"
 elif LOCAL_RUN:
     IQTREE_PATH = "/Users/noa/Programs/iqtree-1.6.12-MacOSX/iqtree"
     RAXML_NG_EXE = "/Users/noa/Programs/Raxml/raxml-ng  "
+    RAXML_HPC_EXE = "/Users/noa/Programs/standard-RAxML/raxmlHPC-PTHREADS "
     MAD_COMMAND_PREFIX = "/Users/noa/Programs/mad.osx"
+    RATE4SITE_COMMAND_PREFIX = "/Users/noa/Programs/rate4site"
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
