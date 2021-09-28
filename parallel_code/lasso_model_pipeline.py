@@ -220,7 +220,11 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
             sampled_data = list(SeqIO.parse(sampled_path, curr_msa_stats["file_type_biopython"]))
         sampled_alignment_df = alignment_list_to_df(sampled_data)
         constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df)
-        rate4_site_values = [curr_msa_stats["rate4site_scores"][i] for i in t_lasso_results["lasso_chosen_locis"]]
+        try:
+            rate4_site_values = [curr_msa_stats["rate4site_scores"][i] for i in t_lasso_results["lasso_chosen_locis"]]
+        except:
+            logging.error("Problem estimating rate4site for lasso locis")
+            rate4_site_values = [-1]
         mean_rate4_site = np.mean(rate4_site_values)
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
                         "lasso_gap_positions_pct": gap_positions_pct, "lasso_rates_4_site": rate4_site_values, "lasso"
