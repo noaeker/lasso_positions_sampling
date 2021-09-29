@@ -229,6 +229,9 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
                         "lasso_gap_positions_pct": gap_positions_pct, "lasso_rates_4_site": rate4_site_values, "lasso"
                                                                                                                "_mean_rate4site": mean_rate4_site}
+        lasso_rate4_site_values_path = os.path.join(curr_run_directory,"lasso_rate_4_site")
+        with open(lasso_rate4_site_values_path,'w') as LASSO_RATE4SITE:
+            LASSO_RATE4SITE.write(rate4_site_values.join(" "))
         t_lasso_results.update(results_dict)
 
         y_training_predicted, training_results = get_training_metrics(t_intercept, t_chosen_locis, t_weights,
@@ -246,7 +249,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
                                            y_test_predicted, y_test_predicted_no_opt, y_test_true, threshold_folder)
             t_lasso_results.update(test_results)
             t_lasso_results_print = {key: t_lasso_results[key] for key in t_lasso_results if
-                                     key not in ["lasso_chosen_locis", "lasso_chosen_weights"]}
+                                     key not in IGNORE_COLS_IN_CSV}
 
             logging.info(f"   ***Unified results for threshold : {threshold} are: \n {t_lasso_results_print}")
         outputs_per_threshold[threshold] = t_lasso_results

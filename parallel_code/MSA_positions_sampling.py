@@ -489,17 +489,21 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
                                                        )  # use current curr_msa_stats
             extract_and_update_RaxML_statistics_from_full_data(
                 curr_msa_stats)
-        with open(curr_msa_version_stats_dump, 'wb') as handle:
-            pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        try:
-            rate4site_output_path = os.path.join( curr_msa_version_folder,"r4s.res")
-            get_rate4site(curr_msa_stats["local_alignment_path"], curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
-            rate4site_scores = parse_rate4site(rate4site_output_path)
+        rate4site_output_path = os.path.join(curr_msa_version_folder, "r4s.res")
+        rate4site_command = get_rate4site(curr_msa_stats["local_alignment_path"],
+                                          curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
+        if os.path.exists(rate4site_output_path):
+            try:
+                rate4site_scores = parse_rate4site(rate4site_output_path)
+            except Exception as e:
+                logging.error('Failed to parse rate4site scores: '+ str(e))
             curr_msa_stats["rate4site_scores"] = rate4site_scores
             curr_msa_stats["mean_rate4site_scores"] = np.mean(rate4site_scores)
             logging.info("Succesfully obtained rate4site weights")
-        except:
-            logging.error("Encountered an error while running rate4site")
+        else:
+            logging.error("Could not generate rate4site output: command = {command}".format(command = rate4site_command))
+        with open(curr_msa_version_stats_dump, 'wb') as handle:
+            pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return curr_msa_stats
 
 
