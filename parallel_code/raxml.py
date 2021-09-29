@@ -25,9 +25,11 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         submit_linux_job(job_name, job_folder, command, cpus, nodes, queue=queue)
         logging.info(f"*** Waiting for elapsed time in log file {log_file_path}")
         while not (os.path.exists(log_file_path) and (
-                os.path.exists(extra_file_path) or extra_file_path == "") and extract_param_from_raxmlNG_log(log_file_path,
+                os.path.exists(extra_file_path) or extra_file_path == "") and (extract_param_from_raxmlNG_log(log_file_path,
                                                                                                      'time',
-                                                                                                             raise_error=False) is not None):
+                                                                                                             raise_error=False) or extract_param_from_raxmlHPC_log(log_file_path,
+                                                                                                     'time',
+                                                                                                             raise_error=False)) is not None):
             time.sleep(30)
         logging.info("*** current time: {} previous job is completed!!***".format(datetime.now()))
 

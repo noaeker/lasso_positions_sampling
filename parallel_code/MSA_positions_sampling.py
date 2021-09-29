@@ -318,7 +318,7 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     if not curr_msa_stats["only_full_search"]:
         lasso_results = perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
                                                          lasso_configurations_per_training_size, training_size_options)
-        logging.info("Lasso results are:")
+        logging.info("Lasso results are : {lasso_results}".format(lasso_results = lasso_results))
         for lasso_result_ind,lasso_result in enumerate(lasso_results):
             lasso_result_rf_folder = os.path.join(curr_run_directory,"lasso_"+str(lasso_result_ind))
             create_dir_if_not_exists(lasso_result_rf_folder)
