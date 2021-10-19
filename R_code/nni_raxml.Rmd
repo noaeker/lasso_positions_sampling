@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(lme4)
+library(ggplot2)
+library(plotrix)
+library(visreg)
+library(stringr)
+library(tidyverse)
+library(ggpubr)
+library(gridExtra)
+library(tidyverse)
+library(tidymodels)
+library(vip) 
+library(plm)
+```
+
+```{r}
+raxml_nni_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/raxml_nni.csv") 
+```
+
+```{r}
+raxml_nni_data<-raxml_nni_data %>% mutate (delta_ll_nni = standard_best_ll-lasso_nni_best_ll, delta_ll_lasso = ,actual_sample_pct =case_when(sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05, sample_pct>=0.01 ~ 0.01)) 
+raxml_nni_data
+hist((raxml_nni_data %>% filter(actual_sample_pct==0.05) %>% pull(delta_ll_nni)))
+hist((raxml_nni_data %>% filter(actual_sample_pct==0.05) %>% pull(`lasso_test_R^2`)))
+
+hist((raxml_nni_data %>% filter(actual_sample_pct==0.05) %>% pull(delta_ll_nni)))
+hist((raxml_nni_data %>% filter(actual_sample_pct==0.05) %>% pull(`lasso_test_R^2`)))
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

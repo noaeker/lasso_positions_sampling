@@ -6,6 +6,7 @@ import random
 LOCAL_RUN = False
 SEED = 1
 
+#RAXML PARAMS
 N_PARSIMONY_RAXML_SEARCH= 1
 N_RANDOM_RAXML_SEARCH = 1
 CPUS_PER_NODE = 1
@@ -68,9 +69,9 @@ ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  50
-MAX_N_LOCI = 50000
-MIN_N_SEQ = 6
+MAX_N_SEQ =  "5_6"
+MAX_N_LOCI = "1000_2000"
+MIN_N_SEQ = 15
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
@@ -78,7 +79,7 @@ FIRST_MSA_IND = 1
 
 OUTPUT_CSV_NAME = "spr_raxml"
 
-IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func","lasso_first_phase_ml_trees_objects","orig_reduced_file_path","alternative_analysis","rate4site_scores",]
+IGNORE_COLS_IN_CSV = ["alignment_data","MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights", "lasso_chosen_locis","lasso_predict_func","lasso_first_phase_ml_trees_objects","orig_reduced_file_path","alternative_analysis","rate4site_scores","lasso_rates_4_site"]
 MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load R/3.6.1; module load python/python-anaconda3.6.5-orenavr2; module load intel/parallel_studio_xe_2020.4.omnipath;"
 
 

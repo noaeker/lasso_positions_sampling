@@ -2,7 +2,6 @@ from help_functions import *
 from config import *
 import time
 import shutil
-import sklearn
 
 
 def generate_results_folder(curr_run_prefix):

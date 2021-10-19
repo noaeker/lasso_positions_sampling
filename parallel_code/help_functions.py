@@ -283,7 +283,7 @@ def main_parser():
     parser.add_argument('--opt_brlen', action='store_true')
     parser.add_argument('--const_brlen', action='store_true')
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
-    parser.add_argument('--max_n_seq', action='store', type=int, default=MAX_N_SEQ)
+    parser.add_argument('--max_n_seq', action='store', type=str, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
     parser.add_argument('--only_evaluate_lasso', action='store_true')
     parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=TRAINING_BASELINE)
@@ -299,7 +299,7 @@ def main_parser():
     parser.add_argument('--use_raxml_standard_starting_trees', action='store_true', default=True)
     parser.add_argument('--use_raxml_search', action='store_true')  # change
     parser.add_argument('--queue', type=str, default="pupkolab")
-    parser.add_argument('--do_raxml_lasso_nni_optimization', action='store_true') # change
+    parser.add_argument('--do_raxml_lasso_nni_optimization', action='store_true')  # change
     parser.add_argument('--alternative_analysis', action='store_true', default=True)
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_cpus_nni', action='store', type=int, default=CPUS_PER_NODE_NNI)
@@ -310,13 +310,10 @@ def main_parser():
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
     parser.add_argument('--only_full_search', action='store_true')  # CHANGE
-    # parser.add_argument('--dilute_msa', action='store_true')
-    # parser.add_argument('--dilute_amount',  action='store', type=int, default= DILUTE_AMOUNT)
-    # parser.add_argument('--dilute_mul',  action='store', type=int, default = DILUTE_MUL)
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--no_test_set', action='store_true')
     parser.add_argument('--n_partitions', type=int, default=1)
-    parser.add_argument('--max_n_loci', type=int, default=MAX_N_LOCI)
+    parser.add_argument('--max_n_loci', type=str, default=MAX_N_LOCI)
     parser.add_argument('--lasso_thresholds', action='store', type=str, default=LASSO_THRESHOLDS)
     parser.add_argument('--lasso_thresholds_search', action='store', type=str, default=THRESHOLDS_TO_USE_DURING_SEARCH)
     parser.add_argument('--run_raxml_commands_locally', action='store_true')
@@ -328,10 +325,11 @@ def main_parser():
     parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true')
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
-    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=1)
-    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=1)
+    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=5)
+    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
-    parser.add_argument('--rearr_dist', type=int, default=-1)
+    parser.add_argument('--rearr_dist', type=int, default=10)
+    parser.add_argument('--optimized_neighbours_per_iter', type=int, default=100)
 
     return parser
 

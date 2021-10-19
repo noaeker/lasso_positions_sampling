@@ -176,10 +176,12 @@ def assign_brlen_to_tree_object(tree_object, brlen_list):
 
 
 t = Tree();
-t.populate(100);
-add_internal_names(t)
-lst = get_possible_spr_moves(t, rearr_dist=5)
-print(len(lst))
+#t.populate(60);
+#add_internal_names(t)
+#lst = get_possible_spr_moves(t, rearr_dist=5)
+#print(len(lst))
+
+
 
 # t3 = Tree(
 #     '(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',

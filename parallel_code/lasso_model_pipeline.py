@@ -229,11 +229,11 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
                         "lasso_gap_positions_pct": gap_positions_pct, "lasso_rates_4_site": rate4_site_values, "lasso"
                                                                                                                "_mean_rate4site": mean_rate4_site}
+        t_lasso_results.update(results_dict)
         lasso_rate4_site_values_path = os.path.join(curr_run_directory,"lasso_rate_4_site")
         try:
             with open(lasso_rate4_site_values_path,'w') as LASSO_RATE4SITE:
-                LASSO_RATE4SITE.write(" ".join(rate4_site_values))
-            t_lasso_results.update(results_dict)
+                LASSO_RATE4SITE.write(" ".join([str(r) for r in rate4_site_values]))
         except Exception as e:
             logging.error('Failed to write Lasso rate4site scores: ' + str(e))
         y_training_predicted, training_results = get_training_metrics(t_intercept, t_chosen_locis, t_weights,

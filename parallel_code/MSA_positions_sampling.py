@@ -56,7 +56,7 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
 
 
 
-def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_version_folder, args
+def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_version_folder, args,actual_n_seq, actual_n_loci
                                ):
     dataset_id = original_alignment_path
     file_name = str(file_ind)
@@ -67,8 +67,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
         original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     orig_n_seq = len(original_alignment_data)
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
-    trim_MSA(original_alignment_data, local_full_msa_path, args.max_n_seq, file_type_biopython,
-             args.max_n_loci, args.loci_shift)
+    trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
+             actual_n_loci, args.loci_shift)
     with open(local_full_msa_path) as original:
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)
@@ -166,27 +166,6 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
             all_msa_results.to_csv(job_csv_path, index=False)
 
 
-# def dilute_msa(curr_msa_stats, curr_run_directory):
-#     dilute_amount = curr_msa_stats["dilute_amount"]
-#     sampled_alignment_path_extended = os.path.join(curr_run_directory, "diluted_sampled_msa")
-#     weights_path_extended = os.path.join(curr_run_directory, "diluted_weights")
-#     logging.info('Diluting MSA with {} positions, writing results to {} and writing weights to {}'.format(dilute_amount,
-#                                                                                                           sampled_alignment_path_extended,
-#                                                                                                           weights_path_extended))
-#     total_lasso_weights = sum(curr_msa_stats["lasso_chosen_weights"])
-#     random.seed(SEED)
-#     diluted_samp_indexes = curr_msa_stats["lasso_chosen_locis"] + random.sample(list(range(curr_msa_stats["n_loci"])),
-#                                                                                 curr_msa_stats["dilute_amount"])
-#     write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path_extended,
-#                                     diluted_samp_indexes, curr_msa_stats["file_type_biopython"])
-#     curr_msa_stats["sampled_alignment_path"] = sampled_alignment_path_extended
-#     extra_weights = [total_lasso_weights / (dilute_amount * curr_msa_stats["dilute_mul"])] * dilute_amount
-#     with open(weights_path_extended, 'w') as f:
-#         for weight in curr_msa_stats["lasso_chosen_weights"] + extra_weights:
-#             if USE_INTEGER_WEIGHTS:
-#                 weight = int(weight)
-#             f.write(str(weight) + " ")
-#     curr_msa_stats["weights_file_path"] = weights_path_extended
 
 
 def perform_standrad_raxml_search(standard_run_folder, curr_msa_stats):
@@ -295,10 +274,7 @@ def rf_distances_per_starting_tree_raxml(lasso_result,lasso_result_rf_folder,sta
 
 def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                   lasso_configurations_per_training_size,
-                                  job_csv_path):
-    all_msa_results = pd.DataFrame(
-    )
-    all_msa_results.to_csv(job_csv_path, index=False)
+                                  job_csv_path, all_msa_results):
     curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "RaxML_search")
     create_dir_if_not_exists(curr_run_directory)
     standard_run_folder = os.path.join(curr_run_directory, "standard_run")
@@ -330,14 +306,12 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                 all_msa_results.to_csv(job_csv_path)
 
     all_msa_results.to_csv(job_csv_path)
+    return all_msa_results
 
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                          lasso_configurations_per_training_size,
-                         job_csv_path):
-    all_msa_results = pd.DataFrame(
-    )
-    all_msa_results.to_csv(job_csv_path, index=False)
+                         job_csv_path,all_msa_results):
     spr_searches_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "spr_results")
     create_dir_if_not_exists(spr_searches_run_directory)
     logging.info("\n\nStarting SPR searches")
@@ -371,7 +345,6 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                                              full_run=True)
             with open(naive_spr_results_dump, 'wb') as handle:
                 pickle.dump(naive_spr_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        logging.info(f"  **full results results are: \n  {naive_spr_results} ")
         curr_msa_stats.update(naive_spr_results)
         lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
         logging.info("  **Running Lasso-based SPR searches:")
@@ -443,6 +416,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                                                               k not in IGNORE_COLS_IN_CSV
                                                               }, ignore_index=True)
                     all_msa_results.to_csv(job_csv_path)
+    return all_msa_results
 
 
 def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, curr_msa_stats, training_size_options):
@@ -463,7 +437,7 @@ def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, cu
     return lasso_configurations_per_training_size
 
 
-def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind):
+def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind,actual_n_seq, actual_n_loci):
     curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
     curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
                                                                                args.msa_baseline_run_prefix)
@@ -479,7 +453,7 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
         logging.info(
             "Generating msa stats from beggining".format(curr_msa_version_stats_dump))
         curr_msa_stats = generate_msa_general_stats(
-            original_alignment_path, file_ind, curr_msa_version_folder, args)
+            original_alignment_path, file_ind, curr_msa_version_folder, args,actual_n_seq, actual_n_loci)
         try:
             extract_and_update_RaxML_statistics_from_full_data(
                 curr_msa_stats)
@@ -526,34 +500,50 @@ def main():
     logging.info("Job arguments : {}".format(args))
     training_size_options = [int(size) for size in args.random_trees_training_size.split("_")]
     brlen_generators = update_chosen_brlen_generators(args.exp_brlen, args.uni_brlen, args.opt_brlen, args.const_brlen)
+    n_seq_options = [int(t) for t in
+                     (args.max_n_seq).split("_")]
+    n_loci_options = [int(t) for t in
+                      (args.max_n_loci).split("_")]
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
         msa_name = original_alignment_path.replace(MSAs_FOLDER, "").replace("ref_msa.aa.phy", "").replace(os.path.sep,
                                                                                                           "_")
-        logging.info('#running on file name {} and ind (relativ to job) {} path= {}'.format(msa_name, file_ind,
-                                                                                            original_alignment_path))
-        curr_msa_version_folder = os.path.join(args.curr_job_folder, msa_name)
-        create_or_clean_dir(curr_msa_version_folder)
-        curr_msa_stats = get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind)
-        if not args.only_full_search:
-            lasso_configurations_per_training_size = get_lasso_configurations(curr_msa_version_folder, args,
-                                                                              brlen_generators, curr_msa_stats,
-                                                                              training_size_options)
-        else:
-            lasso_configurations_per_training_size = None
-        if args.only_evaluate_lasso:
-            perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
-                                        lasso_configurations_per_training_size,
-                                        job_csv_path)
-        elif args.use_raxml_search:
-            perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
-                                          lasso_configurations_per_training_size,
-                                          job_csv_path)
-        else:
-            perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
-                                 lasso_configurations_per_training_size,
-                                 job_csv_path)
+        logging.info(
+            f'#running on file name {msa_name} and ind (relativ to job) {file_ind}  original path= {original_alignment_path}')
+        curr_msa_folder = os.path.join(args.curr_job_folder, msa_name)
+        create_or_clean_dir(curr_msa_folder)
+        all_msa_results = pd.DataFrame(
+        )
+        all_msa_results.to_csv(job_csv_path, index=False)
+        for actual_n_seq in n_seq_options:
+            curr_n_seq_folder = os.path.join(curr_msa_folder, f"n_seq_{actual_n_seq}")
+            create_or_clean_dir(curr_n_seq_folder)
+            for actual_n_loci in n_loci_options:
+                curr_n_loci_folder = os.path.join(curr_n_seq_folder, f"n_loci_{actual_n_loci}")
+                create_or_clean_dir(curr_n_loci_folder)
+                logging.info(f" Trimming MSA to n_seq = {actual_n_seq} n_loci = {actual_n_loci}")
+                curr_msa_stats = get_msa_stats(curr_n_loci_folder, original_alignment_path, args, file_ind, actual_n_seq, actual_n_loci)
+                curr_msa_stats["actual_n_loci"] = actual_n_loci
+                curr_msa_stats["actual_n_seq"] = actual_n_seq
+                if not args.only_full_search:
+                    lasso_configurations_per_training_size = get_lasso_configurations(curr_n_loci_folder, args,
+                                                                                      brlen_generators, curr_msa_stats,
+                                                                                      training_size_options)
+                else:
+                    lasso_configurations_per_training_size = None
+                if args.only_evaluate_lasso:
+                    perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                                lasso_configurations_per_training_size,
+                                                job_csv_path)
+                elif args.use_raxml_search:
+                    all_msa_results =perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                                  lasso_configurations_per_training_size,
+                                                  job_csv_path)
+                else:
+                    all_msa_results = perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                         lasso_configurations_per_training_size,
+                                         job_csv_path,all_msa_results)
     with open(curr_job_status_file, 'w') as job_status_f:
-        job_status_f.write("Done")
+             job_status_f.write("Done")
 
 
 if __name__ == "__main__":
