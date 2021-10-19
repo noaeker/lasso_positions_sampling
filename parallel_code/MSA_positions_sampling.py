@@ -67,8 +67,11 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
         original_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     orig_n_seq = len(original_alignment_data)
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
-    trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
-             actual_n_loci, args.loci_shift)
+    if orig_n_seq> actual_n_seq:
+        trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
+                 actual_n_loci, args.loci_shift)
+    else:
+        return -1
     with open(local_full_msa_path) as original:
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)
@@ -454,6 +457,8 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
             "Generating msa stats from beggining".format(curr_msa_version_stats_dump))
         curr_msa_stats = generate_msa_general_stats(
             original_alignment_path, file_ind, curr_msa_version_folder, args,actual_n_seq, actual_n_loci)
+        if curr_msa_stats==-1:
+            return -1
         try:
             extract_and_update_RaxML_statistics_from_full_data(
                 curr_msa_stats)
@@ -522,6 +527,8 @@ def main():
                 create_or_clean_dir(curr_n_loci_folder)
                 logging.info(f" Trimming MSA to n_seq = {actual_n_seq} n_loci = {actual_n_loci}")
                 curr_msa_stats = get_msa_stats(curr_n_loci_folder, original_alignment_path, args, file_ind, actual_n_seq, actual_n_loci)
+                if curr_msa_stats==-1:
+                    continue
                 curr_msa_stats["actual_n_loci"] = actual_n_loci
                 curr_msa_stats["actual_n_seq"] = actual_n_seq
                 if not args.only_full_search:
