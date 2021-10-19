@@ -3,7 +3,7 @@ import logging
 import random
 
 
-LOCAL_RUN = True
+LOCAL_RUN = False
 SEED = 1
 
 #RAXML PARAMS
@@ -69,7 +69,7 @@ ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "10_100"
+MAX_N_SEQ =  "10_100                         "
 MAX_N_LOCI = "1000_2000"
 MIN_N_SEQ = 15
 N_RANDOM_STARTING_TREES = 1

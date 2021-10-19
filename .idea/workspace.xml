@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parallel_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/parallel_code/help_functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +16,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
+            <state relative-caret-position="7950">
               <caret line="530" column="28" selection-start-line="530" selection-start-column="28" selection-end-line="530" selection-end-column="28" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -29,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="122" column="12" selection-start-line="122" selection-start-column="4" selection-end-line="122" selection-end-column="12" />
+            <state relative-caret-position="4905">
+              <caret line="327" column="54" selection-start-line="327" selection-start-column="25" selection-end-line="327" selection-end-column="54" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -41,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
+            <state relative-caret-position="2310">
               <caret line="154" column="34" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="34" />
               <folding>
                 <element signature="e#1#35#0" expanded="true" />
@@ -53,7 +52,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2783">
+            <state relative-caret-position="780">
               <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -65,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="2775">
               <caret line="185" selection-start-line="185" selection-end-line="185" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -78,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="91" column="121" selection-start-line="91" selection-start-column="87" selection-end-line="91" selection-end-column="121" />
+            <state relative-caret-position="200">
+              <caret line="229" column="94" selection-start-line="229" selection-start-column="81" selection-end-line="229" selection-end-column="94" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -90,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
+            <state relative-caret-position="555">
               <caret line="37" column="22" lean-forward="true" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
             </state>
           </provider>
@@ -99,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="71" column="20" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
+            <state relative-caret-position="75">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -141,7 +140,6 @@
       <find>rf_dist</find>
       <find>execute_commnand_and_write_to_log</find>
       <find>GENERAL_RAXML_ERROR</find>
-      <find>re_optimize_some_SPR_neighbours_no_weights</find>
       <find>unique</find>
       <find>Failed to write Lasso rate4site scores</find>
       <find>MODU</find>
@@ -158,9 +156,10 @@
       <find>raxml_optimize_trees_for_given_msa</find>
       <find>max_n_lo</find>
       <find>generate_msa_general_stats</find>
-      <find>generate_msa_general_stats</find>
       <find>get_msa_stats</find>
       <find>trim_MSA</find>
+      <find>re_optimize_some_SPR_neighbours_no_weights</find>
+      <find>SPR_iteration</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -408,10 +407,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.ps (2)" />
-      <item itemvalue="Python.generate_training_sets" />
-      <item itemvalue="Python.rate4site" />
       <item itemvalue="Python.MSA_positions_sampling" />
+      <item itemvalue="Python.generate_training_sets" />
+      <item itemvalue="Python.ps (2)" />
+      <item itemvalue="Python.rate4site" />
       <item itemvalue="Python.spr_prune_and_regraft" />
     </list>
     <recent_temporary>
@@ -449,12 +448,12 @@
     <frame x="0" y="43" width="1440" height="782" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17688513" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17688513" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.1884058" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.44927537" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.44927537" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36231884" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -902,16 +901,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
@@ -922,9 +911,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/TheTree.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7950">
+          <caret line="530" column="28" selection-start-line="530" selection-start-column="28" selection-end-line="530" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="154" column="34" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="34" />
+          <folding>
+            <element signature="e#1#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="2775">
           <caret line="185" selection-start-line="185" selection-end-line="185" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -933,60 +955,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="22" lean-forward="true" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parallel_code/ps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/generate_SPR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="91" column="121" selection-start-line="91" selection-start-column="87" selection-end-line="91" selection-end-column="121" />
+        <state relative-caret-position="200">
+          <caret line="229" column="94" selection-start-line="229" selection-start-column="81" selection-end-line="229" selection-end-column="94" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/raxml.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2783">
-          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/TheTree.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="154" column="34" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="34" />
-          <folding>
-            <element signature="e#1#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="37" column="22" lean-forward="true" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parallel_code/MSA_positions_sampling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="530" column="28" selection-start-line="530" selection-start-column="28" selection-end-line="530" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="122" column="12" selection-start-line="122" selection-start-column="4" selection-end-line="122" selection-end-column="12" />
+        <state relative-caret-position="4905">
+          <caret line="327" column="54" selection-start-line="327" selection-start-column="25" selection-end-line="327" selection-end-column="54" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -995,8 +994,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="71" column="20" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
+        <state relative-caret-position="75">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
           </folding>
