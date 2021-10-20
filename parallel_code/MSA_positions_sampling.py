@@ -538,11 +538,11 @@ def main():
                 if args.only_evaluate_lasso:
                     all_msa_results = perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                                 lasso_configurations_per_training_size,
-                                                job_csv_path)
+                                                job_csv_path,all_msa_results)
                 elif args.use_raxml_search:
                     all_msa_results =perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                                   lasso_configurations_per_training_size,
-                                                  job_csv_path)
+                                                  job_csv_path,all_msa_results)
                 else:
                     all_msa_results = perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                          lasso_configurations_per_training_size,
