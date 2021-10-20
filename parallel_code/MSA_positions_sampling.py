@@ -150,10 +150,7 @@ def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen)
 
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                 lasso_configurations_per_training_size,
-                                job_csv_path):
-    all_msa_results = pd.DataFrame(
-    )
-    all_msa_results.to_csv(job_csv_path, index=False)
+                                job_csv_path, all_msa_results):
     for brlen_generator_name in brlen_generators:
         curr_msa_stats["brlen_generator"] = brlen_generator_name
         for training_size in training_size_options:
@@ -167,6 +164,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                                        }
             all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
             all_msa_results.to_csv(job_csv_path, index=False)
+    return all_msa_results
 
 
 
@@ -538,7 +536,7 @@ def main():
                 else:
                     lasso_configurations_per_training_size = None
                 if args.only_evaluate_lasso:
-                    perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                    all_msa_results = perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                                 lasso_configurations_per_training_size,
                                                 job_csv_path)
                 elif args.use_raxml_search:
