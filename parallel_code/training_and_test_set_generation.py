@@ -107,11 +107,12 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
                                                                              sitelh_training_df=training_sitelh_trimmed,
                                                                              test_optimized_trees_path=optimized_test_topologies_path)  # calculating positions_weight
 
-            Lasso_results.update({'full_training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
-                                  'full_size_training_evaluation_time' : training_eval_time,
-                                  'lasso_training_size' : training_size,
-                                  'lasso_brlen_generator' : brlen_generator_name
-                                  })
+            for threshold in Lasso_results:
+                Lasso_results[threshold].update({'full_training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
+                                      'full_size_training_evaluation_time' : training_eval_time,
+                                      'lasso_training_size' : training_size,
+                                      'lasso_brlen_generator' : brlen_generator_name
+                                      })
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results

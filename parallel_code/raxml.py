@@ -349,32 +349,32 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
     return random_tree_path, elapsed_running_time
 
 
-# def extract_parsimony_unique_topologies(curr_run_directory, trees_path, dist_path, n):
-#     rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
-#     rf_command = (
-#         "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
-#         raxml_exe_path=RAXML_NG_EXE, rf_file_path=trees_path, prefix=rf_prefix)
-#     execute_commnand_and_write_to_log(rf_command, run_locally=True)
-#     unique_file_path = trees_path + "_unique"
-#     unique_topology_inds = set(list(range(n)))
-#     with open(dist_path, 'r') as DIST, open(trees_path, 'r') as TREES, open(unique_file_path, 'w') as UNIQUE_TREES:
-#         distances = DIST.readlines()
-#         original_trees = TREES.readlines()
-#         for line in distances:
-#             lst = line.split("\t")
-#             curr_tree, comp_tree, dist = int(lst[0]), int(lst[1]), int(lst[2])
-#             if curr_tree in unique_topology_inds and comp_tree in unique_topology_inds and dist == 0:
-#                 unique_topology_inds.remove(comp_tree)
-#         unique_trees = [original_trees[ind] for ind in unique_topology_inds]
-#         n_unique_top = len(unique_trees)
-#         logging.info(f'Found {n_unique_top} unique topologies')
-#         UNIQUE_TREES.writelines(unique_trees)
-#     rf_prefix = os.path.join(curr_run_directory, "parsimony_check_rf")
-#     rf_command = (
-#         "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
-#         raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
-#     execute_commnand_and_write_to_log(rf_command, run_locally=True)
-#     return unique_file_path
+def extract_parsimony_unique_topologies(curr_run_directory, trees_path, dist_path, n):
+    rf_prefix = os.path.join(curr_run_directory, "parsimony_rf")
+    rf_command = (
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE, rf_file_path=trees_path, prefix=rf_prefix)
+    execute_commnand_and_write_to_log(rf_command, run_locally=True)
+    unique_file_path = trees_path + "_unique"
+    unique_topology_inds = set(list(range(n)))
+    with open(dist_path, 'r') as DIST, open(trees_path, 'r') as TREES, open(unique_file_path, 'w') as UNIQUE_TREES:
+        distances = DIST.readlines()
+        original_trees = TREES.readlines()
+        for line in distances:
+            lst = line.split("\t")
+            curr_tree, comp_tree, dist = int(lst[0]), int(lst[1]), int(lst[2])
+            if curr_tree in unique_topology_inds and comp_tree in unique_topology_inds and dist == 0:
+                unique_topology_inds.remove(comp_tree)
+        unique_trees = [original_trees[ind] for ind in unique_topology_inds]
+        n_unique_top = len(unique_trees)
+        logging.info(f'Found {n_unique_top} unique topologies')
+        UNIQUE_TREES.writelines(unique_trees)
+    rf_prefix = os.path.join(curr_run_directory, "parsimony_check_rf")
+    rf_command = (
+        "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE, rf_file_path=unique_file_path, prefix=rf_prefix)
+    execute_commnand_and_write_to_log(rf_command, run_locally=True)
+    return unique_file_path
 
 
 def filter_unique_topologies(curr_run_directory, trees_path, n):

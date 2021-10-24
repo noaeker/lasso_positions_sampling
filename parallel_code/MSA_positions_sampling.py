@@ -156,14 +156,16 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
         for training_size in training_size_options:
             curr_msa_stats["actual_training_size"] = training_size
             lasso_results = lasso_configurations_per_training_size[brlen_generator_name][training_size]
-            curr_msa_stats.update(lasso_results)
-            logging.info(
-                "only evaluating lasso on brlen {} and training size {}: ".format(brlen_generator_name, training_size))
-            lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                       k not in IGNORE_COLS_IN_CSV
-                                       }
-            all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
-            all_msa_results.to_csv(job_csv_path, index=False)
+            for threshold in lasso_results:
+                curr_msa_stats["actual_sample_pct"] = threshold
+                curr_msa_stats.update(lasso_results[threshold])
+                logging.info(
+                    "only evaluating lasso on brlen {} and training size {}: ".format(brlen_generator_name, training_size))
+                lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                           k not in IGNORE_COLS_IN_CSV
+                                           }
+                all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
+                all_msa_results.to_csv(job_csv_path, index=False)
     return all_msa_results
 
 
