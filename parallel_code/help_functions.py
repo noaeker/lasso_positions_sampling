@@ -38,7 +38,7 @@ def generate_argument_str(args):
     return output.strip()
 
 
-def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind="job", queue='pupkolab'):
+def submit_linux_job(job_name, job_folder, run_command, cpus, job_ind="job", queue='pupkolab'):
     create_dir_if_not_exists(job_folder)
     cmds_path = os.path.join(job_folder, str(job_ind) + ".cmds")
     job_log_path = os.path.join(job_folder, str(job_ind) + "_tmp_log")
@@ -46,7 +46,7 @@ def submit_linux_job(job_name, job_folder, run_command, cpus, nodes, job_ind="jo
     logging.debug("About to run on {} queue: {}".format(queue, job_line))
     with open(cmds_path, 'w') as cmds_f:
         cmds_f.write(job_line)
-    command = f'/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/submit_mpi_job.py {cmds_path} {job_log_path} --cpu {cpus} --nodes {nodes} -q {queue}'
+    command = f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path} --cpu {cpus} -q {queue}'
     logging.info(f'About to submit a pbs file to {queue} queue based on cmds:{cmds_path}')
     os.system(command)
 
@@ -325,7 +325,7 @@ def main_parser():
     parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true')
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
-    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=5)
+    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=3)
     parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
     parser.add_argument('--rearr_dist', type=int, default=10)
