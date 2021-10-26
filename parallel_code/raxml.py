@@ -22,7 +22,7 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         # logging.info("*** Previous command completed")
     else:
         job_folder = os.path.join(curr_run_directory, job_folder_name)
-        submit_linux_job(job_name, job_folder, command, cpus, nodes, queue=queue)
+        submit_linux_job(job_name, job_folder, command, cpus, queue=queue)
         logging.info(f"*** Waiting for elapsed time in log file {log_file_path}")
         while not (os.path.exists(log_file_path) and (
                 os.path.exists(extra_file_path) or extra_file_path == "") and (extract_param_from_raxmlNG_log(log_file_path,
