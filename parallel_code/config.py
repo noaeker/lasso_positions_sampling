@@ -42,7 +42,7 @@ def sample_exp(size,start_seed):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = False
-RANDOM_TREES_TRAINING_SIZE = "500"
+RANDOM_TREES_TRAINING_SIZE = "250_500"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
@@ -57,8 +57,8 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_newest"
-CURR_JOBS_PREFIX =  "test_curr_newest"
+CURR_RUN_PREFIX = "test_curr_check_only_lasso"
+CURR_JOBS_PREFIX =  "test_curr_only_lasso"
 
 LASSO_BASELINE ="x"
 TRAINING_BASELINE =    "x"

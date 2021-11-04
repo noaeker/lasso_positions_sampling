@@ -24,8 +24,42 @@ library(plm)
 
 
 ```{r}
-new_format_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr_lasso.csv")
+o_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/o_new_spr.csv") %>% mutate(analysis = "o_spr_data")   %>% select (-max_n_loci,-max_n_seq) 
+y_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/y_new_spr.csv") %>% mutate(analysis = "y_spr_data")  %>% select (-max_n_loci,-max_n_seq) 
+#spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr.csv") %>% mutate(analysis = "spr_data")
+#ten_n_new_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ten_n_new_spr.csv") %>% mutate(analysis = "o_spr_data") %>% select (-max_n_loci)
+one_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/one_new_spr.csv") %>% mutate(analysis = "one_new_spr") %>% select (-max_n_loci, -max_n_seq) 
+pars_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/pars_new_spr.csv") %>% mutate(analysis = "pars_new_spr") %>% select (-max_n_loci,-max_n_seq) 
+large_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/large_new_spr.csv") %>% mutate(analysis = "large_new_spr") %>% select (-max_n_loci,-max_n_seq) 
+
+new_format_spr_data <- bind_rows(one_new_spr,pars_new_spr,large_new_spr,o_spr_data,y_spr_data)  
+
 ```
+
+```{r}
+new_format_spr_data <- new_format_spr_data  %>%
+  mutate(actual_sample_pct =case_when(sample_pct>=0.1 ~ 0.1, sample_pct>=0.05 ~ 0.05, sample_pct>=0.01 ~ 0.01) ,
+                                delta_ll_first_phase = ifelse(rf_dist_first_phase>0,naive_SPR_ll-lasso_SPR_first_phase_ll,0), delta_ll_second_phase = ifelse(rf_dist_second_phase>0,naive_SPR_ll-lasso_SPR_second_phase_ll,0),
+         delta_ll_final_phase = ifelse(rf_dist_final_phase>0,naive_SPR_ll-lasso_SPR_final_phase_ll,0), spr_lasso_running_time = first_phase_running_time+ second_phase_running_time+ final_phase_running_time+lasso_running_time) %>%
+           separate(dataset_id, "_supermatrices_",
+                into = c("prefix", "last_value"), 
+                remove = FALSE) %>% separate(last_value,"_",into = c("dataset_name", "suffix")) %>%  select(-c("prefix","suffix")) 
+
+```
+
+
+
+```{r}
+#new_format_spr_data %>% select (job_ind,dataset_name, n_loci, n_seq,naive_SPR_running_time,spr_lasso_running_time,first_phase_running_time, #second_phase_running_time,final_phase_running_time, lasso_running_time, naive_SPR_spr_moves, #lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves, delta_ll_final_phase)
+
+
+new_format_spr_data %>% select (analysis,job_ind,dataset_name, n_loci, n_seq,naive_SPR_spr_moves, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves,delta_ll_first_phase, delta_ll_final_phase, `lasso_test_R^2`,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist) %>% arrange(job_ind,n_seq, n_loci)
+
+ 
+```
+
+
+
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 

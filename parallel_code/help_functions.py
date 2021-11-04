@@ -301,6 +301,7 @@ def main_parser():
     parser.add_argument('--queue', type=str, default="pupkolab")
     parser.add_argument('--do_raxml_lasso_nni_optimization', action='store_true')  # change
     parser.add_argument('--alternative_analysis', action='store_true', default=True)
+    parser.add_argument('--n_cpus_per_job', action='store', type=int, default=1)
     parser.add_argument('--n_cpus_full', action='store', type=int, default=CPUS_PER_NODE)
     parser.add_argument('--n_cpus_nni', action='store', type=int, default=CPUS_PER_NODE_NNI)
     parser.add_argument('--n_nodes_full', action='store', type=int, default=N_NODES)
@@ -325,7 +326,7 @@ def main_parser():
     parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true')
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
-    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=3)
+    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=2)
     parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
     parser.add_argument('--rearr_dist', type=int, default=10)

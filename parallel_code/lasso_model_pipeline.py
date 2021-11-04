@@ -6,7 +6,7 @@ import time
 import numpy as np
 from sklearn import preprocessing
 import itertools
-import math
+
 
 
 def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
@@ -21,6 +21,7 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
                                            curr_run_directory, opt_brlen=True, weights=weights_file_path,
                                            return_trees_file=False)[0]
     lasso_ll_values_adjusted = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in lasso_ll_values]
+    prefix_lasso = "eval_using_lasso"
     lasso_ll_values_no_opt = \
         raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path,
                                            curr_msa_stats,
@@ -222,17 +223,17 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
         constant_sites_pct, avg_entropy, gap_positions_pct = get_positions_stats(sampled_alignment_df)
         try:
             rate4_site_values = [curr_msa_stats["rate4site_scores"][i] for i in t_lasso_results["lasso_chosen_locis"]]
-        except:
-            logging.error("Problem estimating rate4site for lasso locis")
+        except Exception as e:
+            logging.error('Failed to get Lasso rate4site scores: ' + str(e))
             rate4_site_values = [-1]
         mean_rate4_site = np.mean(rate4_site_values)
         results_dict = {"lasso_constant_sites_pct": constant_sites_pct, "lasso_avg_entropy": avg_entropy,
                         "lasso_gap_positions_pct": gap_positions_pct, "lasso_rates_4_site": rate4_site_values, "lasso"
                                                                                                                "_mean_rate4site": mean_rate4_site}
         t_lasso_results.update(results_dict)
-        lasso_rate4_site_values_path = os.path.join(curr_run_directory,"lasso_rate_4_site")
+        lasso_rate4_site_values_path = os.path.join(curr_run_directory, "lasso_rate_4_site")
         try:
-            with open(lasso_rate4_site_values_path,'w') as LASSO_RATE4SITE:
+            with open(lasso_rate4_site_values_path, 'w') as LASSO_RATE4SITE:
                 LASSO_RATE4SITE.write(" ".join([str(r) for r in rate4_site_values]))
         except Exception as e:
             logging.error('Failed to write Lasso rate4site scores: ' + str(e))

@@ -1,13 +1,8 @@
-
 from lasso_model_pipeline import *
 import pickle
 
 
-
-
-
-
-def Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, test_seed):
+def Lasso_test_set(curr_msa_stats, random_trees_test_size, Lasso_folder, random_trees_folder, test_seed):
     if not curr_msa_stats["no_test_set"]:
         test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(
             random_trees_test_size, random_trees_folder,
@@ -16,17 +11,18 @@ def Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_tr
         test_optimization_folder = os.path.join(Lasso_folder,
                                                 "test_{}_random_trees_eval".format(random_trees_test_size))
         create_dir_if_not_exists(test_optimization_folder)
-        test_ll_values,optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
-                                                                                        test_random_trees_path,
-                                                                                        test_optimization_folder)
-        curr_msa_stats["test_ll_values"]= test_ll_values
-        curr_msa_stats["optimized_test_topologies_path"]= optimized_test_topologies_path
+        test_ll_values, optimized_test_topologies_path = generate_optimized_tree_topologies_for_testing(curr_msa_stats,
+                                                                                                        test_random_trees_path,
+                                                                                                        test_optimization_folder)
+        curr_msa_stats["test_ll_values"] = test_ll_values
+        curr_msa_stats["optimized_test_topologies_path"] = optimized_test_topologies_path
     else:
-            test_ll_values,optimized_test_topologies_path = None,None
-    return  test_ll_values,optimized_test_topologies_path
+        test_ll_values, optimized_test_topologies_path = None, None
+    return test_ll_values, optimized_test_topologies_path
 
 
-def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,training_size,curr_msa_stats,training_random_trees_path):
+def generate_specific_brlen_training_set(brlen_generator_name, Lasso_folder, brlen_generators, training_size,
+                                         curr_msa_stats, training_random_trees_path):
     brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
     create_dir_if_not_exists(brlen_run_directory)
     brlen_generator_func = brlen_generators.get(brlen_generator_name)
@@ -48,10 +44,10 @@ def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen
             training_results = pickle.load(handle)
             training_sitelh, training_eval_time = training_results["training_sitelh"], training_results[
                 "training_eval_time"]
-    elif(os.path.exists(alternative_data_path) and curr_msa_stats["alternative_training"]):
+    elif (os.path.exists(alternative_data_path) and curr_msa_stats["alternative_training"]):
         logging.info(f"Using alternative training set in {alternative_data_path}")
         training_sitelh = pd.read_csv(alternative_data_path)
-        training_eval_time =0
+        training_eval_time = 0
         random.seed(SEED)
         training_sitelh = training_sitelh.sample(frac=1)
     else:
@@ -68,11 +64,7 @@ def generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen
         "Done evaluating topologies based on {} branch lengths. It took {} seconds".format(brlen_generator_name,
                                                                                            training_eval_time))
 
-    return training_sitelh, training_eval_time ,training_size_directory
-
-
-
-
+    return training_sitelh, training_eval_time, training_size_directory
 
 
 def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):
@@ -84,7 +76,9 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     curr_msa_stats["random_trees_folder"] = random_trees_folder
     create_dir_if_not_exists(random_trees_folder)
     start_seed_random_trees = SEED
-    test_ll_values,optimized_test_topologies_path =Lasso_test_set(curr_msa_stats, random_trees_test_size,Lasso_folder,random_trees_folder, start_seed_random_trees)
+    test_ll_values, optimized_test_topologies_path = Lasso_test_set(curr_msa_stats, random_trees_test_size,
+                                                                    Lasso_folder, random_trees_folder,
+                                                                    start_seed_random_trees)
     max_training_size = max(training_size_options)
     training_random_trees_path, training_tree_generation_elapsed_running_time = generate_n_random_topologies_constant_brlen(
         max(training_size_options), random_trees_folder,
@@ -95,10 +89,13 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     logging.info(f'Generating Lasso results:')
     for brlen_generator_name in brlen_generators:
         logging.info(f' *Obtaining training data for brlen {brlen_generator_name}:')
-        training_sitelh, training_eval_time ,training_full_size_directory = generate_specific_brlen_training_set(brlen_generator_name,Lasso_folder,brlen_generators,max_training_size,curr_msa_stats,training_random_trees_path)
+        training_sitelh, training_eval_time, training_full_size_directory = generate_specific_brlen_training_set(
+            brlen_generator_name, Lasso_folder, brlen_generators, max_training_size, curr_msa_stats,
+            training_random_trees_path)
 
         for training_size in training_size_options:
-            logging.info(f'  **Applying Lasso for various alphas on current trimmed training data of size: {training_size}')
+            logging.info(
+                f'  **Applying Lasso for various alphas on current trimmed training data of size: {training_size}')
             training_sitelh_trimmed = training_sitelh.iloc[:training_size].copy()
             trimmed_training_directory = os.path.join(training_full_size_directory, f"trimmed_{training_size}")
             create_dir_if_not_exists(trimmed_training_directory)
@@ -108,11 +105,12 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
                                                                              test_optimized_trees_path=optimized_test_topologies_path)  # calculating positions_weight
 
             for threshold in Lasso_results:
-                Lasso_results[threshold].update({'full_training_random_trees_generation_time':training_tree_generation_elapsed_running_time ,
-                                      'full_size_training_evaluation_time' : training_eval_time,
-                                      'lasso_training_size' : training_size,
-                                      'lasso_brlen_generator' : brlen_generator_name
-                                      })
+                Lasso_results[threshold].update(
+                    {'full_training_random_trees_generation_time': training_tree_generation_elapsed_running_time,
+                     'full_size_training_evaluation_time': training_eval_time,
+                     'lasso_training_size': training_size,
+                     'lasso_brlen_generator': brlen_generator_name
+                     })
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results
@@ -121,21 +119,21 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
 
 def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_stats, name, seed):
     local_file_path = curr_msa_stats.get("local_alignment_path")
-    basic_directory = os.path.join(curr_run_directory, "{name}_{n}".format(name=name,n=n))
+    basic_directory = os.path.join(curr_run_directory, "{name}_{n}".format(name=name, n=n))
     create_dir_if_not_exists(basic_directory)
-    seed= seed
+    seed = seed
     alpha = curr_msa_stats["alpha"]
-    rrandom_tree_path,elapsed_running_time= generate_n_random_tree_topology_constant_brlen(n,alpha, local_file_path, basic_directory,curr_msa_stats, seed=seed)
-    return rrandom_tree_path,elapsed_running_time
+    rrandom_tree_path, elapsed_running_time = generate_n_random_tree_topology_constant_brlen(n, alpha, local_file_path,
+                                                                                             basic_directory,
+                                                                                             curr_msa_stats, seed=seed)
+    return rrandom_tree_path, elapsed_running_time
 
 
-
-
-def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path,curr_run_directory):
+def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path, curr_run_directory):
     local_file_path = curr_msa_stats.get("local_alignment_path")
     test_dump = os.path.join(curr_run_directory, 'test_set.dump')
     test_dump_baseline = test_dump.replace(curr_msa_stats["run_prefix"],
-                                                   curr_msa_stats["test_set_baseline_run_prefix"])
+                                           curr_msa_stats["test_set_baseline_run_prefix"])
 
     if os.path.exists(test_dump_baseline):
         logging.info("Using test results in {}".format(test_dump_baseline))
@@ -144,59 +142,56 @@ def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_t
             trees_ll_on_data, optimized_trees_path = test_results["test_ll_values"], test_results[
                 "test_optimized_trees_path"]
     else:
-        trees_ll_on_data,optimized_trees_path,elapsed_time = raxml_optimize_trees_for_given_msa(local_file_path, "test_opt", test_random_trees_path, curr_msa_stats,
-                                                              curr_run_directory, weights=False, return_trees_file=True)
-        test_results = {"test_ll_values":trees_ll_on_data,"test_optimized_trees_path":optimized_trees_path}
+        trees_ll_on_data, optimized_trees_path, elapsed_time = raxml_optimize_trees_for_given_msa(local_file_path,
+                                                                                                  "test_opt",
+                                                                                                  test_random_trees_path,
+                                                                                                  curr_msa_stats,
+                                                                                                  curr_run_directory,
+                                                                                                  weights=False,
+                                                                                                  return_trees_file=True,
+                                                                                                  n_cpus=curr_msa_stats[
+                                                                                                      "n_cpus_training"])
+        test_results = {"test_ll_values": trees_ll_on_data, "test_optimized_trees_path": optimized_trees_path}
         with open(test_dump, 'wb') as handle:
-            pickle.dump(test_results , handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(test_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    return trees_ll_on_data,optimized_trees_path
+    return trees_ll_on_data, optimized_trees_path
 
-def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_trees_path, brlen_generator_func, curr_run_directory, output_csv_path):
-    raxml_ll_eval_directory = os.path.join(curr_run_directory,"raxml_training_per_site_ll_eval")
+
+def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_trees_path, brlen_generator_func,
+                                                      curr_run_directory, output_csv_path):
+    raxml_ll_eval_directory = os.path.join(curr_run_directory, "raxml_training_per_site_ll_eval")
     create_dir_if_not_exists(raxml_ll_eval_directory)
     local_file_path = curr_msa_stats.get("local_alignment_path")
     alpha = curr_msa_stats["alpha"]
-    n_branches = (2*curr_msa_stats["n_seq"])-3
+    n_branches = (2 * curr_msa_stats["n_seq"]) - 3
     if brlen_generator_func is None:
-        random_tree_per_site_ll_list, training_eval_running_time = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory, local_file_path,
-                                                                      random_trees_path, "sitelh_eval_brlen_opt", alpha=alpha,curr_msa_stats=curr_msa_stats,
-                                                                      opt_brlen=True)
+        random_tree_per_site_ll_list, training_eval_running_time = raxml_compute_tree_per_site_ll(
+            raxml_ll_eval_directory, local_file_path,
+            random_trees_path, "sitelh_eval_brlen_opt", alpha=alpha, curr_msa_stats=curr_msa_stats,
+            opt_brlen=True)
     else:
-        with open(random_trees_path,'r') as RANDOM_TREES:
+        with open(random_trees_path, 'r') as RANDOM_TREES:
             random_trees_newick = RANDOM_TREES.read().split("\n")
-        random_trees_objects = [generate_tree_object_from_newick(tree_newick) for tree_newick in random_trees_newick if len(tree_newick)>0]
-        brlen_list_per_tree = [brlen_generator_func(n_branches,seed) for seed in range(SEED,SEED+n_branches*len(random_trees_objects),n_branches)]
-        random_trees_objects_with_brlen = [assign_brlen_to_tree_object(tree_obj,brlen_list) for tree_obj,brlen_list in zip(random_trees_objects,brlen_list_per_tree)]
-        random_trees_newick_with_brlen = [tree_obj.write(format=1) for tree_obj in   random_trees_objects_with_brlen]
-        random_trees_with_brlen_path = os.path.join(curr_run_directory,"training_trees_with_brlen")
-        with open( random_trees_with_brlen_path,'w') as   RANDOM_TREES_WITH_BRLEN:
+        random_trees_objects = [generate_tree_object_from_newick(tree_newick) for tree_newick in random_trees_newick if
+                                len(tree_newick) > 0]
+        brlen_list_per_tree = [brlen_generator_func(n_branches, seed) for seed in
+                               range(SEED, SEED + n_branches * len(random_trees_objects), n_branches)]
+        random_trees_objects_with_brlen = [assign_brlen_to_tree_object(tree_obj, brlen_list) for tree_obj, brlen_list in
+                                           zip(random_trees_objects, brlen_list_per_tree)]
+        random_trees_newick_with_brlen = [tree_obj.write(format=1) for tree_obj in random_trees_objects_with_brlen]
+        random_trees_with_brlen_path = os.path.join(curr_run_directory, "training_trees_with_brlen")
+        with open(random_trees_with_brlen_path, 'w') as   RANDOM_TREES_WITH_BRLEN:
             RANDOM_TREES_WITH_BRLEN.write("\n".join(random_trees_newick_with_brlen))
-        random_tree_per_site_ll_list,training_eval_running_time = raxml_compute_tree_per_site_ll(raxml_ll_eval_directory,  local_file_path,
-                                                                      random_trees_with_brlen_path, "sitelh_eval_w_brlen", alpha=alpha,curr_msa_stats=curr_msa_stats,opt_brlen=False)
+        random_tree_per_site_ll_list, training_eval_running_time = raxml_compute_tree_per_site_ll(
+            raxml_ll_eval_directory, local_file_path,
+            random_trees_with_brlen_path, "sitelh_eval_w_brlen", alpha=alpha, curr_msa_stats=curr_msa_stats,
+            opt_brlen=False)
     sitelh_df = pd.DataFrame(random_tree_per_site_ll_list, columns=list(range(len(random_tree_per_site_ll_list[0]))),
                              index=list(range(len(random_tree_per_site_ll_list))))
     sitelh_df.to_csv(output_csv_path, index=False)
     logging.debug(
         "Sitelh file is of shape {shape} and stored in {path}".format(shape=sitelh_df.shape, path=output_csv_path))
     logging.info("Deleting dir content of {}".format(raxml_ll_eval_directory))
-    #delete_dir_content(raxml_ll_eval_directory)
-    return sitelh_df,training_eval_running_time
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # delete_dir_content(raxml_ll_eval_directory)
+    return sitelh_df, training_eval_running_time

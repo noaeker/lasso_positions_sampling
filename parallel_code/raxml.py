@@ -25,11 +25,13 @@ def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder
         submit_linux_job(job_name, job_folder, command, cpus, queue=queue)
         logging.info(f"*** Waiting for elapsed time in log file {log_file_path}")
         while not (os.path.exists(log_file_path) and (
-                os.path.exists(extra_file_path) or extra_file_path == "") and (extract_param_from_raxmlNG_log(log_file_path,
-                                                                                                     'time',
-                                                                                                             raise_error=False) or extract_param_from_raxmlHPC_log(log_file_path,
-                                                                                                     'time',
-                                                                                                             raise_error=False)) is not None):
+                os.path.exists(extra_file_path) or extra_file_path == "") and (
+                           extract_param_from_raxmlNG_log(log_file_path,
+                                                          'time',
+                                                          raise_error=False) or extract_param_from_raxmlHPC_log(
+                       log_file_path,
+                       'time',
+                       raise_error=False)) is not None):
             time.sleep(30)
         logging.info("*** current time: {} previous job is completed!!***".format(datetime.now()))
 
@@ -55,6 +57,7 @@ def generate_raxml_ng_command_prefix(cpus=1):
         N=cpus)  # " --threads auto{{{N}}} --workers auto ".format(N=cpus)
     return raxml_parallel_command
 
+
 def extract_param_from_raxmlHPC_log(raxml_log_path, param_name, raise_error=True):
     with open(raxml_log_path) as raxml_log_file:
         data = raxml_log_file.read()
@@ -70,6 +73,7 @@ def extract_param_from_raxmlHPC_log(raxml_log_path, param_name, raise_error=True
                 raise GENERAL_RAXML_ERROR(error_msg)
             else:
                 return None
+
 
 def extract_param_from_raxmlNG_log(raxml_log_path, param_name, raise_error=True):
     with open(raxml_log_path) as raxml_log_file:
@@ -137,7 +141,7 @@ def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimo
         prefix=search_prefix, weights_path_command=weights_path_command)
     best_tree_path = search_prefix + ".raxml.bestTree"
     raxml_search_starting_tree_path = search_prefix + ".raxml.startTree"
-    all_final_trees_path = search_prefix + ".raxml.mlTrees" if n_random_trees+n_parsimony_trees>1 else best_tree_path
+    all_final_trees_path = search_prefix + ".raxml.mlTrees" if n_random_trees + n_parsimony_trees > 1 else best_tree_path
     raxml_log_file = search_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
                                       job_name="raxml_search", log_file_path=raxml_log_file,
@@ -149,12 +153,13 @@ def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimo
             'elapsed_running_time': elapsed_running_time, 'starting_trees_path': raxml_search_starting_tree_path}
 
 
-def raxml_search_nni(curr_run_directory, msa_path, starting_tree_path, curr_msa_stats,cpus):
+def raxml_search_nni(curr_run_directory, msa_path, starting_tree_path, curr_msa_stats, cpus):
     name = "nni_search"
     search_command = (
         "{raxml_exe_path} -T {cpus} -s {msa_path} -f J -m PROTGAMMAWAG -t {starting_tree_path} -p {seed} -w {curr_run_directory} -n {name}").format(
         raxml_exe_path=RAXML_HPC_EXE,
-        msa_path=msa_path, starting_tree_path=starting_tree_path, curr_run_directory = curr_run_directory, name=name, seed=SEED, cpus = cpus)
+        msa_path=msa_path, starting_tree_path=starting_tree_path, curr_run_directory=curr_run_directory, name=name,
+        seed=SEED, cpus=cpus)
     logging.info("search_command is {command}".format(command=search_command))
     best_tree_path = os.path.join(curr_run_directory, "RAxML_fastTree.{name}".format(name=name))
     raxml_log_file = os.path.join(curr_run_directory, "RAxML_info.{name}".format(name=name))
@@ -194,10 +199,10 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
                                         curr_msa_stats["use_raxml_standard_starting_trees"] else None
 
                                         )
-        first_phase_best_true_ll, first_phase_best_tree, elapsed_running_time= raxml_optimize_trees_for_given_msa(
+        first_phase_best_true_ll, first_phase_best_tree, elapsed_running_time = raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "first_phase_ll_eval_on_full",
             first_phase_dict["best_tree_path"],
-            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None,return_trees_file=True)
+            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
         results = {
             'lasso_first_phase_best_ll': first_phase_best_true_ll,
             'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
@@ -207,14 +212,16 @@ def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees,
         }
         if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
             logging.info("Performing extra nni optimization")
-            nni_dict = raxml_search_nni(curr_run_directory, msa_path=curr_msa_stats["local_alignment_path"], starting_tree_path=first_phase_best_tree, curr_msa_stats=curr_msa_stats, cpus=curr_msa_stats["n_cpus_nni"])
+            nni_dict = raxml_search_nni(curr_run_directory, msa_path=curr_msa_stats["local_alignment_path"],
+                                        starting_tree_path=first_phase_best_tree, curr_msa_stats=curr_msa_stats,
+                                        cpus=curr_msa_stats["n_cpus_nni"])
             nni_best_ll, nni_best_tree, nni_eval_elapsed = raxml_optimize_trees_for_given_msa(
                 curr_msa_stats["local_alignment_path"], "nni_eval",
                 nni_dict["best_tree_path"],
-                curr_msa_stats, curr_run_directory=curr_run_directory, weights=None,return_trees_file=True)
+                curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
             results.update({'lasso_nni_best_ll': nni_best_ll,
                             'lasso_nni_best_tree': nni_best_tree,
-                            'lasso_nni_elapsed_time':  nni_dict["elapsed_running_time"]})
+                            'lasso_nni_elapsed_time': nni_dict["elapsed_running_time"]})
 
     return results
 
@@ -235,9 +242,9 @@ def rf_distance(curr_run_directory, tree_object_a, tree_object_b, name):
     create_dir_if_not_exists(rf_folder)
     rf_output_path = os.path.join(rf_folder, name)
     if not isinstance(tree_object_a, Tree):
-            tree_object_a = generate_tree_object_from_newick(tree_object_a)
+        tree_object_a = generate_tree_object_from_newick(tree_object_a)
     if not isinstance(tree_object_b, Tree):
-            tree_object_b = generate_tree_object_from_newick(tree_object_b)
+        tree_object_b = generate_tree_object_from_newick(tree_object_b)
     rf_first_phase_trees = unify_text_files([tree_object_a.write(format=1), tree_object_b.write(format=1)],
                                             rf_output_path, str_given=True)
     rf = calculate_rf_dist(rf_first_phase_trees, rf_folder,
@@ -434,7 +441,8 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
 
 
 def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
-                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False):
+                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False,
+                                       n_cpus=1):
     curr_run_directory = os.path.join(curr_run_directory, ll_on_data_prefix)
     if os.path.exists(curr_run_directory):
         delete_dir_content(curr_run_directory)
@@ -450,7 +458,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     compute_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model WAG+G{{{alpha}}} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
-        threads_config=generate_raxml_ng_command_prefix(msa_stats["n_cpus_training"]),
+        threads_config=generate_raxml_ng_command_prefix(n_cpus),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
         prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command)
     optimized_trees_path = prefix + ".raxml.mlTrees"
@@ -467,5 +475,5 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     optimized_trees_final_path = optimized_trees_path if os.path.exists(optimized_trees_path) else best_tree_path
     tree_objects = generate_multiple_tree_object_from_newick(optimized_trees_final_path)
     if return_trees_file:
-        return trees_ll_on_data, optimized_trees_final_path,elapsed_running_time
+        return trees_ll_on_data, optimized_trees_final_path, elapsed_running_time
     return trees_ll_on_data, tree_objects, elapsed_running_time
