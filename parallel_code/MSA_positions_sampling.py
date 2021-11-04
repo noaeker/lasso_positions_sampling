@@ -66,7 +66,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
     orig_n_seq = len(original_alignment_data)
     orig_n_loci = len(original_alignment_data[0])
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
-    if orig_n_seq >= actual_n_seq and actual_n_loci>=orig_n_loci:
+    if orig_n_seq >= actual_n_seq and orig_n_loci>=actual_n_loci:
+        logging.info(f"Original number of sequences is {orig_n_seq} and it will be trimmed to {actual_n_seq}\nOriginal number of loci's' is {orig_n_loci} and it will be trimmed to {actual_n_loci}")
         trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
                  actual_n_loci, args.loci_shift)
     else:
