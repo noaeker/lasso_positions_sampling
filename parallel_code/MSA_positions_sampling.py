@@ -298,12 +298,10 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
     if not curr_msa_stats["only_full_search"]:
         lasso_results = perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
                                                          lasso_configurations_per_training_size, training_size_options)
-        logging.info("Lasso results are : {lasso_results}".format(lasso_results=lasso_results))
+        logging.info("Lasso results are : {lasso_results}\n".format(lasso_results=lasso_results))
         for lasso_result_ind, lasso_result in enumerate(lasso_results):
             lasso_result_rf_folder = os.path.join(curr_run_directory, "lasso_" + str(lasso_result_ind))
             create_dir_if_not_exists(lasso_result_rf_folder)
-            lasso_ml_tree_objects = lasso_result[
-                "lasso_first_phase_ml_trees_objects"]
             for starting_tree_ind in range(len(starting_tree_objects)):
                 results_per_starting_tree = rf_distances_per_starting_tree_raxml(lasso_result, lasso_result_rf_folder,
                                                                                  starting_tree_ind,
@@ -317,6 +315,57 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
 
     all_msa_results.to_csv(job_csv_path)
     return all_msa_results
+
+
+
+
+def RF_between_two_newick(curr_run_directory, name, tree_1_str, tree_2_str):
+    rf_trees_path = os.path.join(curr_run_directory,"name")
+    with open(rf_trees_path, 'w') as RF:
+        RF.writelines([tree_1_str, "\n", tree_2_str]),
+    rf_dist = calculate_rf_dist(rf_trees_path, curr_run_directory,prefix=name)
+    return rf_dist
+
+def lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_run_directory, starting_tree_path, lasso_configurations_per_training_size, brlen_generator_name):
+    curr_msa_stats["actucal_training_size"] = training_size
+    curr_training_size_directory = os.path.join(brlen_run_directory, str(training_size))
+    create_dir_if_not_exists(curr_training_size_directory)
+    lasso_config_per_brlen_and_t_size = lasso_configurations_per_training_size[brlen_generator_name][
+        training_size]
+    curr_msa_stats["curr_training_size_lasso_configurations"] = lasso_config_per_brlen_and_t_size
+    logging.info(f"    ****Using training size {training_size}\n")
+    spr_search_configurations = []
+
+    lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
+    top_ind_to_test_per_phase = [int(t) for t in curr_msa_stats['top_ind_to_test_per_phase'].split("_")]
+
+    for i, per_phase_search_data in enumerate(zip(lasso_thresholds_during_search,top_ind_to_test_per_phase)):
+        threshold, top_ind = per_phase_search_data
+        lasso_results = lasso_config_per_brlen_and_t_size[float(threshold)]
+        lasso_results["top_ind"] = top_ind
+        update_dict_with_a_suffix(curr_msa_stats, lasso_results, suffix=f"phase_{i}")
+        spr_search_configurations.append(lasso_results)
+    lasso_based_spr_results = SPR_analysis(
+        spr_search_configurations,starting_tree_path, curr_msa_stats,
+        curr_run_directory=curr_training_size_directory, full_run=False)
+
+    lasso_based_spr_results_print = {k: lasso_based_spr_results[k] for k in
+                                     lasso_based_spr_results.keys() if
+                                     k not in ["lasso_SPR_first_phase_tree_newick",
+                                               "lasso_SPR_second_phase_tree_newick",
+                                               "lasso_ll_per_iteration_first_phase",
+                                               "lasso_ll_per_iteration_second_phase",
+                                               "actual_search_training_path"]
+                                     }
+    logging.info(f"     *****Lasso results are: \n  {lasso_based_spr_results_print}\n")
+    curr_msa_stats.update(lasso_based_spr_results)
+    rf_folder = os.path.join(curr_training_size_directory, "rf_calculations")
+    create_dir_if_not_exists(rf_folder)
+    curr_msa_stats["rf_best_naive_vs_best_lasso"] = RF_between_two_newick(rf_folder, "best_vs_lasso",curr_msa_stats["naive_SPR_tree_newick"], curr_msa_stats["best_lasso_tree_newick"])
+    curr_msa_stats["rf_best_naive_vs_start"] = RF_between_two_newick(rf_folder, "best_vs_start",
+                                                                          curr_msa_stats["naive_SPR_tree_newick"],
+                                                                          curr_msa_stats["SPR_search_starting_tree_newick"])
+
 
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
@@ -345,93 +394,33 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
             logging.info("**Using full data naive SPR dump in {}".format(naive_spr_results_dump_baseline))
             with open(naive_spr_results_dump_baseline, 'rb') as handle:
                 naive_spr_results = pickle.load(handle)
+                logging.info(f"Naive SPR extracted from dump are:\n{naive_spr_results}\n")
         else:
             logging.info("  **Running full data naive SPR from beggining")
-            full_data_path = curr_msa_stats["local_alignment_path"]
             curr_starting_tree_full_run_directory = os.path.join(starting_tree_run_directory, "spr_full_data_results")
             create_dir_if_not_exists(curr_starting_tree_full_run_directory)
-            naive_spr_results = SPR_analysis(full_data_path, starting_tree_path,
+            naive_spr_results = SPR_analysis(None,starting_tree_path,
                                              curr_msa_stats,
                                              curr_run_directory=curr_starting_tree_full_run_directory,
                                              full_run=True)
             with open(naive_spr_results_dump, 'wb') as handle:
                 pickle.dump(naive_spr_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
         curr_msa_stats.update(naive_spr_results)
-        lasso_thresholds_during_search = [float(t) for t in curr_msa_stats['lasso_thresholds_search'].split("_")]
-        logging.info("  **Running Lasso-based SPR searches:")
+        logging.info("  **Running Lasso-based SPR searches using the thresholds:")
         for brlen_generator_name in brlen_generators:
             brlen_run_directory = os.path.join(starting_tree_run_directory, brlen_generator_name)
             create_dir_if_not_exists(brlen_run_directory)
             curr_msa_stats["brlen_generator"] = brlen_generator_name
             logging.info(f"   ***Using brlen_generator {brlen_generator_name} ")
             for training_size in training_size_options:
-                curr_msa_stats["actucal_training_size"] = training_size
-                curr_training_size_directory = os.path.join(brlen_run_directory, str(training_size))
-                create_dir_if_not_exists(curr_training_size_directory)
-                lasso_config_per_brlen_and_t_size = lasso_configurations_per_training_size[brlen_generator_name][
-                    training_size]
-                logging.info(f"    ****Using training size {training_size} ")
-                for threshold in lasso_thresholds_during_search:
-                    logging.info(f"     *****Using treshold  {threshold} ")
-                    curr_threshold_directory = os.path.join(curr_training_size_directory, str(threshold))
-                    create_dir_if_not_exists(curr_threshold_directory)
-                    if threshold in lasso_config_per_brlen_and_t_size:
-                        lasso_results = lasso_config_per_brlen_and_t_size[threshold]
-                    else:
-                        continue
-                    curr_msa_stats.update(lasso_results)
-                    start_time = time.time()
-                    lasso_based_spr_results = SPR_analysis(curr_msa_stats.get("local_alignment_path"),
-                                                           starting_tree_path, curr_msa_stats,
-                                                           curr_run_directory=curr_threshold_directory, full_run=False)
 
-                    lasso_based_spr_results_print = {k: lasso_based_spr_results[k] for k in
-                                                     lasso_based_spr_results.keys() if
-                                                     k not in ["lasso_SPR_first_phase_tree_newick",
-                                                               "lasso_SPR_second_phase_tree_newick",
-                                                               "lasso_ll_per_iteration_first_phase",
-                                                               "lasso_ll_per_iteration_second_phase",
-                                                               "actual_search_training_path"]
-                                                     }
-                    logging.info(f"     *****Lasso results are: \n  {lasso_based_spr_results_print} ")
-                    spr_pipeline_running_time = time.time() - start_time
-                    curr_msa_stats.update(lasso_based_spr_results)
-
-                    best_tree_full_newick = curr_msa_stats["naive_SPR_tree_newick"]
-                    best_tree_first_newick = curr_msa_stats["lasso_SPR_first_phase_tree_newick"]
-                    starting_tree_newick = curr_msa_stats["SPR_search_starting_tree_newick"]
-                    rf_folder = os.path.join(curr_threshold_directory, "rf_calculations")
-                    create_dir_if_not_exists(rf_folder)
-                    rf_first_phase_trees = os.path.join(rf_folder, "rf_first_phase_trees")
-                    with open(rf_first_phase_trees, 'w') as FIRST_PHASE_RF:
-                        FIRST_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_first_newick])
-                    rf_second_phase_trees = os.path.join(rf_folder, "rf_second_phase_trees")
-                    rf_standard_vs_start = os.path.join(rf_folder, "rf_full_vs_start")
-                    with open(rf_standard_vs_start, 'w') as STANDARD_VS_STARTING_RF:
-                        STANDARD_VS_STARTING_RF.writelines([best_tree_full_newick, "\n", starting_tree_newick])
-
-                    curr_msa_stats["rf_dist_first_phase"] = calculate_rf_dist(rf_first_phase_trees, rf_folder,
-                                                                              prefix="rf_first_phase")
-                    curr_msa_stats["rf_dist_full_vs_start"] = calculate_rf_dist(rf_standard_vs_start, rf_folder,
-                                                                                prefix="rf_full_vs_start")
-                    best_tree_second_phase_newick = curr_msa_stats["lasso_SPR_second_phase_tree_newick"]
-                    with open(rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
-                        SECOND_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_second_phase_newick])
-                    curr_msa_stats["rf_dist_second_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
-                                                                               prefix="rf_second_phase")
-
-                    best_tree_final_phase_newick = curr_msa_stats["lasso_SPR_final_phase_tree_newick"]
-                    with open(rf_second_phase_trees, 'w') as SECOND_PHASE_RF:
-                        SECOND_PHASE_RF.writelines([best_tree_full_newick, "\n", best_tree_final_phase_newick])
-                    curr_msa_stats["rf_dist_final_phase"] = calculate_rf_dist(rf_second_phase_trees, rf_folder,
-                                                                              prefix="rf_final_phase")
-
-                    curr_msa_stats.update({'spr_pipeline_running_time': spr_pipeline_running_time})
-
-                    all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
-                                                              k not in IGNORE_COLS_IN_CSV
-                                                              }, ignore_index=True)
-                    all_msa_results.to_csv(job_csv_path)
+                lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_run_directory,
+                                                      starting_tree_path,
+                                                     lasso_configurations_per_training_size, brlen_generator_name)
+                all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
+                                                          k not in IGNORE_COLS_IN_CSV
+                                                          }, ignore_index=True)
+                all_msa_results.to_csv(job_csv_path)
     return all_msa_results
 
 
@@ -538,7 +527,7 @@ def main():
             curr_n_seq_folder = os.path.join(curr_msa_folder, f"n_seq_{actual_n_seq}")
             create_or_clean_dir(curr_n_seq_folder)
             for actual_n_loci in n_loci_options:
-                try:
+                #try:
                     curr_n_loci_folder = os.path.join(curr_n_seq_folder, f"n_loci_{actual_n_loci}")
                     create_or_clean_dir(curr_n_loci_folder)
                     logging.info(f" Trimming MSA to n_seq = {actual_n_seq} n_loci = {actual_n_loci}")
@@ -569,9 +558,9 @@ def main():
                         all_msa_results = perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                                                lasso_configurations_per_training_size,
                                                                job_csv_path, all_msa_results)
-                except Exception as e:
-                    logging.error(
-                        f'Failed to perform analysis on n_seq={actual_n_seq} and n_loci={actual_n_loci}: \n Error: message{e} ')
+                #except Exception as e:
+                #    logging.error(
+                #        f'Failed to perform analysis on n_seq={actual_n_seq} and n_loci={actual_n_loci}: \n Error: message{e} ')
 
     with open(curr_job_status_file, 'w') as job_status_f:
         job_status_f.write("Done")

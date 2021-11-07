@@ -466,8 +466,8 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     raxml_log_file = prefix + ".raxml.log"
     execute_commnand_and_write_to_log(compute_ll_run_command, curr_run_directory,
                                       job_folder_name="raxml_optimize_test_trees_job",
-                                      job_name="test_opt", log_file_path=raxml_log_file,
-                                      cpus=msa_stats["n_cpus_training"], nodes=msa_stats["n_nodes_training"],
+                                      job_name="trees_opt", log_file_path=raxml_log_file,
+                                      cpus=n_cpus, nodes=msa_stats["n_nodes_training"],
                                       queue=msa_stats["queue"], run_locally=msa_stats["run_raxml_commands_locally"])
 
     trees_ll_on_data = extract_param_from_raxmlNG_log(raxml_log_file, "ll")

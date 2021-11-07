@@ -47,8 +47,15 @@ def submit_linux_job(job_name, job_folder, run_command, cpus, job_ind="job", que
     with open(cmds_path, 'w') as cmds_f:
         cmds_f.write(job_line)
     command = f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path} --cpu {cpus} -q {queue}'
-    logging.info(f'About to submit a pbs file to {queue} queue based on cmds:{cmds_path}')
+    logging.debug(f'About to submit a pbs file to {queue} queue based on cmds:{cmds_path}')
     os.system(command)
+
+
+def update_dict_with_a_suffix(dest_dict, input_dict, suffix):
+    for orig_key in input_dict:
+        new_key = str(orig_key)+str(suffix)
+        dest_dict[new_key] = input_dict[orig_key]
+
 
 
 def submit_local_job(executable, argument_list):
@@ -56,13 +63,15 @@ def submit_local_job(executable, argument_list):
     theproc.communicate()
 
 
-def remove_MSAs_with_not_enough_seq(file_path_list, min_seq):
+def remove_MSAs_with_not_enough_seq_and_locis(file_path_list, min_seq, min_n_loci):
     proper_file_path_list = []
     for path in file_path_list:
         file_type_biopython = extract_file_type(path, True)
         with open(path) as file:
-            n_seq = len(list(SeqIO.parse(file, file_type_biopython)))
-            if n_seq >= min_seq:
+            data = list(SeqIO.parse(file, file_type_biopython))
+            n_seq = len(data)
+            n_loci = len(data[0])
+            if n_seq >= min_seq and n_loci>= min_n_loci:
                 proper_file_path_list.append(path)
     return proper_file_path_list
 
@@ -285,6 +294,8 @@ def main_parser():
     parser.add_argument('--random_trees_test_size', action='store', type=int, default=RANDOM_TREES_TEST_SIZE)
     parser.add_argument('--max_n_seq', action='store', type=str, default=MAX_N_SEQ)
     parser.add_argument('--min_n_seq', action='store', type=int, default=MIN_N_SEQ)
+    parser.add_argument('--max_n_loci', type=str, default=MAX_N_LOCI)
+    parser.add_argument('--min_n_loci', type=int, default=MIN_N_LOCI)
     parser.add_argument('--only_evaluate_lasso', action='store_true')
     parser.add_argument('--training_set_baseline_run_prefix', action='store', type=str, default=TRAINING_BASELINE)
     parser.add_argument('--lasso_baseline_run_prefix', action='store', type=str, default=LASSO_BASELINE)
@@ -314,7 +325,6 @@ def main_parser():
     parser.add_argument('--use_parsimony_training_trees', action='store_true')
     parser.add_argument('--no_test_set', action='store_true')
     parser.add_argument('--n_partitions', type=int, default=1)
-    parser.add_argument('--max_n_loci', type=str, default=MAX_N_LOCI)
     parser.add_argument('--lasso_thresholds', action='store', type=str, default=LASSO_THRESHOLDS)
     parser.add_argument('--lasso_thresholds_search', action='store', type=str, default=THRESHOLDS_TO_USE_DURING_SEARCH)
     parser.add_argument('--run_raxml_commands_locally', action='store_true')
@@ -326,8 +336,7 @@ def main_parser():
     parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true')
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
-    parser.add_argument('--top_ind_to_test_first_phase', action='store', type=int, default=2)
-    parser.add_argument('--top_ind_to_test_second_phase', action='store', type=int, default=10)
+    parser.add_argument('--top_ind_to_test_per_phase', action='store', type=str, default=TOP_IND_TO_TEST_PER_PHASE)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
     parser.add_argument('--rearr_dist', type=int, default=10)
     parser.add_argument('--optimized_neighbours_per_iter', type=int, default=100)
