@@ -53,7 +53,6 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
 def main():
     parser = main_parser()
     args = parser.parse_args()
-    generate_argument_str(args)
     all_jobs_results_folder = generate_results_folder(args.run_prefix)
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
