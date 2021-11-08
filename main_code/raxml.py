@@ -46,7 +46,7 @@ def wait_for_file_existence(path, name):
             time.sleep(WAITING_TIME_UPDATE)
             logging.info("current time {}: file {} does not exist yet in path {}".format(datetime.now(), name, path))
             time.sleep(WAITING_TIME_UPDATE)
-            if time.time() - start_time > 600:
+            if time.time() - start_time > 3600*24:
                 logging.info("Waiting to much for param {}, breaking".format(name))
                 break
         raise GENERAL_RAXML_ERROR(error_msg)

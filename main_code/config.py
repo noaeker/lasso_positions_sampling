@@ -73,7 +73,7 @@ ALTERNATIVE_TRAINING_BASELINE = "x"
 MAX_N_SEQ =  "10"
 MIN_N_SEQ = 15
 MAX_N_LOCI = "1000"
-MIN_N_LOCI = "100"
+MIN_N_LOCI = 100
 N_RANDOM_STARTING_TREES = 1
 #PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 1
@@ -95,8 +95,8 @@ if not LOCAL_RUN:
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
     ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/example"
-    MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
-    R_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/R_code/lasso_glmnet.R"
+    MAIN_CODE_PATH = "/groups/pupko/noaeker/main_code/main_code/MSA_positions_sampling.py"
+    R_CODE_PATH = "/groups/pupko/noaeker/main_code/R_code/lasso_glmnet.R"
     RAXML_HPC_EXE = "/groups/pupko/noaeker/standard-RAxML/raxmlHPC"
     RATE4SITE_COMMAND_PREFIX = "/groups/pupko/noaeker/rate4site/rate4site"
 elif LOCAL_RUN:
@@ -109,8 +109,8 @@ elif LOCAL_RUN:
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
     ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited"
-    MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/parallel_code/MSA_positions_sampling.py"
-    R_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/R_code/lasso_glmnet.R"
+    MAIN_CODE_PATH = "/Users/noa/Workspace/main_code/main_code/MSA_positions_sampling.py"
+    R_CODE_PATH = "/Users/noa/Workspace/main_code/R_code/lasso_glmnet.R"
 
 
 
