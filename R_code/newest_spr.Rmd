@@ -26,13 +26,13 @@ library(plm)
 ```{r}
 o_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/o_new_spr.csv") %>% mutate(analysis = "o_spr_data")   %>% select (-max_n_loci,-max_n_seq) 
 y_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/y_new_spr.csv") %>% mutate(analysis = "y_spr_data")  %>% select (-max_n_loci,-max_n_seq) 
-#spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr.csv") %>% mutate(analysis = "spr_data")
-#ten_n_new_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ten_n_new_spr.csv") %>% mutate(analysis = "o_spr_data") %>% select (-max_n_loci)
+spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_spr.csv") %>% mutate(analysis = "spr_data") %>% select (-max_n_loci,-max_n_seq) 
+ten_n_new_spr_data<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ten_n_new_spr.csv") %>% mutate(analysis = "ten_n_spr_data")  %>% select (-max_n_loci,-max_n_seq) 
 one_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/one_new_spr.csv") %>% mutate(analysis = "one_new_spr") %>% select (-max_n_loci, -max_n_seq) 
 pars_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/pars_new_spr.csv") %>% mutate(analysis = "pars_new_spr") %>% select (-max_n_loci,-max_n_seq) 
 large_new_spr<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/large_new_spr.csv") %>% mutate(analysis = "large_new_spr") %>% select (-max_n_loci,-max_n_seq) 
 
-new_format_spr_data <- bind_rows(one_new_spr,pars_new_spr,large_new_spr,o_spr_data,y_spr_data)  
+new_format_spr_data <- bind_rows(one_new_spr,pars_new_spr,large_new_spr,o_spr_data,y_spr_data,ten_n_new_spr_data)  
 
 ```
 
@@ -47,15 +47,35 @@ new_format_spr_data <- new_format_spr_data  %>%
 
 ```
 
+```{r}
+new_format_spr_data %>% distinct (analysis, job_ind) %>% arrange(analysis)
+```
 
 
 ```{r}
 #new_format_spr_data %>% select (job_ind,dataset_name, n_loci, n_seq,naive_SPR_running_time,spr_lasso_running_time,first_phase_running_time, #second_phase_running_time,final_phase_running_time, lasso_running_time, naive_SPR_spr_moves, #lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves, delta_ll_final_phase)
 
+example_job_ind = 1
 
-new_format_spr_data %>% select (analysis,job_ind,dataset_name, n_loci, n_seq,naive_SPR_spr_moves, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves,delta_ll_first_phase, delta_ll_final_phase, `lasso_test_R^2`,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist) %>% arrange(job_ind,n_seq, n_loci)
+new_format_spr_data %>% filter (job_ind %in% c(example_job_ind)) %>% select (analysis,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist,job_ind,dataset_name, n_loci, n_seq,naive_SPR_spr_moves, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves,delta_ll_first_phase,delta_ll_second_phase, delta_ll_final_phase, `lasso_test_R^2`, TRUE_first_phase_ll_per_iteration,TRUE_second_phase_ll_per_iteration,TRUE_final_phase_ll_per_iteration, naive_SPR_ll_per_iteration) %>% arrange(job_ind,n_seq, n_loci) %>% filter (n_seq==60) %>% arrange(-lasso_SPR_final_phase_spr_moves)
 
+
+new_format_spr_data %>% filter (job_ind %in% c(example_job_ind)) %>% select (analysis,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist,job_ind,dataset_name, n_loci, n_seq,naive_SPR_spr_moves, lasso_SPR_first_phase_spr_moves,lasso_SPR_second_phase_spr_moves,lasso_SPR_final_phase_spr_moves,delta_ll_first_phase,delta_ll_second_phase, delta_ll_final_phase, `lasso_test_R^2`) %>% arrange(job_ind,n_seq, n_loci) %>% filter (n_seq==30) %>% arrange(-lasso_SPR_final_phase_spr_moves)
+
+
+new_format_spr_data %>% filter (job_ind %in% c(example_job_ind)) %>% group_by(analysis,n_seq, actual_n_loci, n_loci,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist) %>% filter (n_seq>15) %>% summarise (cnt_datasets = n(), mean_final = mean(lasso_SPR_final_phase_spr_moves), ratio_first_final = mean(lasso_SPR_final_phase_spr_moves/lasso_SPR_first_phase_spr_moves), ratio_first_final_median = median(lasso_SPR_final_phase_spr_moves/lasso_SPR_first_phase_spr_moves)) %>% arrange(n_seq, actual_n_loci, ratio_first_final_median,ratio_first_final) 
+
+
+new_format_spr_data  %>%  filter (job_ind %in% c(example_job_ind)) %>% group_by(analysis,n_seq, actual_n_loci, n_loci,top_ind_to_test_first_phase,top_ind_to_test_second_phase,optimized_neighbours_per_iter,rearr_dist) %>% filter (n_seq>15) %>% summarise (cnt_datasets = n(), mean_final = mean(lasso_SPR_final_phase_spr_moves), ratio_first_final = mean(lasso_SPR_final_phase_spr_moves/lasso_SPR_first_phase_spr_moves), ratio_first_final_median = median(lasso_SPR_final_phase_spr_moves/lasso_SPR_first_phase_spr_moves)) %>% arrange(n_seq, actual_n_loci, ratio_first_final_median,ratio_first_final) 
  
+```
+```{r}
+
+first_phase_ll_per_iteration<-c(-1175338.74611, -1175143.832027, -1175090.288489, -1174872.593397, -1174825.410595)
+first_phase_ll_per_iteration<-c(-1174825.410595, -1174799.874779, -1174791.298733)
+first_phase_ll_per_iteration<-c(--1174791.298733)
+phase_tags<- rep("first_phase",length(first_phase_ll_per_iteration))
+
 ```
 
 

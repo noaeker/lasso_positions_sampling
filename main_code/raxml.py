@@ -343,7 +343,7 @@ def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path,
                                       run_locally=curr_msa_stats["run_raxml_commands_locally"])
     wait_for_file_existence(random_tree_path, "random tree")
     elapsed_running_time = extract_param_from_raxmlNG_log(raxml_log_file, 'time')
-    if curr_msa_stats["use_parsimony_training_trees"]:
+    if curr_msa_stats["use_parsimony_training_trees"] and n>1:
         logging.info("Removing duplicates parismony topologies")
         rf_prefix = os.path.join(curr_run_directory, "parsimony_rf_eval")
         rf_command = (
