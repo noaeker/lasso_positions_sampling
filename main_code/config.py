@@ -4,6 +4,7 @@ import random
 
 
 LOCAL_RUN = False
+
 SEED = 1
 
 #RAXML PARAMS
@@ -52,20 +53,20 @@ DELETE_SPR_FILES = True
 EPSILON = 0.1
 ALPHA_EPSILON = 0.0001
 LASSO_THRESHOLDS  = "0.01_0.05_0.1"
-THRESHOLDS_TO_USE_DURING_SEARCH = "0.01_0.05_0.1"
-TOP_IND_TO_TEST_PER_PHASE = "1_1_2"
+THRESHOLDS_TO_USE_DURING_SEARCH = "0.05_0.05"
+TOP_IND_TO_TEST_PER_PHASE = "1_2"
 MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_check_only_lasso2"
-CURR_JOBS_PREFIX =  "test_curr_only_lasso2"
+CURR_RUN_PREFIX = "test_curr_check"
+CURR_JOBS_PREFIX =  "test_curr_check"
 
-LASSO_BASELINE ="test_curr_check_only_lasso"
-TRAINING_BASELINE =    "test_curr_check_only_lasso"
-TEST_SET_BASELINE = "test_curr_check_only_lasso"
-MSA_BASELINE =  "test_curr_check_only_lasso"
-FULL_DATA_BASELINE = "test_curr_check_only_lasso"
+LASSO_BASELINE ="x"
+TRAINING_BASELINE =   "x"
+TEST_SET_BASELINE ="x"
+MSA_BASELINE = "x"
+FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
