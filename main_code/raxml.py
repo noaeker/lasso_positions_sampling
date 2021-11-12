@@ -321,6 +321,42 @@ def raxml_extract_sitelh(sitelh_file):
             sitelh_lists_floats.append([float(ll) for ll in sitelh_list if len(ll) > 0])
         return (sitelh_lists_floats)
 
+def generate_n_tree_neighbours_topology_optimized_brlen(n, alpha, original_file_path, curr_run_directory,
+                                                   curr_msa_stats, seed):
+    prefix = os.path.join(curr_run_directory, "rand_top")
+    if curr_msa_stats["use_parsimony_training_trees"]:
+        tree_type = "pars"
+    else:
+        tree_type = "rand"
+    random_tree_generation_command = (
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads  --msa {msa_path} --model WAG+G{{{alpha}}} --start --tree {tree_type}{{{n}}} --prefix {prefix} --opt-branches off --seed {seed} ").format(
+        n=1, raxml_exe_path=RAXML_NG_EXE, tree_type=tree_type,
+        threads_config=generate_raxml_ng_command_prefix(cpus=curr_msa_stats["n_cpus_training"]),
+        msa_path=original_file_path, alpha=alpha, prefix=prefix, seed=seed)
+    random_tree_path = prefix + ".raxml.startTree"
+    raxml_log_file = prefix + ".raxml.log"
+    execute_commnand_and_write_to_log(random_tree_generation_command, curr_run_directory,
+                                      job_folder_name="generate_random_trees_job",
+                                      job_name="rand_trees", log_file_path=raxml_log_file,
+                                      cpus=1, nodes=1, queue=curr_msa_stats["queue"],
+                                      run_locally=curr_msa_stats["run_raxml_commands_locally"])
+    wait_for_file_existence(random_tree_path, "random tree")
+    elapsed_running_time = extract_param_from_raxmlNG_log(raxml_log_file, 'time')
+    random_tree_object = generate_tree_object_from_newick(tree_path=random_tree_path)
+
+
+
+    if curr_msa_stats["use_parsimony_training_trees"] and n>1:
+        logging.info("Removing duplicates parismony topologies")
+        rf_prefix = os.path.join(curr_run_directory, "parsimony_rf_eval")
+        rf_command = (
+            "{raxml_exe_path} --force msa --force perf_threads --rfdist --tree {rf_file_path} --prefix {prefix}").format(
+            raxml_exe_path=RAXML_NG_EXE, rf_file_path=random_tree_path, prefix=rf_prefix)
+        execute_commnand_and_write_to_log(rf_command, run_locally=True)
+        rf_distances_file_path = rf_prefix + ".raxml.rfDistances"
+        random_tree_path = extract_parsimony_unique_topologies(curr_run_directory, random_tree_path,
+                                                               rf_distances_file_path, n)
+    return random_tree_path, elapsed_running_time
 
 def generate_n_random_tree_topology_constant_brlen(n, alpha, original_file_path, curr_run_directory,
                                                    curr_msa_stats, seed):

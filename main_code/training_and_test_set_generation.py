@@ -80,10 +80,16 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
                                                                     Lasso_folder, random_trees_folder,
                                                                     start_seed_random_trees)
     max_training_size = max(training_size_options)
-    training_random_trees_path, training_tree_generation_elapsed_running_time = generate_n_random_topologies_constant_brlen(
-        max(training_size_options), random_trees_folder,
-        curr_msa_stats, "training",
-        seed=start_seed_random_trees)
+    if curr_msa_stats["use_spr_neighbours_training"]:
+        training_random_trees_path, training_tree_generation_elapsed_running_time = generate_n_random_spr_neighbours_topologies_orig_brlen(
+            max(training_size_options), random_trees_folder,
+            curr_msa_stats, "training",
+            seed=start_seed_random_trees)
+    else:
+        training_random_trees_path, training_tree_generation_elapsed_running_time = generate_n_random_topologies_constant_brlen(
+            max(training_size_options), random_trees_folder,
+            curr_msa_stats, "training",
+            seed=start_seed_random_trees)
 
     run_configurations = {}
     logging.info(f'Generating Lasso results:')
@@ -117,16 +123,39 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
     return run_configurations
 
 
+def generate_n_random_spr_neighbours_topologies_orig_brlen(n, curr_run_directory, curr_msa_stats, name, seed):
+    total_trees = 0
+    all_tree_objects = []
+    curr_seed = seed
+    while total_trees<n:
+        random_tree_path,elapsed_running_time =  generate_n_random_topologies_constant_brlen(1, curr_run_directory, curr_msa_stats, name, seed = curr_seed)
+        trees_ll_on_data, tree_object, elapsed_running_time = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"], "opt_first_training_tree", random_tree_path, curr_msa_stats,
+                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False,
+                                       n_cpus=curr_msa_stats["n_cpus_training"])
+        spr_moves = get_possible_spr_moves(tree_object,
+                                                              rearr_dist=curr_msa_stats["rearr_dist"])
+        all_radius_spr_neighbours = [generate_neighbour(tree_object, spr_neighbour) for spr_neighbour in
+                                     spr_moves]
+        all_tree_objects = all_tree_objects+ all_radius_spr_neighbours
+        total_trees = total_trees + len(all_tree_objects)
+        curr_seed = curr_seed + 1
+    logging.info(f"Used {n} random optimized trees to generate training data!")
+    trees_newick = "\n".join([tree.write(format=1) for tree in all_tree_objects[:n]])
+    trees_eval_path = os.path.join(curr_run_directory, "all_training_neighbours_trees")
+    with open(trees_eval_path, 'w') as EVAL_TREES:
+        EVAL_TREES.write(trees_newick)
+    return trees_eval_path, elapsed_running_time
+
 def generate_n_random_topologies_constant_brlen(n, curr_run_directory, curr_msa_stats, name, seed):
     local_file_path = curr_msa_stats.get("local_alignment_path")
     basic_directory = os.path.join(curr_run_directory, "{name}_{n}".format(name=name, n=n))
     create_dir_if_not_exists(basic_directory)
     seed = seed
     alpha = curr_msa_stats["alpha"]
-    rrandom_tree_path, elapsed_running_time = generate_n_random_tree_topology_constant_brlen(n, alpha, local_file_path,
+    random_tree_path, elapsed_running_time = generate_n_random_tree_topology_constant_brlen(n, alpha, local_file_path,
                                                                                              basic_directory,
                                                                                              curr_msa_stats, seed=seed)
-    return rrandom_tree_path, elapsed_running_time
+    return random_tree_path, elapsed_running_time
 
 
 def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_trees_path, curr_run_directory):
@@ -165,12 +194,17 @@ def generate_per_site_ll_on_random_trees_for_training(curr_msa_stats, random_tre
     local_file_path = curr_msa_stats.get("local_alignment_path")
     alpha = curr_msa_stats["alpha"]
     n_branches = (2 * curr_msa_stats["n_seq"]) - 3
-    if brlen_generator_func is None:
+    if curr_msa_stats["use_spr_neighbours_training"]: #using original branch-lengths
+        random_tree_per_site_ll_list, training_eval_running_time = raxml_compute_tree_per_site_ll(
+            raxml_ll_eval_directory, local_file_path,
+            random_trees_path, "sitelh_eval_brlen_opt", alpha=alpha, curr_msa_stats=curr_msa_stats,
+            opt_brlen=False)
+    elif brlen_generator_func is None:  #using optimized branch-lengths
         random_tree_per_site_ll_list, training_eval_running_time = raxml_compute_tree_per_site_ll(
             raxml_ll_eval_directory, local_file_path,
             random_trees_path, "sitelh_eval_brlen_opt", alpha=alpha, curr_msa_stats=curr_msa_stats,
             opt_brlen=True)
-    else:
+    else: #using other branch-lengths
         with open(random_trees_path, 'r') as RANDOM_TREES:
             random_trees_newick = RANDOM_TREES.read().split("\n")
         random_trees_objects = [generate_tree_object_from_newick(tree_newick) for tree_newick in random_trees_newick if

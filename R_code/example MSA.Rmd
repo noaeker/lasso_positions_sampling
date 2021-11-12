@@ -8,10 +8,27 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_800_0.1_borowik.csv")
+ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/miso_60_1_phase_eval.csv")
+ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/StruA5_0_phase_opt.csv")
+
   #read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_400_0.1_job0.csv")
 ```
 
+```{r}
+ll_comparison_data %>% select(`full msa ll`, `sampled msa ll`)
+lm<- lm(`full msa ll`~`sampled msa ll`+I(`sampled msa ll`^2), data = ll_comparison_data)
+print(summary(lm))
+
+plot(fitted(lm),residuals(lm))
+
+ll_comparison_data$`sampled msa ll` = fitted(lm)
+
+#lm<- lm(`full msa ll`~`sampled msa ll`, data = ll_comparison_data)
+#print(summary(lm))
+#plot(fitted(lm),residuals(lm))
+
+#ll_comparison_data$`sampled msa ll` = fitted(lm)
+```
 
 
 ```{r}
@@ -23,11 +40,11 @@ ggarrange(plot_r2, plot_spearmanr, hjust=-1,vjust=1, heights=c(2,2),common.legen
           labels = c("A", "B"),
           ncol = 1, nrow =2)
 
-plot_a_top<-ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 30) %>% summarise(spearman_r = cor(`full msa ll`, `sampled msa ll`, method = 'spearman')) %>% ggplot(aes(x=as.factor(`iteration number`), y= spearman_r)) + geom_point(size=3) +geom_line(group = 1 ) + xlab("iteration_number") + ggtitle ("Spearman R of top  neighbours")
+plot_a_top<-ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 50) %>% summarise(spearman_r = cor(`full msa ll`, `sampled msa ll`, method = 'spearman')) %>% ggplot(aes(x=as.factor(`iteration number`), y= spearman_r)) + geom_point(size=3) +geom_line(group = 1 ) + xlab("iteration_number") + ggtitle ("Spearman R of top  neighbours")
 
-plot_b_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 30)  %>% summarise(full_data_variance = sqrt(var(`full msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `full_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("True LL variance of top  neighbours") + xlab("iteration_number")
+plot_b_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`full msa ll`, n = 50)  %>% summarise(full_data_variance = sqrt(var(`full msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `full_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("True LL variance of top  neighbours") + xlab("iteration_number")
 
-plot_c_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`sampled msa ll`, n = 30)  %>% summarise(sampled_data_variance = sqrt(var(`sampled msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `sampled_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("Sampled LL variance of top  neighbours") + xlab("iteration_number")
+plot_c_top<- ll_comparison_data %>% group_by(`iteration number`) %>%slice_max(order_by =`sampled msa ll`, n = 50)  %>% summarise(sampled_data_variance = sqrt(var(`sampled msa ll`))) %>%  ggplot(aes (x=as.factor(`iteration number`), y= `sampled_data_variance`)) + geom_point() +geom_line(group = 1) + ggtitle("Sampled LL variance of top  neighbours") + xlab("iteration_number")
 
 
 ggarrange(plot_a_top, plot_b_top,plot_c_top,hjust=-1,vjust=2, heights=c(2,2),common.legend=TRUE,
@@ -36,6 +53,8 @@ ggarrange(plot_a_top, plot_b_top,plot_c_top,hjust=-1,vjust=2, heights=c(2,2),com
 
 ll_comparison_data %>% ggplot(aes (x=`full msa ll`, y= `sampled msa ll`, colour = as.factor(`iteration number`))) + geom_point()  + ggtitle ("Sampled MSA LL vs True MSA LL")
 
+
+
 ```
 
 ```{r}
@@ -43,7 +62,10 @@ true_rank_data <- ll_comparison_data %>% select (`full msa ll`, X1, `iteration n
 
 approximated_rank_data <- ll_comparison_data %>% select (`sampled msa ll`, X1, `iteration number`) %>% group_by(`iteration number`) %>% mutate(approx_rank = dense_rank(desc(`sampled msa ll`)))
 
-approximated_rank_data %>% arrange(approx_rank)
+true_rank_data %>% arrange(`iteration number`,true_rank)
+true_rank_data %>% arrange(`iteration number`,X1)
+approximated_rank_data %>% arrange(`iteration number`,approx_rank)
+approximated_rank_data %>% arrange(`iteration number`,X1)
 
 approximated_rank_data %>% filter (approx_rank==1) %>% inner_join(true_rank_data) %>% ggplot (aes(x = as.factor(`iteration number`), y=true_rank)) + geom_point(size=3) + geom_line (group=1) + xlab ("iteration") + ggtitle ("True ranks of approximated best SPR neighbours at each iteration")
 

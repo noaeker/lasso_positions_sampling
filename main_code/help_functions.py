@@ -340,6 +340,8 @@ def main_parser():
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
     parser.add_argument('--rearr_dist', type=int, default=10)
     parser.add_argument('--optimized_neighbours_per_iter', type=int, default=100)
+    parser.add_argument('--greedy_SPR',  action = 'store_true')
+    parser.add_argument('--use_spr_neighbours_training', action= 'store_true')
 
     return parser
 

@@ -349,15 +349,12 @@ def lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_ru
         spr_search_configurations,starting_tree_path, curr_msa_stats,
         curr_run_directory=curr_training_size_directory, full_run=False)
 
-    lasso_based_spr_results_print = {k: lasso_based_spr_results[k] for k in
-                                     lasso_based_spr_results.keys() if
-                                     k not in ["lasso_SPR_first_phase_tree_newick",
-                                               "lasso_SPR_second_phase_tree_newick",
-                                               "lasso_ll_per_iteration_first_phase",
-                                               "lasso_ll_per_iteration_second_phase",
-                                               "actual_search_training_path"]
-                                     }
-    logging.info(f"     *****Lasso results are: \n  {lasso_based_spr_results_print}\n")
+    lasso_based_spr_results_print = {k: lasso_based_spr_results[k] for k in lasso_based_spr_results.keys() if all(x not in k for x in ["path", "newick","pval"])}
+
+
+
+
+    logging.info(f"     *****Lasso results were succesfully obtained: \n{lasso_based_spr_results_print}\n ")
     curr_msa_stats.update(lasso_based_spr_results)
     rf_folder = os.path.join(curr_training_size_directory, "rf_calculations")
     create_dir_if_not_exists(rf_folder)
