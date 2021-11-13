@@ -133,36 +133,41 @@ def re_optimize_some_SPR_neighbours_no_weights(ll_spr_candidates_for_brlen_corre
     return best_ll, best_ll_index, best_tree_object, time_rgft_eval_true
 
 
+#curr_phase_weights = lasso_configuration["weights_file_path"]
+#curr_phase_msa = lasso_configuration["sampled_alignment_path"]
+
+
 def get_first_better_neighbour(prev_lasso_corrected_ll, tree_objects, curr_run_directory, fname, MSA_path,
-                               curr_msa_stats, weights_file_path, n_cpus, lasso_intercept, opt_brlen):
+                               curr_msa_stats, weights_file_path, n_cpus, lasso_intercept, opt_brlen, final_phase = False, final_lasso_configuration = None):
     overall_time = 0
     ll_eval = []
     spr_objects = []
+    if final_phase:
+        logging.info("final phase, evaluating all neighbours on purpose!")
     for i, candidate_tree in enumerate(tree_objects):
         curr_spr_candidate_for_brlen_opt_file = write_tree_objects_to_file(candidate_tree,
                                                                            curr_run_directory,
                                                                            fname)
-
         curr_candidate_ll_spr, curr_candidate_object, curr_candidate_object_time = raxml_optimize_trees_for_given_msa(
-            MSA_path, f"rgrft_ll_eval_{fname}",
+            MSA_path if not final_phase else final_lasso_configuration["sampled_alignment_path"] , f"rgrft_ll_eval_{fname}",
             curr_spr_candidate_for_brlen_opt_file,
             curr_msa_stats,
             curr_run_directory,
-            weights=weights_file_path, n_cpus=n_cpus, opt_brlen=opt_brlen)
+            weights=final_lasso_configuration["weights_file_path"] if final_phase else weights_file_path, n_cpus=n_cpus, opt_brlen=opt_brlen)
         curr_candidate_ll_spr_corrected = regression_correct_lasso_ll_values(lasso_intercept,
                                                                              weights_file_path,
                                                                              curr_candidate_ll_spr)
         overall_time += curr_candidate_object_time
         ll_eval.append(curr_candidate_ll_spr)
         spr_objects.append(curr_candidate_object)
-        if curr_candidate_ll_spr_corrected > prev_lasso_corrected_ll + EPSILON:
+        if (curr_candidate_ll_spr_corrected > prev_lasso_corrected_ll + EPSILON) and not final_phase:
             return curr_candidate_ll_spr_corrected, curr_candidate_object, i + 1, overall_time
     return ll_eval, spr_objects, i + 1, overall_time
 
 
 def find_best_SPR_neighbour_greedy(prev_ll, prev_spr_object, curr_msa_stats, MSA_path, unique_spr_neighbours_path,
                                    weights_file_path, lasso_intercept,
-                                   curr_run_directory, n_cpus):
+                                   curr_run_directory, n_cpus, final_phase  = False, final_lasso_configuration = None):
     best_tree_object_path = os.path.join(curr_run_directory, "best_greedy_tree")
     if curr_msa_stats["optimized_neighbours_per_iter"] > 1:
         logging.info("Evaluating (greedy) (no brlen opt) LL of SPR neighbours")
@@ -176,7 +181,7 @@ def find_best_SPR_neighbour_greedy(prev_ll, prev_spr_object, curr_msa_stats, MSA
                                                                                                     weights_file_path,
                                                                                                     n_cpus,
                                                                                                     lasso_intercept,
-                                                                                                    opt_brlen=False)
+                                                                                                    opt_brlen=False, final_phase = final_phase, final_lasso_configuration = final_lasso_configuration)
         if isinstance(ll_eval_corrected, list):  # if no better tree was found
             logging.info("No better tree was found using Eval")
             indices_of_spr_candidates_for_brlen_opt = (-np.array(ll_eval_corrected)).argsort()[
@@ -291,7 +296,7 @@ def find_best_SPR_neighbour_non_greedy(curr_msa_stats, MSA_path, unique_spr_neig
 
 def SPR_iteration(prev_ll, prev_spr_object, iteration_number, MSA_path, curr_msa_stats, starting_tree_object,
                   curr_run_directory,
-                  weights_file_path, lasso_intercept, top_x_true_trees, n_cpus):
+                  weights_file_path, lasso_intercept, top_x_true_trees, n_cpus, final_phase = False, final_lasso_configuration = None):
     add_internal_names(starting_tree_object)
     starting_tree_object.get_tree_root().name = "ROOT"
     logging.debug(str(starting_tree_object.write(format=1)) + "\n")
@@ -309,7 +314,7 @@ def SPR_iteration(prev_ll, prev_spr_object, iteration_number, MSA_path, curr_msa
         iteration_results = find_best_SPR_neighbour_greedy(prev_ll, prev_spr_object, curr_msa_stats, MSA_path,
                                                            unique_spr_neighbours_path,
                                                            weights_file_path, lasso_intercept,
-                                                           curr_run_directory, n_cpus)
+                                                           curr_run_directory, n_cpus,final_phase = final_phase, final_lasso_configuration = final_lasso_configuration)
     else:
         iteration_results = find_best_SPR_neighbour_non_greedy(curr_msa_stats, MSA_path, unique_spr_neighbours_path,
                                                                weights_file_path, lasso_intercept,
@@ -343,7 +348,7 @@ def get_true_and_sampled_starting_tree_ll(reduced_MSA_path, run_unique_name, sta
 
 def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, starting_tree_object,
                curr_run_directory,
-               weights_file_path, lasso_intercept, top_x_true_trees, starting_tree_ll=None, n_cpus=1):
+               weights_file_path, lasso_intercept, top_x_true_trees, starting_tree_ll=None, n_cpus=1, final_phase = False, final_lasso_configuration = None):
     ll_comparison_df_brlen_eval = pd.DataFrame()
     ll_comparison_df_brlen_opt = pd.DataFrame()
     running_times_per_iter = []
@@ -385,7 +390,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
                                               curr_best_tree_object,
                                               curr_iter_run_directory,
                                               weights_file_path, lasso_intercept,
-                                              top_x_true_trees, n_cpus
+                                              top_x_true_trees, n_cpus, final_phase = final_phase, final_lasso_configuration = final_lasso_configuration
                                               )
         logging.info(
             "Our prev best tree ll is {prev_ll}: (true ll = {prev_true}) ; our current best neighbour ll is {best_curr} :(true ll = {best_curr_true})".format(
@@ -607,7 +612,9 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
             weights_file_path=False,
             lasso_intercept=-1,
             top_x_true_trees=-1,
-            n_cpus=curr_msa_stats["n_cpus_full"]
+            n_cpus=curr_msa_stats["n_cpus_full"],
+            final_phase =True,
+            final_lasso_configuration = lasso_configurations[-1]
 
         )
         final_phase_param_dict["ll_comparison_opt"].to_csv(
