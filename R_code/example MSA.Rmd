@@ -8,8 +8,8 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/miso_60_1_phase_eval.csv")
-ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/StruA5_0_phase_opt.csv")
+ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/miso_60_0_phase_eval.csv")
+#ll_comparison_data = read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/StruA5_0_phase_opt.csv")
 
   #read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ll_comparison_df_400_0.1_job0.csv")
 ```
@@ -21,11 +21,11 @@ print(summary(lm))
 
 plot(fitted(lm),residuals(lm))
 
-ll_comparison_data$`sampled msa ll` = fitted(lm)
 
-#lm<- lm(`full msa ll`~`sampled msa ll`, data = ll_comparison_data)
-#print(summary(lm))
-#plot(fitted(lm),residuals(lm))
+
+lm2<- lm(`full msa ll`~`sampled msa ll`, data = ll_comparison_data)
+print(summary(lm2))
+plot(fitted(lm2),residuals(lm))
 
 #ll_comparison_data$`sampled msa ll` = fitted(lm)
 ```
@@ -52,7 +52,6 @@ ggarrange(plot_a_top, plot_b_top,plot_c_top,hjust=-1,vjust=2, heights=c(2,2),com
 
 
 ll_comparison_data %>% ggplot(aes (x=`full msa ll`, y= `sampled msa ll`, colour = as.factor(`iteration number`))) + geom_point()  + ggtitle ("Sampled MSA LL vs True MSA LL")
-
 
 
 ```

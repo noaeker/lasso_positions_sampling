@@ -320,24 +320,25 @@ def SPR_iteration(prev_ll, prev_spr_object, iteration_number, MSA_path, curr_msa
 
 def get_true_and_sampled_starting_tree_ll(reduced_MSA_path, run_unique_name, starting_tree_path, curr_msa_stats,
                                           curr_run_directory, weights_file_path, lasso_intercept, n_cpus):
-    search_starting_tree_ll, tree_objects, elapsed_running_time_starting_eval = raxml_optimize_trees_for_given_msa(
+    search_starting_tree_ll, tree_object_sampled, elapsed_running_time_starting_eval = raxml_optimize_trees_for_given_msa(
         reduced_MSA_path,
         "starting_tree_ll_eval_" + run_unique_name,
         starting_tree_path,
         curr_msa_stats,
         curr_run_directory=curr_run_directory,
         weights=weights_file_path, n_cpus=n_cpus)
+    tree_object_true = tree_object_sampled
     if weights_file_path:
         search_starting_tree_ll = \
         regression_correct_lasso_ll_values(lasso_intercept, weights_file_path, [search_starting_tree_ll])[0]
-        search_true_starting_tree_ll, tree_objects, elapsed_running_time_starting_eval_true = raxml_optimize_trees_for_given_msa(
+        search_true_starting_tree_ll, tree_object_true, elapsed_running_time_starting_eval_true = raxml_optimize_trees_for_given_msa(
             curr_msa_stats["local_alignment_path"], "starting_tree_ll_eval_on_full_" + run_unique_name,
             starting_tree_path,
             curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, n_cpus=curr_msa_stats["n_cpus_Lasso"])
     else:
         search_true_starting_tree_ll = search_starting_tree_ll
 
-    return search_starting_tree_ll, search_true_starting_tree_ll
+    return search_starting_tree_ll, tree_object_sampled, search_true_starting_tree_ll,tree_object_true
 
 
 def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, starting_tree_object,
@@ -353,7 +354,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
     spr_iterations_performed_so_far = 0
     total_spr_neighbours_eval = 0
     total_spr_neighbours_opt = 0
-    search_starting_tree_ll, search_true_starting_tree_ll = get_true_and_sampled_starting_tree_ll(MSA_path,
+    search_starting_tree_ll, tree_object_sampled, search_true_starting_tree_ll,tree_object_true = get_true_and_sampled_starting_tree_ll(MSA_path,
                                                                                                   run_unique_name,
                                                                                                   starting_tree_path,
                                                                                                   curr_msa_stats,
@@ -372,8 +373,8 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path, st
     LL_per_iteration_list = [search_starting_tree_ll]
     TRUE_LL_per_iteration_list = [search_true_starting_tree_ll]
     curr_best_tree_ll, curr_best_tree_true_ll = search_starting_tree_ll, search_true_starting_tree_ll
-    if starting_tree_object is None:
-        starting_tree_object = generate_tree_object_from_newick(starting_tree_path)
+    #if starting_tree_object is None:
+    starting_tree_object = tree_object_true
     curr_best_tree_object = starting_tree_object
     while True:
         curr_iter_run_directory = os.path.join(curr_run_directory, "iter_" + str(spr_iterations_performed_so_far))

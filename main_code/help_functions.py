@@ -322,7 +322,7 @@ def main_parser():
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)
     parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
     parser.add_argument('--only_full_search', action='store_true')  # CHANGE
-    parser.add_argument('--use_parsimony_training_trees', action='store_true')
+    parser.add_argument('--use_parsimony_training_trees', action='store_true', default= False)
     parser.add_argument('--no_test_set', action='store_true')
     parser.add_argument('--n_partitions', type=int, default=1)
     parser.add_argument('--lasso_thresholds', action='store', type=str, default=LASSO_THRESHOLDS)
@@ -333,7 +333,7 @@ def main_parser():
     parser.add_argument('--use_glmnet_lasso', action='store_true')
     parser.add_argument('--relaxed_lasso', action='store_true'
                         )
-    parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true')
+    parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true') #,
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
     parser.add_argument('--top_ind_to_test_per_phase', action='store', type=str, default=TOP_IND_TO_TEST_PER_PHASE)
@@ -341,7 +341,7 @@ def main_parser():
     parser.add_argument('--rearr_dist', type=int, default=10)
     parser.add_argument('--optimized_neighbours_per_iter', type=int, default=100)
     parser.add_argument('--greedy_SPR',  action = 'store_true')
-    parser.add_argument('--use_spr_neighbours_training', action= 'store_true')
+    parser.add_argument('--use_spr_neighbours_training', action= 'store_true') #
 
     return parser
 

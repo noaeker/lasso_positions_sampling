@@ -127,18 +127,29 @@ def generate_n_random_spr_neighbours_topologies_orig_brlen(n, curr_run_directory
     total_trees = 0
     all_tree_objects = []
     curr_seed = seed
+    random_tree_path, elapsed_running_time = generate_n_random_topologies_constant_brlen(1, curr_run_directory,
+                                                                                         curr_msa_stats, name,
+                                                                                         seed=curr_seed)
+    trees_ll_on_data, tree_object, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+        curr_msa_stats["local_alignment_path"], "opt_first_training_tree", random_tree_path, curr_msa_stats,
+        curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False,
+        n_cpus=curr_msa_stats["n_cpus_training"])
+    add_internal_names(tree_object)
+    tree_object.get_tree_root().name = "ROOT"
+    curr_tree_object= tree_object
     while total_trees<n:
-        random_tree_path,elapsed_running_time =  generate_n_random_topologies_constant_brlen(1, curr_run_directory, curr_msa_stats, name, seed = curr_seed)
-        trees_ll_on_data, tree_object, elapsed_running_time = raxml_optimize_trees_for_given_msa(curr_msa_stats["local_alignment_path"], "opt_first_training_tree", random_tree_path, curr_msa_stats,
-                                       curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False,
-                                       n_cpus=curr_msa_stats["n_cpus_training"])
-        spr_moves = get_possible_spr_moves(tree_object,
+        #print(f"total_trees = {total_trees}")
+        spr_moves = get_possible_spr_moves(curr_tree_object,
                                                               rearr_dist=curr_msa_stats["rearr_dist"])
-        all_radius_spr_neighbours = [generate_neighbour(tree_object, spr_neighbour) for spr_neighbour in
-                                     spr_moves]
-        all_tree_objects = all_tree_objects+ all_radius_spr_neighbours
-        total_trees = total_trees + len(all_tree_objects)
+        random.seed(curr_seed)
+        random_spr_move = random.choice(spr_moves)
+        random_spr_neighbour = generate_neighbour(curr_tree_object, random_spr_move )
+        all_tree_objects = all_tree_objects+ [random_spr_neighbour]
+        total_trees = total_trees + 1
         curr_seed = curr_seed + 1
+        add_internal_names(random_spr_neighbour)
+        random_spr_neighbour.get_tree_root().name = "ROOT"
+        curr_tree_object = random_spr_neighbour
     logging.info(f"Used {n} random optimized trees to generate training data!")
     trees_newick = "\n".join([tree.write(format=1) for tree in all_tree_objects[:n]])
     trees_eval_path = os.path.join(curr_run_directory, "all_training_neighbours_trees")
