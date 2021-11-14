@@ -95,6 +95,8 @@ def get_non_greedy_optimized_SPR_neighbours(curr_msa_stats, MSA_path, unique_tre
     else:
         logging.info("Fully optimizing all SPR neighbours")
         spr_candidates_for_brlen_opt_file = unique_trees_path
+        ll_all_spr_candidates_corrected = [-1]
+        time_rgft_eval_no_brlen=0
     ll_spr_candidates_for_brlen, optimized_objects_spr_candidates_for_brlen, time_rgft_eval_true_spr_candidates_for_brlen = raxml_optimize_trees_for_given_msa(
         MSA_path, "rgrft_ll_eval_brlen",
         spr_candidates_for_brlen_opt_file,
@@ -127,9 +129,9 @@ def re_optimize_some_SPR_neighbours_no_weights(ll_spr_candidates_for_brlen_corre
         "lasso_re_optimization_on_full_MSA", top_ll_trees_path,
         curr_msa_stats, curr_run_directory,
         weights=None, n_cpus=curr_msa_stats["n_cpus_full"])  # optimize without weights
-    best_ll = max(top_trees_true_ll)
-    best_ll_index = top_trees_true_ll.index(best_ll)
-    best_tree_object = top_trees_true_optimized_objects[best_ll_index]
+    best_ll = max(top_trees_true_ll) if isinstance(top_x_true_trees,list) else top_x_true_trees
+    best_ll_index = top_trees_true_ll.index(best_ll) if isinstance(top_x_true_trees,list) else 0
+    best_tree_object = top_trees_true_optimized_objects[best_ll_index] if isinstance(top_trees_true_optimized_objects,list) else top_trees_true_optimized_objects
     return best_ll, best_ll_index, best_tree_object, time_rgft_eval_true
 
 
@@ -507,7 +509,7 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
                                              "phase_name": ["full_run"] * len(
                                                  full_data_SPR_result["naive_SPR_ll_per_iteration"])
                                              })
-        full_iterations_data.to_csv(os.path.join(curr_run_directory, "full_iterations_df.csv"))
+        full_iterations_data.to_csv(os.path.join(curr_run_directory, "full_iterations_df.tsv"))
         naive_search_resluts_print = {k: full_data_SPR_result[k] for k in full_data_SPR_result.keys() if
                                       all(x not in k for x in ["path", "newick"])
                                       }
@@ -551,10 +553,10 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
                 prediction_rho_pearson_eval, prediction_pval_pearson_eval, prediction_rho_spearman_eval, prediction_pval_spearman_eval, mse_eval, mistake_cnt_eval = -1, -1, -1, -1, -1, -1
 
             curr_phase_param_dict["ll_comparison_opt"].to_csv(
-                os.path.join(sub_curr_run_directory, f"{i}_phase_ll_comparison_opt.csv"))
+                os.path.join(sub_curr_run_directory, f"{i}_phase_ll_comparison_opt.tsv"))
 
             curr_phase_param_dict["ll_comparison_eval"].to_csv(
-                os.path.join(sub_curr_run_directory, f"{i}_phase_ll_comparison_eval.csv"))
+                os.path.join(sub_curr_run_directory, f"{i}_phase_ll_comparison_eval.tsv"))
             ### Continue sampling with full data
             # Use previous tree as a starting tree
             curr_phase_data = {
@@ -618,9 +620,9 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
 
         )
         final_phase_param_dict["ll_comparison_opt"].to_csv(
-            os.path.join(sub_curr_run_directory, "ll_comparison_opt_df_final_phase.csv"))
+            os.path.join(sub_curr_run_directory, "ll_comparison_opt_df_final_phase.tsv"))
         final_phase_param_dict["ll_comparison_eval"].to_csv(
-            os.path.join(sub_curr_run_directory, "ll_comparison_eval_df_final_phase.csv"))
+            os.path.join(sub_curr_run_directory, "ll_comparison_eval_df_final_phase.tsv"))
 
         final_phase_data = {"lasso_SPR_final_phase_ll": final_phase_param_dict["search_best_ll"],
                             "lasso_SPR_final_phase_tree_newick": final_phase_param_dict[
@@ -648,6 +650,6 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
         logging.info(f"\n\nFinal phase search results: {final_optimized_print}\n")
 
         all_phases_df = pd.DataFrame({"ll": all_phases_ll, "true_ll": all_phases_true_ll, "phase_name": all_phases_tag})
-        all_phases_df.to_csv(os.path.join(curr_run_directory, "all_phases_iterations.csv"))
+        all_phases_df.to_csv(os.path.join(curr_run_directory, "all_phases_iterations.tsv"))
 
         return all_phases_data

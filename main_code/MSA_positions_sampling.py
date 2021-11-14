@@ -166,7 +166,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                                            k not in IGNORE_COLS_IN_CSV
                                            }
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
-                all_msa_results.to_csv(job_csv_path, index=False)
+                all_msa_results.to_csv(job_csv_path, index=False,sep ='\t')
     return all_msa_results
 
 
@@ -311,9 +311,9 @@ def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_
                                                                                  starting_trees_ll_on_data,
                                                                                  ml_standard_trees_ll)
                 all_msa_results = all_msa_results.append(results_per_starting_tree, ignore_index=True)
-                all_msa_results.to_csv(job_csv_path)
+                all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
 
-    all_msa_results.to_csv(job_csv_path)
+    all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
     return all_msa_results
 
 
@@ -343,7 +343,7 @@ def lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_ru
         threshold, top_ind = per_phase_search_data
         lasso_results = lasso_config_per_brlen_and_t_size[float(threshold)]
         lasso_results["top_ind"] = top_ind
-        update_dict_with_a_suffix(curr_msa_stats, lasso_results, suffix=f"phase_{i}")
+        update_dict_with_a_suffix(curr_msa_stats, lasso_results, suffix=f"_phase_{i}")
         spr_search_configurations.append(lasso_results)
     lasso_based_spr_results = SPR_analysis(
         spr_search_configurations,starting_tree_path, curr_msa_stats,
@@ -417,7 +417,7 @@ def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats
                 all_msa_results = all_msa_results.append({k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                                           k not in IGNORE_COLS_IN_CSV
                                                           }, ignore_index=True)
-                all_msa_results.to_csv(job_csv_path)
+                all_msa_results.to_csv(job_csv_path,index = False,sep ='\t')
     return all_msa_results
 
 
@@ -519,7 +519,7 @@ def main():
         create_or_clean_dir(curr_msa_folder)
         all_msa_results = pd.DataFrame(
         )
-        all_msa_results.to_csv(job_csv_path, index=False)
+        all_msa_results.to_csv(job_csv_path, index=False, sep ='\t')
         for actual_n_seq in n_seq_options:
             curr_n_seq_folder = os.path.join(curr_msa_folder, f"n_seq_{actual_n_seq}")
             create_or_clean_dir(curr_n_seq_folder)

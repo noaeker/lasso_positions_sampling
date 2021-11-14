@@ -62,17 +62,17 @@ INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
 CURR_RUN_PREFIX = "test_curr_check2"
 CURR_JOBS_PREFIX =  "test_curr_check2"
 
-LASSO_BASELINE ="test_curr_check"
-TRAINING_BASELINE =   "test_curr_check"
-TEST_SET_BASELINE ="test_curr_check"
-MSA_BASELINE = "test_curr_check"
-FULL_DATA_BASELINE ="test_curr_check"
+LASSO_BASELINE ="x"
+TRAINING_BASELINE =   "x"
+TEST_SET_BASELINE ="x"
+MSA_BASELINE = "x"
+FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "10"
-MIN_N_SEQ = 15
+MAX_N_SEQ =  "6"
+MIN_N_SEQ = 6
 MAX_N_LOCI = "1000"
 MIN_N_LOCI = 100
 N_RANDOM_STARTING_TREES = 1

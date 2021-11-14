@@ -28,7 +28,7 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
         status_file_path_list.append(job_related_files_paths["job_status_file"])
         raw_results = pd.DataFrame(
         )
-        raw_results.to_csv(job_related_files_paths["job_csv_path"], index=False)
+        raw_results.to_csv(job_related_files_paths["job_csv_path"], index=False, sep ='\t')
         with open(job_related_files_paths["job_msa_paths_file"], 'w') as f:
             for path in job_msa_paths:
                 f.write("%s\n" % path)
@@ -57,8 +57,8 @@ def main():
     all_jobs_general_log_file = os.path.join(all_jobs_results_folder, "log_file.log")
     logging.basicConfig(filename=all_jobs_general_log_file, level=LOGGING_LEVEL)
     logging.info("Args = {args}".format(args=args))
-    all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.csv')
-    all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.csv")
+    all_jobs_csv = os.path.join(all_jobs_results_folder, OUTPUT_CSV_NAME + '.tsv')
+    all_jobs_backup_csv = os.path.join(all_jobs_results_folder, "backup.tsv")
     logging.info('#Started running')
     if args.alternative_analysis:
         file_path_list = extract_alignment_files_from_dir(args.alternative_files_folder)

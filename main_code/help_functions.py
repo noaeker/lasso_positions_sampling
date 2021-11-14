@@ -247,22 +247,21 @@ def unify_text_files(input_path_list, output_file_path, str_given=False):
 
 
 def add_csvs_content(csvs_path_list, unified_csv_path):
-    existing_df = [pd.read_csv(unified_csv_path)] if os.path.exists(unified_csv_path) else []
-    existing_df_size = pd.read_csv(unified_csv_path).size if os.path.exists(unified_csv_path) else 0
+    existing_df = [pd.read_csv(unified_csv_path,sep ='\t')] if os.path.exists(unified_csv_path) else []
+    existing_df_size = pd.read_csv(unified_csv_path,sep ='\t').size if os.path.exists(unified_csv_path) else 0
     logging.info('Existing df size is: {}'.format(existing_df_size))
-    non_empty_df = [pd.read_csv(f) for f in csvs_path_list if not pd.read_csv(f).empty]
+    non_empty_df = [pd.read_csv(f,sep ='\t') for f in csvs_path_list if not pd.read_csv(f,sep ='\t').empty]
     combined_df = pd.concat(non_empty_df + existing_df, sort=False)
     combined_df_size = combined_df.size
     logging.info('Combined df size is: {}'.format(combined_df_size))
-    combined_df.to_csv(unified_csv_path, index=False)
+    combined_df.to_csv(unified_csv_path, index=False, sep ='\t')
     return combined_df
-
 
 def remove_empty_columns(csv_path):
     if os.path.exists((csv_path)):
-        df = pd.read_csv(csv_path)
+        df = pd.read_csv(csv_path,sep ='\t')
         df = df.dropna(how='all', axis=1)
-        df.to_csv(csv_path, index=False)
+        df.to_csv(csv_path, index=False, sep ='\t')
 
 
 def get_positions_stats(alignment_df):
@@ -338,8 +337,8 @@ def main_parser():
     parser.add_argument('--compute_per_site_ll_values', action='store_true')
     parser.add_argument('--top_ind_to_test_per_phase', action='store', type=str, default=TOP_IND_TO_TEST_PER_PHASE)
     parser.add_argument('--loci_shift', action='store', type=int, default=0)
-    parser.add_argument('--rearr_dist', type=int, default=10)
-    parser.add_argument('--optimized_neighbours_per_iter', type=int, default=100)
+    parser.add_argument('--rearr_dist', type=int, default=-1)
+    parser.add_argument('--optimized_neighbours_per_iter', type=int, default=-1)
     parser.add_argument('--greedy_SPR',  action = 'store_true')
     parser.add_argument('--use_spr_neighbours_training', action= 'store_true') #
 
