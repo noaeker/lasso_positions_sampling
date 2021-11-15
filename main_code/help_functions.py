@@ -341,6 +341,7 @@ def main_parser():
     parser.add_argument('--optimized_neighbours_per_iter', type=int, default=-1)
     parser.add_argument('--greedy_SPR',  action = 'store_true')
     parser.add_argument('--use_spr_neighbours_training', action= 'store_true') #
+    parser.add_argument('--search_epsilon', default= EPSILON)
 
     return parser
 

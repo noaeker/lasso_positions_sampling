@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/R_code/newest_only_lasso.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_only_lasso.Rmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R_code/newest_only_lasso.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_only_lasso.nb.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/R_code/newest_spr.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_spr.Rmd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/R_code/newest_spr.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_spr.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/TheTree.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/generate_SPR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extra_code/generate_training_sets.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/generate_training_sets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/ps.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/ps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +25,7 @@
         <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="183">
-              <caret line="347" column="43" lean-forward="true" selection-start-line="347" selection-start-column="43" selection-end-line="347" selection-end-column="43" />
+              <caret line="347" column="43" selection-start-line="347" selection-start-column="43" selection-end-line="347" selection-end-column="43" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -37,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="339" column="60" selection-start-line="339" selection-start-column="60" selection-end-line="339" selection-end-column="60" />
+            <state relative-caret-position="311">
+              <caret line="343" column="60" selection-start-line="343" selection-start-column="60" selection-end-line="343" selection-end-column="60" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -49,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="128">
+              <caret line="46" column="38" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -76,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/spr_prune_and_regraft.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            <state relative-caret-position="141">
+              <caret line="180" column="1" selection-start-line="180" selection-start-column="1" selection-end-line="180" selection-end-column="1" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -112,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+            <state relative-caret-position="315">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -165,7 +164,6 @@
       <find>iteration</find>
       <find>spr_iteration</find>
       <find>parsimony</find>
-      <find>training</find>
       <find>lasso_test</find>
       <find>baseline</find>
       <find>greedy</find>
@@ -175,8 +173,9 @@
       <find>.csv</find>
       <find>lasso_configurations</find>
       <find>rearr_</find>
-      <find>5</find>
       <find>non_gree</find>
+      <find>5</find>
+      <find>training</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -224,7 +223,6 @@
         <option value="$PROJECT_DIR$/extra_code/get_sequence.py" />
         <option value="$PROJECT_DIR$/parallel_code/test.py" />
         <option value="$PROJECT_DIR$/parallel_code/enrich_spr_results.py" />
-        <option value="$PROJECT_DIR$/extra_code/generate_training_sets.py" />
         <option value="$PROJECT_DIR$/parallel_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/extra_code/msa_db.py" />
         <option value="$PROJECT_DIR$/parallel_code/training_and_test_set_generation.py" />
@@ -236,14 +234,15 @@
         <option value="$PROJECT_DIR$/parallel_code/rate4site.py" />
         <option value="$PROJECT_DIR$/parallel_code/raxml.py" />
         <option value="$PROJECT_DIR$/parallel_code/config.py" />
-        <option value="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/main_code/raxml.py" />
         <option value="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" />
         <option value="$PROJECT_DIR$/main_code/ps.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" />
-        <option value="$PROJECT_DIR$/main_code/help_functions.py" />
         <option value="$PROJECT_DIR$/main_code/generate_SPR.py" />
         <option value="$PROJECT_DIR$/main_code/config.py" />
+        <option value="$PROJECT_DIR$/extra_code/generate_training_sets.py" />
+        <option value="$PROJECT_DIR$/main_code/help_functions.py" />
+        <option value="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" />
       </list>
     </option>
   </component>
@@ -309,7 +308,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ps">
+  <component name="RunManager" selected="Python.generate_training_sets">
     <configuration name="generate_SPR" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lasso_positions_sampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -394,7 +393,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="rate4site" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="spr_prune_and_regraft" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lasso_positions_sampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -402,11 +401,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/parallel_code" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main_code" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parallel_code/rate4site.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -418,17 +417,17 @@
     <list>
       <item itemvalue="Python.ps (2)" />
       <item itemvalue="Python.generate_training_sets" />
-      <item itemvalue="Python.rate4site" />
       <item itemvalue="Python.ps" />
       <item itemvalue="Python.generate_SPR" />
+      <item itemvalue="Python.spr_prune_and_regraft" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.generate_training_sets" />
+        <item itemvalue="Python.spr_prune_and_regraft" />
         <item itemvalue="Python.ps" />
         <item itemvalue="Python.ps (2)" />
         <item itemvalue="Python.generate_SPR" />
-        <item itemvalue="Python.generate_training_sets" />
-        <item itemvalue="Python.rate4site" />
       </list>
     </recent_temporary>
   </component>
@@ -462,14 +461,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.1884058" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6546864" visible="true" weight="0.32173914" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6546864" visible="true" weight="0.35507247" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49753347" weight="0.3463768" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.24202898" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4989429" weight="0.2231884" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.3453136" side_tool="true" visible="true" weight="0.32173914" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.3453136" side_tool="true" visible="true" weight="0.35507247" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.49275362" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -909,30 +908,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/spr_prune_and_regraft.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="116" column="58" selection-start-line="116" selection-start-column="58" selection-end-line="116" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="283">
@@ -956,19 +931,9 @@
     <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
-          <caret line="347" column="43" lean-forward="true" selection-start-line="347" selection-start-column="43" selection-end-line="347" selection-end-column="43" />
+          <caret line="347" column="43" selection-start-line="347" selection-start-column="43" selection-end-line="347" selection-end-column="43" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="339" column="60" selection-start-line="339" selection-start-column="60" selection-end-line="339" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -985,10 +950,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="116" column="58" selection-start-line="116" selection-start-column="58" selection-end-line="116" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extra_code/generate_training_sets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="46" column="38" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="343" column="60" selection-start-line="343" selection-start-column="60" selection-end-line="343" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/spr_prune_and_regraft.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="180" column="1" selection-start-line="180" selection-start-column="1" selection-end-line="180" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

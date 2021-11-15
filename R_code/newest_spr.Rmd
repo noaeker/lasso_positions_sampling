@@ -34,28 +34,33 @@ plot(x,y)
 greedy_spr<-read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_greedy30.csv")
 greedy_spr %>% select (dataset_id,job_ind,naive_SPR_spr_moves,'0_phase_lasso_SPR_spr_moves',lasso_SPR_final_phase_spr_moves,lasso_SPR_final_phase_ll,naive_SPR_ll, '0_phase_lasso_SPR_ll','0_phase_lasso_SPR_spr_moves',`lasso_test_R^2phase_0`,naive_SPR_ll, lasso_SPR_final_phase_ll, lasso_SPR_final_phase_spr_moves, '0_phase_TRUE_ll_per_iteration', final_phase_ll_per_iteration,naive_SPR_ll_per_iteration, first_eval='0_phase_total_spr_neighbours_evaluated',
                        first_opt='0_phase_total_spr_neighbours_optimized', 
-              
                        final_phase_total_spr_neighbours_evaluated,
+                       first_no_brlen = '0_phase_no_brlen_running_time',
+                       x='0_phase_brlen_running_time',
                        final_phase_total_spr_neighbours_optimized,
                        naive_SPR_total_spr_neighbours_opt,
+                       rf_best_naive_vs_best_lasso,
                        first_spr_moves = '0_phase_lasso_SPR_spr_moves',
-                       naive_SPR_total_spr_neighbours_eval,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time, '0_phase_brlen_running_time',
+                       naive_SPR_total_spr_neighbours_eval,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time,
                          '0_phase_no_brlen_running_time',
                          , final_phase_brlen_running_time, 
                          
-                         final_phase_no_brlen_running_time,
-                         'full_training_random_trees_generation_time') %>%
+                         final_phase_no_brlen_running_time
+                         ) %>%
  mutate(opt_ratio = naive_SPR_total_spr_neighbours_opt/((first_opt*0.05+ final_phase_total_spr_neighbours_optimized)),
-           eval_ratio = naive_SPR_total_spr_neighbours_eval/((first_eval+final_phase_total_spr_neighbours_evaluated+3000)*0.05)
-           ) %>% select (job_ind,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time, '0_phase_brlen_running_time',
+        search_time_ratio = ((naive_spr_brlen_running_time+naive_spr_no_brlen_running_time)*10)/((first_no_brlen+x)*2),
+           eval_ratio = naive_SPR_total_spr_neighbours_eval/((first_eval+final_phase_total_spr_neighbours_evaluated+4000)*0.05)
+           ) %>% select (job_ind,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time, 
                          '0_phase_no_brlen_running_time',
                          , final_phase_brlen_running_time, 
                          
                          final_phase_no_brlen_running_time,
-                         lasso_running_time,
-                         'full_training_random_trees_generation_time',
-                         opt_ratio, eval_ratio,naive_SPR_total_spr_neighbours_eval,first_eval,final_phase_total_spr_neighbours_evaluated,naive_SPR_total_spr_neighbours_opt,first_opt,final_phase_total_spr_neighbours_optimized)
+          
+                         opt_ratio, eval_ratio,naive_SPR_total_spr_neighbours_eval,first_eval,final_phase_total_spr_neighbours_evaluated,naive_SPR_total_spr_neighbours_opt,first_opt,final_phase_total_spr_neighbours_optimized,naive_SPR_ll,lasso_SPR_final_phase_ll, rf_best_naive_vs_best_lasso)
 #select (opt_ratio,naive_SPR_total_spr_neighbours_opt,naive_SPR_spr_moves, first_opt,first_spr_moves,  ,final_phase_total_spr_neighbours_optimized,lasso_SPR_final_phase_spr_moves ) 
+```
+```{r}
+greedy_spr$'0_phase_brlen_running_time'
 ```
 
 
