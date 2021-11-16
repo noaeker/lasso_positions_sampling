@@ -358,11 +358,7 @@ def lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_ru
     curr_msa_stats.update(lasso_based_spr_results)
     rf_folder = os.path.join(curr_training_size_directory, "rf_calculations")
     create_dir_if_not_exists(rf_folder)
-    curr_msa_stats["rf_best_naive_vs_best_lasso"] = RF_between_two_newick(rf_folder, "best_vs_lasso",curr_msa_stats["naive_SPR_tree_newick"], curr_msa_stats["best_lasso_tree_newick"])
-    curr_msa_stats["rf_best_naive_vs_start"] = RF_between_two_newick(rf_folder, "best_vs_start",
-                                                                          curr_msa_stats["naive_SPR_tree_newick"],
-                                                                          curr_msa_stats["SPR_search_starting_tree_newick"])
-
+    curr_msa_stats["rf_best_naive_vs_best_lasso"] = RF_between_two_newick(rf_folder, "best_vs_lasso",curr_msa_stats["naive_SPR_best_tree_newick"], curr_msa_stats["final_phase_best_tree_newick"])
 
 
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
@@ -510,6 +506,8 @@ def main():
                      (args.max_n_seq).split("_")]
     n_loci_options = [int(t) for t in
                       (args.max_n_loci).split("_")]
+    all_msa_results = pd.DataFrame(
+    )
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
         msa_name = original_alignment_path.replace(MSAs_FOLDER, "").replace("ref_msa.aa.phy", "").replace(os.path.sep,
                                                                                                           "_")
@@ -517,8 +515,6 @@ def main():
             f'#running on file name {msa_name} and ind (relativ to job) {file_ind}  original path= {original_alignment_path}')
         curr_msa_folder = os.path.join(args.curr_job_folder, msa_name)
         create_or_clean_dir(curr_msa_folder)
-        all_msa_results = pd.DataFrame(
-        )
         all_msa_results.to_csv(job_csv_path, index=False, sep ='\t')
         for actual_n_seq in n_seq_options:
             curr_n_seq_folder = os.path.join(curr_msa_folder, f"n_seq_{actual_n_seq}")

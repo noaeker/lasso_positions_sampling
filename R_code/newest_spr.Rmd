@@ -36,7 +36,7 @@ greedy_spr %>% select (dataset_id,job_ind,naive_SPR_spr_moves,'0_phase_lasso_SPR
                        first_opt='0_phase_total_spr_neighbours_optimized', 
                        final_phase_total_spr_neighbours_evaluated,
                        first_no_brlen = '0_phase_no_brlen_running_time',
-                       x='0_phase_brlen_running_time',
+                       first_brlen='0_phase_brlen_running_time',
                        final_phase_total_spr_neighbours_optimized,
                        naive_SPR_total_spr_neighbours_opt,
                        rf_best_naive_vs_best_lasso,
@@ -48,15 +48,14 @@ greedy_spr %>% select (dataset_id,job_ind,naive_SPR_spr_moves,'0_phase_lasso_SPR
                          final_phase_no_brlen_running_time
                          ) %>%
  mutate(opt_ratio = naive_SPR_total_spr_neighbours_opt/((first_opt*0.05+ final_phase_total_spr_neighbours_optimized)),
-        search_time_ratio = ((naive_spr_brlen_running_time+naive_spr_no_brlen_running_time)*10)/((first_no_brlen+x)*2),
+        search_time_ratio = ((naive_spr_brlen_running_time+naive_spr_no_brlen_running_time)*10)/((first_no_brlen+first_brlen)*2+final_phase_brlen_running_time*10+final_phase_no_brlen_running_time*2),
            eval_ratio = naive_SPR_total_spr_neighbours_eval/((first_eval+final_phase_total_spr_neighbours_evaluated+4000)*0.05)
-           ) %>% select (job_ind,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time, 
-                         '0_phase_no_brlen_running_time',
+           ) %>% select (job_ind,search_time_ratio,opt_ratio, eval_ratio,naive_spr_brlen_running_time,naive_spr_no_brlen_running_time, 
                          , final_phase_brlen_running_time, 
                          
                          final_phase_no_brlen_running_time,
           
-                         opt_ratio, eval_ratio,naive_SPR_total_spr_neighbours_eval,first_eval,final_phase_total_spr_neighbours_evaluated,naive_SPR_total_spr_neighbours_opt,first_opt,final_phase_total_spr_neighbours_optimized,naive_SPR_ll,lasso_SPR_final_phase_ll, rf_best_naive_vs_best_lasso)
+                         naive_SPR_total_spr_neighbours_eval,first_eval,final_phase_total_spr_neighbours_evaluated,naive_SPR_total_spr_neighbours_opt,first_opt,final_phase_total_spr_neighbours_optimized,naive_SPR_ll,lasso_SPR_final_phase_ll, rf_best_naive_vs_best_lasso)
 #select (opt_ratio,naive_SPR_total_spr_neighbours_opt,naive_SPR_spr_moves, first_opt,first_spr_moves,  ,final_phase_total_spr_neighbours_optimized,lasso_SPR_final_phase_spr_moves ) 
 ```
 ```{r}

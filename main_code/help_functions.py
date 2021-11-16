@@ -330,8 +330,7 @@ def main_parser():
     parser.add_argument('--random_lasso', action='store_true')
     parser.add_argument('--alternative_training', action='store_true')
     parser.add_argument('--use_glmnet_lasso', action='store_true')
-    parser.add_argument('--relaxed_lasso', action='store_true'
-                        )
+    parser.add_argument('--relaxed_lasso', action='store_true')
     parser.add_argument('--use_spr_parsimony_starting_tree', action='store_true') #,
     parser.add_argument('--compute_all_true_ll', action='store_true')
     parser.add_argument('--compute_per_site_ll_values', action='store_true')

@@ -175,11 +175,11 @@ def assign_brlen_to_tree_object(tree_object, brlen_list):
 
 
 
-#t = Tree();
-#t.populate(60);
-#add_internal_names(t)
-#lst = get_possible_spr_moves(t, rearr_dist=10)
-#print(len(lst))
+t = Tree();
+t.populate(6);
+add_internal_names(t)
+lst = get_possible_spr_moves(t, rearr_dist=-1)
+print(len(lst))
 
 
 
