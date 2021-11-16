@@ -3,7 +3,7 @@ import logging
 import random
 
 
-LOCAL_RUN False
+LOCAL_RUN = False
 
 SEED = 1
 

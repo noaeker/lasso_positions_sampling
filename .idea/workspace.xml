@@ -5,21 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/extra_code/enrich_SPR_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/.Rhistory" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/.Rhistory" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/example MSA.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/example MSA.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/newest_only_lasso.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_only_lasso.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/newest_only_lasso.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_only_lasso.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/newest_spr.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_spr.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/newest_spr.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/newest_spr.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extra_code/enrich_lasso_results.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/TheTree.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/generate_SPR.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/generate_SPR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +73,7 @@
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+              <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -952,7 +938,7 @@
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
           </folding>
