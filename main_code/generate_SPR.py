@@ -542,6 +542,7 @@ def generate_per_iter_df(data_param_dict, name):
 def generate_search_param_dict(param_dict, name):
     search_final_dict = {
         f"{name}_SPR_ll": param_dict["search_best_brlen_optimized_true_ll"],
+        f"{name}_starting_tree_SPR_ll":param_dict["search_starting_tree_ll"],
         f"{name}_best_tree_newick": param_dict["search_best_topology_newick"],
         f"{name}_spr_moves": param_dict["search_spr_moves"],
         f"{name}_running_time": param_dict["total_search_running_time"],
@@ -628,17 +629,30 @@ def SPR_analysis(lasso_configurations, SPR_chosen_starting_tree_path, curr_msa_s
         sub_curr_run_directory = os.path.join(curr_run_directory, f"final_phase_use_sampled_MSA")
         if not os.path.exists(sub_curr_run_directory):
             os.mkdir(sub_curr_run_directory)
-        final_phase_param_dict = SPR_search(
-            MSA_path=curr_msa_stats["local_alignment_path"], run_unique_name=run_unique_name,
-            curr_msa_stats=curr_msa_stats,
-            starting_tree_path=curr_starting_tree_path,
-            curr_run_directory=sub_curr_run_directory,
-            weights_file_path=False,
-            lasso_intercept=-1,
-            top_x_true_trees=-1,
-            n_cpus=curr_msa_stats["n_cpus_full"],
-            final_phase=True,
-            final_lasso_configuration=lasso_configurations[-1]
+        if curr_msa_stats["use_modified_final_search"]:
+            final_phase_param_dict = SPR_search(
+                MSA_path=curr_msa_stats["local_alignment_path"], run_unique_name=run_unique_name,
+                curr_msa_stats=curr_msa_stats,
+                starting_tree_path=curr_starting_tree_path,
+                curr_run_directory=sub_curr_run_directory,
+                weights_file_path=False,
+                lasso_intercept=-1,
+                top_x_true_trees=-1,
+                n_cpus=curr_msa_stats["n_cpus_full"],
+                final_phase=True,
+                final_lasso_configuration=lasso_configurations[-1]
+
+        )
+        else:
+            final_phase_param_dict = SPR_search(
+                MSA_path=curr_msa_stats["local_alignment_path"], run_unique_name=run_unique_name,
+                curr_msa_stats=curr_msa_stats,
+                starting_tree_path=curr_starting_tree_path,
+                curr_run_directory=sub_curr_run_directory,
+                weights_file_path=False,
+                lasso_intercept=-1,
+                top_x_true_trees=-1,
+                n_cpus=curr_msa_stats["n_cpus_full"]
 
         )
         final_phase_data = generate_search_param_dict(final_phase_param_dict, name="final_phase")

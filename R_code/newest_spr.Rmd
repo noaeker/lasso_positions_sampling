@@ -22,13 +22,7 @@ library(vip)
 library(plm)
 ```
 
-```{r}
 
-x<-
-y<-
-
-plot(x,y)
-```
 
 ```{r}
 greedy_spr<-read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/new_greedy30.csv")

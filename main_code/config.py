@@ -42,7 +42,7 @@ def sample_exp(size,start_seed):
 
 #Default values
 LOGGING_LEVEL = logging.INFO
-GENERATE_LASSO_DESCRIPTIVE = False
+GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = "150"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
@@ -71,11 +71,11 @@ ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "6"
+MAX_N_SEQ =  "6_8"
 MIN_N_SEQ = 6
-MAX_N_LOCI = "1000"
+MAX_N_LOCI = "1000_2000"
 MIN_N_LOCI = 100
-N_RANDOM_STARTING_TREES = 1
+N_RANDOM_STARTING_TREES = 3
 #PARSIMONY_STARTING_TREE = False #1/0
 N_MSAS = 2
 FIRST_MSA_IND = 1

@@ -1,1 +1,1 @@
-(Nakaseomyces_delphensis:0.399878,((Lipomyces_starkeyi:0.347006,(Aspergillus_nidulans:0.314725,Fusarium_graminearum:0.435393):0.357344):0.201110,Candida_arabinofermentans:0.244653):0.123990,Hanseniaspora_uvarum:0.346667);
+(Hanseniaspora_uvarum:0.514614,Nakaseomyces_delphensis:0.358761,((((Fusarium_graminearum:0.323272,Aspergillus_nidulans:0.242682):0.561986,Lipomyces_starkeyi:0.381982):0.148486,Candida_apicola:0.486955):0.118058,(Candida_orthopsilosis:0.361713,Candida_arabinofermentans:0.368854):0.050570):0.162664);
