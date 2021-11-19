@@ -450,7 +450,7 @@ def SPR_search(MSA_path, run_unique_name, curr_msa_stats, starting_tree_path,
         BEST_TREE.write(prev_best_tree_object.write(format=1))
     search_results = {
         "search_best_ll": prev_best_tree_ll,
-        "search_starting_tree_ll": starting_tree_ll,
+        "search_starting_tree_ll": search_starting_tree_ll,
         "search_best_brlen_optimized_true_ll": prev_best_tree_true_ll,
         "search_best_topology_newick": prev_best_tree_object.write(format=1),
         "search_starting_tree_newick": starting_tree_object_true_brlen.write(format=1),
