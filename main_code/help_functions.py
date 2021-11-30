@@ -46,7 +46,7 @@ def submit_linux_job(job_name, job_folder, run_command, cpus, job_ind="job", que
     logging.debug("About to run on {} queue: {}".format(queue, job_line))
     with open(cmds_path, 'w') as cmds_f:
         cmds_f.write(job_line)
-    command = f'/bioseq/bioSequence_scripts_and_constants/q_submitter_power.py {cmds_path} {job_log_path} --cpu {cpus} -q {queue}'
+    command = f'/groups/pupko/edodotan/q_submitter_power.py {cmds_path} {job_log_path} --cpu {cpus} -q {queue}'
     logging.debug(f'About to submit a pbs file to {queue} queue based on cmds:{cmds_path}')
     os.system(command)
 
