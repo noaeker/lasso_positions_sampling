@@ -6,7 +6,7 @@ from rate4site import *
 
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
-    seed = SEED + i
+    seed = SEED + i+ curr_msa_stats["start_of_starting_tree_ind"]
     random_tree_folder = os.path.join(curr_run_directory, "RANDOM_starting_tree_" + str(i))
     create_or_clean_dir(random_tree_folder)
     starting_tree_path = os.path.join(random_tree_folder, ".raxml.startTree")

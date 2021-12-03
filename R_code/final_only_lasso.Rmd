@@ -40,47 +40,52 @@ new_format_lasso_data %>% distinct (dataset_name, MSA_original_n_seq, actual_n_s
 
 
 Example MSA:
+Results are based on:
+/groups/pupko/noaeker/lasso_positions_sampling_results/f2_mg30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/Lasso_folder/exponential/training_4000_random_tree_eval/trimmed_4000/threshold_0.05_outputs/training_sitelh_df_prediction.csv
+
+/groups/pupko/noaeker/lasso_positions_sampling_results/f2_mg30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/Lasso_folder/exponential/training_4000_random_tree_eval/trimmed_4000/threshold_0.05_outputs/test_sitelh_df_prediction_no_opt.csv
 
 ```{r}
 example_msa_data<- new_format_lasso_data %>% filter (dataset_name=="NagyA1", actual_n_seq==30, actual_n_loci == 80000)
 
-example_msa_data_specific_configuration<- example_msa_data %>% filter (actual_sample_pct==0.05, actual_training_size==2000)
+example_msa_data_specific_configuration<- example_msa_data %>% filter (actual_sample_pct==0.05, actual_training_size==4000)
 
 example_msa_data
 
 example_msa_data_specific_configuration %>% select (alpha, number_loci_chosen, `lasso_test_R^2`, lasso_test_spearmanr )
 
-# example_msa_training_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/training_sitelh_df_prediction_Shen.csv")
-# example_msa_test_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/test_sitelh_df_prediction_Shen.csv")
-# 
-# 
-# example_msa_training_ll %>% mutate(error_pct = round(abs((true_training_ll-predicted_training_ll)/true_training_ll)*100,3)) %>% head(5)
-# example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) %>% head(5)
-# 
-# g01<-ggplot(example_msa_test_ll,aes(true_test_ll, predicted_test_ll)) +theme_classic()+
-#   geom_smooth(method='lm')+xlab("True test LL")+ylab("Predicted test LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
-#         axis.title=element_text(size=11)) #+ ggtitle("Test set predicted log-likelihood vs. true log-likelihood")
-# 
-# g02<-ggplot(example_msa_training_ll,aes(true_training_ll, predicted_training_ll)) +theme_classic()+
-#   geom_smooth(method='lm')+xlab("True training LL")+ylab("Predicted training LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
-#         axis.title=element_text(size=11)) #+ggtitle("Training set predicted log-likelihood vs. true log-likelihood")
-# 
-# ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
-#           labels = c("A", "B"),
-#           ncol = 1, nrow =2)
-# 
-# 
-# r2.taining<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll )
-# r2.test<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll )
-# 
-# r2.taining
-# r2.test
-# 
-# r2.taining.spearman<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll, method = "spearman" )
-# r2.test.spearman<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll, method = "spearman" )
-# 
-# r2.taining.spearman
-# r2.test.spearman
+example_msa_training_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_training.csv")
+example_msa_test_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_test.csv")
+
+g01<-ggplot(example_msa_test_ll,aes(true_test_ll, predicted_test_ll)) +theme_classic()+
+  geom_smooth(method='lm')+xlab("True test LL")+ylab("Predicted test LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11)) #+ ggtitle("Test set predicted log-likelihood vs. true log-likelihood")
+
+g02<-ggplot(example_msa_training_ll,aes(true_training_ll, predicted_training_ll)) +theme_classic()+
+  geom_smooth(method='lm')+xlab("True training LL")+ylab("Predicted training LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11)) #+ggtitle("Training set predicted log-likelihood vs. true log-likelihood")
+
+ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
+          labels = c("A", "B"),
+          ncol = 1, nrow =2)
+
+
+r2.taining<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll )
+r2.test<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll )
+
+r2.taining
+r2.test
+
+r2.taining.spearman<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll, method = "spearman" )
+r2.test.spearman<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_test_ll$true_test_ll, method = "spearman" )
+
+r2.taining.spearman
+r2.test.spearman
+
+example_msa_training_ll %>% mutate(error_pct = round(abs((true_training_ll-predicted_training_ll)/true_training_ll)*100,3)) %>% head(5)
+example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) %>% head(5)
+
+
 ```
 
 Explore unexplained variance on example MSA
@@ -131,19 +136,16 @@ library(nlme)
 
 lasso_glm_data<- new_format_lasso_data %>% select (`lasso_test_R^2`,actual_n_seq,actual_n_loci,actual_training_size,dataset_name,actual_sample_pct,actual_n_loci) %>% mutate(actual_n_loci = (actual_n_loci-mean(actual_n_loci))/1000,actual_training_size= (actual_training_size-mean(actual_training_size))/1000,actual_sample_pct = (actual_sample_pct-mean(actual_sample_pct))*100, unexplained_var = 1-`lasso_test_R^2`, actual_n_seq = actual_n_seq-mean(actual_n_seq))
 lasso_glm_data
-gpa_mixed = lme(log(unexplained_var)/(1-unexplained_var) ~ (actual_n_loci+actual_sample_pct+actual_n_seq+actual_n_seq+actual_training_size)^2, random = ~ 1 | dataset_name, data = lasso_glm_data)
+gpa_mixed = lme(log(unexplained_var)/(1-unexplained_var) ~ (actual_n_loci+actual_sample_pct+actual_n_seq+actual_n_seq+(actual_training_size))^2, random = ~ 1 | dataset_name, data = lasso_glm_data)
 print(summary(gpa_mixed))
 plot(gpa_mixed)
 
 ```
-```{r}
-library(nlme)
 
-lasso_glm_data<- new_format_lasso_data %>% filter (actual_training_size>1000, actual_n_loci==80000,actual_sample_pct>=0.05) %>% select (`lasso_test_R^2`,actual_n_seq,actual_n_loci,actual_training_size,dataset_name,actual_sample_pct,actual_n_loci) %>% mutate(actual_n_loci = (actual_n_loci-mean(actual_n_loci))/1000,actual_training_size= (actual_training_size-mean(actual_training_size))/1000,actual_sample_pct = (actual_sample_pct-mean(actual_sample_pct))*100, unexplained_var = 1-`lasso_test_R^2`, actual_n_seq = actual_n_seq-mean(actual_n_seq))
-lasso_glm_data
-gpa_mixed = lme(log(unexplained_var)/(1-unexplained_var) ~ (actual_sample_pct+actual_n_seq+actual_training_size)^2, random = ~ 1 | dataset_name, data = lasso_glm_data)
-print(summary(gpa_mixed))
-plot(gpa_mixed)
+```{r}
+t30_2000<-new_format_lasso_data %>% filter (actual_training_size==2000, actual_n_seq==30, actual_n_loci==80000) %>% arrange (dataset_name) %>%pull (`lasso_test_R^2`)
+t30_4000<-new_format_lasso_data %>% filter (actual_training_size==4000, actual_n_seq==30, actual_n_loci==80000) %>% arrange (dataset_name) %>% pull (`lasso_test_R^2`)
+t.test(t30_2000,t30_4000, paired = TRUE)
 ```
 
 
@@ -192,7 +194,7 @@ new_format_lasso_data %>% mutate(actual_training_evaluation_time = full_size_tra
 ```{r}
 
 new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
-  filter (actual_n_loci==80000, actual_n_seq==60) %>%
+  filter (actual_n_loci==80000, actual_n_seq==30) %>%
   ggplot(aes(x=actual_sample_pct,y=lasso_mean_rate4site, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Mean evolutionary rate") + theme_classic()+facet_grid(cols = vars(dataset_name)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
 
 
@@ -203,6 +205,9 @@ new_format_lasso_data %>% filter (lasso_mean_rate4site<0)
 
 ```{r}
 new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% filter (dataset_name=="ShenA9", actual_n_loci==80000, actual_n_seq==60) %>% select (actual_n_seq,actual_training_size,actual_sample_pct,lasso_mean_rate4site)
+```
+```{r}
+new_format_lasso_data %>% filter (n_seq==30, n_loci == 80000) %>%  distinct (dataset_name,constant_sites_pct, gap_pct)
 ```
 
 

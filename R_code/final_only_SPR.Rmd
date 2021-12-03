@@ -8,13 +8,13 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-#"/Users/noa/Workspace/lasso_positions_sampling_results/f_g30.tsv"
 options(digits=10)
 spr_data<-bind_rows(read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f_mg15.tsv"), read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f2_mg30.tsv")
+                                                                                                           
+                                                                                                           
+                                                                                                           )
                     )
-                    
-#read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f_g30.tsv")
-#read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f_g30.tsv")
+
 ```
 
 15,30 and 60 taxa analysis
@@ -23,12 +23,13 @@ spr_data<-bind_rows(read_tsv("/Users/noa/Workspace/lasso_positions_sampling_resu
 spr_data_edited<- spr_data  %>%
             separate(dataset_id, "_supermatrices_",
                 into = c("prefix", "last_value"), 
-                remove = FALSE) %>% separate(last_value,"_",into = c("dataset_name", "suffix")) %>%  select(-c("prefix","suffix")) %>% select (run_prefix,dataset_name, actual_n_seq, actual_n_loci, `lasso_test_R^2_phase_0`,naive_SPR_SPR_ll,final_phase_SPR_ll, phase_0_SPR_ll,rf_best_naive_vs_best_lasso,                                                                                                               naive_SPR_spr_moves,                                                                                                                  naive_SPR_no_brlen_running_time,
+                remove = FALSE) %>% separate(last_value,"_",into = c("dataset_name", "suffix")) %>%  select(-c("prefix","suffix")) %>% select (run_prefix,dataset_name, actual_n_seq, actual_n_loci,sample_pct_phase_0,number_loci_chosen_phase_0, `lasso_test_R^2_phase_0`,naive_SPR_SPR_ll,final_phase_SPR_ll, phase_0_SPR_ll,rf_best_naive_vs_best_lasso,                                                                                                               naive_SPR_spr_moves,                                                                                                                  naive_SPR_no_brlen_running_time,
                                                                                                                                                naive_SPR_total_spr_neighbours_evaluated,                                                                                                                    naive_SPR_brlen_running_time,                                                                                                 naive_SPR_total_spr_neighbours_optimized,                                                                                                               naive_SPR_running_time
                                                                                                                                                ,
                                                                                                                                             starting_tree_path,
   naive_SPR_starting_tree_SPR_ll,                                                                                                                       
   phase_0_spr_moves,
+  lasso_training_size_phase_0,
   phase_0_re_opt_running_time,
   phase_0_no_brlen_running_time,
   phase_0_total_spr_neighbours_optimized,
@@ -44,23 +45,33 @@ spr_data_edited<- spr_data  %>%
   full_training_random_trees_generation_time_phase_0,
   lasso_running_time_phase_0,
    full_size_training_evaluation_time_phase_0
-  ) %>% mutate(delta_ll_final = ifelse(rf_best_naive_vs_best_lasso>0,naive_SPR_SPR_ll-final_phase_SPR_ll,0))
+  ) %>% mutate(delta_ll_final = ifelse(rf_best_naive_vs_best_lasso>0,naive_SPR_SPR_ll-final_phase_SPR_ll,0), delta_ll_phase_0 =naive_SPR_SPR_ll-phase_0_SPR_ll )
 
 spr_data_edited <- spr_data_edited %>% group_by(dataset_name, actual_n_seq, actual_n_loci) %>% mutate (starting_tree_id = row_number()) 
 spr_data_edited  %>% select (delta_ll_final,run_prefix,dataset_name, actual_n_seq,naive_SPR_spr_moves,final_phase_spr_moves,naive_SPR_no_brlen_running_time,final_phase_no_brlen_running_time,naive_SPR_total_spr_neighbours_evaluated,final_phase_total_spr_neighbours_evaluated) %>% arrange(dataset_name, actual_n_seq) %>% filter (actual_n_seq>15)
 
 ```
+
+```{r}
+spr_data_edited %>% filter (dataset_name=="NagyA1",actual_n_seq==30) %>% select (number_loci_chosen_phase_0, `lasso_test_R^2_phase_0`)
+```
+
+
 Example MSA:
+Based on-
+/groups/pupko/noaeker/lasso_positions_sampling_results/f2_mg30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/spr_results/starting_tree_0/spr_full_data_results/full_iterations_df.tsv
+
+
+/groups/pupko/noaeker/lasso_positions_sampling_results/f2_mg30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/spr_results/starting_tree_0/exponential/4000/all_phases_iterations.tsv 
+
 ```{r}
 n_cores_full =15
 n_cores_lasso = 1
 example_msa_data<-spr_data_edited %>% filter (dataset_name=="NagyA1",actual_n_seq==30)
-example_msa_data %>% select (delta_ll_final,naive_SPR_running_time, phase_0_running_time, final_phase_running_time)
-#example_msa_lasso_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f_g30_nagy_lasso_iterations.tsv") %>% mutate(iter= row_number()) 
-example_msa_lasso_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/Stru_lasso_iterations.tsv") %>% mutate(iter= row_number()) 
-#example_msa_naive_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/f_g30_nagy_full_iterations.tsv") %>% mutate(iter= row_number()) 
-example_msa_naive_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/Stru_naive_iterations.tsv") %>% mutate(iter= row_number()) 
-example_msa_lasso_iterations
+example_msa_data %>% select (delta_ll_final,delta_ll_phase_0,naive_SPR_running_time, phase_0_running_time, final_phase_running_time, naive_SPR_spr_moves,phase_0_spr_moves,final_phase_spr_moves,final_phase_SPR_ll,phase_0_SPR_ll, naive_SPR_SPR_ll )
+
+example_msa_naive_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/nagy_full_iterations.tsv") %>% mutate (iter = row_number(),phase_name = "Standard search" )
+example_msa_lasso_iterations<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/nagy_lasso_iterations.tsv") %>% mutate( iter= row_number(), phase_name = ifelse(phase_name=="0_phase","Lasso-based search, first phase","Lasso-based search, final phase" ))
 example_msa_lasso_iterations %>% select (phase_name, ll, true_ll)
 
 best_ll = max(c(example_msa_naive_iterations %>% pull (true_ll),example_msa_lasso_iterations %>% pull (true_ll)))
@@ -103,16 +114,36 @@ n_cores_lasso = 1
 n_starting_trees = 3
 
  # running_time_analysis
-all_msa_running_time<-spr_data_edited %>% select (dataset_name,`lasso_test_R^2_phase_0`,starting_tree_path,delta_ll_final,actual_n_seq,naive_SPR_no_brlen_running_time,naive_SPR_brlen_running_time, phase_0_no_brlen_running_time, phase_0_brlen_running_time,final_phase_no_brlen_running_time, final_phase_brlen_running_time, full_size_training_evaluation_time_phase_0, lasso_running_time_phase_0) %>% mutate (run_time_naive = n_cores_full*(naive_SPR_no_brlen_running_time+naive_SPR_brlen_running_time), run_time_lasso = n_cores_lasso*(phase_0_no_brlen_running_time+phase_0_brlen_running_time) + (n_cores_lasso*final_phase_no_brlen_running_time)+(n_cores_full*final_phase_brlen_running_time), run_time_training = full_size_training_evaluation_time_phase_0* n_cores_full, run_time_lasso_algorithm =lasso_running_time_phase_0  ) %>% mutate(ratio_including_training =run_time_naive/(run_time_lasso+((run_time_training+run_time_lasso_algorithm)/n_starting_trees
-)) , ratio_without_training =run_time_naive/run_time_lasso) 
+all_msa_running_time<-spr_data_edited %>% select (dataset_name,`lasso_test_R^2_phase_0`,
+                                                  
+naive_SPR_spr_moves,phase_0_spr_moves,final_phase_spr_moves,   delta_ll_phase_0,                                               sample_pct_phase_0,starting_tree_id,delta_ll_final,actual_n_seq,naive_SPR_no_brlen_running_time,naive_SPR_brlen_running_time, phase_0_no_brlen_running_time, phase_0_brlen_running_time,final_phase_no_brlen_running_time, final_phase_brlen_running_time, full_size_training_evaluation_time_phase_0, lasso_running_time_phase_0,lasso_training_size_phase_0,phase_0_total_spr_neighbours_evaluated,phase_0_total_spr_neighbours_optimized,
+final_phase_total_spr_neighbours_evaluated,final_phase_total_spr_neighbours_optimized,naive_SPR_total_spr_neighbours_evaluated,naive_SPR_total_spr_neighbours_optimized) %>% mutate (run_time_naive = n_cores_full*(naive_SPR_no_brlen_running_time+naive_SPR_brlen_running_time), n_evals_naive = naive_SPR_total_spr_neighbours_evaluated, n_opts_naive =  naive_SPR_total_spr_neighbours_optimized,
+                                                                                                                                                                                     run_time_lasso = n_cores_lasso*(phase_0_no_brlen_running_time+phase_0_brlen_running_time) + (n_cores_lasso*final_phase_no_brlen_running_time)+(n_cores_full*final_phase_brlen_running_time), n_evals_lasso =sample_pct_phase_0*(phase_0_total_spr_neighbours_evaluated+final_phase_total_spr_neighbours_evaluated) ,
+                                                                                                                                        
+                                          n_opts_lasso =  phase_0_total_spr_neighbours_optimized*sample_pct_phase_0+final_phase_total_spr_neighbours_optimized,                                                                                                                                           run_time_training = full_size_training_evaluation_time_phase_0* n_cores_full, n_evals_training =lasso_training_size_phase_0 , run_time_lasso_algorithm =lasso_running_time_phase_0  ) %>% mutate(ratio_including_training =run_time_naive/(run_time_lasso+((run_time_training+run_time_lasso_algorithm)/n_starting_trees
+)) , ratio_without_training =run_time_naive/run_time_lasso,
+opt_operations_ratio =n_opts_naive/n_opts_lasso,
+eval_operations_ratio_no_training = n_evals_naive/(n_evals_lasso),
+eval_operations_ratio =n_evals_naive/(n_evals_lasso+lasso_training_size_phase_0/n_starting_trees),
+pct_eval_final_phase = final_phase_total_spr_neighbours_evaluated/(phase_0_total_spr_neighbours_evaluated+final_phase_total_spr_neighbours_evaluated),
+spr_moves_ratio = naive_SPR_spr_moves/(phase_0_spr_moves+final_phase_spr_moves)
+)
 
-all_msa_running_time %>% select (dataset_name,run_time_naive, actual_n_seq,run_time_lasso, run_time_lasso_algorithm, run_time_training ) %>% arrange(dataset_name, actual_n_seq)
-all_msa_running_time %>% group_by(actual_n_seq) %>% summarise(median_ratio_including_training = median (ratio_including_training),median_ratio_without_training = median ( ratio_without_training))
+all_msa_running_time_pretty<-all_msa_running_time %>% select (dataset_name, actual_n_seq,run_time_naive,run_time_lasso, run_time_lasso_algorithm, run_time_training,
+                                 ratio_without_training,ratio_including_training,
+                                 n_opts_naive, n_opts_lasso,  n_evals_naive, n_evals_lasso, lasso_training_size_phase_0,opt_operations_ratio,eval_operations_ratio,eval_operations_ratio_no_training,pct_eval_final_phase,
+                                 
+                                 
+                                 
+                                 ) %>% arrange(dataset_name, actual_n_seq)
 
-excluding_training_phase<-all_msa_running_time %>% ggplot(aes(x=ratio_without_training, y=delta_ll_final, color = dataset_name,)) + geom_point(size = 3) + facet_grid(cols = vars(actual_n_seq)) + scale_x_continuous(limits = c(0, 30),expand = c(0, 0)) +theme_classic() + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+
+
+
+
+excluding_training_phase<-all_msa_running_time %>% ggplot(aes(x=ratio_without_training, y=delta_ll_final, color = dataset_name,)) + geom_point(size = 3) + facet_grid(rows = vars(actual_n_seq)) + scale_x_continuous(limits = c(0, 30),expand = c(0, 0)) +theme_classic() + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+
   labs(color = "Empirical MSA",x="Running-time decrease factor\n excluding training phase",y="Delta LL")
 
-including_training_phase<-all_msa_running_time %>% ggplot(aes(x=ratio_including_training,y=delta_ll_final, color = dataset_name)) + geom_point(size =3) + facet_grid(cols = vars(actual_n_seq))  + scale_x_continuous(limits = c(0, 30),expand = c(0, 0)) +theme_classic()+ theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+
+including_training_phase<-all_msa_running_time %>% ggplot(aes(x=ratio_including_training,y=delta_ll_final, color = dataset_name)) + geom_point(size =3) + facet_grid(rows = vars(actual_n_seq))  + scale_x_continuous(limits = c(0, 30),expand = c(0, 0)) +theme_classic()+ theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+
   labs(color = "Empirical MSA",x="Running-time decrease factor\n including training phase",y="Delta LL")
 
 ggarrange(excluding_training_phase, including_training_phase, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
@@ -120,11 +151,48 @@ ggarrange(excluding_training_phase, including_training_phase, hjust=-1,vjust=1, 
           ncol = 2, nrow =1)
 
 
+
+
+```
+
+Aggregations
+```{r}
+all_msa_running_time %>% group_by(actual_n_seq) %>% summarise(median_ratio_including_training = median (ratio_including_training),median_ratio_without_training = median ( ratio_without_training), median_op_eval_no_training = median(eval_operations_ratio_no_training),
+                                                              median_op_eval = median (eval_operations_ratio),median_op_opt = median (opt_operations_ratio), median_spr_moves_ratio = median(spr_moves_ratio)
+                                                              )
+
+
+summary(all_msa_running_time %>% filter (actual_n_seq==15) %>% pull (eval_operations_ratio_no_training))
+summary(all_msa_running_time  %>% filter (actual_n_seq==15) %>% pull (ratio_without_training))
+
+summary(all_msa_running_time %>% filter (actual_n_seq==30) %>% pull (eval_operations_ratio_no_training))
+summary(all_msa_running_time  %>% filter (actual_n_seq==30) %>% pull (ratio_without_training))
+
+summary(all_msa_running_time %>% filter (actual_n_seq==15) %>% pull (ratio_including_training))
+summary(all_msa_running_time  %>% filter (actual_n_seq==30) %>% pull (ratio_including_training))
 ```
 
 
 
-Run time analysis per operation
+SPR moves
+
+```{r}
+all_msa_running_time_pretty %>% filter (actual_n_seq==15)
+
+
+all_msa_running_time_sorted%>% ggplot(aes(x=eval_operations_ratio,y=ratio_including_training, color = dataset_name)) + geom_point(size =3) + facet_grid(cols = vars(actual_n_seq))  
+
+
+all_msa_running_time_sorted%>% ggplot(aes(x=eval_operations_ratio_no_training,y=ratio_without_training, color = dataset_name)) + geom_point(size =3) + facet_grid(cols = vars(actual_n_seq))  
+
+all_msa_running_time %>% select (dataset_name, starting_tree_id,naive_SPR_spr_moves,phase_0_spr_moves,final_phase_spr_moves,n_evals_naive,n_evals_lasso,eval_operations_ratio_no_training,
+                                 eval_operations_ratio
+                                 ) %>% filter (actual_n_seq==30)
+
+```
+
+
+Run time visualization per operation
 
 ```{r}
 n_starting_trees  = 3
@@ -145,6 +213,13 @@ naive_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,time =naive
 
 running_time_data<-rbind(lasso_first_phase_no_brlen,lasso_first_phase_brlen,lasso_final_phase_no_brlen,lasso_final_phase_brlen,naive_no_brlen,naive_brlen,lasso_training,lasso_cd)
 
+running_time_data %>% group_by(dataset_name, actual_n_seq, search_type) %>% mutate(time = time/sum(time)) %>% ggplot(aes(x=search_type, y=(time), fill=operation)) +
+          scale_y_continuous(labels=scales::percent) +
+  geom_bar(stat="identity",width = 0.8)+ #position = "dodge"
+  scale_fill_manual("Operation", values = c("branch-lengths optimization using full data"= "#3e7db8","branch-lengths optimization using 5% of data" = "#8ae0e3", "evaluation using full data" = "#65b510", "evaluation using 5% of data" = "#afe6a3","Lasso-algorithm time" = "#e889e2","evaluation using full data (training data generation)" = "#de5a5a"))+
+  facet_grid(cols = vars(dataset_name), rows = vars(actual_n_seq)) +
+theme_classic()+theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+labs(x="",y="CPU time (seconds)") 
+
 
 
 ```
@@ -153,7 +228,7 @@ Aggregations of running_time_data
 
 ```{r}
 
-running_time_data %>% filter(dataset_name=="MisoA2", actual_n_seq==30) %>% select(starting_tree_id,operation,search_type,phase, time)  %>% arrange(starting_tree_id,search_type,phase,operation,time)
+running_time_data %>% filter(dataset_name=="StruA5", actual_n_seq==30) %>% select(starting_tree_id,operation,search_type,phase, time)  %>% arrange(starting_tree_id,search_type,phase,operation,time)
 
 running_time_data %>% group_by(dataset_name, actual_n_seq,operation,search_type) %>% summarise(time = sum(time))
 
@@ -165,50 +240,9 @@ running_time_data  %>% group_by(dataset_name, actual_n_seq, search_type) %>% sum
 
 
 
-```{r}
-running_time_data %>% group_by(dataset_name, actual_n_seq, search_type) %>% mutate(time = time/sum(time)) %>% ggplot(aes(x=search_type, y=(time), fill=operation)) +
-          scale_y_continuous(labels=scales::percent) +
-  geom_bar(stat="identity",width = 0.8)+ #position = "dodge"
-  scale_fill_manual("Operation", values = c("branch-lengths optimization using full data"= "#3e7db8","branch-lengths optimization using 5% of data" = "#8ae0e3", "evaluation using full data" = "#65b510", "evaluation using 5% of data" = "#afe6a3","Lasso-algorithm time" = "#e889e2","evaluation using full data (training data generation)" = "#de5a5a"))+
-  facet_grid(cols = vars(dataset_name), rows = vars(actual_n_seq)) +
-theme_classic()+theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+labs(x="",y="CPU time (seconds)") 
-```
 
 
 
-Operation analysis 
-
-```{r}
-n_cores_full =15
-n_cores_lasso = 1
-
-lasso_training<-spr_data_edited %>% select (actual_n_seq, dataset_name,n_op = full_size_training_evaluation_time_phase_0) %>% mutate(operation = "Evaluation",search_type = "Lasso-based search", phase = "training")
-
-lasso_first_phase_no_brlen<-spr_data_edited %>% select (actual_n_seq, dataset_name,n_op =phase_0_total_spr_neighbours_evaluated) %>% mutate(operation = "Evaluation",search_type = "Lasso-based search", phase = "first_phase",n_op = n_op * 0.05)
-
-lasso_first_phase_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,n_op = phase_0_total_spr_neighbours_optimized) %>% mutate(operation = "Branch-lengths optimization" ,search_type = "Lasso-based search",phase = "first_phase",n_op = n_op * 0.05)  
-
-lasso_final_phase_no_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,n_op = final_phase_total_spr_neighbours_evaluated) %>% mutate(operation = "Evaluation",search_type = "Lasso-based search",phase = "final_phase",n_op = n_op * 0.05)
-
-lasso_final_phase_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,n_op = final_phase_total_spr_neighbours_optimized) %>% mutate(operation = "Branch-lengths optimization" ,search_type = "Lasso-based search",phase = "final_phase") 
-
-naive_no_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,n_op =naive_SPR_total_spr_neighbours_evaluated) %>% mutate(operation = "Evaluation" , search_type = "Standard search",phase = "Naive")
-
-naive_brlen<- spr_data_edited %>% select (actual_n_seq, dataset_name,n_op =naive_SPR_total_spr_neighbours_optimized) %>% mutate(operation = "Branch-lengths optimization", search_type = "Standard search",phase = "Naive") 
-
-running_time_data<-rbind(lasso_first_phase_no_brlen,lasso_first_phase_brlen,lasso_final_phase_no_brlen,lasso_final_phase_brlen,naive_no_brlen,naive_brlen,lasso_training)
-overall_running_time_data<-running_time_data %>% group_by(dataset_name, actual_n_seq,operation,search_type) %>% summarise(n_op = sum(n_op))
-
-running_time_data %>% arrange(dataset_name, actual_n_seq,operation,search_type)
-
-
-overall_running_time_data  %>% ggplot(aes(x=search_type, y=n_op, fill=operation)) +
-  geom_bar(stat="identity")+
-  scale_fill_manual("legend", values = c("Branch-lengths optimization"= "#3e7db8", "Evaluation" = "#afe6a3"))+
-  facet_grid(cols = vars(dataset_name), rows = vars(actual_n_seq)) +
-  labs(fill = "Operation",x="",y="Per-site operations counts")  +theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
-
-```
 
 
 
