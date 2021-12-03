@@ -74,7 +74,7 @@ def write_tree_objects_to_file(trees_objects, curr_run_directory, top_trees_file
 def get_non_greedy_optimized_SPR_neighbours(curr_msa_stats, MSA_path, unique_trees_path, weights_file_path,
                                             lasso_intercept, curr_run_directory, n_cpus):
     if curr_msa_stats["optimized_neighbours_per_iter"] > 1:
-        logging.info("Evaluating (no brlen opt) LL of all SPR neighbours")
+        logging.debug("Evaluating (no brlen opt) LL of all SPR neighbours")
         trees_ll_no_brlen, trees_optimized_objects_no_brlen, time_rgft_eval_no_brlen = raxml_optimize_trees_for_given_msa(
             MSA_path, "rgrft_ll_eval_no_brlen",
             unique_trees_path,
@@ -90,10 +90,10 @@ def get_non_greedy_optimized_SPR_neighbours(curr_msa_stats, MSA_path, unique_tre
         spr_candidates_for_brlen_opt_file = write_tree_objects_to_file(tree_objects_of_spr_candidates_for_brlen_opt,
                                                                        curr_run_directory,
                                                                        "spr_candidates_for_brlen_opt.trees")
-        logging.info("About to optimize LL of most promising {t} topologies".format(
+        logging.debug("About to optimize LL of most promising {t} topologies".format(
             t=curr_msa_stats["optimized_neighbours_per_iter"]))
     else:  # No need to eval, performing full branch-lengths optimization on all data
-        logging.info("Fully optimizing all SPR neighbours")
+        logging.debug("Fully optimizing all SPR neighbours")
         spr_candidates_for_brlen_opt_file = unique_trees_path
         ll_all_spr_candidates_corrected = []
         time_rgft_eval_no_brlen = 0
@@ -148,7 +148,7 @@ def get_first_better_neighbour(prev_lasso_corrected_ll, tree_objects, curr_run_d
     neighbours_ll = []
     spr_objects = []
     if final_phase:
-        logging.info("final phase, evaluating all neighbours on purpose!")
+        logging.debug("final phase, evaluating all neighbours on purpose!")
     for i, candidate_tree in enumerate(tree_objects):
         curr_spr_candidate_for_brlen_opt_file = write_tree_objects_to_file(candidate_tree,
                                                                            curr_run_directory,
@@ -176,7 +176,7 @@ def find_best_SPR_neighbour_greedy(prev_ll, curr_msa_stats, MSA_path, unique_spr
                                    weights_file_path, lasso_intercept,
                                    curr_run_directory, n_cpus, final_phase=False, final_lasso_configuration=None):
     best_tree_object_path = os.path.join(curr_run_directory, "best_greedy_tree")
-    logging.info("Evaluating (greedy) (no brlen opt) LL of SPR neighbours")
+    logging.debug("Evaluating (greedy) (no brlen opt) LL of SPR neighbours")
     radius_spr_neighbours = generate_multiple_tree_object_from_newick(unique_spr_neighbours_path)
     ll_eval_corrected, spr_objects_eval, n_eval, overall_time_eval = get_first_better_neighbour(prev_ll,
                                                                                                 radius_spr_neighbours,
@@ -191,16 +191,16 @@ def find_best_SPR_neighbour_greedy(prev_ll, curr_msa_stats, MSA_path, unique_spr
                                                                                                 final_phase=final_phase,
                                                                                                 final_lasso_configuration=final_lasso_configuration)
     if isinstance(ll_eval_corrected, list):  # i.e., if no better tree was found
-        logging.info(f"No better tree was found using Eval on {n_eval} trees")
+        logging.debug(f"No better tree was found using Eval on {n_eval} trees")
         if curr_msa_stats["optimized_neighbours_per_iter"] > -1:
             indices_of_spr_candidates_for_brlen_opt = (-np.array(ll_eval_corrected)).argsort()[
                                                       :curr_msa_stats["optimized_neighbours_per_iter"]]
         else:
-            logging.info("Performing brlen opimization on all trees")
+            logging.debug("Performing brlen opimization on all trees")
             indices_of_spr_candidates_for_brlen_opt = (-np.array(ll_eval_corrected)).argsort()
         tree_objects_of_spr_candidates_for_brlen_opt = np.array(spr_objects_eval)[
             indices_of_spr_candidates_for_brlen_opt]
-        logging.info("About to optimize (greedy) LL of most promising {treshold} topologies".format(
+        logging.debug("About to optimize (greedy) LL of most promising {treshold} topologies".format(
             treshold=curr_msa_stats["optimized_neighbours_per_iter"]))
         ll_opt_corrected, spr_objects_opt, n_opt, overall_time_opt = get_first_better_neighbour(prev_ll,
                                                                                                 tree_objects_of_spr_candidates_for_brlen_opt,
@@ -214,18 +214,18 @@ def find_best_SPR_neighbour_greedy(prev_ll, curr_msa_stats, MSA_path, unique_spr
                                                                                                 opt_brlen=True)
         if isinstance(ll_opt_corrected,
                       list):  # if no better tree was found after branch-length optimization, return best obtained tree
-            logging.info(f"No better tree was found after optimizing {n_opt} trees.  ")
+            logging.debug(f"No better tree was found after optimizing {n_opt} trees.  ")
             best_opt_ll = max(ll_opt_corrected)
             best_opt_object = spr_objects_opt[ll_opt_corrected.index(best_opt_ll)]
         else:
             best_opt_ll = ll_opt_corrected
             best_opt_object = spr_objects_opt
-            logging.info(
+            logging.debug(
                 f" A better tree was found after optimizing all best {n_opt} trees")
         with open(best_tree_object_path, 'w') as GREEDY_TREE:
             GREEDY_TREE.write(best_opt_object.write(format=1))
         tree_opt_true_ll = get_true_ll_values(curr_msa_stats, best_tree_object_path, curr_run_directory, opt_brlen=True)
-        logging.info(
+        logging.debug(
             f"#(prev tree given ll (opt\eval) = ={prev_ll}, curr better tree OPTIMIZED ll= {best_opt_ll}),curr better tree TRUE (FULL DATA) OPTIMIZED ll= {tree_opt_true_ll})")
         return {"best_tree_object": best_opt_object, "best_ll": best_opt_ll, "best_true_ll": tree_opt_true_ll,
                 "iteration_time": overall_time_eval + overall_time_opt,
@@ -236,12 +236,12 @@ def find_best_SPR_neighbour_greedy(prev_ll, curr_msa_stats, MSA_path, unique_spr
     else:
         best_eval_ll = ll_eval_corrected
         best_eval_object = spr_objects_eval
-        logging.info(f"A better tree was found using Eval on {n_eval} objects. (no need for brlen optimization)")
+        logging.debug(f"A better tree was found using Eval on {n_eval} objects. (no need for brlen optimization)")
         with open(best_tree_object_path, 'w') as GREEDY_TREE:
             GREEDY_TREE.write(best_eval_object.write(format=1))
         tree_eval_true_ll = get_true_ll_values(curr_msa_stats, best_tree_object_path, curr_run_directory,
                                                opt_brlen=True)
-        logging.info(
+        logging.debug(
             f"#(prev tree given ll (opt\eval) ={prev_ll}, curr better tree EVAL ll= {best_eval_ll}),curr better tree TRUE (FULL DATA) OPTIMIZED ll= {tree_eval_true_ll})")
         return {"best_tree_object": best_eval_object, "best_ll": best_eval_ll,
                 "best_true_ll": tree_eval_true_ll,
@@ -292,7 +292,7 @@ def find_best_SPR_neighbour_non_greedy(curr_msa_stats, MSA_path, unique_spr_neig
          'sampled msa ll': spr_evaluation_data["ll_spr_candidates_for_brlen_corrected"],
          'iteration number': iteration_number}
     )
-    logging.info(f"iteration {iteration_number}  best tree ll = {best_ll}")
+    logging.debug(f"iteration {iteration_number}  best tree ll = {best_ll}")
 
     results_dict = {"best_tree_object": best_tree_object, "best_ll": best_ll, "best_true_ll": best_true_ll,
                     "ll_comparison_df_brlen_eval": ll_comparison_df_brlen_eval,
