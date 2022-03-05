@@ -19,7 +19,7 @@ class GENERAL_RAXML_ERROR(Exception):
 def execute_commnand_and_write_to_log(command, curr_run_directory="", job_folder_name="", job_name="", log_file_path="",
                                       cpus=-1, nodes=-1, queue="pupkolab", extra_file_path="", run_locally=False):
     if LOCAL_RUN or run_locally:
-        # logging.info("*** About to run locally " + command)
+        logging.debug("*** About to run locally " + command)
         subprocess.run(command, shell=True)
         # logging.info("*** Previous command completed")
     else:

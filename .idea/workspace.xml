@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/extra_code/rate4site_extraction.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_michael's_code/starting_tree_newick.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_michael's_code/two_step_lookahead_QA.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/.RData" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/.RData" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/.Rhistory" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/.Rhistory" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/final_only_SPR.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_SPR.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/final_only_SPR.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_SPR.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/final_only_lasso.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_lasso.Rmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R_code/final_only_lasso.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_lasso.nb.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extra_code/generate_training_sets.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/generate_training_sets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/TheTree.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/help_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/raxml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="347" column="49" selection-start-line="347" selection-start-column="4" selection-end-line="347" selection-end-column="49" />
+            <state relative-caret-position="69">
+              <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -77,10 +60,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
+            <state relative-caret-position="131">
               <caret line="167" column="135" selection-start-line="167" selection-start-column="135" selection-end-line="167" selection-end-column="135" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -89,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="37">
-              <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
+            <state relative-caret-position="117">
+              <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -104,8 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="324" column="61" lean-forward="true" selection-start-line="324" selection-start-column="61" selection-end-line="324" selection-end-column="61" />
+            <state relative-caret-position="298">
+              <caret line="302" column="55" selection-start-line="302" selection-start-column="27" selection-end-line="302" selection-end-column="55" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -116,8 +99,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="138" column="105" selection-start-line="138" selection-start-column="102" selection-end-line="138" selection-end-column="105" />
+            <state relative-caret-position="75">
+              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -157,8 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sep</find>
-      <find>get_rate4site</find>
       <find>biopyt</find>
       <find>bio</find>
       <find>alignemnt_</find>
@@ -185,8 +166,10 @@
       <find>dict</find>
       <find>replace</find>
       <find>dump</find>
-      <find>wag</find>
+      <find>compare_lasso_to_naive_approaches_on_test_set</find>
+      <find>baseline</find>
       <find>pickle</find>
+      <find>wag</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -245,15 +228,15 @@
         <option value="$PROJECT_DIR$/main_code/spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/extra_code/test_michael's_code.py" />
         <option value="$PROJECT_DIR$/extra_code/test.py" />
-        <option value="$PROJECT_DIR$/main_code/raxml.py" />
         <option value="$PROJECT_DIR$/extra_code/rate4site_extraction.py" />
         <option value="$PROJECT_DIR$/extra_code/test_michael's_code_2.py" />
         <option value="$PROJECT_DIR$/test_michael's_code/test_michael's_code_2.py" />
         <option value="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" />
         <option value="$PROJECT_DIR$/main_code/help_functions.py" />
-        <option value="$PROJECT_DIR$/main_code/config.py" />
         <option value="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" />
+        <option value="$PROJECT_DIR$/main_code/raxml.py" />
+        <option value="$PROJECT_DIR$/main_code/config.py" />
       </list>
     </option>
   </component>
@@ -470,7 +453,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.18761726" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.1444653" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.20075047" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.34521577" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -976,26 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="324" column="61" lean-forward="true" selection-start-line="324" selection-start-column="61" selection-end-line="324" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37">
-          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-          <folding>
-            <element signature="e#1#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -1003,10 +966,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
+    <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="138" column="105" selection-start-line="138" selection-start-column="102" selection-end-line="138" selection-end-column="105" />
+        <state relative-caret-position="131">
+          <caret line="167" column="135" selection-start-line="167" selection-start-column="135" selection-end-line="167" selection-end-column="135" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="302" column="55" selection-start-line="302" selection-start-column="27" selection-end-line="302" selection-end-column="55" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -1015,20 +988,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="347" column="49" selection-start-line="347" selection-start-column="4" selection-end-line="347" selection-end-column="49" />
+        <state relative-caret-position="69">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
+    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="167" column="135" selection-start-line="167" selection-start-column="135" selection-end-line="167" selection-end-column="135" />
+        <state relative-caret-position="75">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
