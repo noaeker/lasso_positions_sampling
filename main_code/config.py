@@ -45,7 +45,7 @@ def sample_exp(size,start_seed):
 
 
 #Default values
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.DEBUG
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = "150"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
