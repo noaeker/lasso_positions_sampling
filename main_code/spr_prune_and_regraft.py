@@ -175,27 +175,29 @@ def assign_brlen_to_tree_object(tree_object, brlen_list):
 
 
 
-t = Tree();
-t.populate(6);
-add_internal_names(t)
-lst = get_possible_spr_moves(t, rearr_dist=-1)
-print(len(lst))
-
-
-
-# t3 = Tree(
-#     '(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',
-#     format=1)
-# print(t3.get_ascii(attributes=['name'], show_internal=True))
-# t3.get_tree_root().name="ROOT"
-# lst = ((get_possible_spr_moves(t3, rearr_dist=1)))
+# t = Tree();
+# t.populate(60);
+# add_internal_names(t)
+# lst = get_possible_spr_moves(t, rearr_dist=5)
 # print(len(lst))
-# neig = ([generate_neighbour(t3,n) for n in lst])
-# for n in neig:
-#     print("t3:")
-#     print(t3.get_ascii(attributes=['name'], show_internal=True))
-#     print("regrafted:")
-#     print(n.get_ascii(attributes=['name'], show_internal=True))
+
+def main():
+    t3 = Tree(
+         '(0008:0.1,0006:0.2,((0002:0.05,0031:0.1)N4:0.0625,(0029:0.075,(0018:0.1,((0027:0.05,(0011:0.1,0012:0.2)N15:0.1)N12:0.0125,0017:0.05)N11:0.00625)N9:0.225)N5:0.03125)N3:0.05);',
+         format=1)
+    print(t3.get_ascii(attributes=['name'], show_internal=True))
+    t3.get_tree_root().name="ROOT"
+    lst = ((get_possible_spr_moves(t3, rearr_dist=1)))
+    print(len(lst))
+    neig = ([generate_neighbour(t3,n) for n in lst])
+    for n in neig:
+        print("t3:")
+        print(t3.get_ascii(attributes=['name'], show_internal=True))
+        print("regrafted:")
+        print(n.get_ascii(attributes=['name'], show_internal=True))
+
+if __name__ == "__main__":
+    main()
 
 # '(0024:0.100000,(0023:0.100000,0027:0.100000):0.100000,(0011:0.100000,0012:0.100000):0.100000);'
 # add_internal_names(t3)

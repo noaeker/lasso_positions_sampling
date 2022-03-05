@@ -1,0 +1,167 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+Nagy
+```{r}
+theme_set(theme_bw(12))
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data_nagy<-rbind(full_r4s,lasso_r4s) %>% mutate(dataset="NagyA1")
+all_r4s_data_nagy
+all_r4s_data_nagy %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density") 
+
+#summary(lasso_r4s %>% pull(Numbers))
+
+#ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+```
+
+Shen
+```{r}
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ShenA9_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/ShenA9_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data_shen<-rbind(full_r4s,lasso_r4s)  %>% mutate(dataset="ShenA9")
+all_r4s_data_shen %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density")
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+```
+YangA8
+```{r}
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/YangA8_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/YangA8_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data_yang<-rbind(full_r4s,lasso_r4s)  %>% mutate(dataset="YangA8")
+all_r4s_data_yang
+all_r4s_data %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density")
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+```
+
+
+Miso
+```{r}
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/MisoA2_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/MisoA2_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data_miso<-rbind(full_r4s,lasso_r4s) %>% mutate(dataset="MisoA2")
+all_r4s_data_miso
+all_r4s_data_miso %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density")
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+
+```
+
+StruA5
+```{r}
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/StruA5_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/StruA5_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data<-rbind(full_r4s,lasso_r4s)  %>% mutate(dataset="StruA5")
+all_r4s_data 
+all_r4s_data %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density")
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+
+```
+
+
+WickA3
+
+```{r}
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/WickA3_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/WickA3_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data<-rbind(full_r4s,lasso_r4s) %>% mutate(dataset = "WickA3")
+all_r4s_data
+all_r4s_data %>% ggplot(aes(x = Numbers, fill = data)) + 
+  geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density")
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+
+```
+
+```{r}
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==80000, dataset_name %in% c("MisoA2","NagyA1","ShenA9")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+
+
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==80000, dataset_name %in% c("YangA8","StruA5","WickA3")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+
+```
+
+
+```{r}
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==40000, dataset_name %in% c("MisoA2","NagyA1","ShenA9")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+
+
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==40000, dataset_name %in% c("YangA8","StruA5","WickA3")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+```
+
+```{r}
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==20000, dataset_name %in% c("MisoA2","NagyA1","ShenA9")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+
+
+new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
+  filter (actual_n_loci==20000, dataset_name %in% c("YangA8","StruA5","WickA3")) %>%
+  ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
+```
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

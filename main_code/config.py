@@ -1,9 +1,13 @@
 
 import logging
 import random
+from sys import platform
 
 
-LOCAL_RUN = False
+if platform == "linux" or platform == "linux2":
+    LOCAL_RUN = False
+else:
+    LOCAL_RUN = True
 
 SEED = 1
 
@@ -59,19 +63,19 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_check2"
-CURR_JOBS_PREFIX =  "test_curr_check2"
+CURR_RUN_PREFIX = "test_curr_check_review3"
+CURR_JOBS_PREFIX =  "test_curr_check_review3"
 
-LASSO_BASELINE ="x"
-TRAINING_BASELINE =   "x"
-TEST_SET_BASELINE ="x"
-MSA_BASELINE = "x"
+LASSO_BASELINE = "test_curr_check_review2"#"test_curr_check2"
+TRAINING_BASELINE = "test_curr_check_review2"#"test_curr_check2"
+TEST_SET_BASELINE = "test_curr_check_review2"#"test_curr_check2"
+MSA_BASELINE = "test_curr_check_review2"
 FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "6_8"
+MAX_N_SEQ =  "8"
 MIN_N_SEQ = 6
 MAX_N_LOCI = "1000_2000"
 MIN_N_LOCI = 100

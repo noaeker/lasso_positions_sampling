@@ -1,1 +1,1 @@
-((((Galma1:0.061284,Fomme1:0.055246):0.073620,Aurde1:0.172080):0.140595,Zygro:0.379666):0.139016,CocheC5_3:0.088652,Botci:0.085848);
+(Hanseniaspora_uvarum:0.514614,Nakaseomyces_delphensis:0.358761,((((Fusarium_graminearum:0.323272,Aspergillus_nidulans:0.242682):0.561986,Lipomyces_starkeyi:0.381982):0.148486,Candida_apicola:0.486955):0.118058,(Candida_orthopsilosis:0.361713,Candida_arabinofermentans:0.368854):0.050570):0.162664);

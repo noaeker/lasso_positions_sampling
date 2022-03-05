@@ -150,7 +150,7 @@ def update_chosen_brlen_generators(exp_brlen, uni_brlen, opt_brlen, const_brlen)
 
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                 lasso_configurations_per_training_size,
-                                job_csv_path, all_msa_results):
+                                job_csv_path, all_msa_results, curr_run_directory):
     for brlen_generator_name in brlen_generators:
         curr_msa_stats["brlen_generator"] = brlen_generator_name
         for training_size in training_size_options:
@@ -165,6 +165,8 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                 lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                            k not in IGNORE_COLS_IN_CSV
                                            }
+                lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
+                lasso_evaluation_result.update(lasso_comparisons_results)
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
                 all_msa_results.to_csv(job_csv_path, index=False,sep ='\t')
     return all_msa_results
@@ -435,6 +437,8 @@ def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, cu
     return lasso_configurations_per_training_size
 
 
+
+
 def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind, actual_n_seq, actual_n_loci):
     curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
     curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
@@ -531,6 +535,7 @@ def main():
                     curr_msa_stats["actual_n_loci"] = actual_n_loci
                     curr_msa_stats["actual_n_seq"] = actual_n_seq
                     if not args.only_full_search:
+                        #Add an option to sample random sites or highly conserved sites
                         lasso_configurations_per_training_size = get_lasso_configurations(curr_n_loci_folder, args,
                                                                                           brlen_generators,
                                                                                           curr_msa_stats,
@@ -541,7 +546,7 @@ def main():
                         all_msa_results = perform_only_lasso_pipeline(training_size_options, brlen_generators,
                                                                       curr_msa_stats,
                                                                       lasso_configurations_per_training_size,
-                                                                      job_csv_path, all_msa_results)
+                                                                      job_csv_path, all_msa_results, curr_n_loci_folder)
                     elif args.use_raxml_search:
                         all_msa_results = perform_raxml_search_pipeline(training_size_options, brlen_generators,
                                                                         curr_msa_stats,

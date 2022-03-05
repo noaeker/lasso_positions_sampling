@@ -33,7 +33,7 @@ new_format_lasso_data<- new_format_lasso_data %>%
 
 Get a list of all relevant datasets
 ```{r}
-new_format_lasso_data %>% distinct (dataset_name, MSA_original_n_seq, actual_n_seq)
+new_format_lasso_data %>% distinct (dataset_name, MSA_original_n_seq, actual_n_seq, job_ind) %>% filter (actual_n_seq==30)
 ```
 
 
@@ -50,24 +50,25 @@ example_msa_data<- new_format_lasso_data %>% filter (dataset_name=="NagyA1", act
 
 example_msa_data_specific_configuration<- example_msa_data %>% filter (actual_sample_pct==0.05, actual_training_size==4000)
 
-example_msa_data
-
 example_msa_data_specific_configuration %>% select (alpha, number_loci_chosen, `lasso_test_R^2`, lasso_test_spearmanr )
 
 example_msa_training_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_training.csv")
-example_msa_test_ll<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_test.csv")
 
 g01<-ggplot(example_msa_test_ll,aes(true_test_ll, predicted_test_ll)) +theme_classic()+
-  geom_smooth(method='lm')+xlab("True test LL")+ylab("Predicted test LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
-        axis.title=element_text(size=11)) #+ ggtitle("Test set predicted log-likelihood vs. true log-likelihood")
+  geom_smooth(method='lm')+xlab("True LL")+ylab("Predicted LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+ theme(text = element_text(size = 15))
 
 g02<-ggplot(example_msa_training_ll,aes(true_training_ll, predicted_training_ll)) +theme_classic()+
-  geom_smooth(method='lm')+xlab("True training LL")+ylab("Predicted training LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(axis.text=element_text(size=11),
-        axis.title=element_text(size=11)) #+ggtitle("Training set predicted log-likelihood vs. true log-likelihood")
+  geom_smooth(method='lm')+xlab("True LL")+ylab("Predicted LL ")+geom_point()+ labs(title="")+theme(plot.title = element_text(hjust = 0.5))+ theme(plot.title = element_text(hjust = 0.5))+theme(text = element_text(size = 15))
 
-ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
+figure_1<-ggarrange(g02, g01, hjust=-1,vjust=1, heights=c(2,2),common.legend=TRUE,
           labels = c("A", "B"),
           ncol = 1, nrow =2)
+figure_1
+
+ggsave("Figure_1.jpeg",
+       plot = figure_1, dpi = 350)
+
+dev.off()
 
 
 r2.taining<- cor.test(example_msa_training_ll$predicted_training_ll,example_msa_training_ll$true_training_ll )
@@ -94,9 +95,54 @@ example_msa_data <- example_msa_data %>% mutate(unexplained_var =1-`lasso_test_R
 
 example_msa_data %>% select (actual_training_size, actual_sample_pct,`lasso_test_R^2`, unexplained_var)
 
-example_msa_data %>% ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = as.factor(actual_training_size), colour = as.factor(actual_training_size)))  + geom_point(size =3)+ geom_line()+ scale_x_continuous(breaks = c(0.01,0.025,0.05,0.1) ,labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)", title="Percentage of unexplained variance on test set")  + scale_y_continuous(labels = scales::percent)+theme_classic() #+coord_cartesian(ylim = c(NA, 0.11))
+figure_2<-example_msa_data %>% ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = as.factor(actual_training_size), colour = as.factor(actual_training_size)))  + geom_point(size =3)+ geom_line()+ scale_x_continuous(breaks = c(0.01,0.025,0.05,0.1) ,labels = scales::percent) +labs(color="Training size",x="Sample percentage",y="Unexplained variance (%)")  + scale_y_continuous(labels = scales::percent)+theme_classic() + theme(text = element_text(size = 15)) 
+
+
+ggsave("Figure_2.jpeg",
+       plot = figure_2, dpi = 350)
+
 
 ```
+
+```{r}
+supp_data2<- example_msa_data %>% select (actual_training_size, actual_sample_pct,number_loci_chosen, unexplained_var)
+
+supp_data2 %>% write_csv("/Users/noa/Workspace/lasso_positions_sampling_results/supp2.csv")
+```
+
+
+
+r4s on one msa:
+Based on:
+1./groups/pupko/noaeker/lasso_positions_sampling_results/f_lasso30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/r4s.res /Users/noa/Workspace/lasso_positions_sampling_results/r4s_NAGY_res.full
+
+2. /groups/pupko/noaeker/lasso_positions_sampling_results/f2_mg30/job_0/_groups_pupko_noaeker_data_supermatrices_edited__supermatrices_NagyA1_NagyA1.fasta/n_seq_30/n_loci_80000/Lasso_folder/exponential/training_4000_random_tree_eval/trimmed_4000/lasso_rate_4_site /Users/noa/Workspace/lasso_positions_sampling_results/r4s_NAGY_res.lasso
+
+```{r}
+
+full_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_full_rate4site")
+lasso_r4s<- read_csv("/Users/noa/Workspace/lasso_positions_sampling_results/NagyA1_lasso_rate4site")
+full_r4s<- full_r4s %>% mutate(data = "All MSA positions")
+full_r4s
+lasso_r4s<- lasso_r4s %>% mutate(data = "Positions chosen by Lasso")
+lasso_r4s
+all_r4s_data<-rbind(full_r4s,lasso_r4s)
+all_r4s_data
+figure_3<-all_r4s_data %>% ggplot(aes(x = Numbers, fill = data)) + 
+geom_histogram(bins=8,aes(y=..density..),
+                 alpha=0.5,position='identity',binwidth=0.5) + labs(fill = "", x = "Standartaized rates", y= "Density") +theme_classic()+ theme(text = element_text(size = 15)) 
+
+summary(lasso_r4s %>% pull(Numbers))
+
+ttest<-t.test(lasso_r4s %>% pull(Numbers),full_r4s%>%pull(Numbers))
+
+ggsave("Figure_3.jpeg",
+       plot = figure_3, dpi = 350)
+
+
+
+```
+
 
 Explore unexplained variance on all MSAs
 
@@ -105,109 +151,32 @@ supp_data2<- new_format_lasso_data %>% select(dataset_name,actual_n_seq, actual_
 
 supp_data2 %>% write_csv("/Users/noa/Workspace/lasso_positions_sampling_results/supp2.csv")
 
-new_format_lasso_data %>%   mutate (unexplained_var = 1-`lasso_test_R^2`)  %>% group_by(actual_training_size, actual_sample_pct, actual_n_loci, actual_n_seq) %>%summarize(mean_unexplained_var = mean(unexplained_var),std_r_2 = sd(unexplained_var))  %>%   ggplot(aes(x=actual_sample_pct,y=mean_unexplained_var, group = interaction(actual_training_size), color = as.factor(actual_training_size)))+ geom_line() + geom_point() + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size",linetype = "Dataset name" ,x="Sample percentage",y="Unexplained variance (%)", title="Mean percentage of unexplained variance on test sets") + scale_y_continuous(labels = scales::percent, expand = c(0,0))+ theme_classic()+facet_grid(rows = vars(actual_n_loci), cols= vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))+  geom_errorbar(aes(ymin=mean_unexplained_var-std_r_2, ymax=mean_unexplained_var+std_r_2), width=.008, position = position_dodge(0.001))
 
-
-
-
-
-```
-
-
-```{r}
 new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
   filter (actual_n_loci==80000) %>%
   ggplot(aes(x=actual_sample_pct,y=unexplained_var, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Unexplained variance on test set (%)") + theme_classic()+facet_grid(cols = vars(dataset_name), rows=  vars(actual_n_seq)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
 
+
 ```
 
-
-
-
-```{r}
-new_format_lasso_data %>% select(dataset_name,actual_n_seq, actual_n_loci,actual_training_size, actual_sample_pct ,`lasso_test_R^2`) %>% filter (actual_n_seq==30, actual_n_loci==80000, actual_training_size>1000,actual_sample_pct>=0.05) %>% arrange(dataset_name,actual_training_size,actual_sample_pct)
-new_format_lasso_data %>% select(dataset_name,actual_n_seq, actual_n_loci,actual_training_size, actual_sample_pct ,`lasso_test_R^2`) %>% filter (actual_n_seq==30, actual_n_loci==80000, actual_training_size<2000) %>% arrange(dataset_name,actual_training_size,actual_sample_pct)
-```
-
-
+New lme analysis
 
 ```{r}
 library(nlme)
+library(rsq)
 
-lasso_glm_data<- new_format_lasso_data %>% select (`lasso_test_R^2`,actual_n_seq,actual_n_loci,actual_training_size,dataset_name,actual_sample_pct,actual_n_loci) %>% mutate(actual_n_loci = (actual_n_loci-mean(actual_n_loci))/1000,actual_training_size= (actual_training_size-mean(actual_training_size))/1000,actual_sample_pct = (actual_sample_pct-mean(actual_sample_pct))*100, unexplained_var = 1-`lasso_test_R^2`, actual_n_seq = actual_n_seq-mean(actual_n_seq))
+lasso_glm_data<- new_format_lasso_data  %>% filter (actual_training_size==4000, actual_sample_pct==0.05) %>% select (`lasso_test_R^2`,actual_n_seq,actual_n_loci,dataset_name,divergence, constant_sites_pct, lasso_mean_rate4site,avg_entropy,alpha ) %>% mutate (unexplained_var =1-`lasso_test_R^2` )
 lasso_glm_data
-gpa_mixed = lme(log(unexplained_var)/(1-unexplained_var) ~ (actual_n_loci+actual_sample_pct+actual_n_seq+actual_n_seq+(actual_training_size))^2, random = ~ 1 | dataset_name, data = lasso_glm_data)
-print(summary(gpa_mixed))
-plot(gpa_mixed)
-
-```
-
-```{r}
-t30_2000<-new_format_lasso_data %>% filter (actual_training_size==2000, actual_n_seq==30, actual_n_loci==80000) %>% arrange (dataset_name) %>%pull (`lasso_test_R^2`)
-t30_4000<-new_format_lasso_data %>% filter (actual_training_size==4000, actual_n_seq==30, actual_n_loci==80000) %>% arrange (dataset_name) %>% pull (`lasso_test_R^2`)
-t.test(t30_2000,t30_4000, paired = TRUE)
-```
-
-
-
-
-```{r}
-
-# data<-new_format_lasso_data %>% select (`lasso_test_R^2`,actual_n_seq,actual_n_loci,actual_training_size,dataset_name,actual_sample_pct,actual_n_loci)  %>% mutate(actual_n_loci = actual_n_loci/1000,actual_training_size= actual_training_size/1000, unexplained_var = 1-`lasso_test_R^2`)
-# library(betareg)
-# beta.m<-betareg((unexplained_var) ~ (actual_n_loci+actual_n_seq++actual_training_size+actual_sample_pct)^2, data=data)
-# summary(beta.m)
-# plot(beta.m)
-
+lasso_mixed = lme(log(unexplained_var)/(1-unexplained_var) ~ (actual_n_loci+actual_n_seq+divergence+constant_sites_pct+alpha ), random = ~ 1 | dataset_name, data = lasso_glm_data)
+print(summary(lasso_mixed))
+print(rsq(lasso_mixed))
+plot.lme((lasso_mixed))
 
 ```
 
 
 
-Running-time of Lasso versus evaluation time
-
-```{r}
-
-n_cpus_full=10
-new_format_lasso_data %>% mutate(actual_training_evaluation_time = full_size_training_evaluation_time*(actual_training_size/max(actual_training_size))) %>% distinct (dataset_name,actual_n_loci,actual_n_seq, actual_training_size,actual_training_evaluation_time, lasso_running_time,full_training_random_trees_generation_time) %>% mutate(dims = actual_training_size*actual_n_loci) %>% ggplot(
-       aes(x = (actual_training_evaluation_time*n_cpus_full /3600),#dims,#full_training_random_trees_generation_time, #actual_training_evaluation_time /3600
-           y = lasso_running_time/3600,
-           group = as.factor(actual_n_seq),
-           color = as.factor(actual_n_seq)
-           ))+
-  #viridis::scale_color_viridis(discrete = TRUE)+
-  geom_point() + geom_line()+ labs(color="Number of sequences ",x="training generation time CPU time",y="Lasso algorithm CPU times") +theme_classic() +facet_grid(rows = vars(dataset_name))
 
 
-
-n_cpus_full=10
-new_format_lasso_data %>% mutate(actual_training_evaluation_time = full_size_training_evaluation_time*(actual_training_size/max(actual_training_size))) %>% distinct (dataset_name,actual_n_loci,actual_n_seq, actual_training_size,actual_training_evaluation_time, lasso_running_time,full_training_random_trees_generation_time) %>% mutate(dims = actual_training_size*actual_n_loci) %>% ggplot(
-       aes(x = (dims),#dims,#full_training_random_trees_generation_time, #actual_training_evaluation_time /3600
-           y = lasso_running_time/3600,
-           #group = as.factor(actual_n_seq),
-           #color = as.factor(actual_n_seq)
-           ))+
-  geom_boxplot() + labs(color="Number of sequences ",x="training generation time CPU time",y="Lasso algorithm CPU times") +theme_classic() 
-
-```
-
-```{r}
-
-new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% 
-  filter (actual_n_loci==80000, actual_n_seq==30) %>%
-  ggplot(aes(x=actual_sample_pct,y=lasso_mean_rate4site, group = interaction(actual_training_size,dataset_name), color = as.factor(actual_training_size)))+ geom_line() + geom_point(size=1.5) + scale_x_continuous(labels = scales::percent,breaks = c(0.01,0.025,0.05,0.1)) +labs(color="Training size" ,x="Sample percentage",y="Mean evolutionary rate") + theme_classic()+facet_grid(cols = vars(dataset_name)) + theme(axis.text.x = element_text(angle = 60, vjust = 0.9, hjust=1))
-
-
-
-new_format_lasso_data %>% filter (lasso_mean_rate4site<0)
-
-```
-
-```{r}
-new_format_lasso_data  %>%  mutate (unexplained_var = 1-`lasso_test_R^2`) %>% filter (dataset_name=="ShenA9", actual_n_loci==80000, actual_n_seq==60) %>% select (actual_n_seq,actual_training_size,actual_sample_pct,lasso_mean_rate4site)
-```
-```{r}
-new_format_lasso_data %>% filter (n_seq==30, n_loci == 80000) %>%  distinct (dataset_name,constant_sites_pct, gap_pct)
-```
 
 
