@@ -94,7 +94,7 @@ MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load R/3.6.1; module load p
 
 if not LOCAL_RUN:
     # PATH CONFIGURATION
-    RAXML_NG_EXE = "/groups/pupko/noaeker/raxml-ng-float-mpi/raxml-ng --extra thread-pin "
+    RAXML_NG_EXE = "/groups/pupko/noaeker/programs/tree_search_programs/raxml-ng/raxml-ng --extra thread-pin "
     MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
@@ -102,7 +102,7 @@ if not LOCAL_RUN:
     ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/example"
     MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/groups/pupko/noaeker/main_code/R_code/lasso_glmnet.R"
-    RAXML_HPC_EXE = "/groups/pupko/noaeker/standard-RAxML/raxmlHPC"
+    #RAXML_HPC_EXE = "/groups/pupko/noaeker/standard-RAxML/raxmlHPC"
     RATE4SITE_COMMAND_PREFIX = "/groups/pupko/noaeker/rate4site/rate4site"
 elif LOCAL_RUN:
     IQTREE_PATH = "/Users/noa/Programs/iqtree-1.6.12-MacOSX/iqtree"
