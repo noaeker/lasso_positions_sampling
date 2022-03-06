@@ -504,12 +504,13 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
         "Optimizing branch lengths and using existing Gamma shape parameter: alpha={alpha}".format(alpha=alpha))
     prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
+    model = f"{msa_stats['evo_model']}+G{{{msa_stats['alpha']}}}" if not msa_stats.get("pars_optimized_model") else msa_stats["pars_optimized_model"]
     compute_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model {model} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(n_cpus),
         alpha=alpha, msa_path=full_data_path, tree_file=tree_file, seed=SEED,
-        prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command, model = msa_stats["pars_optimized_model"])
+        prefix=prefix, weights_path_command=weights_path_command, brlen_command=brlen_command, model = model)
     optimized_trees_path = prefix + ".raxml.mlTrees"
     best_tree_path = prefix + ".raxml.bestTree"
     raxml_log_file = prefix + ".raxml.log"
