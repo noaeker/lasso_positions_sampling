@@ -20,6 +20,7 @@ N_NODES = 1
 N_NODES_LASSO=1
 MPI_PROC_PER_NODE = 1
 CPUS_PER_NODE_NNI = 2
+EVO_MODEL = "GTR"
 
 
 ########### GENERAL RUNNING CONFIGURATIONS #################
@@ -45,7 +46,7 @@ def sample_exp(size,start_seed):
 
 
 #Default values
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
 RANDOM_TREES_TRAINING_SIZE = "150"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
@@ -63,13 +64,13 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_check_review3"
-CURR_JOBS_PREFIX =  "test_curr_check_review3"
+CURR_RUN_PREFIX = "test_curr_check_review_gtr"
+CURR_JOBS_PREFIX =  "test_curr_check_review_gtr"
 
-LASSO_BASELINE = "test_curr_check_review2"#"test_curr_check2"
-TRAINING_BASELINE = "test_curr_check_review2"#"test_curr_check2"
-TEST_SET_BASELINE = "test_curr_check_review2"#"test_curr_check2"
-MSA_BASELINE = "test_curr_check_review2"
+LASSO_BASELINE = "x"
+TRAINING_BASELINE = "x"
+TEST_SET_BASELINE = "x"
+MSA_BASELINE = "x"
 FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
@@ -77,11 +78,11 @@ ALTERNATIVE_TRAINING_BASELINE = "x"
 
 MAX_N_SEQ =  "8"
 MIN_N_SEQ = 6
-MAX_N_LOCI = "1000_2000"
+MAX_N_LOCI = "2000"
 MIN_N_LOCI = 100
 N_RANDOM_STARTING_TREES = 3
 #PARSIMONY_STARTING_TREE = False #1/0
-N_MSAS = 2
+N_MSAS = 1
 FIRST_MSA_IND = 1
 
 OUTPUT_CSV_NAME = "spr_raxml"
@@ -95,7 +96,7 @@ MODULE_LOAD_STR = "module load gcc/gcc-8.2.0; module load R/3.6.1; module load p
 if not LOCAL_RUN:
     # PATH CONFIGURATION
     RAXML_NG_EXE = "/groups/pupko/noaeker/programs/tree_search_programs/raxml-ng/raxml-ng --extra thread-pin "
-    MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/mad"
+    MAD_COMMAND_PREFIX = "/groups/pupko/programs/noaeker/other_programs/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
     MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
@@ -113,7 +114,7 @@ elif LOCAL_RUN:
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited_DNA"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/Users/noa/Workspace/main_code/R_code/lasso_glmnet.R"
 

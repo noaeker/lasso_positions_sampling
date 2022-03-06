@@ -63,7 +63,6 @@ def generate_specific_brlen_training_set(brlen_generator_name, Lasso_folder, brl
     logging.debug(
         "Done evaluating topologies based on {} branch lengths. It took {} seconds".format(brlen_generator_name,
                                                                                            training_eval_time))
-
     return training_sitelh, training_eval_time, training_size_directory
 
 
@@ -120,6 +119,8 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results
+    shutil.rmtree(random_trees_folder)
+    shutil.rmtree(training_full_size_directory)
     return run_configurations
 
 
@@ -191,7 +192,7 @@ def generate_optimized_tree_topologies_for_testing(curr_msa_stats, test_random_t
                                                                                                   return_trees_file=True,
                                                                                                   n_cpus=curr_msa_stats[
                                                                                                       "n_cpus_training"])
-        test_results = {"test_ll_values": trees_ll_on_data, "test_optimized_trees_path": optimized_trees_path}
+        test_results = {"test_ll_values": trees_ll_on_data, "optimized_test_topologies_path": optimized_trees_path}
         with open(test_dump, 'wb') as handle:
             pickle.dump(test_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

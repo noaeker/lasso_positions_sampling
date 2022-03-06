@@ -8,6 +8,7 @@ from config import *
 import argparse
 import subprocess
 import sys
+import re
 import numpy as np
 
 
@@ -344,7 +345,9 @@ def main_parser():
     parser.add_argument('--use_modified_final_search',action='store_true')
     parser.add_argument('--start_of_starting_tree_ind', type=int, default=0)
     parser.add_argument('--logging_level', type = str, default = LOGGING_LEVEL )
+    parser.add_argument('--evo_model', type= str, default = EVO_MODEL)
     return parser
+
 
 
 def job_parser():

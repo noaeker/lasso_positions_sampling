@@ -11,10 +11,11 @@ import pickle
 
 
 def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
-                                            weights_file_path, lasso_intercept, test_data):
+                                            weights_file_path, lasso_intercept,n_chosen_locis, test_data = None):
     if not test_data:
         test_data = curr_msa_stats
-    optimized_random_trees_path = test_data["test_optimized_trees_path"]
+    optimized_random_trees_path = test_data["optimized_test_topologies_path"]
+    edit_num_locis_in_model_file(curr_msa_stats["pars_optimized_model"], n_chosen_locis)
     # logging.info("Evaluating model on test optimized random trees")
     true_ll_values = test_data["test_ll_values"]
     prefix_lasso = "opt_using_lasso"
@@ -117,7 +118,7 @@ def evaluate_coeffs_on_test_set(coeffs, ind, lambd, curr_run_directory, curr_msa
         if calc_r2:
             test_metrics = evaluate_lasso_performance_on_test_data(
                 curr_msa_stats, test_running_directory, sampled_alignment_path,
-                weights_file_path, intercept)
+                weights_file_path, intercept, len(chosen_locis))
             coeff_path_results["test_r_2"] = test_metrics[3]["lasso_test_R^2"]
     return coeff_path_results
 
@@ -248,7 +249,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
             create_dir_if_not_exists(test_running_directory)
             y_test_predicted, y_test_predicted_no_opt, y_test_true, test_results = evaluate_lasso_performance_on_test_data(
                 curr_msa_stats, test_running_directory, t_sampled_alignment_path,
-                t_weights_file_path, t_intercept)
+                t_weights_file_path, t_intercept, len(t_chosen_locis))
 
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(y_training_predicted, y_training,
@@ -345,23 +346,25 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
     return outputs_per_threshold
 
 
-def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold, n_random_iterations = 5):
+def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold,n_random_iterations = 5):
     comparisons_folder = os.path.join(curr_run_directory,"comparisons")
-    create_or_clean_dir(comparisons_folder)
+    os.mkdir(comparisons_folder)
     random_results = pd.DataFrame()
-    test_dump_path = os.path.join(curr_run_directory,f"Lasso_folder/test_{curr_msa_stats['random_trees_test_size']}_random_trees_eval/test_set.dump").replace(curr_msa_stats["run_prefix"],
+    test_dump_path = os.path.join(curr_run_directory,f"Lasso_folder/test_{curr_msa_stats['random_trees_test_size']}_random_trees_eval/test_set.dump")
+    if not os.path.exists(test_dump_path):
+        test_dump_path = test_dump_path.replace(curr_msa_stats["run_prefix"],
                                                    curr_msa_stats["training_set_baseline_run_prefix"])
 
     test_data = pickle.load(open(test_dump_path, "rb"))
     for i in range(n_random_iterations):
         output_dict = {}
-        sampled_alignment_path = comparisons_folder+f"random_{i}"
+        sampled_alignment_path = os.path.join(comparisons_folder,f"random_{i}")
         n_loci = curr_msa_stats["actual_n_loci"]
         random.seed(SEED+i)
         samp_indexes = np.random.choice(range(n_loci), size = int(threshold*n_loci))
         write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, samp_indexes, file_type = 'fasta')
         curr_random_results = evaluate_lasso_performance_on_test_data(curr_msa_stats, comparisons_folder, sampled_alignment_path,
-                                                weights_file_path = None, lasso_intercept = 0,test_data = test_data)[3]
+                                                weights_file_path = None, lasso_intercept = 0,test_data = test_data, n_chosen_locis = int(threshold*n_loci))[3]
         random_results = random_results.append(curr_random_results, ignore_index= True)
     mean_random_results = random_results.mean().to_dict()
     update_dict_with_a_suffix(output_dict, mean_random_results, suffix="_random")
@@ -369,12 +372,13 @@ def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_direc
     locis = list(range(n_loci))
     locis.sort(key = lambda x: rates[x], reverse= True)
     hightest_rates = locis[:int(threshold*n_loci)]
-    sampled_alignment_path = comparisons_folder + f"highest_Rates_{i}"
+    sampled_alignment_path = os.path.join(comparisons_folder, f"highest_Rates_{i}")
     write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], sampled_alignment_path, hightest_rates,
                                     file_type='fasta')
     high_rate_results = evaluate_lasso_performance_on_test_data(curr_msa_stats, comparisons_folder, sampled_alignment_path,
-                                                             weights_file_path=None, lasso_intercept=0, test_data = test_data)[3]
+                                                             weights_file_path=None, lasso_intercept=0, n_chosen_locis = int(threshold*n_loci), test_data = test_data)[3]
     update_dict_with_a_suffix(output_dict,high_rate_results, suffix="_high_rate")
+    shutil.rmtree(comparisons_folder)
     return output_dict
 
 
