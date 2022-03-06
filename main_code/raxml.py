@@ -483,7 +483,7 @@ def filter_unique_topologies(curr_run_directory, trees_path, n):
 
 def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file, ll_on_data_prefix, alpha,
                                    curr_msa_stats,
-                                   opt_brlen=True):
+                                   opt_brlen=True, model = None):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
     compute_site_ll_run_command = (
@@ -508,7 +508,7 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
 
 def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_file, msa_stats,
                                        curr_run_directory, opt_brlen=True, weights=None, return_trees_file=False,
-                                       n_cpus=1):
+                                       n_cpus=1, model = None):
     curr_run_directory = os.path.join(curr_run_directory, ll_on_data_prefix)
     if os.path.exists(curr_run_directory):
         delete_dir_content(curr_run_directory)
@@ -521,7 +521,8 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
         "Optimizing branch lengths and using existing Gamma shape parameter: alpha={alpha}".format(alpha=alpha))
     prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
-    model = f"{msa_stats['evo_model']}+G{{{msa_stats['alpha']}}}" if not msa_stats.get("pars_optimized_model") else msa_stats["pars_optimized_model"]
+    if model is None:
+        model = f"{msa_stats['evo_model']}+G{{{msa_stats['alpha']}}}" if not msa_stats.get("pars_optimized_model") else msa_stats["pars_optimized_model"]
     compute_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model {model} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,

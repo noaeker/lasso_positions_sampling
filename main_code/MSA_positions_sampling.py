@@ -185,7 +185,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                     partitions_count_arr = np.bincount(curr_msa_stats["partition_results"])
                     expected_chosen_locis_count_arr = (np.bincount(curr_msa_stats["partition_results"])*threshold).astype(int)
                     chosen_locis_partitions_count_arr = np.bincount(curr_msa_stats["partition_results"][chosen_locis])
-                    chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)))
+                    chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)), mode = 'constant')
 
                     chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
                     curr_msa_stats["expected_partition_counts"] = expected_chosen_locis_count_arr
