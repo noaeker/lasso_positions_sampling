@@ -135,6 +135,9 @@ def parse_raxml_partition_file(model_file, orig_n_loci):
 
 
 
+
+
+
 def extract_mad_file_statistic(mad_log_path):
     pattern = "MAD=([\d.]+)"
     with open(mad_log_path) as mad_output:
@@ -485,6 +488,8 @@ def raxml_compute_tree_per_site_ll(curr_run_directory, full_data_path, tree_file
                                    curr_msa_stats,
                                    opt_brlen=True, model = None):
     compute_site_ll_prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
+    if not model:
+        model = curr_msa_stats["pars_optimized_model"]
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
     compute_site_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --sitelh --msa {msa_path} --model {model} {brlen_command} --tree {tree_file} --seed {seed} --prefix {compute_site_ll_prefix} ").format(

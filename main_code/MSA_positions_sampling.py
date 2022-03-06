@@ -180,17 +180,22 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                 if curr_msa_stats["compare_lasso_to_naive"]:
                     lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
                     lasso_evaluation_result.update(lasso_comparisons_results)
-                if curr_msa_stats["compare_loci_gene_distribution"]:
+                if curr_msa_stats["compare_loci_gene_distribution"] and curr_msa_stats['partition_results']:
                     chosen_locis = curr_msa_stats["lasso_chosen_locis"]
+                    logging.info(f"Partition count = {curr_msa_stats['partition_results']}")
                     partitions_count_arr = np.bincount(curr_msa_stats["partition_results"])
                     expected_chosen_locis_count_arr = (np.bincount(curr_msa_stats["partition_results"])*threshold).astype(int)
                     chosen_locis_partitions_count_arr = np.bincount(curr_msa_stats["partition_results"][chosen_locis])
                     chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)), mode = 'constant')
 
-                    chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
+                    try:
+                        chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
+
+                    except:
+                        chi_square_statistics = -1
                     curr_msa_stats["expected_partition_counts"] = expected_chosen_locis_count_arr
                     curr_msa_stats["observed_partition_counts"] = chosen_locis_partitions_count_arr
-                    curr_msa_stats["chi_square_partition"] = chi_square_statistics
+                    #curr_msa_stats["chi_square_partition"] = chi_square_statistics
 
 
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
