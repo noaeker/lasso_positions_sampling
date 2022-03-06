@@ -193,9 +193,9 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
 
                     except:
                         chi_square_statistics = -1
-                    curr_msa_stats["expected_partition_counts"] = expected_chosen_locis_count_arr
-                    curr_msa_stats["observed_partition_counts"] = chosen_locis_partitions_count_arr
-                    curr_msa_stats["chi_square_partition"] = chi_square_statistics
+                    lasso_evaluation_result["expected_partition_counts"] = expected_chosen_locis_count_arr
+                    lasso_evaluation_result["observed_partition_counts"] = chosen_locis_partitions_count_arr
+                    lasso_evaluation_result["chi_square_partition"] = chi_square_statistics
 
 
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
