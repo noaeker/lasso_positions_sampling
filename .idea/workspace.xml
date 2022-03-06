@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/extra_code/generate_training_sets.py" beforeDir="false" afterPath="$PROJECT_DIR$/extra_code/generate_training_sets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/TheTree.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/help_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/help_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/raxml.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2160">
-              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+            <state relative-caret-position="-362">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -75,11 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="51">
+              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -99,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="163">
+              <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -143,7 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>evaluate_coeffs_on_test_set</find>
       <find>get_chosen_locis_and_weights</find>
       <find>rescal</find>
       <find>sample</find>
@@ -168,11 +162,12 @@
       <find>optimized_test_topologies_path</find>
       <find>compare_lasso_to_naive_approaches_on_test_set</find>
       <find>INFO</find>
-      <find>exec</find>
       <find>random_tree_gene</find>
       <find>rmtree</find>
-      <find>Lasso_folder</find>
       <find>DEBUG</find>
+      <find>exec</find>
+      <find>model</find>
+      <find>Lasso_folder</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -456,12 +451,12 @@
     <frame x="14" y="34" width="1440" height="625" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22128259" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19027483" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.18761726" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.22701688" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.12195122" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.41275796" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -980,16 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="97">
@@ -1016,8 +1001,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+        <state relative-caret-position="-362">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
           </folding>
@@ -1026,10 +1011,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="51">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

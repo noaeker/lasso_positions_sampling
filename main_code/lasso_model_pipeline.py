@@ -14,7 +14,7 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
                                             weights_file_path, lasso_intercept,n_chosen_locis, test_data = None):
     if not test_data:
         test_data = curr_msa_stats
-    optimized_random_trees_path = test_data["optimized_test_topologies_path"]
+    optimized_random_trees_path = test_data.get("optimized_test_topologies_path",test_data.get("test_optimized_trees_path"))
     edit_num_locis_in_model_file(curr_msa_stats["pars_optimized_model"], n_chosen_locis)
     # logging.info("Evaluating model on test optimized random trees")
     true_ll_values = test_data["test_ll_values"]
