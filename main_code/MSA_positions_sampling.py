@@ -180,7 +180,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                 if curr_msa_stats["compare_lasso_to_naive"]:
                     lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
                     lasso_evaluation_result.update(lasso_comparisons_results)
-                if curr_msa_stats["compare_loci_gene_distribution"] and curr_msa_stats['partition_results']:
+                if curr_msa_stats["compare_loci_gene_distribution"] and curr_msa_stats['partition_results'] is not None:
                     chosen_locis = curr_msa_stats["lasso_chosen_locis"]
                     logging.info(f"Partition count = {curr_msa_stats['partition_results']}")
                     partitions_count_arr = np.bincount(curr_msa_stats["partition_results"])
