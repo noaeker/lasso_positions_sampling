@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/raxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/raxml.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R_code/final_only_lasso.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_lasso.Rmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R_code/final_only_lasso.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/final_only_lasso.nb.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+            <state relative-caret-position="167">
+              <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -87,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="307">
-              <caret line="347" column="36" lean-forward="true" selection-start-line="347" selection-start-column="27" selection-end-line="347" selection-end-column="36" />
+              <caret line="347" column="36" selection-start-line="347" selection-start-column="27" selection-end-line="347" selection-end-column="36" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -95,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="513" column="47" lean-forward="true" selection-start-line="513" selection-start-column="47" selection-end-line="513" selection-end-column="47" />
+            <state relative-caret-position="115">
+              <caret line="18" column="32" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -139,7 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_chosen_locis_and_weights</find>
       <find>rescal</find>
       <find>sample</find>
       <find>rate4site</find>
@@ -169,6 +168,7 @@
       <find>Lasso_folder</find>
       <find>model</find>
       <find>exec</find>
+      <find>edit_num_locis_in_model_file</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -233,9 +233,9 @@
         <option value="$PROJECT_DIR$/main_code/help_functions.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_positions_sampling.py" />
         <option value="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" />
-        <option value="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/config.py" />
         <option value="$PROJECT_DIR$/main_code/raxml.py" />
+        <option value="$PROJECT_DIR$/main_code/lasso_model_pipeline.py" />
       </list>
     </option>
   </component>
@@ -457,7 +457,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.18761726" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.056285176" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.18386492" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.41275796" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -522,7 +522,7 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>21</line>
+          <line>22</line>
           <option name="timeStamp" value="162" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
@@ -547,12 +547,12 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>175</line>
+          <line>176</line>
           <option name="timeStamp" value="335" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>314</line>
+          <line>315</line>
           <option name="timeStamp" value="336" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
@@ -572,7 +572,7 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>198</line>
+          <line>199</line>
           <option name="timeStamp" value="363" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
@@ -627,12 +627,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>369</line>
+          <line>370</line>
           <option name="timeStamp" value="409" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>352</line>
+          <line>353</line>
           <option name="timeStamp" value="413" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -642,7 +642,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py</url>
-          <line>17</line>
+          <line>18</line>
           <option name="timeStamp" value="415" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -990,16 +990,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
@@ -1013,7 +1003,7 @@
     <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
-          <caret line="347" column="36" lean-forward="true" selection-start-line="347" selection-start-column="27" selection-end-line="347" selection-end-column="36" />
+          <caret line="347" column="36" selection-start-line="347" selection-start-column="27" selection-end-line="347" selection-end-column="36" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -1022,10 +1012,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="513" column="47" lean-forward="true" selection-start-line="513" selection-start-column="47" selection-end-line="513" selection-end-column="47" />
+        <state relative-caret-position="115">
+          <caret line="18" column="32" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="32" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/lasso_model_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>

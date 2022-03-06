@@ -83,8 +83,12 @@ r2.test.spearman<- cor.test(example_msa_test_ll$predicted_test_ll,example_msa_te
 r2.taining.spearman
 r2.test.spearman
 
-example_msa_training_ll %>% mutate(error_pct = round(abs((true_training_ll-predicted_training_ll)/true_training_ll)*100,3)) %>% head(5)
-example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) %>% head(5)
+train_errors<-example_msa_training_ll %>% mutate(error_pct = round(abs((true_training_ll-predicted_training_ll)/true_training_ll)*100,3))
+train_errors %>% head(5)
+test_errors<-example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) 
+test_errors %>% head (5)
+train_errors %>% summarise(median_error_pct_train = median(error_pct), mean_error_pct_train = mean(error_pct))
+test_errors %>% summarise(median_error_pct_test = median(error_pct), mean_error_pct_test = mean(error_pct))
 
 
 ```
