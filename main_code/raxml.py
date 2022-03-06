@@ -118,6 +118,23 @@ def extract_param_from_raxmlNG_log(raxml_log_path, param_name, raise_error=True)
                 return None
 
 
+
+
+def parse_raxml_partition_file(model_file, orig_n_loci):
+    locis_partition = np.zeros(orig_n_loci)
+    with open(model_file) as MODEL_FILE:
+        partitions = MODEL_FILE.readlines()
+    for i,raw_partition in enumerate(partitions):
+        site_partitions  = re.findall('\s(\d+)\-(\d+)', raw_partition)
+        for site_group in site_partitions:
+            start =int(site_group[0])-1
+            end = int(site_group[1])
+            np.put(locis_partition,ind =np.array(range(start,end)),v  = i+1)
+    return locis_partition.astype(int)
+
+
+
+
 def extract_mad_file_statistic(mad_log_path):
     pattern = "MAD=([\d.]+)"
     with open(mad_log_path) as mad_output:
@@ -527,3 +544,8 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
     if return_trees_file:
         return trees_ll_on_data, optimized_trees_final_path, elapsed_running_time
     return trees_ll_on_data, tree_objects, elapsed_running_time
+
+
+
+
+

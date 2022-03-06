@@ -64,12 +64,12 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_check_review_gtr"
-CURR_JOBS_PREFIX =  "test_curr_check_review_gtr"
+CURR_RUN_PREFIX = "test_curr_check_review_gtr2"
+CURR_JOBS_PREFIX =  "test_curr_check_review_gtr2"
 
-LASSO_BASELINE = "x"
-TRAINING_BASELINE = "x"
-TEST_SET_BASELINE = "x"
+LASSO_BASELINE = "test_curr_check_review_gtr"
+TRAINING_BASELINE = "test_curr_check_review_gtr"
+TEST_SET_BASELINE = "test_curr_check_review_gtr"
 MSA_BASELINE = "x"
 FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
@@ -114,7 +114,9 @@ elif LOCAL_RUN:
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited_DNA"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited"
+    ALTERNATIVE_MSAs = "/Users/noa/Workspace/data/supermatrices_edited"
+    PARTITION_MODELS_FILE = "/Users/noa/Workspace/data/partition_models"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/Users/noa/Workspace/main_code/R_code/lasso_glmnet.R"
 

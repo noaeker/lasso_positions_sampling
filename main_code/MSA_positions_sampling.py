@@ -3,7 +3,8 @@ from training_and_test_set_generation import *
 from raxml import *
 import pickle
 from rate4site import *
-
+from scipy.stats import chisquare
+import scipy.stats as stats
 
 def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats):
     seed = SEED + i+ curr_msa_stats["start_of_starting_tree_ind"]
@@ -66,10 +67,19 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
     orig_n_seq = len(original_alignment_data)
     orig_n_loci = len(original_alignment_data[0])
     local_full_msa_path = os.path.join(curr_msa_version_folder, file_name + file_type)
-    if orig_n_seq >= actual_n_seq and orig_n_loci>=actual_n_loci:
+    partition_results = None
+    if args.compare_loci_gene_distribution:
+        msa_short_name = original_alignment_path.split('_')[-1].split(".")[0]
+        msa_model_file = os.path.join(PARTITION_MODELS_FILE, f"{msa_short_name}.raxml.model")
+        if os.path.exists(msa_model_file):
+            partition_results = parse_raxml_partition_file(msa_model_file,  orig_n_loci)
+    if orig_n_seq >= actual_n_seq or orig_n_loci>=actual_n_loci:
         logging.info(f"Original number of sequences is {orig_n_seq} and it will be trimmed to {actual_n_seq}\nOriginal number of loci's' is {orig_n_loci} and it will be trimmed to {actual_n_loci}")
-        trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
-                 actual_n_loci, args.loci_shift)
+        corrected_partition_results = trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
+                 actual_n_loci, args.loci_shift, partition_results)
+
+
+
     else:
         return -1
     with open(local_full_msa_path) as original:
@@ -92,6 +102,8 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
                       "constant_sites_pct": constant_sites_pct,
                       "avg_entropy": avg_entropy,
                       "gap_pct": gap_positions_pct,
+
+                      "partition_results": corrected_partition_results
                       }
     curr_msa_stats.update(vars(args))
     logging.info("Basic MSA stats computed:\n {curr_msa_stats}".format(
@@ -165,8 +177,22 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                 lasso_evaluation_result = {k: curr_msa_stats[k] for k in curr_msa_stats.keys() if
                                            k not in IGNORE_COLS_IN_CSV
                                            }
-                lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
-                lasso_evaluation_result.update(lasso_comparisons_results)
+                if curr_msa_stats["compare_lasso_to_naive"]:
+                    lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
+                    lasso_evaluation_result.update(lasso_comparisons_results)
+                if curr_msa_stats["compare_loci_gene_distribution"]:
+                    chosen_locis = curr_msa_stats["lasso_chosen_locis"]
+                    partitions_count_arr = np.bincount(curr_msa_stats["partition_results"])
+                    expected_chosen_locis_count_arr = (np.bincount(curr_msa_stats["partition_results"])*threshold).astype(int)
+                    chosen_locis_partitions_count_arr = np.bincount(curr_msa_stats["partition_results"][chosen_locis])
+                    chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)))
+
+                    chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
+                    curr_msa_stats["expected_partition_counts"] = expected_chosen_locis_count_arr
+                    curr_msa_stats["observed_partition_counts"] = chosen_locis_partitions_count_arr
+                    curr_msa_stats["chi_square_partition"] = chi_square_statistics
+
+
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
                 all_msa_results.to_csv(job_csv_path, index=False,sep ='\t')
     return all_msa_results

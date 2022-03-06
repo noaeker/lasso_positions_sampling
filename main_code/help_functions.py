@@ -89,17 +89,18 @@ def write_to_sampled_alignment_path(original_alignment_data, sampled_alignment_p
         logging.error("   #ERROR: Sampled columns not written succesfully to file " + sampled_alignment_path)
 
 
-def remove_gaps_and_trim_locis(sample_records, max_n_loci, loci_shift):
+def remove_gaps_and_trim_locis(sample_records, max_n_loci, loci_shift,partition_results):
     all_data = np.array([list(record.seq) for record in sample_records])
     count_gaps_per_column = np.count_nonzero(((all_data == "-") | (all_data == "X")), axis=0)
     non_gapped_data = all_data[:, count_gaps_per_column < all_data.shape[0]]
+    corrected_partitioned_results = partition_results[count_gaps_per_column < all_data.shape[0]][loci_shift:loci_shift + max_n_loci]
     loci_trimmed_data = non_gapped_data[:, loci_shift:loci_shift + max_n_loci]
     new_sampled_records = []
     for i, old_record in enumerate(sample_records):
         sampled_record = SeqRecord(Seq("".join(list(loci_trimmed_data[i, :]))), id=old_record.id, name=old_record.name,
                                    description=old_record.description)
         new_sampled_records.append(sampled_record)
-    return new_sampled_records
+    return new_sampled_records, corrected_partitioned_results
 
 
 def trim_n_seq(original_seq_records, number_of_sequences, seed):
@@ -130,12 +131,12 @@ def count_unique_n_seq(original_seq_records):
     return len(seq_values)
 
 
-def trim_MSA(original_alignment_data, trimmed_alignment_path, number_of_sequences, file_type, max_n_loci, loci_shift):
+def trim_MSA(original_alignment_data, trimmed_alignment_path, number_of_sequences, file_type, max_n_loci, loci_shift,partition_results):
     obtained_n_seq = -1
     i = 0
     while obtained_n_seq < number_of_sequences and i <= 100:
         seq_trimmed_seq_records = trim_n_seq(original_alignment_data, number_of_sequences, seed=SEED + i)
-        loci_trimmed_seq_records = remove_gaps_and_trim_locis(seq_trimmed_seq_records, max_n_loci, loci_shift)
+        loci_trimmed_seq_records, corrected_partitioned_results = remove_gaps_and_trim_locis(seq_trimmed_seq_records, max_n_loci, loci_shift,partition_results)
         obtained_n_seq = count_unique_n_seq(loci_trimmed_seq_records)
         i = i + 1
     logging.info("obtained {obtained_n_seq} sequences after {i} iterations!".format(obtained_n_seq=obtained_n_seq, i=i))
@@ -146,7 +147,7 @@ def trim_MSA(original_alignment_data, trimmed_alignment_path, number_of_sequence
     except:
         logging.error("ERROR! {} sequences NOT written succesfully to new file {}".format(number_of_sequences,
                                                                                           trimmed_alignment_path))
-
+    return corrected_partitioned_results
 
 def extract_file_type(path, change_format=False, ete=False):
     filename, file_extension = os.path.splitext(path)
@@ -278,6 +279,10 @@ def get_positions_stats(alignment_df):
     return constant_sites_pct, avg_entropy, gap_positions_pct
 
 
+
+
+
+
 def main_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_prefix', action='store', type=str, default=CURR_RUN_PREFIX)
@@ -346,6 +351,8 @@ def main_parser():
     parser.add_argument('--start_of_starting_tree_ind', type=int, default=0)
     parser.add_argument('--logging_level', type = str, default = LOGGING_LEVEL )
     parser.add_argument('--evo_model', type= str, default = EVO_MODEL)
+    parser.add_argument('--compare_lasso_to_naive', action='store_true')
+    parser.add_argument('--compare_loci_gene_distribution', action='store_true', default= True)
     return parser
 
 
