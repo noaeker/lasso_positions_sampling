@@ -93,7 +93,10 @@ def remove_gaps_and_trim_locis(sample_records, max_n_loci, loci_shift,partition_
     all_data = np.array([list(record.seq) for record in sample_records])
     count_gaps_per_column = np.count_nonzero(((all_data == "-") | (all_data == "X")), axis=0)
     non_gapped_data = all_data[:, count_gaps_per_column < all_data.shape[0]]
-    corrected_partitioned_results = partition_results[count_gaps_per_column < all_data.shape[0]][loci_shift:loci_shift + max_n_loci]
+    if partition_results:
+        corrected_partitioned_results = partition_results[count_gaps_per_column < all_data.shape[0]][loci_shift:loci_shift + max_n_loci]
+    else:
+        corrected_partitioned_results = None
     loci_trimmed_data = non_gapped_data[:, loci_shift:loci_shift + max_n_loci]
     new_sampled_records = []
     for i, old_record in enumerate(sample_records):
@@ -352,7 +355,7 @@ def main_parser():
     parser.add_argument('--logging_level', type = str, default = LOGGING_LEVEL )
     parser.add_argument('--evo_model', type= str, default = EVO_MODEL)
     parser.add_argument('--compare_lasso_to_naive', action='store_true')
-    parser.add_argument('--compare_loci_gene_distribution', action='store_true', default= True)
+    parser.add_argument('--compare_loci_gene_distribution', action='store_true')
     return parser
 
 
