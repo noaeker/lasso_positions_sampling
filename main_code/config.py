@@ -67,7 +67,7 @@ INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
 CURR_RUN_PREFIX = "test_curr_check_review_gtr2"
 CURR_JOBS_PREFIX =  "test_curr_check_review_gtr2"
 
-LASSO_BASELINE = "test_curr_check_review_gtr"
+LASSO_BASELINE = "x"
 TRAINING_BASELINE = "test_curr_check_review_gtr"
 TEST_SET_BASELINE = "test_curr_check_review_gtr"
 MSA_BASELINE = "x"

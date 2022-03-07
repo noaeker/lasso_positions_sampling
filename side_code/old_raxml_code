@@ -1,0 +1,410 @@
+import re
+from main_code.help_functions import *
+import os.path
+from spr_prune_and_regraft import *
+from datetime import datetime
+
+
+def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimony_trees, n_random_trees, cpus, nodes,
+                 weights=None,
+                 starting_trees_path=None):
+    alpha = curr_msa_stats["alpha"]
+    weights_path_command = "--site-weights {}".format(weights) if weights else ""
+    if starting_trees_path:
+        starting_trees_command = "--tree {}".format(starting_trees_path)
+    else:
+        starting_trees_command = "--tree pars{{{n_parsimony_trees}}},rand{{{n_random_trees}}}".format(
+            n_parsimony_trees=n_parsimony_trees,
+            n_random_trees=n_random_trees)
+    search_prefix = os.path.join(curr_run_directory, prefix)
+    search_command = (
+        "{raxml_exe_path}  {threads_config} --force msa --force perf_threads --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
+        raxml_exe_path=RAXML_NG_EXE,
+        threads_config=generate_raxml_ng_command_prefix(cpus),
+        alpha=alpha, msa_path=msa_path, starting_trees_command=starting_trees_command, seed=SEED,
+        prefix=search_prefix, weights_path_command=weights_path_command)
+    best_tree_path = search_prefix + ".raxml.bestTree"
+    raxml_search_starting_tree_path = search_prefix + ".raxml.startTree"
+    all_final_trees_path = search_prefix + ".raxml.mlTrees" if n_random_trees + n_parsimony_trees > 1 else best_tree_path
+    raxml_log_file = search_prefix + ".raxml.log"
+    execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
+                                      job_name="raxml_search", log_file_path=raxml_log_file,
+                                      cpus=cpus, nodes=nodes, queue=curr_msa_stats["queue"],
+                                      run_locally=curr_msa_stats["run_raxml_commands_locally"])
+    elapsed_running_time = extract_param_from_raxmlNG_log(raxml_log_file, 'time')
+    best_ll = extract_param_from_raxmlNG_log(raxml_log_file, 'search_ll')
+    return {'best_ll': best_ll, 'best_tree_path': best_tree_path, 'all_final_trees_path': all_final_trees_path,
+            'elapsed_running_time': elapsed_running_time, 'starting_trees_path': raxml_search_starting_tree_path}
+
+
+def raxml_search_nni(curr_run_directory, msa_path, starting_tree_path, curr_msa_stats, cpus):
+    name = "nni_search"
+    search_command = (
+        "{raxml_exe_path} -T {cpus} -s {msa_path} -f J -m PROTGAMMAWAG -t {starting_tree_path} -p {seed} -w {curr_run_directory} -n {name}").format(
+        raxml_exe_path=RAXML_HPC_EXE,
+        msa_path=msa_path, starting_tree_path=starting_tree_path, curr_run_directory=curr_run_directory, name=name,
+        seed=SEED, cpus=cpus)
+    logging.info("search_command is {command}".format(command=search_command))
+    best_tree_path = os.path.join(curr_run_directory, "RAxML_fastTree.{name}".format(name=name))
+    raxml_log_file = os.path.join(curr_run_directory, "RAxML_info.{name}".format(name=name))
+    execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
+                                      job_name="raxml_search", log_file_path=raxml_log_file,
+                                      cpus=cpus, nodes=1, queue=curr_msa_stats["queue"],
+                                      run_locally=curr_msa_stats["run_raxml_commands_locally"])
+    nni_elapsed_running_time = extract_param_from_raxmlHPC_log(raxml_log_file, 'time')
+    return {'best_tree_path': best_tree_path,
+            'elapsed_running_time': nni_elapsed_running_time}
+
+
+def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees, n_random_trees, standrad_search):
+    if standrad_search:
+        standard_search_dict = raxml_search(curr_run_directory, curr_msa_stats["local_alignment_path"], "standard",
+                                            curr_msa_stats,
+                                            n_parsimony_trees, n_random_trees, cpus=curr_msa_stats["n_cpus_full"],
+                                            nodes=curr_msa_stats["n_nodes_full"],
+                                            weights=None, starting_trees_path=None)
+
+        results = {'standard_best_ll': standard_search_dict["best_ll"],
+                   'standard_ml_trees_path': standard_search_dict["all_final_trees_path"],
+                   'standard_best_tree_path': standard_search_dict["best_tree_path"],
+                   'standard_search_elapsed_time': standard_search_dict["elapsed_running_time"],
+                   'standard_starting_trees_path': standard_search_dict["starting_trees_path"]}
+    else:
+        weights_file_path = curr_msa_stats["weights_file_path"]
+        sampled_alignment_path = curr_msa_stats["sampled_alignment_path"]
+        logging.info("Performing search using Lasso")
+
+        first_phase_dict = raxml_search(curr_run_directory, sampled_alignment_path, "first_phase",
+                                        curr_msa_stats, n_parsimony_trees,
+                                        n_random_trees,
+                                        cpus=curr_msa_stats["n_cpus_Lasso"], nodes=curr_msa_stats["n_nodes_Lasso"],
+                                        weights=weights_file_path,
+                                        starting_trees_path=curr_msa_stats["standard_starting_trees_path"] if
+                                        curr_msa_stats["use_raxml_standard_starting_trees"] else None
+
+                                        )
+        first_phase_best_true_ll, first_phase_best_tree, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+            curr_msa_stats["local_alignment_path"], "first_phase_ll_eval_on_full",
+            first_phase_dict["best_tree_path"],
+            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
+        results = {
+            'lasso_first_phase_best_ll': first_phase_best_true_ll,
+            'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
+            'lasso_first_phase_elapsed_time': first_phase_dict["elapsed_running_time"],
+            'lasso_first_phase_ml_trees': first_phase_dict["all_final_trees_path"]
+
+        }
+        if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
+            logging.info("Performing extra nni optimization")
+            nni_dict = raxml_search_nni(curr_run_directory, msa_path=curr_msa_stats["local_alignment_path"],
+                                        starting_tree_path=first_phase_best_tree, curr_msa_stats=curr_msa_stats,
+                                        cpus=curr_msa_stats["n_cpus_nni"])
+            nni_best_ll, nni_best_tree, nni_eval_elapsed = raxml_optimize_trees_for_given_msa(
+                curr_msa_stats["local_alignment_path"], "nni_eval",
+                nni_dict["best_tree_path"],
+                curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
+            results.update({'lasso_nni_best_ll': nni_best_ll,
+                            'lasso_nni_best_tree': nni_best_tree,
+                            'lasso_nni_elapsed_time': nni_dict["elapsed_running_time"]})
+
+    return results
+
+
+def perform_standrad_raxml_search(standard_run_folder, curr_msa_stats):
+    standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
+    standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
+                                                                       curr_msa_stats["RAxML_baseline_run_prefix"])
+    if os.path.exists(standard_raxml_dump_baseline):
+        logging.info("\n\n*Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
+        with open(standard_raxml_dump_baseline, 'rb') as handle:
+            standard_raxml_search_results = pickle.load(handle)
+    else:
+        logging.info("\n\n*Performing standard RAxML search from beggining")
+        standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
+                                                              curr_msa_stats["n_raxml_parsimony_trees"],
+                                                              curr_msa_stats["n_raxml_random_trees"],
+                                                              standrad_search=True)
+        with open(standard_raxml_results_dump, 'wb') as handle:
+            pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    return standard_raxml_search_results
+
+
+def perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
+                                     lasso_configurations_per_training_size, training_size_options):
+    lasso_overall_results = []
+    logging.info("\n\n*Now performing a Lasso-based search")
+    for brlen_generator_name in brlen_generators:
+        brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
+        create_dir_if_not_exists(brlen_run_directory)
+        curr_msa_stats["brlen_generator"] = brlen_generator_name
+        logging.info(f"   ***Using brlen_generator {brlen_generator_name} ")
+        for training_size in training_size_options:
+            curr_msa_stats["actual_training_size"] = training_size
+            curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
+            create_dir_if_not_exists(curr_training_size_and_brlen_directory)
+            lasso_thresholds_during_search = [float(t) for t in
+                                              curr_msa_stats['lasso_thresholds_search'].split("_")]
+            lasso_config_per_brlen_and_t_size = lasso_configurations_per_training_size[brlen_generator_name][
+                training_size]
+            logging.info(f"    ****Using training size {training_size} ")
+            for threshold in lasso_thresholds_during_search:
+                curr_threshold_directory = os.path.join(curr_training_size_and_brlen_directory, str(threshold))
+                create_dir_if_not_exists(curr_threshold_directory)
+                if threshold in lasso_config_per_brlen_and_t_size:
+                    lasso_results_per_threshold = lasso_config_per_brlen_and_t_size[threshold]
+                else:
+                    continue
+                curr_msa_stats.update(lasso_results_per_threshold)
+                logging.info(f"     *****Using treshold  {threshold} ")
+                logging.debug(
+                    "Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(
+                        size=training_size, brlen=brlen_generator_name))
+                lasso_based_RAxML_results = raxml_search_pipeline(curr_threshold_directory, curr_msa_stats,
+                                                                  curr_msa_stats["n_raxml_parsimony_trees"],
+                                                                  curr_msa_stats["n_raxml_random_trees"],
+                                                                  standrad_search=False)
+                curr_msa_stats.update(lasso_based_RAxML_results)
+                lasso_first_phase_ml_trees_ll, lasso_first_phase_ml_trees_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+                    curr_msa_stats["local_alignment_path"], "opt_raxml_lasso_ml_trees",
+                    lasso_based_RAxML_results['lasso_first_phase_ml_trees'], curr_msa_stats,
+                    curr_threshold_directory, opt_brlen=True,
+                    weights=None, return_trees_file=False, n_cpus=curr_msa_stats["n_cpus_Lasso"])
+                curr_msa_stats["lasso_first_phase_ml_trees_ll"] = lasso_first_phase_ml_trees_ll
+                curr_msa_stats["lasso_first_phase_ml_trees_objects"] = lasso_first_phase_ml_trees_objects
+                lasso_overall_results.append(curr_msa_stats.copy())
+    return lasso_overall_results
+
+
+def rf_distances_per_starting_tree_raxml(lasso_result, lasso_result_rf_folder, starting_tree_ind,
+                                         ml_standard_tree_objects, starting_tree_objects, curr_msa_stats,
+                                         standard_raxml_search_results, starting_trees_ll_on_data,
+                                         ml_standard_trees_ll):
+    starting_tree_lasso_result_rf_folder = os.path.join(lasso_result_rf_folder,
+                                                        "starting_tree_" + str(starting_tree_ind))
+    create_dir_if_not_exists(starting_tree_lasso_result_rf_folder)
+    lasso_result["raxml_curr_starting_tree_ind"] = starting_tree_ind
+    lasso_result["raxml_curr_starting_tree_ll"] = starting_trees_ll_on_data[starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_standard_output_tree_ll"] = ml_standard_trees_ll[
+        starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_lasso_first_phase_output_tree"] = \
+        lasso_result["lasso_first_phase_ml_trees_ll"][
+            starting_tree_ind]
+    lasso_result["raxml_lasso_first_phase_vs_standard_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                         ml_standard_tree_objects[
+                                                                             starting_tree_ind],
+                                                                         lasso_result[
+                                                                             "lasso_first_phase_ml_trees_objects"][
+                                                                             starting_tree_ind],
+                                                                         "first_phase_vs_standard")
+    lasso_result["raxml_start_vs_standard_output_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                    ml_standard_tree_objects[
+                                                                        starting_tree_ind],
+                                                                    starting_tree_objects
+                                                                    [starting_tree_ind],
+                                                                    "start_vs_standard")
+    if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
+        lasso_result["raxml_lasso_final_nni_vs_standard_rf"] = rf_distance(
+            starting_tree_lasso_result_rf_folder,
+            standard_raxml_search_results["standard_best_tree_path"],
+            lasso_result["lasso_nni_best_tree"],
+            "nni_vs_standard")
+    result_per_starting_tree = {k: lasso_result[k] for k in lasso_result.keys() if
+                                k not in IGNORE_COLS_IN_CSV
+                                }
+    return result_per_starting_tree
+
+
+def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                  lasso_configurations_per_training_size,
+                                  job_csv_path, all_msa_results):
+    curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "RaxML_search")
+    create_dir_if_not_exists(curr_run_directory)
+    standard_run_folder = os.path.join(curr_run_directory, "standard_run")
+    create_dir_if_not_exists(standard_run_folder)
+    standard_raxml_search_results = perform_standrad_raxml_search(standard_run_folder, curr_msa_stats)
+    starting_trees_ll_on_data, starting_tree_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+        curr_msa_stats["local_alignment_path"], "opt_raxml_starting_trees",
+        standard_raxml_search_results['standard_starting_trees_path'], curr_msa_stats,
+        standard_run_folder, opt_brlen=True, weights=None, return_trees_file=False,
+        n_cpus=curr_msa_stats["n_cpus_full"])
+    # standard_raxml_search_results["best_raxml_starting_tree_ll"] = max(starting_trees_ll_on_data)
+    ml_standard_trees_ll, ml_standard_tree_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+        curr_msa_stats["local_alignment_path"], "opt_raxml_ml_trees",
+        standard_raxml_search_results['standard_ml_trees_path'], curr_msa_stats,
+        standard_run_folder, opt_brlen=True, weights=None, return_trees_file=False,
+        n_cpus=curr_msa_stats["n_cpus_full"])
+    curr_msa_stats.update(standard_raxml_search_results)
+    logging.info("*Standard RAxML results: \n{}".format(standard_raxml_search_results))
+    if not curr_msa_stats["only_full_search"]:
+        lasso_results = perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
+                                                         lasso_configurations_per_training_size, training_size_options)
+        logging.info("Lasso results are : {lasso_results}\n".format(lasso_results=lasso_results))
+        for lasso_result_ind, lasso_result in enumerate(lasso_results):
+            lasso_result_rf_folder = os.path.join(curr_run_directory, "lasso_" + str(lasso_result_ind))
+            create_dir_if_not_exists(lasso_result_rf_folder)
+            for starting_tree_ind in range(len(starting_tree_objects)):
+                results_per_starting_tree = rf_distances_per_starting_tree_raxml(lasso_result, lasso_result_rf_folder,
+                                                                                 starting_tree_ind,
+                                                                                 ml_standard_tree_objects,
+                                                                                 starting_tree_objects, curr_msa_stats,
+                                                                                 standard_raxml_search_results,
+                                                                                 starting_trees_ll_on_data,
+                                                                                 ml_standard_trees_ll)
+                all_msa_results = all_msa_results.append(results_per_starting_tree, ignore_index=True)
+                all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
+
+    all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
+    return all_msa_results
+
+
+
+
+def perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
+                                     lasso_configurations_per_training_size, training_size_options):
+    lasso_overall_results = []
+    logging.info("\n\n*Now performing a Lasso-based search")
+    for brlen_generator_name in brlen_generators:
+        brlen_run_directory = os.path.join(curr_run_directory, brlen_generator_name)
+        create_dir_if_not_exists(brlen_run_directory)
+        curr_msa_stats["brlen_generator"] = brlen_generator_name
+        logging.info(f"   ***Using brlen_generator {brlen_generator_name} ")
+        for training_size in training_size_options:
+            curr_msa_stats["actual_training_size"] = training_size
+            curr_training_size_and_brlen_directory = os.path.join(brlen_run_directory, str(training_size))
+            create_dir_if_not_exists(curr_training_size_and_brlen_directory)
+            lasso_thresholds_during_search = [float(t) for t in
+                                              curr_msa_stats['lasso_thresholds_search'].split("_")]
+            lasso_config_per_brlen_and_t_size = lasso_configurations_per_training_size[brlen_generator_name][
+                training_size]
+            logging.info(f"    ****Using training size {training_size} ")
+            for threshold in lasso_thresholds_during_search:
+                curr_threshold_directory = os.path.join(curr_training_size_and_brlen_directory, str(threshold))
+                create_dir_if_not_exists(curr_threshold_directory)
+                if threshold in lasso_config_per_brlen_and_t_size:
+                    lasso_results_per_threshold = lasso_config_per_brlen_and_t_size[threshold]
+                else:
+                    continue
+                curr_msa_stats.update(lasso_results_per_threshold)
+                logging.info(f"     *****Using treshold  {threshold} ")
+                logging.debug(
+                    "Starting Lasso-based RaxML search using {brlen} brlen and training size: {size}".format(
+                        size=training_size, brlen=brlen_generator_name))
+                lasso_based_RAxML_results = raxml_search_pipeline(curr_threshold_directory, curr_msa_stats,
+                                                                  curr_msa_stats["n_raxml_parsimony_trees"],
+                                                                  curr_msa_stats["n_raxml_random_trees"],
+                                                                  standrad_search=False)
+                curr_msa_stats.update(lasso_based_RAxML_results)
+                lasso_first_phase_ml_trees_ll, lasso_first_phase_ml_trees_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+                    curr_msa_stats["local_alignment_path"], "opt_raxml_lasso_ml_trees",
+                    lasso_based_RAxML_results['lasso_first_phase_ml_trees'], curr_msa_stats,
+                    curr_threshold_directory, opt_brlen=True,
+                    weights=None, return_trees_file=False, n_cpus=curr_msa_stats["n_cpus_Lasso"])
+                curr_msa_stats["lasso_first_phase_ml_trees_ll"] = lasso_first_phase_ml_trees_ll
+                curr_msa_stats["lasso_first_phase_ml_trees_objects"] = lasso_first_phase_ml_trees_objects
+                lasso_overall_results.append(curr_msa_stats.copy())
+    return lasso_overall_results
+
+
+def rf_distances_per_starting_tree_raxml(lasso_result, lasso_result_rf_folder, starting_tree_ind,
+                                         ml_standard_tree_objects, starting_tree_objects, curr_msa_stats,
+                                         standard_raxml_search_results, starting_trees_ll_on_data,
+                                         ml_standard_trees_ll):
+    starting_tree_lasso_result_rf_folder = os.path.join(lasso_result_rf_folder,
+                                                        "starting_tree_" + str(starting_tree_ind))
+    create_dir_if_not_exists(starting_tree_lasso_result_rf_folder)
+    lasso_result["raxml_curr_starting_tree_ind"] = starting_tree_ind
+    lasso_result["raxml_curr_starting_tree_ll"] = starting_trees_ll_on_data[starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_standard_output_tree_ll"] = ml_standard_trees_ll[
+        starting_tree_ind]
+    lasso_result["raxml_curr_starting_tree_lasso_first_phase_output_tree"] = \
+        lasso_result["lasso_first_phase_ml_trees_ll"][
+            starting_tree_ind]
+    lasso_result["raxml_lasso_first_phase_vs_standard_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                         ml_standard_tree_objects[
+                                                                             starting_tree_ind],
+                                                                         lasso_result[
+                                                                             "lasso_first_phase_ml_trees_objects"][
+                                                                             starting_tree_ind],
+                                                                         "first_phase_vs_standard")
+    lasso_result["raxml_start_vs_standard_output_rf"] = rf_distance(starting_tree_lasso_result_rf_folder,
+                                                                    ml_standard_tree_objects[
+                                                                        starting_tree_ind],
+                                                                    starting_tree_objects
+                                                                    [starting_tree_ind],
+                                                                    "start_vs_standard")
+    if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
+        lasso_result["raxml_lasso_final_nni_vs_standard_rf"] = rf_distance(
+            starting_tree_lasso_result_rf_folder,
+            standard_raxml_search_results["standard_best_tree_path"],
+            lasso_result["lasso_nni_best_tree"],
+            "nni_vs_standard")
+    result_per_starting_tree = {k: lasso_result[k] for k in lasso_result.keys() if
+                                k not in IGNORE_COLS_IN_CSV
+                                }
+    return result_per_starting_tree
+
+
+def perform_raxml_search_pipeline(training_size_options, brlen_generators, curr_msa_stats,
+                                  lasso_configurations_per_training_size,
+                                  job_csv_path, all_msa_results):
+    curr_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "RaxML_search")
+    create_dir_if_not_exists(curr_run_directory)
+    standard_run_folder = os.path.join(curr_run_directory, "standard_run")
+    create_dir_if_not_exists(standard_run_folder)
+    standard_raxml_search_results = perform_standrad_raxml_search(standard_run_folder, curr_msa_stats)
+    starting_trees_ll_on_data, starting_tree_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+        curr_msa_stats["local_alignment_path"], "opt_raxml_starting_trees",
+        standard_raxml_search_results['standard_starting_trees_path'], curr_msa_stats,
+        standard_run_folder, opt_brlen=True, weights=None, return_trees_file=False,
+        n_cpus=curr_msa_stats["n_cpus_full"])
+    # standard_raxml_search_results["best_raxml_starting_tree_ll"] = max(starting_trees_ll_on_data)
+    ml_standard_trees_ll, ml_standard_tree_objects, elapsed_running_time = raxml_optimize_trees_for_given_msa(
+        curr_msa_stats["local_alignment_path"], "opt_raxml_ml_trees",
+        standard_raxml_search_results['standard_ml_trees_path'], curr_msa_stats,
+        standard_run_folder, opt_brlen=True, weights=None, return_trees_file=False,
+        n_cpus=curr_msa_stats["n_cpus_full"])
+    curr_msa_stats.update(standard_raxml_search_results)
+    logging.info("*Standard RAxML results: \n{}".format(standard_raxml_search_results))
+    if not curr_msa_stats["only_full_search"]:
+        lasso_results = perform_lasso_based_raxml_search(brlen_generators, curr_run_directory, curr_msa_stats,
+                                                         lasso_configurations_per_training_size, training_size_options)
+        logging.info("Lasso results are : {lasso_results}\n".format(lasso_results=lasso_results))
+        for lasso_result_ind, lasso_result in enumerate(lasso_results):
+            lasso_result_rf_folder = os.path.join(curr_run_directory, "lasso_" + str(lasso_result_ind))
+            create_dir_if_not_exists(lasso_result_rf_folder)
+            for starting_tree_ind in range(len(starting_tree_objects)):
+                results_per_starting_tree = rf_distances_per_starting_tree_raxml(lasso_result, lasso_result_rf_folder,
+                                                                                 starting_tree_ind,
+                                                                                 ml_standard_tree_objects,
+                                                                                 starting_tree_objects, curr_msa_stats,
+                                                                                 standard_raxml_search_results,
+                                                                                 starting_trees_ll_on_data,
+                                                                                 ml_standard_trees_ll)
+                all_msa_results = all_msa_results.append(results_per_starting_tree, ignore_index=True)
+                all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
+
+    all_msa_results.to_csv(job_csv_path, index = False, sep ='\t')
+    return all_msa_results
+
+
+
+def perform_standrad_raxml_search(standard_run_folder, curr_msa_stats):
+    standard_raxml_results_dump = os.path.join(standard_run_folder, 'standard_RAxML.dump')
+    standard_raxml_dump_baseline = standard_raxml_results_dump.replace(curr_msa_stats["run_prefix"],
+                                                                       curr_msa_stats["RAxML_baseline_run_prefix"])
+    if os.path.exists(standard_raxml_dump_baseline):
+        logging.info("\n\n*Using dump standard RAxML results in {}".format(standard_raxml_dump_baseline))
+        with open(standard_raxml_dump_baseline, 'rb') as handle:
+            standard_raxml_search_results = pickle.load(handle)
+    else:
+        logging.info("\n\n*Performing standard RAxML search from beggining")
+        standard_raxml_search_results = raxml_search_pipeline(standard_run_folder, curr_msa_stats,
+                                                              curr_msa_stats["n_raxml_parsimony_trees"],
+                                                              curr_msa_stats["n_raxml_random_trees"],
+                                                              standrad_search=True)
+        with open(standard_raxml_results_dump, 'wb') as handle:
+            pickle.dump(standard_raxml_search_results, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    return standard_raxml_search_results
+
+
+

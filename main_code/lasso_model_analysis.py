@@ -1,38 +1,44 @@
+from config import USE_INTEGER_WEIGHTS,INTEGER_CONST,GENERATE_LASSO_DESCRIPTIVE, IGNORE_COLS_IN_CSV,R_CODE_PATH
+from raxml import raxml_optimize_trees_for_given_msa
+from partitioned_analysis import generate_loci_corrected_partition_model_file
+from help_functions import *
 from sklearn.metrics import *
 from sklearn import linear_model
-from raxml import *
 from scipy import stats
 import time
 import numpy as np
 from sklearn import preprocessing
 import itertools
 import pickle
+import pandas as pd
+import os
+
 
 
 
 def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
-                                            weights_file_path, lasso_intercept,n_chosen_locis, test_data = None, partitioned_model = None):
+                                            weights_file_path, lasso_intercept,chosen_locis, test_data = None):
     if not test_data:
         test_data = curr_msa_stats
     optimized_random_trees_path = test_data.get("optimized_test_topologies_path",test_data.get("test_optimized_trees_path"))
-    if curr_msa_stats.get("pars_optimized_model"):
-            edit_num_locis_in_model_file_no_partition(curr_msa_stats["pars_optimized_model"], n_chosen_locis)
-
-    # logging.info("Evaluating model on test optimized random trees")
+    if curr_msa_stats["do_partitioned_lasso_analysis"]:
+        lasso_corrected_partition_models_file = generate_loci_corrected_partition_model_file(curr_msa_stats["msa_corrected_model_partition_optimized"], curr_msa_stats["partition_ind_to_name_optimized"],curr_run_directory = curr_run_directory,positions_subset=chosen_locis)
+    else:
+        lasso_corrected_partition_models_file = None
     true_ll_values = test_data["test_ll_values"]
     prefix_lasso = "opt_using_lasso"
     lasso_ll_values = \
         raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path,
                                            curr_msa_stats,
                                            curr_run_directory, opt_brlen=True, weights=weights_file_path,
-                                           return_trees_file=False)[0]
+                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
     lasso_ll_values_adjusted = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in lasso_ll_values]
     prefix_lasso = "eval_using_lasso"
     lasso_ll_values_no_opt = \
         raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path,
                                            curr_msa_stats,
                                            curr_run_directory, opt_brlen=False, weights=weights_file_path,
-                                           return_trees_file=False)[0]
+                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
     lasso_ll_values_adjusted_no_opt = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in
                                        lasso_ll_values_no_opt]
 
@@ -120,7 +126,7 @@ def evaluate_coeffs_on_test_set(coeffs, ind, lambd, curr_run_directory, curr_msa
         if calc_r2:
             test_metrics = evaluate_lasso_performance_on_test_data(
                 curr_msa_stats, test_running_directory, sampled_alignment_path,
-                weights_file_path, intercept, len(chosen_locis))
+                weights_file_path, intercept, chosen_locis)
             coeff_path_results["test_r_2"] = test_metrics[3]["lasso_test_R^2"]
     return coeff_path_results
 
@@ -251,7 +257,7 @@ def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_direc
             create_dir_if_not_exists(test_running_directory)
             y_test_predicted, y_test_predicted_no_opt, y_test_true, test_results = evaluate_lasso_performance_on_test_data(
                 curr_msa_stats, test_running_directory, t_sampled_alignment_path,
-                t_weights_file_path, t_intercept, len(t_chosen_locis))
+                t_weights_file_path, t_intercept, t_chosen_locis)
 
             if GENERATE_LASSO_DESCRIPTIVE:
                 generate_lasso_descriptive(y_training_predicted, y_training,
@@ -347,7 +353,6 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
 
     return outputs_per_threshold
 
-
 def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold,n_random_iterations = 5):
     comparisons_folder = os.path.join(curr_run_directory,"comparisons")
     os.mkdir(comparisons_folder)
@@ -382,5 +387,6 @@ def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_direc
     update_dict_with_a_suffix(output_dict,high_rate_results, suffix="_high_rate")
     shutil.rmtree(comparisons_folder)
     return output_dict
+
 
 

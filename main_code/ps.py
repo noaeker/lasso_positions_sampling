@@ -1,7 +1,14 @@
-from help_functions import *
-from config import *
+from help_functions import create_dir_if_not_exists, create_or_clean_dir, get_job_related_files_paths, \
+    generate_argument_str, submit_local_job, submit_linux_job, generate_argument_list, add_csvs_content, \
+    remove_empty_columns, extract_alignment_files_from_dir, remove_MSAs_with_not_enough_seq_and_locis, \
+    extract_alignment_files_from_general_csv
+from input_parsers import *
+import logging
 import time
 import shutil
+import os
+import pandas as pd
+
 
 
 def generate_results_folder(curr_run_prefix):
@@ -28,23 +35,23 @@ def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
         status_file_path_list.append(job_related_files_paths["job_status_file"])
         raw_results = pd.DataFrame(
         )
-        raw_results.to_csv(job_related_files_paths["job_csv_path"], index=False, sep ='\t')
+        raw_results.to_csv(job_related_files_paths["job_csv_path"], index=False, sep='\t')
         with open(job_related_files_paths["job_msa_paths_file"], 'w') as f:
             for path in job_msa_paths:
                 f.write("%s\n" % path)
         logging.info("job number {} will run on files {}".format(job_ind, job_msa_paths))
 
         run_command = f' python {MAIN_CODE_PATH} ' \
-                ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} {previous_args}' \
-                .format(
-                job_ind=job_ind, previous_args=generate_argument_str(args), curr_job_folder=curr_job_folder
-                )
+            ' --job_ind {job_ind} --curr_job_folder {curr_job_folder} {previous_args}' \
+            .format(
+            job_ind=job_ind, previous_args=generate_argument_str(args), curr_job_folder=curr_job_folder
+        )
         job_name = args.jobs_prefix + str(job_ind)
         if not LOCAL_RUN:
-            submit_linux_job(job_name, curr_job_folder, run_command, args.n_cpus_per_job, job_ind, queue = args.queue)
+            submit_linux_job(job_name, curr_job_folder, run_command, args.n_cpus_per_job, job_ind, queue=args.queue)
         else:
             submit_local_job(MAIN_CODE_PATH, ["--job_ind", str(job_ind), "--curr_job_folder", curr_job_folder
-             ] + generate_argument_list(args))
+                                              ] + generate_argument_list(args))
     csv_path_to_status_path_dict = {csv_path: status_path for csv_path, status_path in
                                     zip(jobs_csv_path_list, status_file_path_list)}
     return csv_path_to_status_path_dict
@@ -71,7 +78,9 @@ def main():
         logging.info(
             "After removing files that exist in {} there are {} MSAs".format(all_jobs_backup_csv, len(file_path_list)))
     file_path_list = remove_MSAs_with_not_enough_seq_and_locis(file_path_list, args.min_n_seq, args.min_n_loci)
-    logging.info("There are {} MSAs with at least {} sequences and {} positions".format(len(file_path_list), args.min_n_seq, args.min_n_loci))
+    logging.info(
+        "There are {} MSAs with at least {} sequences and {} positions".format(len(file_path_list), args.min_n_seq,
+                                                                               args.min_n_loci))
     file_path_list = file_path_list[args.first_msa_ind:(args.first_msa_ind + args.n_MSAs)]
     logging.debug("Alignment files are " + str(file_path_list))
     csv_path_to_status_path_dict = distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args)

@@ -1,9 +1,11 @@
 import re
 from help_functions import *
 import os.path
-from spr_prune_and_regraft import *
+from spr_prune_and_regraft import generate_tree_object_from_newick,compute_tree_divergence,generate_multiple_tree_object_from_newick
+from ete3 import Tree
 from datetime import datetime
-
+import time
+from config import WAITING_TIME_UPDATE, LOCAL_RUN, RAXML_NG_EXE, MAD_COMMAND_PREFIX
 
 class RE_RUN_ON_REDUCED_VERSION(Exception):
     """Raised when the input value is too large"""
@@ -55,6 +57,15 @@ def wait_for_file_existence(path, name):
                 logging.info("Waiting to much for param {}, breaking".format(name))
                 break
         raise GENERAL_RAXML_ERROR(error_msg)
+
+
+def RF_between_two_newick(curr_run_directory, name, tree_1_str, tree_2_str):
+    rf_trees_path = os.path.join(curr_run_directory,"name")
+    with open(rf_trees_path, 'w') as RF:
+        RF.writelines([tree_1_str, "\n", tree_2_str]),
+    rf_dist = calculate_rf_dist(rf_trees_path, curr_run_directory,prefix=name)
+    return rf_dist
+
 
 
 def generate_raxml_ng_command_prefix(cpus=1):
@@ -113,40 +124,6 @@ def extract_param_from_raxmlNG_log(raxml_log_path, param_name, raise_error=True)
 
 
 
-def edit_num_locis_in_model_file_no_partition(model_path, n_loci):
-    with open(model_path) as MODEL_FILE:
-        text = MODEL_FILE.read()
-    new_text = re.sub('noname = 1\-\d+',f'noname = 1-{n_loci}',text)
-    with open(model_path,'w') as MODEL_FILE:
-        MODEL_FILE.write(new_text)
-
-def edit_model_file_partitioned_analysis(model_path, lasso_chosen_loci, partition_results):
-    lasso_chosen_loci_groups = partition_results[lasso_chosen_loci]
-
-
-def transform_partition_file_to_dict(partition_results):
-    pass
-
-
-
-def parse_raxml_partition_file(model_file, orig_n_loci):
-    locis_partition = np.zeros(orig_n_loci)
-    with open(model_file) as MODEL_FILE:
-        partitions = MODEL_FILE.readlines()
-    for i,raw_partition in enumerate(partitions):
-        site_partitions  = re.findall('\s(\d+)\-(\d+)', raw_partition)
-        for site_group in site_partitions:
-            start =int(site_group[0])-1
-            end = int(site_group[1])
-            np.put(locis_partition,ind =np.array(range(start,end)),v  = i+1)
-    return locis_partition.astype(int)
-
-
-
-
-
-
-
 def extract_mad_file_statistic(mad_log_path):
     pattern = "MAD=([\d.]+)"
     with open(mad_log_path) as mad_output:
@@ -161,109 +138,6 @@ def extract_mad_file_statistic(mad_log_path):
     return value
 
 
-def raxml_search(curr_run_directory, msa_path, prefix, curr_msa_stats, n_parsimony_trees, n_random_trees, cpus, nodes,
-                 weights=None,
-                 starting_trees_path=None):
-    alpha = curr_msa_stats["alpha"]
-    weights_path_command = "--site-weights {}".format(weights) if weights else ""
-    if starting_trees_path:
-        starting_trees_command = "--tree {}".format(starting_trees_path)
-    else:
-        starting_trees_command = "--tree pars{{{n_parsimony_trees}}},rand{{{n_random_trees}}}".format(
-            n_parsimony_trees=n_parsimony_trees,
-            n_random_trees=n_random_trees)
-    search_prefix = os.path.join(curr_run_directory, prefix)
-    search_command = (
-        "{raxml_exe_path}  {threads_config} --force msa --force perf_threads --msa {msa_path} --model WAG+G{{{alpha}}} {starting_trees_command} {weights_path_command} --seed {seed} --prefix {prefix}").format(
-        raxml_exe_path=RAXML_NG_EXE,
-        threads_config=generate_raxml_ng_command_prefix(cpus),
-        alpha=alpha, msa_path=msa_path, starting_trees_command=starting_trees_command, seed=SEED,
-        prefix=search_prefix, weights_path_command=weights_path_command)
-    best_tree_path = search_prefix + ".raxml.bestTree"
-    raxml_search_starting_tree_path = search_prefix + ".raxml.startTree"
-    all_final_trees_path = search_prefix + ".raxml.mlTrees" if n_random_trees + n_parsimony_trees > 1 else best_tree_path
-    raxml_log_file = search_prefix + ".raxml.log"
-    execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
-                                      job_name="raxml_search", log_file_path=raxml_log_file,
-                                      cpus=cpus, nodes=nodes, queue=curr_msa_stats["queue"],
-                                      run_locally=curr_msa_stats["run_raxml_commands_locally"])
-    elapsed_running_time = extract_param_from_raxmlNG_log(raxml_log_file, 'time')
-    best_ll = extract_param_from_raxmlNG_log(raxml_log_file, 'search_ll')
-    return {'best_ll': best_ll, 'best_tree_path': best_tree_path, 'all_final_trees_path': all_final_trees_path,
-            'elapsed_running_time': elapsed_running_time, 'starting_trees_path': raxml_search_starting_tree_path}
-
-
-def raxml_search_nni(curr_run_directory, msa_path, starting_tree_path, curr_msa_stats, cpus):
-    name = "nni_search"
-    search_command = (
-        "{raxml_exe_path} -T {cpus} -s {msa_path} -f J -m PROTGAMMAWAG -t {starting_tree_path} -p {seed} -w {curr_run_directory} -n {name}").format(
-        raxml_exe_path=RAXML_HPC_EXE,
-        msa_path=msa_path, starting_tree_path=starting_tree_path, curr_run_directory=curr_run_directory, name=name,
-        seed=SEED, cpus=cpus)
-    logging.info("search_command is {command}".format(command=search_command))
-    best_tree_path = os.path.join(curr_run_directory, "RAxML_fastTree.{name}".format(name=name))
-    raxml_log_file = os.path.join(curr_run_directory, "RAxML_info.{name}".format(name=name))
-    execute_commnand_and_write_to_log(search_command, curr_run_directory, job_folder_name="raxml_search_job",
-                                      job_name="raxml_search", log_file_path=raxml_log_file,
-                                      cpus=cpus, nodes=1, queue=curr_msa_stats["queue"],
-                                      run_locally=curr_msa_stats["run_raxml_commands_locally"])
-    nni_elapsed_running_time = extract_param_from_raxmlHPC_log(raxml_log_file, 'time')
-    return {'best_tree_path': best_tree_path,
-            'elapsed_running_time': nni_elapsed_running_time}
-
-
-def raxml_search_pipeline(curr_run_directory, curr_msa_stats, n_parsimony_trees, n_random_trees, standrad_search):
-    if standrad_search:
-        standard_search_dict = raxml_search(curr_run_directory, curr_msa_stats["local_alignment_path"], "standard",
-                                            curr_msa_stats,
-                                            n_parsimony_trees, n_random_trees, cpus=curr_msa_stats["n_cpus_full"],
-                                            nodes=curr_msa_stats["n_nodes_full"],
-                                            weights=None, starting_trees_path=None)
-
-        results = {'standard_best_ll': standard_search_dict["best_ll"],
-                   'standard_ml_trees_path': standard_search_dict["all_final_trees_path"],
-                   'standard_best_tree_path': standard_search_dict["best_tree_path"],
-                   'standard_search_elapsed_time': standard_search_dict["elapsed_running_time"],
-                   'standard_starting_trees_path': standard_search_dict["starting_trees_path"]}
-    else:
-        weights_file_path = curr_msa_stats["weights_file_path"]
-        sampled_alignment_path = curr_msa_stats["sampled_alignment_path"]
-        logging.info("Performing search using Lasso")
-
-        first_phase_dict = raxml_search(curr_run_directory, sampled_alignment_path, "first_phase",
-                                        curr_msa_stats, n_parsimony_trees,
-                                        n_random_trees,
-                                        cpus=curr_msa_stats["n_cpus_Lasso"], nodes=curr_msa_stats["n_nodes_Lasso"],
-                                        weights=weights_file_path,
-                                        starting_trees_path=curr_msa_stats["standard_starting_trees_path"] if
-                                        curr_msa_stats["use_raxml_standard_starting_trees"] else None
-
-                                        )
-        first_phase_best_true_ll, first_phase_best_tree, elapsed_running_time = raxml_optimize_trees_for_given_msa(
-            curr_msa_stats["local_alignment_path"], "first_phase_ll_eval_on_full",
-            first_phase_dict["best_tree_path"],
-            curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
-        results = {
-            'lasso_first_phase_best_ll': first_phase_best_true_ll,
-            'lasso_first_phase_best_tree': first_phase_dict["best_tree_path"],
-            'lasso_first_phase_elapsed_time': first_phase_dict["elapsed_running_time"],
-            'lasso_first_phase_ml_trees': first_phase_dict["all_final_trees_path"]
-
-        }
-        if curr_msa_stats["do_raxml_lasso_nni_optimization"]:
-            logging.info("Performing extra nni optimization")
-            nni_dict = raxml_search_nni(curr_run_directory, msa_path=curr_msa_stats["local_alignment_path"],
-                                        starting_tree_path=first_phase_best_tree, curr_msa_stats=curr_msa_stats,
-                                        cpus=curr_msa_stats["n_cpus_nni"])
-            nni_best_ll, nni_best_tree, nni_eval_elapsed = raxml_optimize_trees_for_given_msa(
-                curr_msa_stats["local_alignment_path"], "nni_eval",
-                nni_dict["best_tree_path"],
-                curr_msa_stats, curr_run_directory=curr_run_directory, weights=None, return_trees_file=True)
-            results.update({'lasso_nni_best_ll': nni_best_ll,
-                            'lasso_nni_best_tree': nni_best_tree,
-                            'lasso_nni_elapsed_time': nni_dict["elapsed_running_time"]})
-
-    return results
 
 
 def calculate_rf_dist(rf_file_path, curr_run_directory, prefix="rf"):
@@ -294,11 +168,13 @@ def rf_distance(curr_run_directory, tree_object_a, tree_object_b, name):
 
 def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
+    model_file = msa_stats["msa_corrected_model_file"]
+    model = model_file if os.path.exists(model_file) and msa_stats["do_partitioned_lasso_analysis"] else f'{msa_stats["evo_model"]}+G'
     check_validity_command = (
-        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --check --msa {msa_path} --model {model}+G --prefix {prefix} --seed {seed}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --check --msa {msa_path} --model {model} --prefix {prefix} --seed {seed}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
-        msa_path=full_file_path, prefix=check_validity_prefix, seed=SEED, model = msa_stats["evo_model"])
+        msa_path=full_file_path, prefix=check_validity_prefix, seed=SEED, model = model)
     reduced_file = check_validity_prefix + ".raxml.reduced.phy"
     # check_log_path = check_validity_prefix + ".raxml.log"
     execute_commnand_and_write_to_log(check_validity_command, run_locally=True)
@@ -307,30 +183,30 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
         msa_stats["orig_reduced_file_path"] = reduced_file
         raise RE_RUN_ON_REDUCED_VERSION("Input MSA is not valid, re-running on a reduced version")
     parse_prefix = os.path.join(curr_run_directory, output_name + "_PARSE")
-    parse_command = "{raxml_exe_path} --force msa --force perf_threads {threads_config} --parse --msa {msa_path} --model {model}+G --prefix {prefix} --seed {seed}".format(
+    parse_command = "{raxml_exe_path} --force msa --force perf_threads {threads_config} --parse --msa {msa_path} --model {model} --prefix {prefix} --seed {seed}".format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
-        msa_path=full_file_path, prefix=parse_prefix, seed=SEED,model = msa_stats["evo_model"])
+        msa_path=full_file_path, prefix=parse_prefix, seed=SEED,model = model)
     execute_commnand_and_write_to_log(parse_command, run_locally=True)
     binary_msa = parse_prefix + ".raxml.rba"
     msa_stats["local_binary_msa"] = binary_msa
     parsimony_tree_generation_prefix = os.path.join(curr_run_directory, output_name + "pars")
     constant_branch_length_parsimony_tree_path = parsimony_tree_generation_prefix + ".raxml.startTree"
     parsimony_tree_generation_command = (
-        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --start --msa {msa_path} --model {model}+G --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --start --msa {msa_path} --model {model} --tree pars{{{n_parsimony_trees}}} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
-        msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix, seed=SEED,model = msa_stats["evo_model"])
+        msa_path=full_file_path, n_parsimony_trees=1, prefix=parsimony_tree_generation_prefix, seed=SEED,model = model)
     execute_commnand_and_write_to_log(parsimony_tree_generation_command, run_locally=True)
     msa_stats["raxml_parsimony_tree_path"] = constant_branch_length_parsimony_tree_path
     wait_for_file_existence(constant_branch_length_parsimony_tree_path, "Parsimony tree")
     parsimony_model_evaluation_prefix = os.path.join(curr_run_directory, output_name + "pars_eval")
     parsimony_model_and_bl_evaluation_command = (
-        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model {model}+G  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
+        "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model {model}  --tree {parsimony_tree_path} --seed {seed} --prefix {prefix}").format(
         raxml_exe_path=RAXML_NG_EXE,
         threads_config=generate_raxml_ng_command_prefix(),
         msa_path=full_file_path, parsimony_tree_path=constant_branch_length_parsimony_tree_path, seed=SEED,
-        prefix=parsimony_model_evaluation_prefix,model = msa_stats["evo_model"])
+        prefix=parsimony_model_evaluation_prefix,model = model)
     execute_commnand_and_write_to_log(parsimony_model_and_bl_evaluation_command, run_locally=True)
     parsimony_log_path = parsimony_model_evaluation_prefix + ".raxml.log"
     wait_for_file_existence(parsimony_log_path, "Parsimony log")
@@ -338,7 +214,10 @@ def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, cu
     parsimony_optimized_model = parsimony_model_evaluation_prefix + ".raxml.bestModel"
     msa_stats["parsimony_optimized_tree_path"] = parsimony_optimized_tree_path
     parsimony_divergence = compute_tree_divergence(parsimony_optimized_tree_path)
-    parsimony_tree_alpha = extract_param_from_raxmlNG_log(parsimony_log_path, "alpha")
+    if not msa_stats["do_partitioned_lasso_analysis"]:
+        parsimony_tree_alpha = extract_param_from_raxmlNG_log(parsimony_log_path, "alpha")
+    else:
+        parsimony_tree_alpha = -1
     if not msa_stats["use_raxml_search"]:
         mad_command = "{mad_exe_path} -t -s {tree_path}".format(mad_exe_path=MAD_COMMAND_PREFIX,
                                                                 tree_path=parsimony_optimized_tree_path)
@@ -535,7 +414,7 @@ def raxml_optimize_trees_for_given_msa(full_data_path, ll_on_data_prefix, tree_f
         "Optimizing branch lengths and using existing Gamma shape parameter: alpha={alpha}".format(alpha=alpha))
     prefix = os.path.join(curr_run_directory, ll_on_data_prefix)
     brlen_command = "--opt-branches off --opt-model off " if not opt_brlen else ""
-    if model is None:
+    if model is None: #No given model
         model = f"{msa_stats['evo_model']}+G{{{msa_stats['alpha']}}}" if not msa_stats.get("pars_optimized_model") else msa_stats["pars_optimized_model"]
     compute_ll_run_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --evaluate --msa {msa_path} --model {model} {brlen_command} --tree {tree_file} {weights_path_command} --seed {seed} --prefix {prefix}").format(

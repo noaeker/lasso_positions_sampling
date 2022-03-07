@@ -2,7 +2,7 @@
 from help_functions import *
 import re
 import os
-
+from config import RATE4SITE_COMMAND_PREFIX
 def get_rate4site(MSA_path, tree_path, output_path):
     rate4site_command = "{rate4site_exe_path}  -bn -s {msa_path} -t {tree_path} -o {output_path}".format(
         rate4site_exe_path = RATE4SITE_COMMAND_PREFIX, msa_path = MSA_path, tree_path = tree_path, output_path = output_path)
