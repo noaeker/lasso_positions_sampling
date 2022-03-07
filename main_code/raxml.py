@@ -16,12 +16,6 @@ class GENERAL_RAXML_ERROR(Exception):
     pass
 
 
-def edit_num_locis_in_model_file(model_path, n_loci):
-    with open(model_path) as MODEL_FILE:
-        text = MODEL_FILE.read()
-    new_text = re.sub('noname = 1\-\d+',f'noname = 1-{n_loci}',text)
-    with open(model_path,'w') as MODEL_FILE:
-        MODEL_FILE.write(new_text)
 
 
 
@@ -117,6 +111,21 @@ def extract_param_from_raxmlNG_log(raxml_log_path, param_name, raise_error=True)
             else:
                 return None
 
+
+
+def edit_num_locis_in_model_file_no_partition(model_path, n_loci):
+    with open(model_path) as MODEL_FILE:
+        text = MODEL_FILE.read()
+    new_text = re.sub('noname = 1\-\d+',f'noname = 1-{n_loci}',text)
+    with open(model_path,'w') as MODEL_FILE:
+        MODEL_FILE.write(new_text)
+
+def edit_model_file_partitioned_analysis(model_path, lasso_chosen_loci, partition_results):
+    lasso_chosen_loci_groups = partition_results[lasso_chosen_loci]
+
+
+def transform_partition_file_to_dict(partition_results):
+    pass
 
 
 

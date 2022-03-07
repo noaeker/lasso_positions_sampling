@@ -23,23 +23,6 @@ def generate_or_copy_random_starting_tree(i, curr_run_directory, curr_msa_stats)
     return starting_tree_path
 
 
-# def naive_spr_on_current_starting_tree(starting_tree_path, curr_msa_stats, curr_run_directory):
-#     logging.info("Running naive SPR on current starting tree and updating")
-#     full_data_path = curr_msa_stats["local_alignment_path"]
-#     curr_run_directory = os.path.join(curr_run_directory, "spr_full_data_results")
-#     naive_spr_result_on_curr_starting_tree = SPR_analysis(full_data_path, starting_tree_path,
-#                                                           curr_msa_stats,
-#                                                           curr_run_directory=curr_run_directory,
-#                                                           full_run=True)
-#     return naive_spr_result_on_curr_starting_tree
-#
-#
-# def lasso_based_spr_on_current_starting_tree(starting_tree_path, curr_msa_stats, curr_run_directory):
-#     lasso_spr_result_on_curr_starting_tree = SPR_analysis(curr_msa_stats.get("local_alignment_path"),
-#                                                           starting_tree_path, curr_msa_stats,
-#                                                           curr_run_directory=curr_run_directory, full_run=False)
-#     return lasso_spr_result_on_curr_starting_tree
-
 
 def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
     logging.info("Running RaxML statistics from full data and extracting statistics")
