@@ -40,15 +40,17 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
     per_loci_partition = None
     msa_short_name = original_alignment_path.split('_')[-1].split(".")[0]
     msa_model_file = os.path.join(PARTITION_MODELS_FILE, f"{msa_short_name}.raxml.model")
-    if os.path.exists(msa_model_file) and (args.compare_loci_gene_distribution or args.do_partitioned_lasso_analysis):
+    is_partitioned_analysis = os.path.exists(msa_model_file) and (args.compare_loci_gene_distribution or args.do_partitioned_lasso_analysis)
+    if is_partitioned_analysis:
             per_loci_partition,partition_ind_to_name = parse_raxml_partition_file(msa_model_file,  orig_n_loci)
     if orig_n_seq >= actual_n_seq or orig_n_loci>=actual_n_loci:
         logging.info(f"Original number of sequences is {orig_n_seq} and it will be trimmed to {actual_n_seq}\nOriginal number of loci's' is {orig_n_loci} and it will be trimmed to {actual_n_loci}")
         corrected_partition_results = trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
                  actual_n_loci, args.loci_shift, per_loci_partition)
-        corrected_partition_file = generate_loci_corrected_partition_model_file(corrected_partition_results,partition_ind_to_name, curr_run_directory = curr_msa_version_folder)
-    else:
-        return -1
+        if corrected_partition_results:
+            corrected_partition_file = generate_loci_corrected_partition_model_file(corrected_partition_results,partition_ind_to_name, curr_run_directory = curr_msa_version_folder)
+        else:
+            corrected_partition_file = None
     with open(local_full_msa_path) as original:
         reduced_local_alignment_data = list(SeqIO.parse(original, file_type_biopython))
     reduced_local_alignment_df = alignment_list_to_df(reduced_local_alignment_data)

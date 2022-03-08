@@ -169,7 +169,7 @@ def rf_distance(curr_run_directory, tree_object_a, tree_object_b, name):
 def extract_raxml_statistics_from_msa(full_file_path, output_name, msa_stats, curr_run_directory):
     check_validity_prefix = os.path.join(curr_run_directory, output_name + "_CHECK")
     model_file = msa_stats["msa_corrected_model_file"]
-    model = model_file if os.path.exists(model_file) and msa_stats["do_partitioned_lasso_analysis"] else f'{msa_stats["evo_model"]}+G'
+    model = model_file if model_file and msa_stats["do_partitioned_lasso_analysis"] else f'{msa_stats["evo_model"]}+G'
     check_validity_command = (
         "{raxml_exe_path} {threads_config} --force msa --force perf_threads --check --msa {msa_path} --model {model} --prefix {prefix} --seed {seed}").format(
         raxml_exe_path=RAXML_NG_EXE,

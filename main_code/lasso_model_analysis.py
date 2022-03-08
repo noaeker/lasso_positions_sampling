@@ -1,6 +1,6 @@
 from config import USE_INTEGER_WEIGHTS,INTEGER_CONST,GENERATE_LASSO_DESCRIPTIVE, IGNORE_COLS_IN_CSV,R_CODE_PATH
 from raxml import raxml_optimize_trees_for_given_msa
-from partitioned_analysis import generate_loci_corrected_partition_model_file
+from partitioned_analysis import generate_loci_corrected_partition_model_file,edit_num_locis_in_model_file_no_partition
 from help_functions import *
 from sklearn.metrics import *
 from sklearn import linear_model
@@ -24,7 +24,8 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
     if curr_msa_stats["do_partitioned_lasso_analysis"]:
         lasso_corrected_partition_models_file = generate_loci_corrected_partition_model_file(curr_msa_stats["msa_corrected_model_partition_optimized"], curr_msa_stats["partition_ind_to_name_optimized"],curr_run_directory = curr_run_directory,positions_subset=chosen_locis)
     else:
-        lasso_corrected_partition_models_file = None
+        lasso_corrected_partition_models_file = curr_msa_stats["pars_optimized_model"]
+        edit_num_locis_in_model_file_no_partition(curr_msa_stats["pars_optimized_model"], n_loci = len(chosen_locis))
     true_ll_values = test_data["test_ll_values"]
     prefix_lasso = "opt_using_lasso"
     lasso_ll_values = \
