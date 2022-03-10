@@ -87,8 +87,8 @@ train_errors<-example_msa_training_ll %>% mutate(error_pct = round(abs((true_tra
 train_errors %>% head(5)
 test_errors<-example_msa_test_ll %>% mutate(error_pct = round(abs((true_test_ll-predicted_test_ll)/true_test_ll)*100,3)) 
 test_errors %>% head (5)
-train_errors %>% summarise(median_error_pct_train = median(error_pct), mean_error_pct_train = mean(error_pct))
-test_errors %>% summarise(median_error_pct_test = median(error_pct), mean_error_pct_test = mean(error_pct))
+train_errors %>% summarise(std_error_pct_train = var(error_pct), mean_error_pct_train = mean(error_pct))
+test_errors %>% summarise(std_error_pct_test = var(error_pct), mean_error_pct_test = mean(error_pct))
 
 
 ```

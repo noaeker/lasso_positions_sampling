@@ -5,7 +5,7 @@ import logging
 import os
 from help_functions import delete_dir_content,extract_file_type, trim_MSA,alignment_list_to_df,get_positions_stats
 from Bio import SeqIO
-from partitioned_analysis import parse_raxml_partition_file,generate_loci_corrected_partition_model_file
+from partitioned_analysis import parse_raxml_partition_file,generate_loci_corrected_partition_model_file,edit_frequency_synax_in_original_model_path
 from config import PARTITION_MODELS_FILE,IGNORE_COLS_IN_CSV
 import numpy as np
 from rate4site import parse_rate4site,get_rate4site
@@ -42,6 +42,7 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
     msa_model_file = os.path.join(PARTITION_MODELS_FILE, f"{msa_short_name}.raxml.model")
     is_partitioned_analysis = os.path.exists(msa_model_file) and (args.compare_loci_gene_distribution or args.do_partitioned_lasso_analysis)
     if is_partitioned_analysis:
+            edit_frequency_synax_in_original_model_path(msa_model_file)
             per_loci_partition,partition_ind_to_name = parse_raxml_partition_file(msa_model_file,  orig_n_loci)
     if orig_n_seq >= actual_n_seq or orig_n_loci>=actual_n_loci:
         logging.info(f"Original number of sequences is {orig_n_seq} and it will be trimmed to {actual_n_seq}\nOriginal number of loci's' is {orig_n_loci} and it will be trimmed to {actual_n_loci}")
