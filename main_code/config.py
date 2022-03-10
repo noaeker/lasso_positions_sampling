@@ -105,7 +105,7 @@ if not LOCAL_RUN:
     MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/groups/pupko/noaeker/main_code/R_code/lasso_glmnet.R"
     #RAXML_HPC_EXE = "/groups/pupko/noaeker/standard-RAxML/raxmlHPC"
-    RATE4SITE_COMMAND_PREFIX = "/groups/pupko/noaeker/other_programs/rate4site/rate4site"
+    RATE4SITE_COMMAND_PREFIX = "/groups/pupko/noaeker/programs/other_programs/rate4site/rate4site"
 elif LOCAL_RUN:
     IQTREE_PATH = "/Users/noa/Programs/iqtree-1.6.12-MacOSX/iqtree"
     RAXML_NG_EXE = "/Users/noa/Programs/Raxml/raxml-ng  "

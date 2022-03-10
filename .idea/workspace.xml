@@ -51,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="107" column="69" selection-start-line="107" selection-start-column="69" selection-end-line="107" selection-end-column="69" />
+            <state relative-caret-position="92">
+              <caret line="107" column="87" selection-start-line="107" selection-start-column="32" selection-end-line="107" selection-end-column="87" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -1007,8 +1007,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="107" column="69" selection-start-line="107" selection-start-column="69" selection-end-line="107" selection-end-column="69" />
+        <state relative-caret-position="92">
+          <caret line="107" column="87" selection-start-line="107" selection-start-column="32" selection-end-line="107" selection-end-column="87" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
           </folding>
