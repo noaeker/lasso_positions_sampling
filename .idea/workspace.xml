@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/main_code/partitioned_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/partitioned_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="90" column="44" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="44" />
+            <state relative-caret-position="232">
+              <caret line="107" column="69" selection-start-line="107" selection-start-column="69" selection-end-line="107" selection-end-column="69" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -72,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+            <state relative-caret-position="227">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
               <folding>
                 <element signature="e#1#10#0" expanded="true" />
               </folding>
@@ -171,8 +171,8 @@
       <find>alpha</find>
       <find>module</find>
       <find>partition_ind_to_name</find>
-      <find>generate_loci_corrected_partition_model_file</find>
       <find>if corrected_partition_results</find>
+      <find>generate_loci_corrected_partition_model_file</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -235,11 +235,11 @@
         <option value="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
         <option value="$PROJECT_DIR$/main_code/raxml.py" />
-        <option value="$PROJECT_DIR$/main_code/config.py" />
         <option value="$PROJECT_DIR$/main_code/lasso_model_analysis.py" />
         <option value="$PROJECT_DIR$/side_code/generate_training_sets.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/partitioned_analysis.py" />
+        <option value="$PROJECT_DIR$/main_code/config.py" />
       </list>
     </option>
   </component>
@@ -985,16 +985,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="90" column="44" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="44" />
-          <folding>
-            <element signature="e#1#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1007,10 +997,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="227">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="e#1#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="107" column="69" selection-start-line="107" selection-start-column="69" selection-end-line="107" selection-end-column="69" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
