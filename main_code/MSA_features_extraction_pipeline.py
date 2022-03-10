@@ -48,7 +48,7 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
         logging.info(f"Original number of sequences is {orig_n_seq} and it will be trimmed to {actual_n_seq}\nOriginal number of loci's' is {orig_n_loci} and it will be trimmed to {actual_n_loci}")
         corrected_partition_results = trim_MSA(original_alignment_data, local_full_msa_path, actual_n_seq, file_type_biopython,
                  actual_n_loci, args.loci_shift, per_loci_partition)
-        if corrected_partition_results:
+        if corrected_partition_results is not None:
             corrected_partition_file = generate_loci_corrected_partition_model_file(corrected_partition_results,partition_ind_to_name, curr_run_directory = curr_msa_version_folder)
         else:
             corrected_partition_file = None
