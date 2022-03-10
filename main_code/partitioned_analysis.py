@@ -14,7 +14,7 @@ def edit_num_locis_in_model_file_no_partition(model_path, n_loci):
 def edit_frequency_synax_in_original_model_path(model_path):
     with open(model_path) as MODEL_FILE:
         text = MODEL_FILE.read()
-    new_text = re.sub('F, ',f'+F, ',text)
+    new_text = re.sub('[^+]F, ',f'+F, ',text)
     with open(model_path,'w') as MODEL_FILE:
         MODEL_FILE.write(new_text)
 
