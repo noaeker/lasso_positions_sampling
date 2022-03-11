@@ -62,6 +62,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                     chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)), mode = 'constant')
                     obs_vs_expected = np.divide(chosen_locis_partitions_count_arr,partitions_count_arr)
                     rates = [partitioned_rates.get(i)  for i in range(len(obs_vs_expected))]
+                    coeffs = [partitioned_coeffs.get(i)  for i in range(len(obs_vs_expected))]
                     try:
                         chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
 
@@ -69,7 +70,7 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                         chi_square_statistics = -1
                     lasso_evaluation_result["expected_partition_counts"] = expected_chosen_locis_count_arr
                     lasso_evaluation_result["partition_mean_rates"] = rates
-                    lasso_evaluation_result["partition_mean_coeff"] =  partitioned_coeffs
+                    lasso_evaluation_result["partition_mean_coeff"] =  coeffs
                     lasso_evaluation_result["full_data_counts"] = partitions_count_arr
                     lasso_evaluation_result["observed_partition_counts"] = chosen_locis_partitions_count_arr
                     lasso_evaluation_result["chi_square_partition"] = chi_square_statistics
