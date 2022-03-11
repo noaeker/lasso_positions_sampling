@@ -68,7 +68,7 @@ CURR_RUN_PREFIX = "test_curr_check_review_gtr2"
 CURR_JOBS_PREFIX =  "test_curr_check_review_gtr2"
 
 LASSO_BASELINE = "x"
-TRAINING_BASELINE = "test_curr_check_review_gtr"
+TRAINING_BASELINE = "x"
 TEST_SET_BASELINE = "x"#"test_curr_check_review_gtr"
 MSA_BASELINE = "x"
 FULL_DATA_BASELINE ="x"

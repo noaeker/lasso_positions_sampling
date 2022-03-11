@@ -116,7 +116,8 @@ test_par<- read_tsv("/Users/noa/Workspace/lasso_positions_sampling_results/revis
 ```
 
 ```{r}
-test_par %>% select (expected_partition_counts,observed_partition_counts)
+test_no_par %>% select (dataset_name, actual_sample_pct,expected_partition_counts,observed_partition_counts) %>% mutate(expected = str_split(expected_partition_counts,pattern = " "), observed = str_split(expected_partition_counts,pattern = " "))
+
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.

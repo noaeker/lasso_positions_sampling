@@ -49,5 +49,17 @@ def parse_raxml_partition_file(model_file, orig_n_loci):
             start =int(site_group[0])-1
             end = int(site_group[1])
             np.put(per_loci_partition,ind =np.array(range(start,end)),v  = i)
-
     return per_loci_partition.astype(int), partition_ind_to_name
+
+
+
+def get_mean_param_per_group(param_values,per_loci_partition):
+    mean_param_per_partittion = {}
+    for partition_ind in np.unique(per_loci_partition):
+        relevant_locis = list(np.where(per_loci_partition == partition_ind)[0])
+        mean_param_values = np.mean(np.take(param_values,relevant_locis))
+        mean_param_per_partittion[partition_ind] = mean_param_values
+    return mean_param_per_partittion
+
+
+

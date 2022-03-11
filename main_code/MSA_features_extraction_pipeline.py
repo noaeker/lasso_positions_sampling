@@ -24,6 +24,24 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
     extract_raxml_statistics_from_msa(full_data_path, full_data_unique_name, curr_msa_stats, curr_run_directory)
 
 
+def get_rate4site_stats(curr_msa_version_folder, curr_msa_stats):
+    rate4site_output_path = os.path.join(curr_msa_version_folder, "r4s.res")
+    rate4site_command = get_rate4site(curr_msa_stats["local_alignment_path"],
+                                      curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
+    if os.path.exists(rate4site_output_path):
+        try:
+            rate4site_scores = parse_rate4site(rate4site_output_path)
+            curr_msa_stats["rate4site_scores"] = rate4site_scores
+            curr_msa_stats["mean_rate4site_scores"] = np.mean(rate4site_scores)
+            n_rate4site_scores = len(rate4site_scores)
+            logging.info(f'Succesfully obtained {n_rate4site_scores} rate4site weights')
+        except Exception as e:
+            logging.error('Failed to parse rate4site scores: ' + str(e))
+
+    else:
+        logging.error("Could not generate rate4site output: command = {command}".format(command=rate4site_command))
+
+
 def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_version_folder, args, actual_n_seq,
                                actual_n_loci
                                ):
@@ -151,21 +169,7 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
                 curr_msa_stats)
         msa_corrected_model_partition_optimized, partition_ind_to_name_optimized = parse_raxml_partition_file(curr_msa_stats["pars_optimized_model"], actual_n_loci)
         curr_msa_stats.update({"msa_corrected_model_partition_optimized" : msa_corrected_model_partition_optimized, "partition_ind_to_name_optimized": partition_ind_to_name_optimized})
-        rate4site_output_path = os.path.join(curr_msa_version_folder, "r4s.res")
-        rate4site_command = get_rate4site(curr_msa_stats["local_alignment_path"],
-                                          curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
-        if os.path.exists(rate4site_output_path):
-            try:
-                rate4site_scores = parse_rate4site(rate4site_output_path)
-                curr_msa_stats["rate4site_scores"] = rate4site_scores
-                curr_msa_stats["mean_rate4site_scores"] = np.mean(rate4site_scores)
-                n_rate4site_scores = len(rate4site_scores)
-                logging.info(f'Succesfully obtained {n_rate4site_scores} rate4site weights')
-            except Exception as e:
-                logging.error('Failed to parse rate4site scores: ' + str(e))
-
-        else:
-            logging.error("Could not generate rate4site output: command = {command}".format(command=rate4site_command))
+        get_rate4site_stats(curr_msa_version_folder, curr_msa_stats)
         with open(curr_msa_version_stats_dump, 'wb') as handle:
             pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return curr_msa_stats
