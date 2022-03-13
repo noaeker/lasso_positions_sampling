@@ -169,7 +169,7 @@ def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_i
                 curr_msa_stats)
         msa_corrected_model_partition_optimized, partition_ind_to_name_optimized = parse_raxml_partition_file(curr_msa_stats["pars_optimized_model"], actual_n_loci)
         curr_msa_stats.update({"msa_corrected_model_partition_optimized" : msa_corrected_model_partition_optimized, "partition_ind_to_name_optimized": partition_ind_to_name_optimized})
-        #get_rate4site_stats(curr_msa_version_folder, curr_msa_stats)
+        get_rate4site_stats(curr_msa_version_folder, curr_msa_stats)
         with open(curr_msa_version_stats_dump, 'wb') as handle:
             pickle.dump(curr_msa_stats, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return curr_msa_stats

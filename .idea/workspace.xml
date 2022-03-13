@@ -4,9 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/main_code/input_parsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/input_parsers.py" afterDir="false" />
-    </list>
+    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="169" selection-start-line="169" selection-end-line="169" />
+            <state relative-caret-position="175">
+              <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
               <folding>
                 <element signature="e#1#78#0" expanded="true" />
               </folding>
@@ -48,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="251">
@@ -231,9 +229,9 @@
         <option value="$PROJECT_DIR$/side_code/test_partitioned_data_results.py" />
         <option value="$PROJECT_DIR$/main_code/debug.py" />
         <option value="$PROJECT_DIR$/main_code/config.py" />
-        <option value="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/partitioned_analysis.py" />
         <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
+        <option value="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" />
       </list>
     </option>
   </component>
@@ -1032,16 +1030,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
-          <folding>
-            <element signature="e#1#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1068,6 +1056,16 @@
           <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
+          <folding>
+            <element signature="e#1#78#0" expanded="true" />
           </folding>
         </state>
       </provider>
