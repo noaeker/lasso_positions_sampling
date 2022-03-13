@@ -48,7 +48,7 @@ def sample_exp(size,start_seed):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = "150"
+RANDOM_TREES_TRAINING_SIZE = "4000"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
@@ -64,21 +64,21 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "test_curr_check_review_gtr2"
-CURR_JOBS_PREFIX =  "test_curr_check_review_gtr2"
+CURR_RUN_PREFIX = "debug"
+CURR_JOBS_PREFIX =  "debug"
 
 LASSO_BASELINE = "x"
-TRAINING_BASELINE = "x"
-TEST_SET_BASELINE = "x"#"test_curr_check_review_gtr"
+TRAINING_BASELINE = "dna_lasso30_test_lasso_par"
+TEST_SET_BASELINE = "dna_lasso30_test_lasso_par "#"test_curr_check_review_gtr"
 MSA_BASELINE = "x"
 FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "8"
-MIN_N_SEQ = 6
-MAX_N_LOCI = "2000"
+MAX_N_SEQ =  "30"
+MIN_N_SEQ = 30
+MAX_N_LOCI = "20000"
 MIN_N_LOCI = 100
 N_RANDOM_STARTING_TREES = 3
 #PARSIMONY_STARTING_TREE = False #1/0
@@ -115,7 +115,7 @@ elif LOCAL_RUN:
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
     MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited"
+    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited_DNA"
     ALTERNATIVE_MSAs = "/Users/noa/Workspace/data/supermatrices_edited"
     PARTITION_MODELS_FILE = "/Users/noa/Workspace/data/partition_models"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/main_code/MSA_positions_sampling.py"

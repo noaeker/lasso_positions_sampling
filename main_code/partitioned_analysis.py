@@ -42,7 +42,7 @@ def parse_raxml_partition_file(model_file, orig_n_loci):
     with open(model_file) as MODEL_FILE:
         partitions = MODEL_FILE.readlines()
     for i,raw_partition in zip(range(1,len(partitions)+1),partitions):
-        site_partitions  = re.findall('\s(\d+)\-(\d+)', raw_partition)
+        site_partitions  = re.findall('[\s,=]+(\d+)\-(\d+)', raw_partition)
         partition_name = raw_partition.split("=")[0]
         partition_ind_to_name[i] = partition_name
         for site_group in site_partitions:
