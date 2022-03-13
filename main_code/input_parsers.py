@@ -70,8 +70,8 @@ def main_parser():
     parser.add_argument('--logging_level', type = str, default = LOGGING_LEVEL )
     parser.add_argument('--evo_model', type= str, default = EVO_MODEL)
     parser.add_argument('--compare_lasso_to_naive', action='store_true')
-    parser.add_argument('--compare_loci_gene_distribution', action='store_true',default= True) #, default= True
-    parser.add_argument('--do_partitioned_lasso_analysis',action='store_true', default= True)
+    parser.add_argument('--compare_loci_gene_distribution', action='store_true') #, default= True
+    parser.add_argument('--do_partitioned_lasso_analysis',action='store_true')
     return parser
 
 

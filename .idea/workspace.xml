@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main_code/debug.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/TheTree.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/input_parsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/input_parsers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_code/partitioned_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/partitioned_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/side_code/test_partitioned_data_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/side_code/test_partitioned_data_results.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +39,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
+            <state relative-caret-position="-953">
               <caret line="137" selection-start-line="137" selection-end-line="137" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -55,11 +48,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_code/debug.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="35" lean-forward="true" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+            <state relative-caret-position="251">
+              <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,7 +81,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="88">
@@ -169,8 +165,8 @@
       <find>lasso_corrected_partition_models_file</find>
       <find>module</find>
       <find>get_ra</find>
-      <find>put</find>
       <find>generate_msa_gene</find>
+      <find>put</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -233,11 +229,11 @@
         <option value="$PROJECT_DIR$/side_code/generate_training_sets.py" />
         <option value="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" />
         <option value="$PROJECT_DIR$/side_code/test_partitioned_data_results.py" />
-        <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
         <option value="$PROJECT_DIR$/main_code/debug.py" />
         <option value="$PROJECT_DIR$/main_code/config.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" />
         <option value="$PROJECT_DIR$/main_code/partitioned_analysis.py" />
+        <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
       </list>
     </option>
   </component>
@@ -452,13 +448,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="34" width="1440" height="707" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1987315" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1987315" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.18699187" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.41951218" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.42276424" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.22276422" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -970,16 +967,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="11" column="99" selection-start-line="11" selection-start-column="99" selection-end-line="11" selection-end-column="99" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
@@ -1038,16 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="137" selection-start-line="137" selection-end-line="137" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/_bootlocale.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -1071,6 +1048,26 @@
           <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
           <folding>
             <element signature="e#1#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-953">
+          <caret line="137" selection-start-line="137" selection-end-line="137" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
