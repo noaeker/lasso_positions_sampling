@@ -4,7 +4,17 @@
     <bookmark url="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="" />
+    <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/side_code/test_partitioned_analysis_bias.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R_code/revision_analysis.Rmd" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/revision_analysis.Rmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R_code/revision_analysis.nb.html" beforeDir="false" afterPath="$PROJECT_DIR$/R_code/revision_analysis.nb.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/TheTree.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/lasso_model_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/lasso_model_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
+            <state relative-caret-position="18">
+              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
               <folding>
                 <element signature="e#1#78#0" expanded="true" />
               </folding>
@@ -26,10 +36,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/_bootlocale.py">
+        <entry file="file://$PROJECT_DIR$/side_code/test_partitioned_data_results.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="112">
+              <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -37,8 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-953">
-              <caret line="137" selection-start-line="137" selection-end-line="137" />
+            <state relative-caret-position="81">
+              <caret line="82" selection-start-line="82" selection-end-line="82" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -47,45 +60,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/lasso_model_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="24" selection-start-line="24" selection-end-line="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_code/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
+            <state relative-caret-position="112">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
               <folding>
-                <element signature="e#1#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
-              <folding>
-                <element signature="e#1#10#0" expanded="true" />
+                <element signature="e#0#117#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -94,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="266">
+              <caret line="135" column="59" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="59" />
               <folding>
                 <element signature="e#1#69#0" expanded="true" />
               </folding>
@@ -104,10 +84,25 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/posixpath.py">
+        <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="69">
+              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+              <folding>
+                <element signature="e#36#49#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5351">
+              <caret line="120" selection-start-line="120" selection-end-line="120" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -115,10 +110,34 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="71" selection-start-line="71" selection-end-line="71" />
+            <state relative-caret-position="201">
+              <caret line="71" column="78" selection-start-line="71" selection-start-column="78" selection-end-line="71" selection-end-column="78" />
               <folding>
                 <element signature="e#1#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_code/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-317">
+              <caret line="71" column="29" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="29" />
+              <folding>
+                <element signature="e#1#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main_code/input_parsers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -135,18 +154,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>parse</find>
-      <find>partition</find>
-      <find>apply</find>
-      <find>RE_RUN_ON_REDUCED_VERSION</find>
-      <find>remove_MSAs_with_not_enough_seq_and_locis</find>
-      <find>extrac</find>
       <find>extract_raxml_statistics_from_msa</find>
       <find>extract_and_update_RaxML_statistics_from_full_data</find>
       <find>rate4s</find>
       <find>msa_corrected_model_file</find>
       <find>msa_corrected_model_partition_optimized</find>
-      <find>evaluate_lasso_performance_on_test_data</find>
       <find>optim</find>
       <find>partition_ind_to_name_optimized</find>
       <find>partition_ind_to_name</find>
@@ -161,10 +173,17 @@
       <find>training_size</find>
       <find>get_msa_stat</find>
       <find>lasso_corrected_partition_models_file</find>
-      <find>module</find>
       <find>get_ra</find>
       <find>generate_msa_gene</find>
+      <find>module</find>
+      <find>write_to</find>
+      <find>test_dum</find>
       <find>put</find>
+      <find>evaluate_lasso_performance_on_test_data</find>
+      <find>high_rate_bias_test</find>
+      <find>shut</find>
+      <find>perform_only_lasso_pipeline</find>
+      <find>test</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -181,7 +200,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/parallel_code/check_lasso_brlen_optimization.py" />
         <option value="$PROJECT_DIR$/parallel_code/test_delete.py" />
         <option value="$PROJECT_DIR$/parallel_code/old_spr_prune_and_regraft.py" />
         <option value="$PROJECT_DIR$/parallel_code/parse_log.py" />
@@ -221,17 +239,18 @@
         <option value="$PROJECT_DIR$/main_code/ps.py" />
         <option value="$PROJECT_DIR$/main_code/help_functions.py" />
         <option value="$PROJECT_DIR$/main_code/rate4site.py" />
-        <option value="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" />
         <option value="$PROJECT_DIR$/main_code/raxml.py" />
-        <option value="$PROJECT_DIR$/main_code/lasso_model_analysis.py" />
         <option value="$PROJECT_DIR$/side_code/generate_training_sets.py" />
-        <option value="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" />
         <option value="$PROJECT_DIR$/side_code/test_partitioned_data_results.py" />
         <option value="$PROJECT_DIR$/main_code/debug.py" />
-        <option value="$PROJECT_DIR$/main_code/config.py" />
         <option value="$PROJECT_DIR$/main_code/partitioned_analysis.py" />
-        <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
         <option value="$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py" />
+        <option value="$PROJECT_DIR$/side_code/test_partitioned_analysis_bias.py" />
+        <option value="$PROJECT_DIR$/main_code/lasso_model_analysis.py" />
+        <option value="$PROJECT_DIR$/main_code/config.py" />
+        <option value="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" />
+        <option value="$PROJECT_DIR$/main_code/training_and_test_set_generation.py" />
+        <option value="$PROJECT_DIR$/main_code/input_parsers.py" />
       </list>
     </option>
   </component>
@@ -301,7 +320,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.ps">
-    <configuration name="debug" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="lasso_evaluation_pipeline" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lasso_positions_sampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -313,7 +332,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_code/debug.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -322,7 +341,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="generate_training_sets (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="lasso_model_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lasso_positions_sampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -330,32 +349,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/side_code" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main_code" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/side_code/generate_training_sets.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="generate_training_sets" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="lasso_positions_sampling" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/extra_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extra_code/generate_training_sets.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_code/lasso_model_analysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -377,6 +375,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_code/ps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_partitioned_analysis_bias" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="lasso_positions_sampling" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/side_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/side_code/test_partitioned_analysis_bias.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -408,18 +427,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.ps" />
-      <item itemvalue="Python.generate_training_sets" />
-      <item itemvalue="Python.generate_training_sets (1)" />
       <item itemvalue="Python.test_partitioned_data_results" />
-      <item itemvalue="Python.debug" />
+      <item itemvalue="Python.test_partitioned_analysis_bias" />
+      <item itemvalue="Python.lasso_model_analysis" />
+      <item itemvalue="Python.lasso_evaluation_pipeline" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.ps" />
-        <item itemvalue="Python.debug" />
+        <item itemvalue="Python.lasso_evaluation_pipeline" />
         <item itemvalue="Python.test_partitioned_data_results" />
-        <item itemvalue="Python.generate_training_sets (1)" />
-        <item itemvalue="Python.generate_training_sets" />
+        <item itemvalue="Python.lasso_model_analysis" />
+        <item itemvalue="Python.test_partitioned_analysis_bias" />
       </list>
     </recent_temporary>
   </component>
@@ -448,13 +467,13 @@
     <frame x="-11" y="34" width="1440" height="707" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1987315" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22692037" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.18699187" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.42276424" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.22276422" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.2894309" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.3089431" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -606,45 +625,50 @@
           <line>354</line>
           <option name="timeStamp" value="413" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_code/lasso_model_analysis.py</url>
-          <line>127</line>
+          <line>134</line>
           <option name="timeStamp" value="449" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
-          <line>52</line>
-          <option name="timeStamp" value="476" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_code/test_partitioned_data_results.py</url>
           <line>16</line>
           <option name="timeStamp" value="481" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_code/test_partitioned_data_results.py</url>
           <line>22</line>
           <option name="timeStamp" value="482" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py</url>
-          <line>169</line>
-          <option name="timeStamp" value="486" />
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="493" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_code/lasso_model_analysis.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="487" />
+          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
+          <line>121</line>
+          <option name="timeStamp" value="495" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py</url>
+          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="497" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="498" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py</url>
           <line>66</line>
-          <option name="timeStamp" value="489" />
+          <option name="timeStamp" value="499" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_code/partitioned_analysis.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="492" />
+          <url>file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="500" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -707,6 +731,41 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>curr_msa_stats[&quot;lasso_chosen_locis&quot;]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>lasso_evaluation_result[&quot;lasso_chosen_locis&quot;]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>lasso_evaluation_result[&quot;chosen_locis&quot;]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>lasso_evaluation_result</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>list((np.where(np.isin(np.array(per_loci_partition), highest_rate_genes)))[0])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(np.where(np.isin(np.array(per_loci_partition), highest_rate_genes)))[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(np.where(np.isin(np.array(per_loci_partition), highest_rate_genes)))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>re.findall('[\s,=]+(\d+)\-(\d+)', raw_partition)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -716,54 +775,9 @@
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>ranges</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>partition_ind_indexes[-1000:]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>partition_ind_indexes[-10:]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>partition_ind_indexes[:-10]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>partition_ind_indexes</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>partition_indexes</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>per_loci_partition[17105]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/opt/anaconda3/lib/python3.8/site-packages/ete3-3.1.2-py3.7.egg!/ete3/coretype/tree.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="1167" column="8" selection-start-line="1167" selection-start-column="8" selection-end-line="1167" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/TheTree.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/extra_code/msa_db.py" />
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/site-packages/pandas/io/parsers.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -911,16 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="193" column="47" selection-start-line="193" selection-start-column="47" selection-end-line="193" selection-end-column="47" />
-          <folding>
-            <element signature="e#36#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/generate_SPR.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -928,30 +932,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="417" column="113" selection-start-line="417" selection-start-column="91" selection-end-line="417" selection-end-column="113" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/side_code/generate_training_sets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/side_code/test_partitioned_data_results.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="55" column="70" selection-start-line="55" selection-start-column="70" selection-end-line="55" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -979,47 +963,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-          <folding>
-            <element signature="e#1#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#1#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/opt/anaconda3/lib/python3.8/posixpath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
-          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
-          <folding>
-            <element signature="e#1#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/lasso_model_analysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
         </state>
       </provider>
     </entry>
@@ -1030,10 +977,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/TheTree.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/side_code/test_partitioned_analysis_bias.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main_code/partitioned_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="108">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#1#10#0" expanded="true" />
           </folding>
@@ -1042,10 +999,90 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/help_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-953">
-          <caret line="137" selection-start-line="137" selection-end-line="137" />
+        <state relative-caret-position="81">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/raxml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5351">
+          <caret line="120" selection-start-line="120" selection-end-line="120" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/side_code/test_partitioned_data_results.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+          <folding>
+            <element signature="e#1#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/lasso_model_analysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="e#0#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/MSA_positions_sampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="71" column="78" selection-start-line="71" selection-start-column="78" selection-end-line="71" selection-end-column="78" />
+          <folding>
+            <element signature="e#1#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/training_and_test_set_generation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+          <folding>
+            <element signature="e#36#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/lasso_evaluation_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="135" column="59" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="59" />
+          <folding>
+            <element signature="e#1#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_code/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-317">
+          <caret line="71" column="29" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="29" />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1056,16 +1093,6 @@
           <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_code/MSA_features_extraction_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
-          <folding>
-            <element signature="e#1#78#0" expanded="true" />
           </folding>
         </state>
       </provider>

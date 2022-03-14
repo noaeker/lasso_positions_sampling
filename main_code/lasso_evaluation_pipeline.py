@@ -1,16 +1,14 @@
-
 from training_and_test_set_generation import Lasso_training_and_test
-import logging
 from config import IGNORE_COLS_IN_CSV
-from lasso_model_analysis import compare_lasso_to_naive_approaches_on_test_set
+from lasso_model_analysis import compare_lasso_to_naive_approaches_on_test_set, calculate_test_ll_using_sampled_data
 from partitioned_analysis import get_mean_param_per_group
+from help_functions import write_to_sampled_alignment_path, create_or_clean_dir
 import matplotlib.pyplot  as plt
 import pickle
+import logging
 from scipy.stats import chisquare
 import os
 import numpy as np
-
-
 
 
 def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, curr_msa_stats, training_size_options):
@@ -30,6 +28,56 @@ def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, cu
             pickle.dump(lasso_configurations_per_training_size, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return lasso_configurations_per_training_size
 
+
+def high_rate_bias_test(curr_run_directory, curr_msa_stats, partitioned_rates, per_loci_partition, optimized_random_trees_path):
+    highest_rate_genes = sorted(partitioned_rates, key=partitioned_rates.get, reverse=True)[:3]
+    highest_rate_corresponding_locis = list((np.where(np.isin(np.array(per_loci_partition), highest_rate_genes)))[0])
+    highest_rate_sampled_msa = os.path.join(curr_run_directory, "highest_rate_msa")
+    write_to_sampled_alignment_path(curr_msa_stats["alignment_data"], highest_rate_sampled_msa,
+                                    highest_rate_corresponding_locis,
+                                    curr_msa_stats["file_type_biopython"])
+    high_rate_bias_folder = os.path.join(curr_run_directory, "high_rate_comparison")
+    create_or_clean_dir(high_rate_bias_folder)
+    high_rate_results, high_rate_results_no_opt = calculate_test_ll_using_sampled_data(curr_msa_stats,
+                                                                                       curr_run_directory,
+                                                                                       highest_rate_sampled_msa,
+                                                                                       weights_file_path=None,
+                                                                                       lasso_intercept=0,
+                                                                                       chosen_locis=highest_rate_corresponding_locis,
+                                                                                       optimized_random_trees_path=optimized_random_trees_path,
+                                                                                       prefix_opt="opt_high_rate",
+                                                                                       prefix_eval="eval_high_rate")
+    return high_rate_results
+
+
+def loci_dist_partitioned_analysis(curr_msa_stats, threshold, lasso_evaluation_result, partitioned_rates):
+    chosen_locis = curr_msa_stats["lasso_chosen_locis"]
+    logging.info(f"Partition count = {curr_msa_stats['per_loci_partition']}")
+    partitions_count_arr = np.bincount(curr_msa_stats["per_loci_partition"])
+    partitioned_coeffs = get_mean_param_per_group(curr_msa_stats["lasso_chosen_weights"],
+                                                  np.take(np.array(curr_msa_stats['per_loci_partition']),
+                                                          curr_msa_stats["lasso_chosen_locis"]))
+    expected_chosen_locis_count_arr = (np.bincount(curr_msa_stats["per_loci_partition"]) * threshold).astype(int)
+    chosen_locis_partitions_count_arr = np.bincount(curr_msa_stats["per_loci_partition"][chosen_locis])
+    chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,
+                                               (0, len(partitions_count_arr) - len(chosen_locis_partitions_count_arr)),
+                                               mode='constant')
+    obs_vs_expected = np.divide(chosen_locis_partitions_count_arr, partitions_count_arr)
+    rates = [partitioned_rates.get(i) for i in range(len(obs_vs_expected))]
+    coeffs = [partitioned_coeffs.get(i) for i in range(len(obs_vs_expected))]
+    try:
+        chi_square_statistics = chisquare(chosen_locis_partitions_count_arr, f_exp=expected_chosen_locis_count_arr)
+
+    except:
+        chi_square_statistics = -1
+    lasso_evaluation_result["expected_partition_counts"] = expected_chosen_locis_count_arr
+    lasso_evaluation_result["partition_mean_rates"] = rates
+    lasso_evaluation_result["partition_mean_coeff"] = coeffs
+    lasso_evaluation_result["full_data_counts"] = partitions_count_arr
+    lasso_evaluation_result["observed_partition_counts"] = chosen_locis_partitions_count_arr
+    lasso_evaluation_result["chi_square_partition"] = chi_square_statistics
+
+
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                 lasso_configurations_per_training_size,
                                 job_csv_path, all_msa_results, curr_run_directory):
@@ -48,34 +96,45 @@ def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_ms
                                            k not in IGNORE_COLS_IN_CSV
                                            }
                 if curr_msa_stats["compare_lasso_to_naive"]:
-                    lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold)
+                    lasso_comparisons_results = compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats,
+                                                                                              curr_run_directory,
+                                                                                              threshold)
                     lasso_evaluation_result.update(lasso_comparisons_results)
-                if curr_msa_stats["compare_loci_gene_distribution"] and curr_msa_stats['per_loci_partition'] is not None:
-                    chosen_locis = curr_msa_stats["lasso_chosen_locis"]
-                    logging.info(f"Partition count = {curr_msa_stats['per_loci_partition']}")
-                    partitions_count_arr = np.bincount(curr_msa_stats["per_loci_partition"])
-                    partitioned_rates = get_mean_param_per_group(curr_msa_stats["rate4site_scores"],curr_msa_stats['per_loci_partition'])
-                    partitioned_coeffs = get_mean_param_per_group(curr_msa_stats["lasso_chosen_weights"],
-                                                                 np.take(np.array(curr_msa_stats['per_loci_partition']),curr_msa_stats["lasso_chosen_locis"]))
-                    expected_chosen_locis_count_arr = (np.bincount(curr_msa_stats["per_loci_partition"])*threshold).astype(int)
-                    chosen_locis_partitions_count_arr = np.bincount(curr_msa_stats["per_loci_partition"][chosen_locis])
-                    chosen_locis_partitions_count_arr = np.pad(chosen_locis_partitions_count_arr,(0,len(partitions_count_arr)-len(chosen_locis_partitions_count_arr)), mode = 'constant')
-                    obs_vs_expected = np.divide(chosen_locis_partitions_count_arr,partitions_count_arr)
-                    rates = [partitioned_rates.get(i)  for i in range(len(obs_vs_expected))]
-                    coeffs = [partitioned_coeffs.get(i)  for i in range(len(obs_vs_expected))]
-                    try:
-                        chi_square_statistics = chisquare(chosen_locis_partitions_count_arr,f_exp = expected_chosen_locis_count_arr )
+                if curr_msa_stats["compare_loci_gene_distribution"] and curr_msa_stats[
+                    'per_loci_partition'] is not None:
+                    partitioned_rates = get_mean_param_per_group(curr_msa_stats["rate4site_scores"],
+                                                                 curr_msa_stats['per_loci_partition'])
+                    loci_dist_partitioned_analysis(curr_msa_stats, threshold, lasso_evaluation_result,
+                                                   partitioned_rates)
+                    test_dump_path = os.path.join(curr_run_directory, f"Lasso_folder/test_{curr_msa_stats['random_trees_test_size']}_random_trees_eval/test_set.dump")
+                    if not os.path.exists(test_dump_path):
+                        test_dump_path = test_dump_path.replace(curr_msa_stats["run_prefix"],
+                                                                curr_msa_stats["training_set_baseline_run_prefix"])
 
-                    except:
-                        chi_square_statistics = -1
-                    lasso_evaluation_result["expected_partition_counts"] = expected_chosen_locis_count_arr
-                    lasso_evaluation_result["partition_mean_rates"] = rates
-                    lasso_evaluation_result["partition_mean_coeff"] =  coeffs
-                    lasso_evaluation_result["full_data_counts"] = partitions_count_arr
-                    lasso_evaluation_result["observed_partition_counts"] = chosen_locis_partitions_count_arr
-                    lasso_evaluation_result["chi_square_partition"] = chi_square_statistics
-
+                        test_data = pickle.load(open(test_dump_path, "rb"))
+                    else:
+                        test_data = curr_msa_stats
+                    optimized_random_trees_path = test_data.get("optimized_test_topologies_path",
+                                                                test_data.get("test_optimized_trees_path"))
+                    true_ll_values = test_data["test_ll_values"]
+                    high_gene_test_results = high_rate_bias_test(curr_run_directory, curr_msa_stats, partitioned_rates,
+                                                                 curr_msa_stats['per_loci_partition'], optimized_random_trees_path)
+                    lasso_test_results = calculate_test_ll_using_sampled_data(curr_msa_stats, curr_run_directory,
+                                                                              weights_file_path=curr_msa_stats[
+                                                                                  "weights_file_path"],
+                                                                              sampled_alignment_path=
+                                                                              curr_msa_stats[
+                                                                                  "sampled_alignment_path"],
+                                                                              lasso_intercept=curr_msa_stats[
+                                                                                  "lasso_intercept"],
+                                                                              chosen_locis=curr_msa_stats[
+                                                                                  "lasso_chosen_locis"],
+                                                                              prefix_opt="opt_lasso",
+                                                                              prefix_eval="eval_lasso", optimized_random_trees_path = optimized_random_trees_path)
+                    lasso_evaluation_result["lasso_test_approx"] = lasso_test_results
+                    lasso_evaluation_result["fast_genes_approx"] = high_gene_test_results
+                    lasso_evaluation_result["true_ll_values"] = true_ll_values
 
                 all_msa_results = all_msa_results.append(lasso_evaluation_result, ignore_index=True)
-                all_msa_results.to_csv(job_csv_path, index=False,sep ='\t')
+                all_msa_results.to_csv(job_csv_path, index=False, sep='\t')
     return all_msa_results

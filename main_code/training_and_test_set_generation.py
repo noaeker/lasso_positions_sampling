@@ -129,8 +129,8 @@ def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_opti
             if brlen_generator_name not in run_configurations:
                 run_configurations[brlen_generator_name] = {}
             run_configurations[brlen_generator_name][training_size] = Lasso_results
-    shutil.rmtree(random_trees_folder)
-    shutil.rmtree(training_full_size_directory)
+    #shutil.rmtree(random_trees_folder)
+    #shutil.rmtree(training_full_size_directory)
     return run_configurations
 
 

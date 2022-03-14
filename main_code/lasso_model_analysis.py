@@ -1,7 +1,8 @@
-from config import USE_INTEGER_WEIGHTS,INTEGER_CONST,GENERATE_LASSO_DESCRIPTIVE, IGNORE_COLS_IN_CSV,R_CODE_PATH
+from config import USE_INTEGER_WEIGHTS,INTEGER_CONST,GENERATE_LASSO_DESCRIPTIVE, IGNORE_COLS_IN_CSV,R_CODE_PATH, SEED
 from raxml import raxml_optimize_trees_for_given_msa
 from partitioned_analysis import generate_loci_corrected_partition_model_file,edit_num_locis_in_model_file_no_partition
-from help_functions import *
+from help_functions import create_dir_if_not_exists, write_to_sampled_alignment_path,alignment_list_to_df, get_positions_stats, update_dict_with_a_suffix
+from Bio import SeqIO
 from sklearn.metrics import *
 from sklearn import linear_model
 from scipy import stats
@@ -12,7 +13,32 @@ import itertools
 import pickle
 import pandas as pd
 import os
+import logging
+import random
+import shutil
 
+
+def calculate_test_ll_using_sampled_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
+                                            weights_file_path, lasso_intercept,chosen_locis,optimized_random_trees_path, prefix_opt, prefix_eval):
+    if curr_msa_stats["do_partitioned_lasso_analysis"]:
+        lasso_corrected_partition_models_file = generate_loci_corrected_partition_model_file(curr_msa_stats["msa_corrected_model_partition_optimized"], curr_msa_stats["partition_ind_to_name_optimized"],curr_run_directory = curr_run_directory,positions_subset=chosen_locis)
+    else:
+        lasso_corrected_partition_models_file = curr_msa_stats["pars_optimized_model"]
+        edit_num_locis_in_model_file_no_partition(curr_msa_stats["pars_optimized_model"], n_loci = len(chosen_locis))
+    sampled_ll_values = \
+        raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_opt, optimized_random_trees_path,
+                                           curr_msa_stats,
+                                           curr_run_directory, opt_brlen=True, weights=weights_file_path,
+                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
+    sampled_ll_values_adjusted = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in sampled_ll_values]
+    sampled_ll_values_no_opt = \
+        raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_eval, optimized_random_trees_path,
+                                           curr_msa_stats,
+                                           curr_run_directory, opt_brlen=False, weights=weights_file_path,
+                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
+    sampled_ll_values_adjusted_no_opt = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in
+                                       sampled_ll_values_no_opt]
+    return sampled_ll_values_adjusted, sampled_ll_values_adjusted_no_opt
 
 
 
@@ -21,28 +47,9 @@ def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, 
     if not test_data:
         test_data = curr_msa_stats
     optimized_random_trees_path = test_data.get("optimized_test_topologies_path",test_data.get("test_optimized_trees_path"))
-    if curr_msa_stats["do_partitioned_lasso_analysis"]:
-        lasso_corrected_partition_models_file = generate_loci_corrected_partition_model_file(curr_msa_stats["msa_corrected_model_partition_optimized"], curr_msa_stats["partition_ind_to_name_optimized"],curr_run_directory = curr_run_directory,positions_subset=chosen_locis)
-    else:
-        lasso_corrected_partition_models_file = curr_msa_stats["pars_optimized_model"]
-        edit_num_locis_in_model_file_no_partition(curr_msa_stats["pars_optimized_model"], n_loci = len(chosen_locis))
     true_ll_values = test_data["test_ll_values"]
-    prefix_lasso = "opt_using_lasso"
-    lasso_ll_values = \
-        raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path,
-                                           curr_msa_stats,
-                                           curr_run_directory, opt_brlen=True, weights=weights_file_path,
-                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
-    lasso_ll_values_adjusted = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in lasso_ll_values]
-    prefix_lasso = "eval_using_lasso"
-    lasso_ll_values_no_opt = \
-        raxml_optimize_trees_for_given_msa(sampled_alignment_path, prefix_lasso, optimized_random_trees_path,
-                                           curr_msa_stats,
-                                           curr_run_directory, opt_brlen=False, weights=weights_file_path,
-                                           return_trees_file=False, model = lasso_corrected_partition_models_file)[0]
-    lasso_ll_values_adjusted_no_opt = [(ll / INTEGER_CONST) + lasso_intercept / INTEGER_CONST for ll in
-                                       lasso_ll_values_no_opt]
-
+    lasso_ll_values_adjusted,lasso_ll_values_adjusted_no_opt = calculate_test_ll_using_sampled_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
+                                            weights_file_path, lasso_intercept,chosen_locis,optimized_random_trees_path, prefix_opt="opt_using_lasso", prefix_eval = "eval_using_lasso")
     test_r_squared = stats.pearsonr(true_ll_values, lasso_ll_values_adjusted)[0] ** 2
     test_mse = mean_squared_error(true_ll_values, lasso_ll_values_adjusted)
     test_spearmanr = stats.spearmanr(true_ll_values, lasso_ll_values_adjusted)[0]
@@ -388,6 +395,11 @@ def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_direc
     update_dict_with_a_suffix(output_dict,high_rate_results, suffix="_high_rate")
     shutil.rmtree(comparisons_folder)
     return output_dict
+
+
+
+
+
 
 
 

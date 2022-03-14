@@ -48,7 +48,7 @@ def sample_exp(size,start_seed):
 #Default values
 LOGGING_LEVEL = logging.INFO
 GENERATE_LASSO_DESCRIPTIVE = True
-RANDOM_TREES_TRAINING_SIZE = "4000"
+RANDOM_TREES_TRAINING_SIZE = "150"
 BRLEN_GENERATORS = {'exponential':sample_exp,'uniform': sample_uniform,'optimized': None}
 
 WAITING_TIME_UPDATE = 60 #86400
@@ -64,21 +64,21 @@ MSA_EXTRACTION_METHOD = "CSV"  # MSA_EXTRACTION_METHOD = "FOLDER"
 
 USE_INTEGER_WEIGHTS = LOCAL_RUN
 INTEGER_CONST = 10 if USE_INTEGER_WEIGHTS else 1
-CURR_RUN_PREFIX = "debug"
-CURR_JOBS_PREFIX =  "debug"
+CURR_RUN_PREFIX = "new_feature"
+CURR_JOBS_PREFIX =  "new_feature"
 
 LASSO_BASELINE = "x"
-TRAINING_BASELINE = "dna_lasso30_test_lasso_par"
-TEST_SET_BASELINE = "dna_lasso30_test_lasso_par "#"test_curr_check_review_gtr"
+TRAINING_BASELINE = "x"
+TEST_SET_BASELINE = "x"#"test_curr_check_review_gtr"
 MSA_BASELINE = "x"
 FULL_DATA_BASELINE ="x"
 ALTERNATIVE_TRAINING_BASELINE = "x"
 
 
 
-MAX_N_SEQ =  "30"
-MIN_N_SEQ = 30
-MAX_N_LOCI = "20000"
+MAX_N_SEQ =  "7"
+MIN_N_SEQ = 7
+MAX_N_LOCI = "1000"
 MIN_N_LOCI = 100
 N_RANDOM_STARTING_TREES = 3
 #PARSIMONY_STARTING_TREE = False #1/0
