@@ -21,6 +21,7 @@ def evaluate_data_per_gene(data):
                     not_chosen_expected = [int(n) * (1 - row["actual_sample_pct"]) for n in full]
                     # print(not_chosen_expected)
                     mean_rate4site = [float(val) for val in row["partition_mean_rates"][1:-1].split(',')[1:]]
+                    print("n_categories=",len(mean_rate4site))
                     # mean_coeff = [float(val) for val in row["partition_mean_coeff"][1:-1].split(',')[1:]]
                     chosen = [int(n) for n in row["observed_partition_counts"][1:-1].split(" ") if len(n) > 0][1:]
                     # print(chosen)
