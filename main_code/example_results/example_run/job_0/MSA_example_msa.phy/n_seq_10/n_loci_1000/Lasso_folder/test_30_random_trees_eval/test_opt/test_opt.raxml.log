@@ -1,0 +1,288 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Core(TM) i7-7660U CPU @ 2.50GHz, 2 cores, 16 GB RAM
+
+RAxML-NG was called at 15-Mar-2022 14:48:06 as follows:
+
+/Users/noa/Programs/Raxml/raxml-ng --threads 1 --workers auto --force msa --force perf_threads --evaluate --msa example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/0.phy --model example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestModel --tree example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/test_30/rand_top.raxml.startTree --seed 1 --prefix example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt
+
+Analysis options:
+  run mode: Evaluate tree likelihood
+  start tree(s): user
+  random seed: 1
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (auto), NONE/sequential
+
+WARNING: Running in FORCE mode: some safety checks are disabled!
+
+[00:00:00] Reading alignment from file: example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/0.phy
+[00:00:00] Loaded alignment with 10 taxa and 1000 sites
+
+Alignment comprises 1 partitions and 616 patterns
+
+Partition 0: noname
+Model: WAG+G4m{2.36826}
+Alignment sites / patterns: 1000 / 616
+Gaps: 52.72 %
+Invariant sites: 56.70 %
+
+
+NOTE: Binary MSA file created: example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.rba
+
+Parallelization scheme autoconfig: 1 worker(s) x 1 thread(s)
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Loading user starting tree(s) from: example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/test_30/rand_top.raxml.startTree
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 616 / 49280
+[00:00:00] Data distribution: max. searches per worker: 30
+
+Evaluating 30 trees
+
+[00:00:00] Tree #1, initial LogLikelihood: -8833.936667
+
+[00:00:00 -8833.936667] Initial branch length optimization
+[00:00:00 -8178.323682] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #1, final logLikelihood: -8178.030182
+
+[00:00:00] Tree #2, initial LogLikelihood: -8447.465703
+
+[00:00:00 -8447.465703] Initial branch length optimization
+[00:00:00 -8023.545814] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #2, final logLikelihood: -8021.564378
+
+[00:00:00] Tree #3, initial LogLikelihood: -8856.837464
+
+[00:00:00 -8856.837464] Initial branch length optimization
+[00:00:00 -8175.947959] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #3, final logLikelihood: -8175.733001
+
+[00:00:00] Tree #4, initial LogLikelihood: -8345.016619
+
+[00:00:00 -8345.016619] Initial branch length optimization
+[00:00:00 -7752.742584] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #4, final logLikelihood: -7752.735581
+
+[00:00:00] Tree #5, initial LogLikelihood: -8606.614874
+
+[00:00:00 -8606.614874] Initial branch length optimization
+[00:00:00 -8049.351829] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #5, final logLikelihood: -8049.327824
+
+[00:00:00] Tree #6, initial LogLikelihood: -8719.733325
+
+[00:00:00 -8719.733325] Initial branch length optimization
+[00:00:00 -8123.243879] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #6, final logLikelihood: -8121.805133
+
+[00:00:00] Tree #7, initial LogLikelihood: -8628.412626
+
+[00:00:00 -8628.412626] Initial branch length optimization
+[00:00:00 -8007.999407] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #7, final logLikelihood: -8007.984739
+
+[00:00:00] Tree #8, initial LogLikelihood: -8720.561938
+
+[00:00:00 -8720.561938] Initial branch length optimization
+[00:00:00 -8140.394313] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #8, final logLikelihood: -8139.367507
+
+[00:00:00] Tree #9, initial LogLikelihood: -8597.424575
+
+[00:00:00 -8597.424575] Initial branch length optimization
+[00:00:00 -8059.022082] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #9, final logLikelihood: -8058.966334
+
+[00:00:00] Tree #10, initial LogLikelihood: -8514.186747
+
+[00:00:00 -8514.186747] Initial branch length optimization
+[00:00:00 -7977.939575] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #10, final logLikelihood: -7977.844041
+
+[00:00:00] Tree #11, initial LogLikelihood: -8493.790307
+
+[00:00:00 -8493.790307] Initial branch length optimization
+[00:00:00 -7858.138179] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #11, final logLikelihood: -7858.079341
+
+[00:00:00] Tree #12, initial LogLikelihood: -8795.938654
+
+[00:00:00 -8795.938654] Initial branch length optimization
+[00:00:00 -8175.158943] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #12, final logLikelihood: -8175.091173
+
+[00:00:00] Tree #13, initial LogLikelihood: -8845.979758
+
+[00:00:00 -8845.979758] Initial branch length optimization
+[00:00:00 -8192.783684] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #13, final logLikelihood: -8191.344141
+
+[00:00:00] Tree #14, initial LogLikelihood: -8887.480039
+
+[00:00:00 -8887.480039] Initial branch length optimization
+[00:00:00 -8178.944024] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] Tree #14, final logLikelihood: -8177.741830
+
+[00:00:00] Tree #15, initial LogLikelihood: -8792.468101
+
+[00:00:00 -8792.468101] Initial branch length optimization
+[00:00:00 -8165.049691] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #15, final logLikelihood: -8164.899945
+
+[00:00:01] Tree #16, initial LogLikelihood: -8712.059240
+
+[00:00:01 -8712.059240] Initial branch length optimization
+[00:00:01 -8088.121430] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #16, final logLikelihood: -8088.107619
+
+[00:00:01] Tree #17, initial LogLikelihood: -8653.284271
+
+[00:00:01 -8653.284271] Initial branch length optimization
+[00:00:01 -7985.171082] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #17, final logLikelihood: -7985.152541
+
+[00:00:01] Tree #18, initial LogLikelihood: -8757.397377
+
+[00:00:01 -8757.397377] Initial branch length optimization
+[00:00:01 -8164.713069] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #18, final logLikelihood: -8164.458456
+
+[00:00:01] Tree #19, initial LogLikelihood: -8595.411547
+
+[00:00:01 -8595.411547] Initial branch length optimization
+[00:00:01 -8017.602267] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #19, final logLikelihood: -8017.565365
+
+[00:00:01] Tree #20, initial LogLikelihood: -8726.585425
+
+[00:00:01 -8726.585425] Initial branch length optimization
+[00:00:01 -8196.927401] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #20, final logLikelihood: -8196.476543
+
+[00:00:01] Tree #21, initial LogLikelihood: -8803.257877
+
+[00:00:01 -8803.257877] Initial branch length optimization
+[00:00:01 -8124.650670] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #21, final logLikelihood: -8124.579604
+
+[00:00:01] Tree #22, initial LogLikelihood: -8472.926444
+
+[00:00:01 -8472.926444] Initial branch length optimization
+[00:00:01 -8029.287790] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #22, final logLikelihood: -8029.229159
+
+[00:00:01] Tree #23, initial LogLikelihood: -8665.499131
+
+[00:00:01 -8665.499131] Initial branch length optimization
+[00:00:01 -8091.896513] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #23, final logLikelihood: -8091.691798
+
+[00:00:01] Tree #24, initial LogLikelihood: -8643.294627
+
+[00:00:01 -8643.294627] Initial branch length optimization
+[00:00:01 -8068.327295] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #24, final logLikelihood: -8067.923097
+
+[00:00:01] Tree #25, initial LogLikelihood: -8624.536631
+
+[00:00:01 -8624.536631] Initial branch length optimization
+[00:00:01 -8040.012982] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #25, final logLikelihood: -8039.653276
+
+[00:00:01] Tree #26, initial LogLikelihood: -8669.076182
+
+[00:00:01 -8669.076182] Initial branch length optimization
+[00:00:01 -8127.895961] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #26, final logLikelihood: -8127.830609
+
+[00:00:01] Tree #27, initial LogLikelihood: -8593.063837
+
+[00:00:01 -8593.063837] Initial branch length optimization
+[00:00:01 -8006.265652] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #27, final logLikelihood: -8005.962245
+
+[00:00:01] Tree #28, initial LogLikelihood: -8749.529772
+
+[00:00:01 -8749.529772] Initial branch length optimization
+[00:00:01 -8075.128695] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #28, final logLikelihood: -8075.100918
+
+[00:00:01] Tree #29, initial LogLikelihood: -8515.929014
+
+[00:00:01 -8515.929014] Initial branch length optimization
+[00:00:01 -7990.556172] Model parameter optimization (eps = 0.100000)
+
+[00:00:01] Tree #29, final logLikelihood: -7990.549332
+
+[00:00:01] Tree #30, initial LogLikelihood: -8866.031105
+
+[00:00:01 -8866.031105] Initial branch length optimization
+[00:00:02 -8171.700468] Model parameter optimization (eps = 0.100000)
+
+[00:00:02] Tree #30, final logLikelihood: -8171.503687
+
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 2.368263 (user),  weights&rates: (0.250000,0.333600) (0.250000,0.689216) (0.250000,1.076965) (0.250000,1.900219) 
+   Base frequencies (model): 0.086628 0.043972 0.039089 0.057045 0.019308 0.036728 0.058059 0.083252 0.024431 0.048466 0.086209 0.062029 0.019503 0.038432 0.045763 0.069518 0.061013 0.014386 0.035274 0.070896 
+   Substitution rates (model): 0.551571 0.509848 0.738998 1.027040 0.908598 1.582850 1.416720 0.316954 0.193335 0.397915 0.906265 0.893496 0.210494 1.438550 3.370790 2.121110 0.113133 0.240735 2.006010 0.635346 0.147304 0.528191 3.035500 0.439157 0.584665 2.137150 0.186979 0.497671 5.351420 0.683162 0.102711 0.679489 1.224190 0.554413 1.163920 0.381533 0.251849 5.429420 0.265256 1.543640 0.947198 1.125560 3.956290 0.554236 0.131528 3.012010 0.198221 0.096162 0.195081 3.974230 2.030060 0.071917 1.086000 0.196246 0.030295 0.616783 6.174160 0.865584 0.930676 0.039437 0.084805 0.479855 0.103754 0.046730 0.423984 1.071760 0.374866 0.129767 0.325711 0.152335 0.098818 0.021352 0.306674 0.248972 0.170135 0.384287 0.074034 0.390482 0.398020 0.109404 1.407660 0.512984 0.717070 0.543833 1.002140 5.469470 0.330052 4.294110 0.113917 0.869489 3.894900 1.545260 0.099921 0.933372 1.028870 0.857928 0.215737 0.227710 0.301281 0.567717 0.570025 0.127395 0.154263 2.584430 0.315124 0.081134 0.682355 0.704939 0.822765 0.156557 0.196303 0.588731 0.249410 0.030450 0.061304 0.373558 0.174100 0.049931 0.243570 1.341820 0.225833 0.336983 0.103604 0.187247 0.138190 0.499462 0.890432 0.404141 0.679371 0.696198 0.740169 0.473307 0.262569 3.873440 0.118358 3.170970 0.323832 4.257460 1.059470 0.099929 0.319440 1.458160 0.212483 0.420170 7.821300 0.257555 4.854020 2.115170 0.415844 0.344739 0.326622 0.665309 0.398618 1.800340 0.934276 0.088836 0.556896 0.967130 1.386980 0.137505 0.133264 0.305434 1.190630 0.171329 0.493905 1.516120 0.515706 0.428437 2.058450 0.161444 0.545931 0.171903 1.529640 6.454280 0.649892 1.613280 0.795384 0.139405 0.216046 0.314887 4.378020 0.523742 0.786993 0.232739 0.110864 0.291148 1.388230 2.485390 0.365369 0.314730 
+
+
+Final LogLikelihood: -7752.735581
+
+AIC score: 15539.471162 / AICc score: 15540.094380 / BIC score: 15622.903002
+Free parameters (model + branch lengths): 17
+
+WARNING: Best ML tree contains 3 near-zero branches!
+
+Best ML tree with collapsed near-zero branches saved to: /Users/noa/Workspace/lasso_positions_sampling/main_code/example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.bestTreeCollapsed
+Best ML tree saved to: /Users/noa/Workspace/lasso_positions_sampling/main_code/example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.bestTree
+All ML trees saved to: /Users/noa/Workspace/lasso_positions_sampling/main_code/example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.mlTrees
+Optimized model saved to: /Users/noa/Workspace/lasso_positions_sampling/main_code/example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.bestModel
+
+Execution log saved to: /Users/noa/Workspace/lasso_positions_sampling/main_code/example_results/example_run/job_0/MSA_example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.log
+
+Analysis started: 15-Mar-2022 14:48:06 / finished: 15-Mar-2022 14:48:08
+
+Elapsed time: 2.069 seconds
+

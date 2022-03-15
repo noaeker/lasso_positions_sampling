@@ -126,15 +126,18 @@ def extract_param_from_raxmlNG_log(raxml_log_path, param_name, raise_error=True)
 
 def extract_mad_file_statistic(mad_log_path):
     pattern = "MAD=([\d.]+)"
-    with open(mad_log_path) as mad_output:
-        data = mad_output.read()
-        match = re.search(pattern, data, re.IGNORECASE)
-    if match:
-        value = float(match.group(1))
-    else:
-        error_msg = "Param  not found in mad file in {}".format(mad_log_path)
-        logging.error(error_msg)
-        raise GENERAL_RAXML_ERROR(error_msg)
+    try:
+        with open(mad_log_path) as mad_output:
+            data = mad_output.read()
+            match = re.search(pattern, data, re.IGNORECASE)
+        if match:
+            value = float(match.group(1))
+        else:
+            error_msg = "Param  not found in mad file in {}".format(mad_log_path)
+            logging.error(error_msg)
+            raise GENERAL_RAXML_ERROR(error_msg)
+    except:
+        return -1
     return value
 
 
