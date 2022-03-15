@@ -1,4 +1,5 @@
 from raxml import *
+from config import INTEGER_CONST, EPSILON
 import numpy as np
 from scipy import stats
 from spr_prune_and_regraft import *

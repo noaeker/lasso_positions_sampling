@@ -12,6 +12,11 @@ from rate4site import parse_rate4site,get_rate4site
 
 
 def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
+    '''
+
+    :param curr_msa_stats:
+    :return: Calculate features of the MSA using RAxML
+    '''
     logging.info("Running RaxML statistics from full data and extracting statistics")
     full_data_path = curr_msa_stats["local_alignment_path"]
     full_data_unique_name = curr_msa_stats["full_data_unique_name"]
@@ -25,6 +30,12 @@ def extract_and_update_RaxML_statistics_from_full_data(curr_msa_stats):
 
 
 def get_rate4site_stats(curr_msa_version_folder, curr_msa_stats):
+    '''
+
+    :param curr_msa_version_folder:
+    :param curr_msa_stats: Calculate rate4site per MSA
+    :return:
+    '''
     rate4site_output_path = os.path.join(curr_msa_version_folder, "r4s.res")
     rate4site_command = get_rate4site(curr_msa_stats["local_alignment_path"],
                                       curr_msa_stats["parsimony_optimized_tree_path"], rate4site_output_path)
@@ -45,6 +56,16 @@ def get_rate4site_stats(curr_msa_version_folder, curr_msa_stats):
 def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_version_folder, args, actual_n_seq,
                                actual_n_loci
                                ):
+    '''
+
+    :param original_alignment_path:
+    :param file_ind:
+    :param curr_msa_version_folder:
+    :param args:
+    :param actual_n_seq:
+    :param actual_n_loci:
+    :return: Get general statistics of the MSA
+    '''
     dataset_id = original_alignment_path
     file_name = str(file_ind)
     full_data_unique_name = file_name
@@ -102,6 +123,12 @@ def generate_msa_general_stats(original_alignment_path, file_ind, curr_msa_versi
 
 
 def re_run_on_reduced_version(curr_msa_stats, file_ind):
+    '''
+
+    :param curr_msa_stats:
+    :param file_ind:
+    :return: When problem arises with the MSA, this is used for re-running it using a fixed version.
+    '''
     raxml_reduced_file = curr_msa_stats["orig_reduced_file_path"]
     reduced_dir, rediced_fname = os.path.split(raxml_reduced_file)
     raxml_reduced_file_renamed = os.path.join(reduced_dir, curr_msa_stats["file_name"] + "_fixed" + extract_file_type(
@@ -140,6 +167,16 @@ def re_run_on_reduced_version(curr_msa_stats, file_ind):
 
 
 def get_msa_stats(curr_msa_version_folder, original_alignment_path, args, file_ind, actual_n_seq, actual_n_loci):
+    '''
+
+    :param curr_msa_version_folder:
+    :param original_alignment_path:
+    :param args:
+    :param file_ind:
+    :param actual_n_seq:
+    :param actual_n_loci:
+    :return: All MSA statistics
+    '''
     curr_msa_version_stats_dump = os.path.join(curr_msa_version_folder, 'curr_msa_stats.dump')
     curr_msa_version_stats_dump_baseline = curr_msa_version_stats_dump.replace(args.run_prefix,
                                                                                args.msa_baseline_run_prefix)

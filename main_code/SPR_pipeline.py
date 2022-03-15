@@ -65,6 +65,16 @@ def lasso_spr_pipeline_per_training_data(curr_msa_stats, training_size, brlen_ru
 def perform_spr_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                          lasso_configurations_per_training_size,
                          job_csv_path, all_msa_results):
+    '''
+
+    :param training_size_options:
+    :param brlen_generators:
+    :param curr_msa_stats:
+    :param lasso_configurations_per_training_size:
+    :param job_csv_path:
+    :param all_msa_results:
+    :return: Full SPR pipeline for each combination of training-size, branch -length distribution and sample percentage.
+    '''
     spr_searches_run_directory = os.path.join(curr_msa_stats["curr_msa_version_folder"], "spr_results")
     create_dir_if_not_exists(spr_searches_run_directory)
     logging.info("\n\nStarting SPR searches")

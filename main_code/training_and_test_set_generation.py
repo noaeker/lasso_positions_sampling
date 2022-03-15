@@ -13,6 +13,15 @@ from spr_prune_and_regraft import add_internal_names,get_possible_spr_moves, gen
 
 
 def Lasso_test_set(curr_msa_stats, random_trees_test_size, Lasso_folder, random_trees_folder, test_seed):
+    '''
+
+    :param curr_msa_stats:
+    :param random_trees_test_size:
+    :param Lasso_folder:
+    :param random_trees_folder:
+    :param test_seed:
+    :return: Creates a test set of optimized trees for testing the performance of the Lasso models
+    '''
     if not curr_msa_stats["no_test_set"]:
         test_random_trees_path, test_random_tree_generation_time = generate_n_random_topologies_constant_brlen(
             random_trees_test_size, random_trees_folder,
@@ -33,6 +42,16 @@ def Lasso_test_set(curr_msa_stats, random_trees_test_size, Lasso_folder, random_
 
 def generate_specific_brlen_training_set(brlen_generator_name, Lasso_folder, brlen_generators, training_size,
                                          curr_msa_stats, training_random_trees_path):
+    '''
+
+    :param brlen_generator_name:
+    :param Lasso_folder:
+    :param brlen_generators:
+    :param training_size:
+    :param curr_msa_stats:
+    :param training_random_trees_path:
+    :return: Generate a training set for the Lasso model, based on random trees with some given branch-lengths distribution.
+    '''
     brlen_run_directory = os.path.join(Lasso_folder, brlen_generator_name)
     create_dir_if_not_exists(brlen_run_directory)
     brlen_generator_func = brlen_generators.get(brlen_generator_name)
@@ -77,6 +96,14 @@ def generate_specific_brlen_training_set(brlen_generator_name, Lasso_folder, brl
 
 
 def Lasso_training_and_test(brlen_generators, curr_msa_stats, training_size_options, random_trees_test_size):
+    '''
+
+    :param brlen_generators:
+    :param curr_msa_stats:
+    :param training_size_options:
+    :param random_trees_test_size:
+    :return: All data generation process- training + test
+    '''
     Lasso_folder = os.path.join(curr_msa_stats["curr_msa_version_folder"], "Lasso_folder")
     create_dir_if_not_exists(Lasso_folder)
     logging.info("Generating Lasso folder in {}".format(Lasso_folder))

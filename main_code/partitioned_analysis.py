@@ -20,6 +20,14 @@ def edit_frequency_synax_in_original_model_path(model_path):
 
 
 def generate_loci_corrected_partition_model_file(partition_results, partition_ind_to_name_dict, curr_run_directory, positions_subset = None):
+    '''
+
+    :param partition_results:
+    :param partition_ind_to_name_dict:
+    :param curr_run_directory:
+    :param positions_subset:
+    :return: Trimming existing partition model file for a trimmed MSA
+    '''
     if positions_subset:
         partition_results = np.take(partition_results,positions_subset)
     model_file = os.path.join(curr_run_directory,'loci_adjusted_raxml_model')

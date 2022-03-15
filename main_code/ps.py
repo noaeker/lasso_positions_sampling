@@ -19,6 +19,13 @@ def generate_results_folder(curr_run_prefix):
 
 
 def distribute_MSAs_over_jobs(file_path_list, all_jobs_results_folder, args):
+    '''
+
+    :param file_path_list:
+    :param all_jobs_results_folder:
+    :param args:
+    :return: Distribution different input files (MSAs)to different jobs
+    '''
     jobs_csv_path_list = []
     status_file_path_list = []
     files_per_job = int(len(file_path_list) / args.n_jobs)

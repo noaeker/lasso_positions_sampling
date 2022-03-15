@@ -20,6 +20,19 @@ import shutil
 
 def calculate_test_ll_using_sampled_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
                                             weights_file_path, lasso_intercept,chosen_locis,optimized_random_trees_path, prefix_opt, prefix_eval):
+    '''
+
+    :param curr_msa_stats:
+    :param curr_run_directory:
+    :param sampled_alignment_path:
+    :param weights_file_path:
+    :param lasso_intercept:
+    :param chosen_locis:
+    :param optimized_random_trees_path:
+    :param prefix_opt:
+    :param prefix_eval:
+    :return: Estimate log-likelihood on a test set based on sampled MSA
+    '''
     if curr_msa_stats["do_partitioned_lasso_analysis"]:
         lasso_corrected_partition_models_file = generate_loci_corrected_partition_model_file(curr_msa_stats["msa_corrected_model_partition_optimized"], curr_msa_stats["partition_ind_to_name_optimized"],curr_run_directory = curr_run_directory,positions_subset=chosen_locis)
     else:
@@ -44,6 +57,17 @@ def calculate_test_ll_using_sampled_data(curr_msa_stats, curr_run_directory, sam
 
 def evaluate_lasso_performance_on_test_data(curr_msa_stats, curr_run_directory, sampled_alignment_path,
                                             weights_file_path, lasso_intercept,chosen_locis, test_data = None):
+    '''
+
+    :param curr_msa_stats:
+    :param curr_run_directory:
+    :param sampled_alignment_path:
+    :param weights_file_path:
+    :param lasso_intercept:
+    :param chosen_locis:
+    :param test_data:
+    :return: Use lasso to approximate trees on test data and calculate accuracy statistics
+    '''
     if not test_data:
         test_data = curr_msa_stats
     optimized_random_trees_path = test_data.get("optimized_test_topologies_path",test_data.get("test_optimized_trees_path"))
@@ -103,6 +127,15 @@ def choose_coeffs_ind_for_given_threshold(coeff_path_results, threshold):
 
 
 def generate_weights_file_and_sampled_msa(curr_run_directory, curr_msa_stats, name, chosen_locis, chosen_loci_weights):
+    '''
+
+    :param curr_run_directory:
+    :param curr_msa_stats:
+    :param name:
+    :param chosen_locis:
+    :param chosen_loci_weights:
+    :return: Create a sampled MSA file and a weights file given the positions chosen by the Lasso and corresponding weights
+    '''
     sampled_alignment_path = os.path.join(curr_run_directory,
                                           curr_msa_stats["file_name"] + f"_sampled_{name}" + curr_msa_stats[
                                               "file_type"])
@@ -140,6 +173,12 @@ def evaluate_coeffs_on_test_set(coeffs, ind, lambd, curr_run_directory, curr_msa
 
 
 def get_sklearn_lasso_path_on_given_data(curr_msa_stats, training_df, curr_run_directory):
+    '''
+    :param curr_msa_stats:
+    :param training_df:
+    :param curr_run_directory:
+    :return: Calculate the entire Lasso path given training data
+    '''
     y_training = training_df.sum(axis=1)
     logging.debug("   ***Sitelh df dimensions, for lasso computations, are: " + str(training_df.shape))
     scaler = preprocessing.StandardScaler().fit(training_df.values)
@@ -174,6 +213,12 @@ def get_sklearn_lasso_path_on_given_data(curr_msa_stats, training_df, curr_run_d
 
 
 def get_sklearn_coeffs_for_given_threshold(threshold, lasso_path_results):
+    '''
+
+    :param threshold:
+    :param lasso_path_results:
+    :return: Get the Lasso model coefficients for a given sampling threshold (e.g., 5%)
+    '''
     chosen_coefficient_ind = choose_coeffs_ind_for_given_threshold(lasso_path_results["coeff_path_results"], threshold)
     if chosen_coefficient_ind is None:
         return None, None, None
@@ -198,6 +243,12 @@ def get_glmnet_coeffs_for_given_threshold(threshold, MSA_n_loci, glmnet_lasso_pa
 
 
 def get_chosen_locis_and_weights(coeff_array, coef_starting_point):
+    '''
+
+    :param coeff_array:
+    :param coef_starting_point:
+    :return: In case that floating point weights aren't allowed, they are multiplied by a large integer
+    '''
     if USE_INTEGER_WEIGHTS:
         weights = list(((coeff_array * INTEGER_CONST).astype(int)))
     else:
@@ -209,6 +260,15 @@ def get_chosen_locis_and_weights(coeff_array, coef_starting_point):
 
 def unify_msa_and_weights(results_df_per_threshold_and_partition, curr_run_directory, curr_msa_stats,
                           sitelh_training_df, test_optimized_trees_path):
+    '''
+
+    :param results_df_per_threshold_and_partition:
+    :param curr_run_directory:
+    :param curr_msa_stats:
+    :param sitelh_training_df:
+    :param test_optimized_trees_path:
+    :return: In case that a separate Lasso model is applied on each part, this function unifies the results.
+    '''
     outputs_per_threshold = {}
     y_training = sitelh_training_df.sum(axis=1)
     logging.debug("Unifying MSAs and weights for each partition")
@@ -307,6 +367,14 @@ def get_glmnet_lasso_path_on_given_data(curr_msa_stats, curr_data, partition_fol
 
 def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_directory, sitelh_training_df,
                                                      test_optimized_trees_path):
+    '''
+
+    :param curr_msa_stats:
+    :param curr_run_directory:
+    :param sitelh_training_df:
+    :param test_optimized_trees_path:
+    :return: This function performs Lasso analysis per partition.
+    '''
     n_partitions = curr_msa_stats["n_partitions"]
     partition_indexes = np.array_split(np.arange(len(sitelh_training_df.columns)), n_partitions)
     lasso_results_per_partition_and_threshold = pd.DataFrame()
@@ -362,6 +430,14 @@ def apply_lasso_on_sitelh_data_and_update_statistics(curr_msa_stats, curr_run_di
     return outputs_per_threshold
 
 def compare_lasso_to_naive_approaches_on_test_set(curr_msa_stats, curr_run_directory, threshold,n_random_iterations = 5):
+    '''
+
+    :param curr_msa_stats:
+    :param curr_run_directory:
+    :param threshold:
+    :param n_random_iterations:
+    :return: Comparing the Lasso approach to 1. random selection of positions 2. selection of positions based on evolutionary rate
+    '''
     comparisons_folder = os.path.join(curr_run_directory,"comparisons")
     os.mkdir(comparisons_folder)
     random_results = pd.DataFrame()

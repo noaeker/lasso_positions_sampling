@@ -12,10 +12,10 @@ else:
 
 if EXAMPLE_RUN:
     RAXML_NG_EXE = "/Users/noa/Programs/Raxml/raxml-ng  " #replace by your installation of RAXML-NG
-    RESULTS_FOLDER= "example_results"
-    MSAs_FOLDER = "example_files"
-    ALTERNATIVER_FILES_FOLDER = "example_files"
-    ALTERNATIVE_MSAs = "example_files"
+    RESULTS_FOLDER= "../example_results"
+    MSAs_FOLDER = "../example_files"
+    ALTERNATIVER_FILES_FOLDER = "../example_files"
+    ALTERNATIVE_MSAs = "../example_files"
     MAIN_CODE_PATH = "./MSA_positions_sampling.py"
     MAD_COMMAND_PREFIX = ""
     RATE4SITE_COMMAND_PREFIX= ""

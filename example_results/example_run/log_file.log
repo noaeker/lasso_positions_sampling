@@ -1,0 +1,14 @@
+INFO:root:Args = Namespace(RAxML_baseline_run_prefix='x', alternative_analysis=True, alternative_files_folder='../example_files', alternative_training=False, alternative_training_prefix='x', compare_lasso_to_naive=False, compare_loci_gene_distribution=False, compute_all_true_ll=False, compute_per_site_ll_values=False, const_brlen=False, do_partitioned_lasso_analysis=False, do_raxml_lasso_nni_optimization=False, evo_model='WAG', exp_brlen=True, first_msa_ind=0, greedy_SPR=False, jobs_prefix='example_run', lasso_baseline_run_prefix='x', lasso_thresholds='0.1_0.05_0.025_0.1', lasso_thresholds_search='0.05', loci_shift=0, logging_level=20, max_n_loci='1000', max_n_seq='10', min_n_loci=100, min_n_seq=7, msa_baseline_run_prefix='x', n_MSAs=1, n_cpus_Lasso=1, n_cpus_full=1, n_cpus_nni=2, n_cpus_per_job=1, n_cpus_training=1, n_jobs=1, n_nodes_Lasso=1, n_nodes_full=1, n_nodes_training=1, n_partitions=1, n_random_starting_trees=3, n_raxml_parsimony_trees=1, n_raxml_random_trees=1, no_test_set=False, only_evaluate_lasso=True, only_full_search=False, opt_brlen=False, optimized_neighbours_per_iter=-1, queue='pupkolab', random_lasso=False, random_trees_test_size=30, random_trees_training_size='800', rearr_dist=5, relaxed_lasso=False, run_prefix='example_run', run_raxml_commands_locally=False, search_epsilon=0.1, spr_baseline_run_prefix='x', start_of_starting_tree_ind=0, test_set_baseline_run_prefix='x', top_ind_to_test_per_phase='5_10', training_set_baseline_run_prefix='x', uni_brlen=False, use_glmnet_lasso=False, use_modified_final_search=False, use_parsimony_training_trees=False, use_raxml_search=False, use_raxml_standard_starting_trees=True, use_spr_neighbours_training=False, use_spr_parsimony_starting_tree=False)
+INFO:root:#Started running
+INFO:root:There are overall 1 available 
+INFO:root:There are 1 MSAs with at least 7 sequences and 100 positions
+INFO:root:Distributing MSAs over jobs: number of files per job=1 
+INFO:root:job number 0 will run on files ['../example_files/example_msa.phy']
+INFO:root:Current time: 03/15/2022, 15:03:39 About to update following jobs local csvs to general csv: ['../example_results/example_run/job_0/0.csv']
+INFO:root:Number of jobs still running is : 0 
+INFO:root:Existing df size is: 0
+INFO:root:Combined df size is: 384
+INFO:root:Existing df size is: 0
+INFO:root:Combined df size is: 384
+INFO:numexpr.utils:NumExpr defaulting to 4 threads.
+INFO:root:All csvs are updated to ../example_results/example_run/spr_raxml.tsv. Done!!!

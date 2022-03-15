@@ -12,6 +12,15 @@ import numpy as np
 
 
 def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, curr_msa_stats, training_size_options):
+    '''
+
+    :param curr_msa_version_folder:
+    :param args:
+    :param brlen_generators:
+    :param curr_msa_stats:
+    :param training_size_options:
+    :return: Wrapper for function Lasso_training_and_test that runs the Lasso model on each configuration.
+    '''
     curr_msa_version_lasso_dump = os.path.join(curr_msa_version_folder, 'lasso.dump')
     curr_msa_version_lasso_dump_baseline = curr_msa_version_lasso_dump.replace(args.run_prefix,
                                                                                args.lasso_baseline_run_prefix)
@@ -30,6 +39,15 @@ def get_lasso_configurations(curr_msa_version_folder, args, brlen_generators, cu
 
 
 def high_rate_bias_test(curr_run_directory, curr_msa_stats, partitioned_rates, per_loci_partition, optimized_random_trees_path):
+    '''
+
+    :param curr_run_directory:
+    :param curr_msa_stats:
+    :param partitioned_rates:
+    :param per_loci_partition:
+    :param optimized_random_trees_path:
+    :return: Take 3 most fast evolving genes and calculate log-likelihood on test data with respect to the obtained MSA
+    '''
     highest_rate_genes = sorted(partitioned_rates, key=partitioned_rates.get, reverse=True)[:3]
     highest_rate_corresponding_locis = list((np.where(np.isin(np.array(per_loci_partition), highest_rate_genes)))[0])
     highest_rate_sampled_msa = os.path.join(curr_run_directory, "highest_rate_msa")
@@ -51,6 +69,14 @@ def high_rate_bias_test(curr_run_directory, curr_msa_stats, partitioned_rates, p
 
 
 def loci_dist_partitioned_analysis(curr_msa_stats, threshold, lasso_evaluation_result, partitioned_rates):
+    '''
+
+    :param curr_msa_stats:
+    :param threshold:
+    :param lasso_evaluation_result:
+    :param partitioned_rates:
+    :return: Calculate expected and observed distribution of chosen positions across genes
+    '''
     chosen_locis = curr_msa_stats["lasso_chosen_locis"]
     logging.info(f"Partition count = {curr_msa_stats['per_loci_partition']}")
     partitions_count_arr = np.bincount(curr_msa_stats["per_loci_partition"])
@@ -81,6 +107,17 @@ def loci_dist_partitioned_analysis(curr_msa_stats, threshold, lasso_evaluation_r
 def perform_only_lasso_pipeline(training_size_options, brlen_generators, curr_msa_stats,
                                 lasso_configurations_per_training_size,
                                 job_csv_path, all_msa_results, curr_run_directory):
+    '''
+
+    :param training_size_options:
+    :param brlen_generators:
+    :param curr_msa_stats:
+    :param lasso_configurations_per_training_size:
+    :param job_csv_path:
+    :param all_msa_results:
+    :param curr_run_directory:
+    :return: Use Lasso results to generate a results csv
+    '''
     for brlen_generator_name in brlen_generators:
         curr_msa_stats["brlen_generator"] = brlen_generator_name
         for training_size in training_size_options:
