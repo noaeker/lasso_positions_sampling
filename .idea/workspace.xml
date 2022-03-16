@@ -5,25 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6ad43f0-3661-4ab7-86f4-62ac266f02d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/backup.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/backup.tsv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/0.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/training_set.dump" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/training_set.dump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/lasso_results_per_partition_and_threshold.csv" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/lasso_results_per_partition_and_threshold.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/test_ll_evaluations/eval_using_lasso/eval_using_lasso.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/test_ll_evaluations/eval_using_lasso/eval_using_lasso.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/test_ll_evaluations/opt_using_lasso/opt_using_lasso.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/test_ll_evaluations/opt_using_lasso/opt_using_lasso.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/test_30/rand_top.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/test_30/rand_top.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/training_800/rand_top.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation/training_800/rand_top.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/curr_msa_stats.dump" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/curr_msa_stats.dump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/lasso.dump" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/lasso.dump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_CHECK.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_CHECK.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_PARSE.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_PARSE.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/job_0/job_0_general_log.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/job_0/job_0_general_log.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example_results/example_run/log_file.log" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/log_file.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_results/example_run/spr_raxml.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/example_results/example_run/spr_raxml.tsv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_code/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_code/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_code/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+            <state relative-caret-position="149">
+              <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="19" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
               </folding>
@@ -290,6 +273,12 @@
             <path>
               <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
               <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
+              <item name="example_results" type="462c0819:PsiDirectoryNode" />
+              <item name="example_run" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lasso_positions_sampling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lasso_positions_sampling" type="462c0819:PsiDirectoryNode" />
               <item name="main_code" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -482,14 +471,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="34" width="1440" height="707" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24806201" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24806201" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49964765" weight="0.25203252" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.27479675" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.64693445" visible="true" weight="0.24878049" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6060606" weight="0.33170733" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1111,8 +1099,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_code/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+        <state relative-caret-position="149">
+          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="19" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
           </folding>

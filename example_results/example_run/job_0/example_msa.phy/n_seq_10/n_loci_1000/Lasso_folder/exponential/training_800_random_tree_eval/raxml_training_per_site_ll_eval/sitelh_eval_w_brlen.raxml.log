@@ -1,0 +1,2471 @@
+
+RAxML-NG v. 1.0.1 released on 19.09.2020 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Core(TM) i7-7660U CPU @ 2.50GHz, 2 cores, 16 GB RAM
+
+RAxML-NG was called at 16-Mar-2022 11:19:10 as follows:
+
+/Users/noa/Programs/Raxml/raxml-ng --threads 1 --workers auto --force msa --force perf_threads --sitelh --msa ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/0.phy --model ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestModel --opt-branches off --opt-model off --tree ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/training_trees_with_brlen --seed 1 --prefix ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen
+
+Analysis options:
+  run mode: Per-site likelihood computation
+  start tree(s): user
+  random seed: 1
+  SIMD kernels: AVX2
+  parallelization: coarse-grained (auto), NONE/sequential
+
+WARNING: Running in FORCE mode: some safety checks are disabled!
+
+[00:00:00] Reading alignment from file: ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/0.phy
+[00:00:00] Loaded alignment with 10 taxa and 1000 sites
+
+Alignment comprises 1 partitions and 616 patterns
+
+Partition 0: noname
+Model: WAG+G4m{2.36826}
+Alignment sites / patterns: 1000 / 616
+Gaps: 52.72 %
+Invariant sites: 56.70 %
+
+
+NOTE: Binary MSA file created: ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.rba
+
+Parallelization scheme autoconfig: 1 worker(s) x 1 thread(s)
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Loading user starting tree(s) from: ../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/training_trees_with_brlen
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 616 / 49280
+[00:00:00] Data distribution: max. searches per worker: 800
+
+Starting ML tree search with 800 distinct starting trees
+
+
+[00:00:00] Tree #1, final logLikelihood: -9382.679010
+
+
+[00:00:00] Tree #2, final logLikelihood: -8854.916380
+
+
+[00:00:00] Tree #3, final logLikelihood: -9214.775524
+
+
+[00:00:00] Tree #4, final logLikelihood: -8567.670202
+
+
+[00:00:00] Tree #5, final logLikelihood: -9011.464793
+
+
+[00:00:00] Tree #6, final logLikelihood: -9528.845536
+
+
+[00:00:00] Tree #7, final logLikelihood: -9134.442715
+
+
+[00:00:00] Tree #8, final logLikelihood: -9098.754229
+
+
+[00:00:00] Tree #9, final logLikelihood: -8389.542851
+
+
+[00:00:00] Tree #10, final logLikelihood: -9137.271981
+
+
+[00:00:00] Tree #11, final logLikelihood: -8494.801688
+
+
+[00:00:00] Tree #12, final logLikelihood: -9385.614957
+
+
+[00:00:00] Tree #13, final logLikelihood: -9066.446418
+
+
+[00:00:00] Tree #14, final logLikelihood: -9159.543013
+
+
+[00:00:00] Tree #15, final logLikelihood: -9328.155863
+
+
+[00:00:00] Tree #16, final logLikelihood: -8972.659153
+
+
+[00:00:00] Tree #17, final logLikelihood: -9226.863324
+
+
+[00:00:00] Tree #18, final logLikelihood: -9383.270597
+
+
+[00:00:00] Tree #19, final logLikelihood: -9093.532589
+
+
+[00:00:00] Tree #20, final logLikelihood: -9164.634597
+
+
+[00:00:00] Tree #21, final logLikelihood: -9161.498359
+
+
+[00:00:00] Tree #22, final logLikelihood: -8915.260865
+
+
+[00:00:00] Tree #23, final logLikelihood: -9459.367383
+
+
+[00:00:00] Tree #24, final logLikelihood: -9294.735006
+
+
+[00:00:00] Tree #25, final logLikelihood: -9167.384076
+
+
+[00:00:00] Tree #26, final logLikelihood: -9600.276218
+
+
+[00:00:00] Tree #27, final logLikelihood: -8959.676380
+
+
+[00:00:00] Tree #28, final logLikelihood: -9183.851834
+
+
+[00:00:00] Tree #29, final logLikelihood: -8412.320985
+
+
+[00:00:00] Tree #30, final logLikelihood: -9116.401712
+
+
+[00:00:00] Tree #31, final logLikelihood: -9103.807691
+
+
+[00:00:00] Tree #32, final logLikelihood: -8964.065044
+
+
+[00:00:00] Tree #33, final logLikelihood: -9082.085619
+
+
+[00:00:00] Tree #34, final logLikelihood: -8621.477247
+
+
+[00:00:00] Tree #35, final logLikelihood: -8935.179252
+
+
+[00:00:00] Tree #36, final logLikelihood: -8888.432495
+
+
+[00:00:00] Tree #37, final logLikelihood: -9144.081732
+
+
+[00:00:00] Tree #38, final logLikelihood: -8840.164037
+
+
+[00:00:00] Tree #39, final logLikelihood: -8968.206627
+
+
+[00:00:00] Tree #40, final logLikelihood: -9329.781367
+
+
+[00:00:00] Tree #41, final logLikelihood: -8764.611463
+
+
+[00:00:00] Tree #42, final logLikelihood: -8703.818731
+
+
+[00:00:00] Tree #43, final logLikelihood: -9065.207457
+
+
+[00:00:00] Tree #44, final logLikelihood: -9444.515693
+
+
+[00:00:00] Tree #45, final logLikelihood: -8726.131765
+
+
+[00:00:00] Tree #46, final logLikelihood: -8989.621901
+
+
+[00:00:00] Tree #47, final logLikelihood: -8789.739824
+
+
+[00:00:00] Tree #48, final logLikelihood: -8949.266841
+
+
+[00:00:00] Tree #49, final logLikelihood: -9196.472557
+
+
+[00:00:00] Tree #50, final logLikelihood: -8875.205013
+
+
+[00:00:00] Tree #51, final logLikelihood: -9075.985600
+
+
+[00:00:00] Tree #52, final logLikelihood: -9309.856099
+
+
+[00:00:00] Tree #53, final logLikelihood: -9557.578670
+
+
+[00:00:00] Tree #54, final logLikelihood: -9328.499660
+
+
+[00:00:00] Tree #55, final logLikelihood: -8724.882692
+
+
+[00:00:00] Tree #56, final logLikelihood: -9415.135141
+
+
+[00:00:00] Tree #57, final logLikelihood: -9010.461794
+
+
+[00:00:00] Tree #58, final logLikelihood: -8415.239172
+
+
+[00:00:00] Tree #59, final logLikelihood: -8568.825631
+
+
+[00:00:00] Tree #60, final logLikelihood: -9544.146474
+
+
+[00:00:00] Tree #61, final logLikelihood: -9194.890960
+
+
+[00:00:00] Tree #62, final logLikelihood: -9213.569379
+
+
+[00:00:00] Tree #63, final logLikelihood: -9470.390011
+
+
+[00:00:00] Tree #64, final logLikelihood: -8915.111141
+
+
+[00:00:00] Tree #65, final logLikelihood: -8601.746950
+
+
+[00:00:00] Tree #66, final logLikelihood: -9458.672842
+
+
+[00:00:00] Tree #67, final logLikelihood: -8785.238117
+
+
+[00:00:00] Tree #68, final logLikelihood: -9040.283344
+
+
+[00:00:00] Tree #69, final logLikelihood: -8741.860889
+
+
+[00:00:00] Tree #70, final logLikelihood: -9059.759593
+
+
+[00:00:00] Tree #71, final logLikelihood: -9223.062491
+
+
+[00:00:00] Tree #72, final logLikelihood: -8937.876143
+
+
+[00:00:00] Tree #73, final logLikelihood: -9087.038774
+
+
+[00:00:00] Tree #74, final logLikelihood: -8900.291450
+
+
+[00:00:00] Tree #75, final logLikelihood: -9553.779980
+
+
+[00:00:00] Tree #76, final logLikelihood: -9119.000479
+
+
+[00:00:00] Tree #77, final logLikelihood: -9057.313173
+
+
+[00:00:00] Tree #78, final logLikelihood: -8657.728212
+
+
+[00:00:00] Tree #79, final logLikelihood: -8608.028317
+
+
+[00:00:00] Tree #80, final logLikelihood: -9438.537061
+
+
+[00:00:00] Tree #81, final logLikelihood: -9306.878684
+
+
+[00:00:00] Tree #82, final logLikelihood: -9322.841211
+
+
+[00:00:00] Tree #83, final logLikelihood: -8703.893951
+
+
+[00:00:00] Tree #84, final logLikelihood: -8740.966712
+
+
+[00:00:00] Tree #85, final logLikelihood: -8474.773936
+
+
+[00:00:00] Tree #86, final logLikelihood: -9266.184140
+
+
+[00:00:00] Tree #87, final logLikelihood: -9660.016255
+
+
+[00:00:00] Tree #88, final logLikelihood: -8014.835921
+
+
+[00:00:00] Tree #89, final logLikelihood: -9272.534218
+
+
+[00:00:00] Tree #90, final logLikelihood: -9790.569032
+
+
+[00:00:00] Tree #91, final logLikelihood: -9194.614152
+
+
+[00:00:00] Tree #92, final logLikelihood: -9032.863366
+
+
+[00:00:00] Tree #93, final logLikelihood: -8612.261501
+
+
+[00:00:00] Tree #94, final logLikelihood: -9278.442460
+
+
+[00:00:00] Tree #95, final logLikelihood: -9472.580536
+
+
+[00:00:00] Tree #96, final logLikelihood: -9070.447334
+
+
+[00:00:00] Tree #97, final logLikelihood: -8940.726573
+
+
+[00:00:00] Tree #98, final logLikelihood: -8925.596140
+
+
+[00:00:00] Tree #99, final logLikelihood: -8882.924196
+
+
+[00:00:00] Tree #100, final logLikelihood: -8750.764398
+
+
+[00:00:00] Tree #101, final logLikelihood: -8919.708648
+
+
+[00:00:00] Tree #102, final logLikelihood: -9767.381538
+
+
+[00:00:00] Tree #103, final logLikelihood: -8832.527035
+
+
+[00:00:00] Tree #104, final logLikelihood: -9078.382231
+
+
+[00:00:00] Tree #105, final logLikelihood: -9199.697717
+
+
+[00:00:00] Tree #106, final logLikelihood: -8971.896932
+
+
+[00:00:00] Tree #107, final logLikelihood: -9181.627148
+
+
+[00:00:00] Tree #108, final logLikelihood: -9031.789973
+
+
+[00:00:00] Tree #109, final logLikelihood: -9030.700510
+
+
+[00:00:00] Tree #110, final logLikelihood: -8506.601210
+
+
+[00:00:00] Tree #111, final logLikelihood: -8954.937854
+
+
+[00:00:00] Tree #112, final logLikelihood: -9418.357664
+
+
+[00:00:00] Tree #113, final logLikelihood: -9865.196083
+
+
+[00:00:00] Tree #114, final logLikelihood: -9294.598166
+
+
+[00:00:00] Tree #115, final logLikelihood: -8195.077025
+
+
+[00:00:00] Tree #116, final logLikelihood: -8749.806430
+
+
+[00:00:00] Tree #117, final logLikelihood: -9377.804885
+
+
+[00:00:00] Tree #118, final logLikelihood: -8946.801722
+
+
+[00:00:00] Tree #119, final logLikelihood: -8922.429425
+
+
+[00:00:00] Tree #120, final logLikelihood: -9149.292619
+
+
+[00:00:00] Tree #121, final logLikelihood: -9185.634231
+
+
+[00:00:00] Tree #122, final logLikelihood: -9316.078953
+
+
+[00:00:00] Tree #123, final logLikelihood: -9428.109247
+
+
+[00:00:00] Tree #124, final logLikelihood: -8857.749700
+
+
+[00:00:00] Tree #125, final logLikelihood: -9581.663089
+
+
+[00:00:00] Tree #126, final logLikelihood: -9186.470289
+
+
+[00:00:00] Tree #127, final logLikelihood: -9211.959378
+
+
+[00:00:00] Tree #128, final logLikelihood: -8967.041723
+
+
+[00:00:00] Tree #129, final logLikelihood: -9194.554337
+
+
+[00:00:00] Tree #130, final logLikelihood: -9217.253643
+
+
+[00:00:00] Tree #131, final logLikelihood: -8944.698614
+
+
+[00:00:00] Tree #132, final logLikelihood: -8951.811001
+
+
+[00:00:00] Tree #133, final logLikelihood: -9471.823029
+
+
+[00:00:00] Tree #134, final logLikelihood: -8770.636349
+
+
+[00:00:00] Tree #135, final logLikelihood: -8363.406732
+
+
+[00:00:00] Tree #136, final logLikelihood: -9054.656821
+
+
+[00:00:00] Tree #137, final logLikelihood: -9029.954307
+
+
+[00:00:00] Tree #138, final logLikelihood: -8747.734852
+
+
+[00:00:00] Tree #139, final logLikelihood: -8938.735243
+
+
+[00:00:00] Tree #140, final logLikelihood: -9167.262762
+
+
+[00:00:00] Tree #141, final logLikelihood: -9219.711606
+
+
+[00:00:00] Tree #142, final logLikelihood: -9334.909279
+
+
+[00:00:00] Tree #143, final logLikelihood: -9040.917245
+
+
+[00:00:00] Tree #144, final logLikelihood: -9196.988450
+
+
+[00:00:00] Tree #145, final logLikelihood: -9124.380718
+
+
+[00:00:00] Tree #146, final logLikelihood: -9275.809277
+
+
+[00:00:00] Tree #147, final logLikelihood: -9039.504919
+
+
+[00:00:00] Tree #148, final logLikelihood: -8699.752101
+
+
+[00:00:00] Tree #149, final logLikelihood: -8942.721036
+
+
+[00:00:00] Tree #150, final logLikelihood: -8443.540137
+
+
+[00:00:00] Tree #151, final logLikelihood: -9148.477501
+
+
+[00:00:00] Tree #152, final logLikelihood: -8864.359188
+
+
+[00:00:00] Tree #153, final logLikelihood: -8827.974652
+
+
+[00:00:00] Tree #154, final logLikelihood: -9227.786660
+
+
+[00:00:00] Tree #155, final logLikelihood: -8952.241889
+
+
+[00:00:00] Tree #156, final logLikelihood: -9133.464119
+
+
+[00:00:00] Tree #157, final logLikelihood: -9030.710253
+
+
+[00:00:00] Tree #158, final logLikelihood: -9098.713420
+
+
+[00:00:00] Tree #159, final logLikelihood: -8972.618237
+
+
+[00:00:00] Tree #160, final logLikelihood: -8778.721355
+
+
+[00:00:00] Tree #161, final logLikelihood: -9882.784483
+
+
+[00:00:00] Tree #162, final logLikelihood: -8788.115088
+
+
+[00:00:00] Tree #163, final logLikelihood: -9713.343347
+
+
+[00:00:00] Tree #164, final logLikelihood: -9151.109342
+
+
+[00:00:00] Tree #165, final logLikelihood: -8594.550544
+
+
+[00:00:00] Tree #166, final logLikelihood: -8880.265402
+
+
+[00:00:00] Tree #167, final logLikelihood: -8857.201145
+
+
+[00:00:00] Tree #168, final logLikelihood: -9102.872312
+
+
+[00:00:00] Tree #169, final logLikelihood: -8356.470608
+
+
+[00:00:00] Tree #170, final logLikelihood: -9068.280259
+
+
+[00:00:00] Tree #171, final logLikelihood: -8925.633635
+
+
+[00:00:00] Tree #172, final logLikelihood: -9278.317016
+
+
+[00:00:00] Tree #173, final logLikelihood: -9071.516129
+
+
+[00:00:00] Tree #174, final logLikelihood: -8601.873959
+
+
+[00:00:00] Tree #175, final logLikelihood: -8933.333532
+
+
+[00:00:00] Tree #176, final logLikelihood: -9251.033346
+
+
+[00:00:00] Tree #177, final logLikelihood: -8760.130532
+
+
+[00:00:00] Tree #178, final logLikelihood: -9123.416125
+
+
+[00:00:00] Tree #179, final logLikelihood: -9422.715708
+
+
+[00:00:00] Tree #180, final logLikelihood: -9530.249712
+
+
+[00:00:00] Tree #181, final logLikelihood: -9447.466618
+
+
+[00:00:00] Tree #182, final logLikelihood: -8939.881329
+
+
+[00:00:00] Tree #183, final logLikelihood: -8828.680513
+
+
+[00:00:00] Tree #184, final logLikelihood: -9137.680574
+
+
+[00:00:00] Tree #185, final logLikelihood: -9509.841117
+
+
+[00:00:00] Tree #186, final logLikelihood: -8859.333486
+
+
+[00:00:00] Tree #187, final logLikelihood: -8737.295750
+
+
+[00:00:00] Tree #188, final logLikelihood: -8945.225666
+
+
+[00:00:00] Tree #189, final logLikelihood: -8565.941705
+
+
+[00:00:00] Tree #190, final logLikelihood: -8590.217204
+
+
+[00:00:00] Tree #191, final logLikelihood: -9163.915411
+
+
+[00:00:00] Tree #192, final logLikelihood: -8927.509246
+
+
+[00:00:00] Tree #193, final logLikelihood: -8647.845906
+
+
+[00:00:00] Tree #194, final logLikelihood: -8646.001298
+
+
+[00:00:00] Tree #195, final logLikelihood: -9157.890716
+
+
+[00:00:00] Tree #196, final logLikelihood: -8878.066836
+
+
+[00:00:00] Tree #197, final logLikelihood: -8970.167292
+
+
+[00:00:00] Tree #198, final logLikelihood: -8899.529620
+
+
+[00:00:00] Tree #199, final logLikelihood: -9114.355325
+
+
+[00:00:00] Tree #200, final logLikelihood: -9082.226935
+
+
+[00:00:00] Tree #201, final logLikelihood: -9152.806248
+
+
+[00:00:00] Tree #202, final logLikelihood: -9126.496022
+
+
+[00:00:00] Tree #203, final logLikelihood: -9356.254190
+
+
+[00:00:00] Tree #204, final logLikelihood: -8741.540151
+
+
+[00:00:00] Tree #205, final logLikelihood: -8680.913085
+
+
+[00:00:00] Tree #206, final logLikelihood: -9186.023889
+
+
+[00:00:00] Tree #207, final logLikelihood: -9328.858639
+
+
+[00:00:00] Tree #208, final logLikelihood: -8747.581498
+
+
+[00:00:00] Tree #209, final logLikelihood: -9009.983356
+
+
+[00:00:00] Tree #210, final logLikelihood: -9588.370072
+
+
+[00:00:00] Tree #211, final logLikelihood: -9267.087969
+
+
+[00:00:00] Tree #212, final logLikelihood: -9412.587492
+
+
+[00:00:00] Tree #213, final logLikelihood: -9319.559306
+
+
+[00:00:00] Tree #214, final logLikelihood: -8974.307072
+
+
+[00:00:00] Tree #215, final logLikelihood: -8916.137172
+
+
+[00:00:00] Tree #216, final logLikelihood: -8566.194525
+
+
+[00:00:00] Tree #217, final logLikelihood: -9327.614508
+
+
+[00:00:00] Tree #218, final logLikelihood: -9476.787727
+
+
+[00:00:01] Tree #219, final logLikelihood: -9734.445211
+
+
+[00:00:01] Tree #220, final logLikelihood: -9116.870779
+
+
+[00:00:01] Tree #221, final logLikelihood: -8123.392199
+
+
+[00:00:01] Tree #222, final logLikelihood: -9115.818901
+
+
+[00:00:01] Tree #223, final logLikelihood: -8322.328388
+
+
+[00:00:01] Tree #224, final logLikelihood: -8675.951069
+
+
+[00:00:01] Tree #225, final logLikelihood: -9919.918038
+
+
+[00:00:01] Tree #226, final logLikelihood: -9122.376625
+
+
+[00:00:01] Tree #227, final logLikelihood: -9108.070281
+
+
+[00:00:01] Tree #228, final logLikelihood: -9392.272383
+
+
+[00:00:01] Tree #229, final logLikelihood: -8832.869810
+
+
+[00:00:01] Tree #230, final logLikelihood: -9045.990444
+
+
+[00:00:01] Tree #231, final logLikelihood: -9327.626419
+
+
+[00:00:01] Tree #232, final logLikelihood: -8619.611692
+
+
+[00:00:01] Tree #233, final logLikelihood: -8899.741782
+
+
+[00:00:01] Tree #234, final logLikelihood: -9407.712190
+
+
+[00:00:01] Tree #235, final logLikelihood: -9163.804260
+
+
+[00:00:01] Tree #236, final logLikelihood: -8898.314376
+
+
+[00:00:01] Tree #237, final logLikelihood: -9178.482046
+
+
+[00:00:01] Tree #238, final logLikelihood: -9193.344391
+
+
+[00:00:01] Tree #239, final logLikelihood: -9171.768074
+
+
+[00:00:01] Tree #240, final logLikelihood: -9070.351793
+
+
+[00:00:01] Tree #241, final logLikelihood: -8773.791769
+
+
+[00:00:01] Tree #242, final logLikelihood: -8885.029356
+
+
+[00:00:01] Tree #243, final logLikelihood: -8503.846306
+
+
+[00:00:01] Tree #244, final logLikelihood: -8471.643513
+
+
+[00:00:01] Tree #245, final logLikelihood: -8927.083530
+
+
+[00:00:01] Tree #246, final logLikelihood: -8728.586093
+
+
+[00:00:01] Tree #247, final logLikelihood: -9291.508084
+
+
+[00:00:01] Tree #248, final logLikelihood: -8573.322282
+
+
+[00:00:01] Tree #249, final logLikelihood: -9164.640815
+
+
+[00:00:01] Tree #250, final logLikelihood: -9378.970004
+
+
+[00:00:01] Tree #251, final logLikelihood: -9365.381274
+
+
+[00:00:01] Tree #252, final logLikelihood: -9535.666571
+
+
+[00:00:01] Tree #253, final logLikelihood: -8729.107880
+
+
+[00:00:01] Tree #254, final logLikelihood: -9008.550435
+
+
+[00:00:01] Tree #255, final logLikelihood: -8384.306200
+
+
+[00:00:01] Tree #256, final logLikelihood: -8651.237487
+
+
+[00:00:01] Tree #257, final logLikelihood: -8730.341462
+
+
+[00:00:01] Tree #258, final logLikelihood: -8843.692860
+
+
+[00:00:01] Tree #259, final logLikelihood: -8846.866575
+
+
+[00:00:01] Tree #260, final logLikelihood: -9206.439121
+
+
+[00:00:01] Tree #261, final logLikelihood: -8969.990737
+
+
+[00:00:01] Tree #262, final logLikelihood: -9199.253336
+
+
+[00:00:01] Tree #263, final logLikelihood: -8863.557707
+
+
+[00:00:01] Tree #264, final logLikelihood: -9245.246312
+
+
+[00:00:01] Tree #265, final logLikelihood: -9134.085540
+
+
+[00:00:01] Tree #266, final logLikelihood: -8977.436546
+
+
+[00:00:01] Tree #267, final logLikelihood: -9738.437557
+
+
+[00:00:01] Tree #268, final logLikelihood: -9348.915984
+
+
+[00:00:01] Tree #269, final logLikelihood: -8674.630922
+
+
+[00:00:01] Tree #270, final logLikelihood: -9040.739943
+
+
+[00:00:01] Tree #271, final logLikelihood: -9328.499240
+
+
+[00:00:01] Tree #272, final logLikelihood: -9128.926225
+
+
+[00:00:01] Tree #273, final logLikelihood: -9055.123834
+
+
+[00:00:01] Tree #274, final logLikelihood: -9457.330400
+
+
+[00:00:01] Tree #275, final logLikelihood: -9530.224580
+
+
+[00:00:01] Tree #276, final logLikelihood: -9576.989719
+
+
+[00:00:01] Tree #277, final logLikelihood: -9164.136746
+
+
+[00:00:01] Tree #278, final logLikelihood: -9230.166498
+
+
+[00:00:01] Tree #279, final logLikelihood: -8914.120168
+
+
+[00:00:01] Tree #280, final logLikelihood: -8754.908189
+
+
+[00:00:01] Tree #281, final logLikelihood: -9036.815436
+
+
+[00:00:01] Tree #282, final logLikelihood: -9110.659809
+
+
+[00:00:01] Tree #283, final logLikelihood: -9188.374741
+
+
+[00:00:01] Tree #284, final logLikelihood: -8560.285691
+
+
+[00:00:01] Tree #285, final logLikelihood: -9270.385649
+
+
+[00:00:01] Tree #286, final logLikelihood: -8808.861509
+
+
+[00:00:01] Tree #287, final logLikelihood: -9431.198692
+
+
+[00:00:01] Tree #288, final logLikelihood: -8975.921720
+
+
+[00:00:01] Tree #289, final logLikelihood: -8995.656437
+
+
+[00:00:01] Tree #290, final logLikelihood: -8968.307501
+
+
+[00:00:01] Tree #291, final logLikelihood: -9302.944366
+
+
+[00:00:01] Tree #292, final logLikelihood: -9383.481696
+
+
+[00:00:01] Tree #293, final logLikelihood: -8782.363492
+
+
+[00:00:01] Tree #294, final logLikelihood: -8613.609425
+
+
+[00:00:01] Tree #295, final logLikelihood: -9567.682991
+
+
+[00:00:01] Tree #296, final logLikelihood: -8997.880308
+
+
+[00:00:01] Tree #297, final logLikelihood: -9608.870810
+
+
+[00:00:01] Tree #298, final logLikelihood: -9371.963105
+
+
+[00:00:01] Tree #299, final logLikelihood: -8386.352799
+
+
+[00:00:01] Tree #300, final logLikelihood: -9002.033712
+
+
+[00:00:01] Tree #301, final logLikelihood: -8201.349875
+
+
+[00:00:01] Tree #302, final logLikelihood: -9008.592423
+
+
+[00:00:01] Tree #303, final logLikelihood: -8653.200358
+
+
+[00:00:01] Tree #304, final logLikelihood: -8412.320451
+
+
+[00:00:01] Tree #305, final logLikelihood: -9256.942903
+
+
+[00:00:01] Tree #306, final logLikelihood: -8639.406508
+
+
+[00:00:01] Tree #307, final logLikelihood: -9878.420340
+
+
+[00:00:01] Tree #308, final logLikelihood: -8679.197121
+
+
+[00:00:01] Tree #309, final logLikelihood: -8328.229512
+
+
+[00:00:01] Tree #310, final logLikelihood: -8512.349681
+
+
+[00:00:01] Tree #311, final logLikelihood: -9251.163425
+
+
+[00:00:01] Tree #312, final logLikelihood: -9003.247130
+
+
+[00:00:01] Tree #313, final logLikelihood: -8205.552387
+
+
+[00:00:01] Tree #314, final logLikelihood: -9239.416288
+
+
+[00:00:01] Tree #315, final logLikelihood: -8835.024539
+
+
+[00:00:01] Tree #316, final logLikelihood: -9508.436976
+
+
+[00:00:01] Tree #317, final logLikelihood: -8924.115910
+
+
+[00:00:01] Tree #318, final logLikelihood: -9017.955259
+
+
+[00:00:01] Tree #319, final logLikelihood: -9246.229154
+
+
+[00:00:01] Tree #320, final logLikelihood: -8629.912642
+
+
+[00:00:01] Tree #321, final logLikelihood: -8920.695223
+
+
+[00:00:01] Tree #322, final logLikelihood: -9169.923769
+
+
+[00:00:01] Tree #323, final logLikelihood: -9341.551009
+
+
+[00:00:01] Tree #324, final logLikelihood: -9256.127051
+
+
+[00:00:01] Tree #325, final logLikelihood: -9275.694424
+
+
+[00:00:01] Tree #326, final logLikelihood: -9260.123512
+
+
+[00:00:01] Tree #327, final logLikelihood: -9029.245507
+
+
+[00:00:01] Tree #328, final logLikelihood: -8971.753472
+
+
+[00:00:01] Tree #329, final logLikelihood: -8698.440274
+
+
+[00:00:01] Tree #330, final logLikelihood: -9411.240258
+
+
+[00:00:01] Tree #331, final logLikelihood: -8820.354266
+
+
+[00:00:01] Tree #332, final logLikelihood: -8539.789019
+
+
+[00:00:01] Tree #333, final logLikelihood: -9308.590343
+
+
+[00:00:01] Tree #334, final logLikelihood: -8770.173603
+
+
+[00:00:01] Tree #335, final logLikelihood: -8868.274293
+
+
+[00:00:01] Tree #336, final logLikelihood: -9233.107385
+
+
+[00:00:01] Tree #337, final logLikelihood: -9242.393428
+
+
+[00:00:01] Tree #338, final logLikelihood: -9608.174305
+
+
+[00:00:01] Tree #339, final logLikelihood: -8681.720622
+
+
+[00:00:01] Tree #340, final logLikelihood: -9026.801300
+
+
+[00:00:01] Tree #341, final logLikelihood: -9267.661085
+
+
+[00:00:01] Tree #342, final logLikelihood: -9729.353177
+
+
+[00:00:01] Tree #343, final logLikelihood: -9202.191731
+
+
+[00:00:01] Tree #344, final logLikelihood: -8838.810725
+
+
+[00:00:01] Tree #345, final logLikelihood: -7957.044932
+
+
+[00:00:01] Tree #346, final logLikelihood: -8317.427005
+
+
+[00:00:01] Tree #347, final logLikelihood: -9000.547285
+
+
+[00:00:01] Tree #348, final logLikelihood: -8891.079871
+
+
+[00:00:01] Tree #349, final logLikelihood: -9266.400041
+
+
+[00:00:01] Tree #350, final logLikelihood: -9541.776572
+
+
+[00:00:01] Tree #351, final logLikelihood: -8783.779854
+
+
+[00:00:01] Tree #352, final logLikelihood: -9235.318048
+
+
+[00:00:01] Tree #353, final logLikelihood: -9008.923694
+
+
+[00:00:01] Tree #354, final logLikelihood: -8949.509041
+
+
+[00:00:01] Tree #355, final logLikelihood: -8588.687733
+
+
+[00:00:01] Tree #356, final logLikelihood: -8545.640920
+
+
+[00:00:01] Tree #357, final logLikelihood: -8954.746029
+
+
+[00:00:01] Tree #358, final logLikelihood: -9145.635744
+
+
+[00:00:01] Tree #359, final logLikelihood: -8455.330512
+
+
+[00:00:01] Tree #360, final logLikelihood: -8857.483898
+
+
+[00:00:01] Tree #361, final logLikelihood: -9123.506277
+
+
+[00:00:01] Tree #362, final logLikelihood: -8752.420559
+
+
+[00:00:01] Tree #363, final logLikelihood: -8941.800685
+
+
+[00:00:01] Tree #364, final logLikelihood: -8655.948675
+
+
+[00:00:01] Tree #365, final logLikelihood: -9416.286438
+
+
+[00:00:01] Tree #366, final logLikelihood: -8392.051272
+
+
+[00:00:01] Tree #367, final logLikelihood: -8949.233969
+
+
+[00:00:01] Tree #368, final logLikelihood: -9170.866307
+
+
+[00:00:01] Tree #369, final logLikelihood: -9183.368807
+
+
+[00:00:01] Tree #370, final logLikelihood: -9603.646862
+
+
+[00:00:01] Tree #371, final logLikelihood: -9017.804662
+
+
+[00:00:01] Tree #372, final logLikelihood: -9026.894287
+
+
+[00:00:01] Tree #373, final logLikelihood: -8801.048543
+
+
+[00:00:01] Tree #374, final logLikelihood: -8666.068382
+
+
+[00:00:01] Tree #375, final logLikelihood: -8079.347347
+
+
+[00:00:01] Tree #376, final logLikelihood: -9255.036025
+
+
+[00:00:01] Tree #377, final logLikelihood: -9157.662996
+
+
+[00:00:01] Tree #378, final logLikelihood: -9092.750753
+
+
+[00:00:01] Tree #379, final logLikelihood: -9160.739957
+
+
+[00:00:01] Tree #380, final logLikelihood: -9236.059897
+
+
+[00:00:01] Tree #381, final logLikelihood: -8179.748780
+
+
+[00:00:01] Tree #382, final logLikelihood: -9013.277325
+
+
+[00:00:01] Tree #383, final logLikelihood: -9020.274055
+
+
+[00:00:01] Tree #384, final logLikelihood: -8608.906765
+
+
+[00:00:01] Tree #385, final logLikelihood: -9217.101015
+
+
+[00:00:01] Tree #386, final logLikelihood: -8184.163708
+
+
+[00:00:01] Tree #387, final logLikelihood: -8577.256383
+
+
+[00:00:01] Tree #388, final logLikelihood: -9094.089104
+
+
+[00:00:01] Tree #389, final logLikelihood: -8937.639247
+
+
+[00:00:01] Tree #390, final logLikelihood: -9704.286852
+
+
+[00:00:01] Tree #391, final logLikelihood: -8784.368261
+
+
+[00:00:01] Tree #392, final logLikelihood: -9219.406975
+
+
+[00:00:01] Tree #393, final logLikelihood: -9088.700583
+
+
+[00:00:01] Tree #394, final logLikelihood: -8820.703032
+
+
+[00:00:01] Tree #395, final logLikelihood: -9166.116497
+
+
+[00:00:01] Tree #396, final logLikelihood: -9005.858715
+
+
+[00:00:01] Tree #397, final logLikelihood: -8837.966575
+
+
+[00:00:01] Tree #398, final logLikelihood: -9471.108360
+
+
+[00:00:01] Tree #399, final logLikelihood: -9606.816697
+
+
+[00:00:01] Tree #400, final logLikelihood: -9221.489998
+
+
+[00:00:01] Tree #401, final logLikelihood: -9218.227632
+
+
+[00:00:01] Tree #402, final logLikelihood: -9056.613470
+
+
+[00:00:01] Tree #403, final logLikelihood: -8898.824176
+
+
+[00:00:01] Tree #404, final logLikelihood: -9087.449899
+
+
+[00:00:01] Tree #405, final logLikelihood: -9059.500430
+
+
+[00:00:01] Tree #406, final logLikelihood: -9027.328362
+
+
+[00:00:01] Tree #407, final logLikelihood: -8744.421730
+
+
+[00:00:02] Tree #408, final logLikelihood: -8703.403026
+
+
+[00:00:02] Tree #409, final logLikelihood: -9471.081174
+
+
+[00:00:02] Tree #410, final logLikelihood: -9236.767683
+
+
+[00:00:02] Tree #411, final logLikelihood: -8598.347154
+
+
+[00:00:02] Tree #412, final logLikelihood: -8953.867920
+
+
+[00:00:02] Tree #413, final logLikelihood: -8761.596799
+
+
+[00:00:02] Tree #414, final logLikelihood: -8619.406429
+
+
+[00:00:02] Tree #415, final logLikelihood: -9069.607711
+
+
+[00:00:02] Tree #416, final logLikelihood: -8584.831119
+
+
+[00:00:02] Tree #417, final logLikelihood: -9060.999822
+
+
+[00:00:02] Tree #418, final logLikelihood: -9181.802227
+
+
+[00:00:02] Tree #419, final logLikelihood: -9223.072114
+
+
+[00:00:02] Tree #420, final logLikelihood: -9885.006469
+
+
+[00:00:02] Tree #421, final logLikelihood: -8353.784744
+
+
+[00:00:02] Tree #422, final logLikelihood: -8892.046923
+
+
+[00:00:02] Tree #423, final logLikelihood: -9085.742305
+
+
+[00:00:02] Tree #424, final logLikelihood: -8730.915922
+
+
+[00:00:02] Tree #425, final logLikelihood: -9018.539923
+
+
+[00:00:02] Tree #426, final logLikelihood: -9027.939657
+
+
+[00:00:02] Tree #427, final logLikelihood: -8931.077112
+
+
+[00:00:02] Tree #428, final logLikelihood: -9026.295897
+
+
+[00:00:02] Tree #429, final logLikelihood: -9032.528416
+
+
+[00:00:02] Tree #430, final logLikelihood: -9080.999275
+
+
+[00:00:02] Tree #431, final logLikelihood: -9212.765937
+
+
+[00:00:02] Tree #432, final logLikelihood: -8906.475005
+
+
+[00:00:02] Tree #433, final logLikelihood: -8920.254743
+
+
+[00:00:02] Tree #434, final logLikelihood: -8967.943677
+
+
+[00:00:02] Tree #435, final logLikelihood: -9069.356349
+
+
+[00:00:02] Tree #436, final logLikelihood: -9510.195417
+
+
+[00:00:02] Tree #437, final logLikelihood: -9428.067666
+
+
+[00:00:02] Tree #438, final logLikelihood: -8949.101568
+
+
+[00:00:02] Tree #439, final logLikelihood: -9305.705475
+
+
+[00:00:02] Tree #440, final logLikelihood: -9231.684657
+
+
+[00:00:02] Tree #441, final logLikelihood: -9130.044091
+
+
+[00:00:02] Tree #442, final logLikelihood: -9296.455198
+
+
+[00:00:02] Tree #443, final logLikelihood: -8711.624328
+
+
+[00:00:02] Tree #444, final logLikelihood: -8756.612288
+
+
+[00:00:02] Tree #445, final logLikelihood: -8925.267349
+
+
+[00:00:02] Tree #446, final logLikelihood: -9383.403281
+
+
+[00:00:02] Tree #447, final logLikelihood: -8456.386604
+
+
+[00:00:02] Tree #448, final logLikelihood: -8224.983451
+
+
+[00:00:02] Tree #449, final logLikelihood: -8860.352065
+
+
+[00:00:02] Tree #450, final logLikelihood: -9219.537996
+
+
+[00:00:02] Tree #451, final logLikelihood: -9440.738439
+
+
+[00:00:02] Tree #452, final logLikelihood: -9028.787964
+
+
+[00:00:02] Tree #453, final logLikelihood: -9535.752120
+
+
+[00:00:02] Tree #454, final logLikelihood: -8837.294165
+
+
+[00:00:02] Tree #455, final logLikelihood: -8619.228311
+
+
+[00:00:02] Tree #456, final logLikelihood: -9260.309327
+
+
+[00:00:02] Tree #457, final logLikelihood: -8905.133838
+
+
+[00:00:02] Tree #458, final logLikelihood: -8863.326915
+
+
+[00:00:02] Tree #459, final logLikelihood: -9323.271589
+
+
+[00:00:02] Tree #460, final logLikelihood: -9372.810336
+
+
+[00:00:02] Tree #461, final logLikelihood: -9373.298266
+
+
+[00:00:02] Tree #462, final logLikelihood: -8910.951977
+
+
+[00:00:02] Tree #463, final logLikelihood: -10356.942287
+
+
+[00:00:02] Tree #464, final logLikelihood: -8745.037107
+
+
+[00:00:02] Tree #465, final logLikelihood: -9124.787141
+
+
+[00:00:02] Tree #466, final logLikelihood: -8945.562290
+
+
+[00:00:02] Tree #467, final logLikelihood: -8732.360145
+
+
+[00:00:02] Tree #468, final logLikelihood: -9167.213467
+
+
+[00:00:02] Tree #469, final logLikelihood: -8443.777226
+
+
+[00:00:02] Tree #470, final logLikelihood: -9205.748403
+
+
+[00:00:02] Tree #471, final logLikelihood: -8826.494595
+
+
+[00:00:02] Tree #472, final logLikelihood: -8883.457714
+
+
+[00:00:02] Tree #473, final logLikelihood: -9190.366751
+
+
+[00:00:02] Tree #474, final logLikelihood: -8935.574040
+
+
+[00:00:02] Tree #475, final logLikelihood: -8441.844060
+
+
+[00:00:02] Tree #476, final logLikelihood: -9069.143918
+
+
+[00:00:02] Tree #477, final logLikelihood: -9068.480701
+
+
+[00:00:02] Tree #478, final logLikelihood: -8912.303272
+
+
+[00:00:02] Tree #479, final logLikelihood: -8384.634646
+
+
+[00:00:02] Tree #480, final logLikelihood: -8839.727081
+
+
+[00:00:02] Tree #481, final logLikelihood: -8125.457429
+
+
+[00:00:02] Tree #482, final logLikelihood: -9716.837488
+
+
+[00:00:02] Tree #483, final logLikelihood: -9036.476534
+
+
+[00:00:02] Tree #484, final logLikelihood: -8913.556535
+
+
+[00:00:02] Tree #485, final logLikelihood: -9211.387231
+
+
+[00:00:02] Tree #486, final logLikelihood: -8385.000303
+
+
+[00:00:02] Tree #487, final logLikelihood: -8806.793893
+
+
+[00:00:02] Tree #488, final logLikelihood: -9450.623322
+
+
+[00:00:02] Tree #489, final logLikelihood: -9057.113013
+
+
+[00:00:02] Tree #490, final logLikelihood: -9527.706505
+
+
+[00:00:02] Tree #491, final logLikelihood: -8911.311466
+
+
+[00:00:02] Tree #492, final logLikelihood: -8597.041280
+
+
+[00:00:02] Tree #493, final logLikelihood: -9645.035600
+
+
+[00:00:02] Tree #494, final logLikelihood: -9128.062802
+
+
+[00:00:02] Tree #495, final logLikelihood: -8760.271114
+
+
+[00:00:02] Tree #496, final logLikelihood: -9433.934255
+
+
+[00:00:02] Tree #497, final logLikelihood: -8766.714779
+
+
+[00:00:02] Tree #498, final logLikelihood: -9328.895553
+
+
+[00:00:02] Tree #499, final logLikelihood: -9204.909476
+
+
+[00:00:02] Tree #500, final logLikelihood: -9063.645335
+
+
+[00:00:02] Tree #501, final logLikelihood: -8998.894162
+
+
+[00:00:02] Tree #502, final logLikelihood: -9128.720282
+
+
+[00:00:02] Tree #503, final logLikelihood: -8598.946021
+
+
+[00:00:02] Tree #504, final logLikelihood: -9593.244230
+
+
+[00:00:02] Tree #505, final logLikelihood: -9422.727410
+
+
+[00:00:02] Tree #506, final logLikelihood: -8000.753470
+
+
+[00:00:02] Tree #507, final logLikelihood: -8718.078384
+
+
+[00:00:02] Tree #508, final logLikelihood: -8956.779393
+
+
+[00:00:02] Tree #509, final logLikelihood: -8132.276285
+
+
+[00:00:02] Tree #510, final logLikelihood: -9088.330310
+
+
+[00:00:02] Tree #511, final logLikelihood: -9249.179036
+
+
+[00:00:02] Tree #512, final logLikelihood: -9225.949375
+
+
+[00:00:02] Tree #513, final logLikelihood: -9147.290263
+
+
+[00:00:02] Tree #514, final logLikelihood: -9175.876463
+
+
+[00:00:02] Tree #515, final logLikelihood: -8985.075299
+
+
+[00:00:02] Tree #516, final logLikelihood: -9396.793712
+
+
+[00:00:02] Tree #517, final logLikelihood: -8946.925364
+
+
+[00:00:02] Tree #518, final logLikelihood: -8773.954684
+
+
+[00:00:02] Tree #519, final logLikelihood: -8753.691447
+
+
+[00:00:02] Tree #520, final logLikelihood: -8760.105338
+
+
+[00:00:02] Tree #521, final logLikelihood: -9075.398975
+
+
+[00:00:02] Tree #522, final logLikelihood: -9034.358280
+
+
+[00:00:02] Tree #523, final logLikelihood: -8723.031036
+
+
+[00:00:02] Tree #524, final logLikelihood: -9354.400586
+
+
+[00:00:02] Tree #525, final logLikelihood: -8901.573604
+
+
+[00:00:02] Tree #526, final logLikelihood: -9003.667199
+
+
+[00:00:02] Tree #527, final logLikelihood: -9732.118819
+
+
+[00:00:02] Tree #528, final logLikelihood: -8781.368235
+
+
+[00:00:02] Tree #529, final logLikelihood: -9204.261556
+
+
+[00:00:02] Tree #530, final logLikelihood: -8891.613062
+
+
+[00:00:02] Tree #531, final logLikelihood: -8844.678650
+
+
+[00:00:02] Tree #532, final logLikelihood: -9136.620757
+
+
+[00:00:02] Tree #533, final logLikelihood: -8260.775107
+
+
+[00:00:02] Tree #534, final logLikelihood: -9162.139737
+
+
+[00:00:02] Tree #535, final logLikelihood: -9230.120651
+
+
+[00:00:02] Tree #536, final logLikelihood: -9530.712954
+
+
+[00:00:02] Tree #537, final logLikelihood: -9326.793371
+
+
+[00:00:02] Tree #538, final logLikelihood: -9183.928987
+
+
+[00:00:02] Tree #539, final logLikelihood: -10015.087006
+
+
+[00:00:02] Tree #540, final logLikelihood: -9412.588792
+
+
+[00:00:02] Tree #541, final logLikelihood: -8683.574848
+
+
+[00:00:02] Tree #542, final logLikelihood: -8790.386317
+
+
+[00:00:02] Tree #543, final logLikelihood: -9000.271710
+
+
+[00:00:02] Tree #544, final logLikelihood: -8893.420993
+
+
+[00:00:02] Tree #545, final logLikelihood: -9216.636600
+
+
+[00:00:02] Tree #546, final logLikelihood: -9410.880770
+
+
+[00:00:02] Tree #547, final logLikelihood: -8781.993345
+
+
+[00:00:02] Tree #548, final logLikelihood: -8819.327775
+
+
+[00:00:02] Tree #549, final logLikelihood: -9346.277299
+
+
+[00:00:02] Tree #550, final logLikelihood: -9234.592070
+
+
+[00:00:02] Tree #551, final logLikelihood: -9532.329230
+
+
+[00:00:02] Tree #552, final logLikelihood: -8388.987256
+
+
+[00:00:02] Tree #553, final logLikelihood: -9156.972541
+
+
+[00:00:02] Tree #554, final logLikelihood: -9605.653303
+
+
+[00:00:02] Tree #555, final logLikelihood: -9075.296373
+
+
+[00:00:02] Tree #556, final logLikelihood: -8232.413529
+
+
+[00:00:02] Tree #557, final logLikelihood: -9565.019603
+
+
+[00:00:02] Tree #558, final logLikelihood: -8346.764168
+
+
+[00:00:02] Tree #559, final logLikelihood: -9279.273792
+
+
+[00:00:02] Tree #560, final logLikelihood: -9334.404811
+
+
+[00:00:02] Tree #561, final logLikelihood: -9465.545821
+
+
+[00:00:02] Tree #562, final logLikelihood: -9354.688496
+
+
+[00:00:02] Tree #563, final logLikelihood: -7776.659938
+
+
+[00:00:02] Tree #564, final logLikelihood: -8750.163017
+
+
+[00:00:02] Tree #565, final logLikelihood: -8959.201671
+
+
+[00:00:02] Tree #566, final logLikelihood: -9063.584406
+
+
+[00:00:03] Tree #567, final logLikelihood: -8480.174171
+
+
+[00:00:03] Tree #568, final logLikelihood: -8648.570291
+
+
+[00:00:03] Tree #569, final logLikelihood: -8983.427838
+
+
+[00:00:03] Tree #570, final logLikelihood: -9121.125128
+
+
+[00:00:03] Tree #571, final logLikelihood: -8604.543253
+
+
+[00:00:03] Tree #572, final logLikelihood: -8328.939390
+
+
+[00:00:03] Tree #573, final logLikelihood: -8712.643497
+
+
+[00:00:03] Tree #574, final logLikelihood: -8970.839423
+
+
+[00:00:03] Tree #575, final logLikelihood: -9029.007410
+
+
+[00:00:03] Tree #576, final logLikelihood: -9369.907834
+
+
+[00:00:03] Tree #577, final logLikelihood: -9505.894348
+
+
+[00:00:03] Tree #578, final logLikelihood: -9061.776900
+
+
+[00:00:03] Tree #579, final logLikelihood: -9333.639934
+
+
+[00:00:03] Tree #580, final logLikelihood: -9184.354662
+
+
+[00:00:03] Tree #581, final logLikelihood: -9220.113468
+
+
+[00:00:03] Tree #582, final logLikelihood: -9118.524459
+
+
+[00:00:03] Tree #583, final logLikelihood: -8923.192269
+
+
+[00:00:03] Tree #584, final logLikelihood: -9054.994551
+
+
+[00:00:03] Tree #585, final logLikelihood: -9554.382163
+
+
+[00:00:03] Tree #586, final logLikelihood: -9059.355917
+
+
+[00:00:03] Tree #587, final logLikelihood: -9067.093447
+
+
+[00:00:03] Tree #588, final logLikelihood: -9664.866239
+
+
+[00:00:03] Tree #589, final logLikelihood: -8695.160353
+
+
+[00:00:03] Tree #590, final logLikelihood: -9074.953728
+
+
+[00:00:03] Tree #591, final logLikelihood: -9458.244150
+
+
+[00:00:03] Tree #592, final logLikelihood: -9337.039275
+
+
+[00:00:03] Tree #593, final logLikelihood: -9397.399596
+
+
+[00:00:03] Tree #594, final logLikelihood: -9479.259259
+
+
+[00:00:03] Tree #595, final logLikelihood: -9469.892255
+
+
+[00:00:03] Tree #596, final logLikelihood: -8776.798909
+
+
+[00:00:03] Tree #597, final logLikelihood: -9336.451283
+
+
+[00:00:03] Tree #598, final logLikelihood: -9485.652538
+
+
+[00:00:03] Tree #599, final logLikelihood: -9133.636930
+
+
+[00:00:03] Tree #600, final logLikelihood: -8996.513385
+
+
+[00:00:03] Tree #601, final logLikelihood: -8789.585305
+
+
+[00:00:03] Tree #602, final logLikelihood: -9223.334190
+
+
+[00:00:03] Tree #603, final logLikelihood: -8210.784614
+
+
+[00:00:03] Tree #604, final logLikelihood: -9937.878903
+
+
+[00:00:03] Tree #605, final logLikelihood: -9031.593834
+
+
+[00:00:03] Tree #606, final logLikelihood: -9147.045905
+
+
+[00:00:03] Tree #607, final logLikelihood: -8928.749057
+
+
+[00:00:03] Tree #608, final logLikelihood: -9018.653529
+
+
+[00:00:03] Tree #609, final logLikelihood: -8232.644454
+
+
+[00:00:03] Tree #610, final logLikelihood: -9135.612600
+
+
+[00:00:03] Tree #611, final logLikelihood: -8666.531769
+
+
+[00:00:03] Tree #612, final logLikelihood: -9482.158799
+
+
+[00:00:03] Tree #613, final logLikelihood: -9610.974139
+
+
+[00:00:03] Tree #614, final logLikelihood: -9267.013201
+
+
+[00:00:03] Tree #615, final logLikelihood: -8767.394709
+
+
+[00:00:03] Tree #616, final logLikelihood: -9004.836102
+
+
+[00:00:03] Tree #617, final logLikelihood: -9477.766075
+
+
+[00:00:03] Tree #618, final logLikelihood: -8636.566994
+
+
+[00:00:03] Tree #619, final logLikelihood: -8664.402763
+
+
+[00:00:03] Tree #620, final logLikelihood: -8659.946282
+
+
+[00:00:03] Tree #621, final logLikelihood: -9285.056963
+
+
+[00:00:03] Tree #622, final logLikelihood: -9011.869281
+
+
+[00:00:03] Tree #623, final logLikelihood: -8799.776874
+
+
+[00:00:03] Tree #624, final logLikelihood: -8789.333723
+
+
+[00:00:03] Tree #625, final logLikelihood: -8941.927686
+
+
+[00:00:03] Tree #626, final logLikelihood: -8932.223449
+
+
+[00:00:03] Tree #627, final logLikelihood: -9158.487255
+
+
+[00:00:03] Tree #628, final logLikelihood: -9068.184078
+
+
+[00:00:03] Tree #629, final logLikelihood: -9199.661243
+
+
+[00:00:03] Tree #630, final logLikelihood: -9777.174071
+
+
+[00:00:03] Tree #631, final logLikelihood: -9045.910159
+
+
+[00:00:03] Tree #632, final logLikelihood: -8764.109429
+
+
+[00:00:03] Tree #633, final logLikelihood: -8791.765016
+
+
+[00:00:03] Tree #634, final logLikelihood: -8792.597115
+
+
+[00:00:03] Tree #635, final logLikelihood: -8974.643899
+
+
+[00:00:03] Tree #636, final logLikelihood: -8845.218808
+
+
+[00:00:03] Tree #637, final logLikelihood: -9014.714082
+
+
+[00:00:03] Tree #638, final logLikelihood: -8825.568509
+
+
+[00:00:03] Tree #639, final logLikelihood: -8822.418133
+
+
+[00:00:03] Tree #640, final logLikelihood: -8919.247815
+
+
+[00:00:03] Tree #641, final logLikelihood: -9358.965796
+
+
+[00:00:03] Tree #642, final logLikelihood: -9602.569458
+
+
+[00:00:03] Tree #643, final logLikelihood: -9421.452212
+
+
+[00:00:03] Tree #644, final logLikelihood: -9445.154688
+
+
+[00:00:03] Tree #645, final logLikelihood: -9493.938937
+
+
+[00:00:03] Tree #646, final logLikelihood: -9170.804583
+
+
+[00:00:03] Tree #647, final logLikelihood: -9340.964222
+
+
+[00:00:03] Tree #648, final logLikelihood: -8681.304347
+
+
+[00:00:03] Tree #649, final logLikelihood: -9121.911399
+
+
+[00:00:03] Tree #650, final logLikelihood: -9055.586510
+
+
+[00:00:03] Tree #651, final logLikelihood: -9205.182699
+
+
+[00:00:03] Tree #652, final logLikelihood: -8885.336543
+
+
+[00:00:03] Tree #653, final logLikelihood: -9088.732758
+
+
+[00:00:03] Tree #654, final logLikelihood: -8409.142985
+
+
+[00:00:03] Tree #655, final logLikelihood: -8998.613567
+
+
+[00:00:03] Tree #656, final logLikelihood: -8264.491175
+
+
+[00:00:03] Tree #657, final logLikelihood: -8401.714983
+
+
+[00:00:03] Tree #658, final logLikelihood: -9130.572998
+
+
+[00:00:03] Tree #659, final logLikelihood: -9608.155382
+
+
+[00:00:03] Tree #660, final logLikelihood: -8967.945126
+
+
+[00:00:03] Tree #661, final logLikelihood: -8986.714614
+
+
+[00:00:03] Tree #662, final logLikelihood: -9045.943438
+
+
+[00:00:03] Tree #663, final logLikelihood: -8803.169987
+
+
+[00:00:03] Tree #664, final logLikelihood: -9413.119465
+
+
+[00:00:03] Tree #665, final logLikelihood: -8944.723680
+
+
+[00:00:03] Tree #666, final logLikelihood: -9107.322114
+
+
+[00:00:03] Tree #667, final logLikelihood: -9110.090463
+
+
+[00:00:03] Tree #668, final logLikelihood: -9173.904240
+
+
+[00:00:03] Tree #669, final logLikelihood: -8813.449914
+
+
+[00:00:03] Tree #670, final logLikelihood: -8530.514656
+
+
+[00:00:03] Tree #671, final logLikelihood: -9412.788696
+
+
+[00:00:03] Tree #672, final logLikelihood: -8222.551335
+
+
+[00:00:03] Tree #673, final logLikelihood: -9079.386125
+
+
+[00:00:03] Tree #674, final logLikelihood: -9767.971231
+
+
+[00:00:03] Tree #675, final logLikelihood: -10100.669915
+
+
+[00:00:03] Tree #676, final logLikelihood: -8996.871079
+
+
+[00:00:03] Tree #677, final logLikelihood: -8666.049230
+
+
+[00:00:03] Tree #678, final logLikelihood: -9407.974883
+
+
+[00:00:03] Tree #679, final logLikelihood: -8982.499529
+
+
+[00:00:03] Tree #680, final logLikelihood: -8793.531718
+
+
+[00:00:03] Tree #681, final logLikelihood: -8679.184870
+
+
+[00:00:03] Tree #682, final logLikelihood: -8916.684084
+
+
+[00:00:03] Tree #683, final logLikelihood: -9150.829335
+
+
+[00:00:04] Tree #684, final logLikelihood: -8766.729552
+
+
+[00:00:04] Tree #685, final logLikelihood: -8845.590789
+
+
+[00:00:04] Tree #686, final logLikelihood: -9211.743200
+
+
+[00:00:04] Tree #687, final logLikelihood: -8846.589475
+
+
+[00:00:04] Tree #688, final logLikelihood: -8645.954317
+
+
+[00:00:04] Tree #689, final logLikelihood: -8833.036662
+
+
+[00:00:04] Tree #690, final logLikelihood: -9165.821955
+
+
+[00:00:04] Tree #691, final logLikelihood: -8766.084869
+
+
+[00:00:04] Tree #692, final logLikelihood: -8874.453692
+
+
+[00:00:04] Tree #693, final logLikelihood: -8736.880293
+
+
+[00:00:04] Tree #694, final logLikelihood: -9174.608475
+
+
+[00:00:04] Tree #695, final logLikelihood: -8556.553330
+
+
+[00:00:04] Tree #696, final logLikelihood: -9022.179930
+
+
+[00:00:04] Tree #697, final logLikelihood: -8682.391439
+
+
+[00:00:04] Tree #698, final logLikelihood: -8989.219642
+
+
+[00:00:04] Tree #699, final logLikelihood: -8931.905276
+
+
+[00:00:04] Tree #700, final logLikelihood: -9335.647234
+
+
+[00:00:04] Tree #701, final logLikelihood: -9259.100516
+
+
+[00:00:04] Tree #702, final logLikelihood: -8930.814877
+
+
+[00:00:04] Tree #703, final logLikelihood: -9192.947165
+
+
+[00:00:04] Tree #704, final logLikelihood: -9038.664822
+
+
+[00:00:04] Tree #705, final logLikelihood: -9124.456273
+
+
+[00:00:04] Tree #706, final logLikelihood: -9351.593817
+
+
+[00:00:04] Tree #707, final logLikelihood: -9095.529079
+
+
+[00:00:04] Tree #708, final logLikelihood: -8745.925877
+
+
+[00:00:04] Tree #709, final logLikelihood: -9140.600937
+
+
+[00:00:04] Tree #710, final logLikelihood: -8684.017660
+
+
+[00:00:04] Tree #711, final logLikelihood: -8945.012688
+
+
+[00:00:04] Tree #712, final logLikelihood: -8794.450347
+
+
+[00:00:04] Tree #713, final logLikelihood: -9283.306907
+
+
+[00:00:04] Tree #714, final logLikelihood: -8414.420324
+
+
+[00:00:04] Tree #715, final logLikelihood: -9026.467563
+
+
+[00:00:04] Tree #716, final logLikelihood: -8480.481586
+
+
+[00:00:04] Tree #717, final logLikelihood: -8645.081498
+
+
+[00:00:04] Tree #718, final logLikelihood: -9001.647249
+
+
+[00:00:04] Tree #719, final logLikelihood: -8957.208810
+
+
+[00:00:04] Tree #720, final logLikelihood: -9036.891636
+
+
+[00:00:04] Tree #721, final logLikelihood: -8929.835219
+
+
+[00:00:04] Tree #722, final logLikelihood: -8064.504682
+
+
+[00:00:04] Tree #723, final logLikelihood: -8714.287059
+
+
+[00:00:04] Tree #724, final logLikelihood: -8074.690583
+
+
+[00:00:04] Tree #725, final logLikelihood: -8817.720999
+
+
+[00:00:04] Tree #726, final logLikelihood: -9044.122169
+
+
+[00:00:04] Tree #727, final logLikelihood: -9413.213861
+
+
+[00:00:04] Tree #728, final logLikelihood: -9000.814770
+
+
+[00:00:04] Tree #729, final logLikelihood: -8896.001979
+
+
+[00:00:04] Tree #730, final logLikelihood: -9248.694188
+
+
+[00:00:04] Tree #731, final logLikelihood: -9192.595691
+
+
+[00:00:04] Tree #732, final logLikelihood: -9019.846059
+
+
+[00:00:04] Tree #733, final logLikelihood: -8814.447513
+
+
+[00:00:04] Tree #734, final logLikelihood: -9381.908982
+
+
+[00:00:04] Tree #735, final logLikelihood: -8952.842849
+
+
+[00:00:04] Tree #736, final logLikelihood: -8693.140535
+
+
+[00:00:04] Tree #737, final logLikelihood: -8950.522198
+
+
+[00:00:04] Tree #738, final logLikelihood: -9125.005843
+
+
+[00:00:04] Tree #739, final logLikelihood: -8490.955105
+
+
+[00:00:04] Tree #740, final logLikelihood: -8618.804934
+
+
+[00:00:04] Tree #741, final logLikelihood: -8995.576626
+
+
+[00:00:04] Tree #742, final logLikelihood: -9264.598709
+
+
+[00:00:04] Tree #743, final logLikelihood: -9025.449566
+
+
+[00:00:04] Tree #744, final logLikelihood: -9512.410372
+
+
+[00:00:04] Tree #745, final logLikelihood: -9158.328105
+
+
+[00:00:04] Tree #746, final logLikelihood: -8865.649578
+
+
+[00:00:04] Tree #747, final logLikelihood: -8825.391456
+
+
+[00:00:04] Tree #748, final logLikelihood: -8843.829577
+
+
+[00:00:04] Tree #749, final logLikelihood: -9007.363277
+
+
+[00:00:04] Tree #750, final logLikelihood: -9276.955235
+
+
+[00:00:04] Tree #751, final logLikelihood: -8832.643927
+
+
+[00:00:04] Tree #752, final logLikelihood: -8732.473893
+
+
+[00:00:04] Tree #753, final logLikelihood: -9078.473829
+
+
+[00:00:04] Tree #754, final logLikelihood: -8759.239665
+
+
+[00:00:04] Tree #755, final logLikelihood: -8872.345380
+
+
+[00:00:04] Tree #756, final logLikelihood: -9293.303647
+
+
+[00:00:04] Tree #757, final logLikelihood: -8912.929472
+
+
+[00:00:04] Tree #758, final logLikelihood: -9263.894295
+
+
+[00:00:04] Tree #759, final logLikelihood: -8796.588909
+
+
+[00:00:04] Tree #760, final logLikelihood: -8789.040097
+
+
+[00:00:04] Tree #761, final logLikelihood: -9245.651307
+
+
+[00:00:04] Tree #762, final logLikelihood: -9601.084215
+
+
+[00:00:04] Tree #763, final logLikelihood: -9089.005615
+
+
+[00:00:04] Tree #764, final logLikelihood: -8384.574983
+
+
+[00:00:04] Tree #765, final logLikelihood: -8827.144070
+
+
+[00:00:04] Tree #766, final logLikelihood: -8608.380826
+
+
+[00:00:04] Tree #767, final logLikelihood: -9005.387430
+
+
+[00:00:04] Tree #768, final logLikelihood: -9155.903084
+
+
+[00:00:04] Tree #769, final logLikelihood: -9075.349718
+
+
+[00:00:04] Tree #770, final logLikelihood: -9325.894275
+
+
+[00:00:04] Tree #771, final logLikelihood: -9149.062398
+
+
+[00:00:04] Tree #772, final logLikelihood: -9199.624070
+
+
+[00:00:04] Tree #773, final logLikelihood: -9748.384582
+
+
+[00:00:04] Tree #774, final logLikelihood: -8884.300322
+
+
+[00:00:04] Tree #775, final logLikelihood: -9050.701760
+
+
+[00:00:04] Tree #776, final logLikelihood: -8667.610893
+
+
+[00:00:04] Tree #777, final logLikelihood: -8900.461336
+
+
+[00:00:04] Tree #778, final logLikelihood: -9595.556014
+
+
+[00:00:04] Tree #779, final logLikelihood: -8826.881950
+
+
+[00:00:04] Tree #780, final logLikelihood: -8852.206135
+
+
+[00:00:04] Tree #781, final logLikelihood: -9456.099357
+
+
+[00:00:04] Tree #782, final logLikelihood: -8752.074149
+
+
+[00:00:04] Tree #783, final logLikelihood: -9181.094524
+
+
+[00:00:04] Tree #784, final logLikelihood: -9082.198213
+
+
+[00:00:04] Tree #785, final logLikelihood: -9168.181682
+
+
+[00:00:04] Tree #786, final logLikelihood: -9410.076694
+
+
+[00:00:04] Tree #787, final logLikelihood: -9018.182671
+
+
+[00:00:04] Tree #788, final logLikelihood: -8999.307909
+
+
+[00:00:04] Tree #789, final logLikelihood: -8737.092343
+
+
+[00:00:04] Tree #790, final logLikelihood: -9168.696043
+
+
+[00:00:04] Tree #791, final logLikelihood: -8644.757473
+
+
+[00:00:04] Tree #792, final logLikelihood: -9428.882114
+
+
+[00:00:04] Tree #793, final logLikelihood: -9334.023518
+
+
+[00:00:04] Tree #794, final logLikelihood: -9106.071510
+
+
+[00:00:04] Tree #795, final logLikelihood: -9055.204518
+
+
+[00:00:04] Tree #796, final logLikelihood: -8977.444051
+
+
+[00:00:04] Tree #797, final logLikelihood: -8750.380466
+
+
+[00:00:04] Tree #798, final logLikelihood: -9026.399245
+
+
+[00:00:04] Tree #799, final logLikelihood: -8993.605307
+
+
+[00:00:04] Tree #800, final logLikelihood: -8745.243350
+
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 2.368263 (user),  weights&rates: (0.250000,0.333600) (0.250000,0.689216) (0.250000,1.076965) (0.250000,1.900219) 
+   Base frequencies (model): 0.086628 0.043972 0.039089 0.057045 0.019308 0.036728 0.058059 0.083252 0.024431 0.048466 0.086209 0.062029 0.019503 0.038432 0.045763 0.069518 0.061013 0.014386 0.035274 0.070896 
+   Substitution rates (model): 0.551571 0.509848 0.738998 1.027040 0.908598 1.582850 1.416720 0.316954 0.193335 0.397915 0.906265 0.893496 0.210494 1.438550 3.370790 2.121110 0.113133 0.240735 2.006010 0.635346 0.147304 0.528191 3.035500 0.439157 0.584665 2.137150 0.186979 0.497671 5.351420 0.683162 0.102711 0.679489 1.224190 0.554413 1.163920 0.381533 0.251849 5.429420 0.265256 1.543640 0.947198 1.125560 3.956290 0.554236 0.131528 3.012010 0.198221 0.096162 0.195081 3.974230 2.030060 0.071917 1.086000 0.196246 0.030295 0.616783 6.174160 0.865584 0.930676 0.039437 0.084805 0.479855 0.103754 0.046730 0.423984 1.071760 0.374866 0.129767 0.325711 0.152335 0.098818 0.021352 0.306674 0.248972 0.170135 0.384287 0.074034 0.390482 0.398020 0.109404 1.407660 0.512984 0.717070 0.543833 1.002140 5.469470 0.330052 4.294110 0.113917 0.869489 3.894900 1.545260 0.099921 0.933372 1.028870 0.857928 0.215737 0.227710 0.301281 0.567717 0.570025 0.127395 0.154263 2.584430 0.315124 0.081134 0.682355 0.704939 0.822765 0.156557 0.196303 0.588731 0.249410 0.030450 0.061304 0.373558 0.174100 0.049931 0.243570 1.341820 0.225833 0.336983 0.103604 0.187247 0.138190 0.499462 0.890432 0.404141 0.679371 0.696198 0.740169 0.473307 0.262569 3.873440 0.118358 3.170970 0.323832 4.257460 1.059470 0.099929 0.319440 1.458160 0.212483 0.420170 7.821300 0.257555 4.854020 2.115170 0.415844 0.344739 0.326622 0.665309 0.398618 1.800340 0.934276 0.088836 0.556896 0.967130 1.386980 0.137505 0.133264 0.305434 1.190630 0.171329 0.493905 1.516120 0.515706 0.428437 2.058450 0.161444 0.545931 0.171903 1.529640 6.454280 0.649892 1.613280 0.795384 0.139405 0.216046 0.314887 4.378020 0.523742 0.786993 0.232739 0.110864 0.291148 1.388230 2.485390 0.365369 0.314730 
+
+
+Final LogLikelihood: -7776.659938
+
+AIC score: 15587.319877 / AICc score: 15587.943095 / BIC score: 15670.751717
+Free parameters (model + branch lengths): 17
+
+Best ML tree saved to: /Users/noa/Workspace/lasso_positions_sampling/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.bestTree
+All ML trees saved to: /Users/noa/Workspace/lasso_positions_sampling/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.mlTrees
+Optimized model saved to: /Users/noa/Workspace/lasso_positions_sampling/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.bestModel
+Per-site LogLikelihoods saved to: /Users/noa/Workspace/lasso_positions_sampling/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.siteLH
+
+Execution log saved to: /Users/noa/Workspace/lasso_positions_sampling/example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/raxml_training_per_site_ll_eval/sitelh_eval_w_brlen.raxml.log
+
+Analysis started: 16-Mar-2022 11:19:10 / finished: 16-Mar-2022 11:19:15
+
+Elapsed time: 5.381 seconds
+

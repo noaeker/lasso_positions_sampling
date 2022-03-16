@@ -1,0 +1,85 @@
+Lasso_folder	MSA_original_n_loci	MSA_original_n_seq	RAxML_baseline_run_prefix	actual_n_loci	actual_n_seq	actual_sample_pct	actual_training_size	alpha	alternative_files_folder	alternative_training	alternative_training_prefix	avg_entropy	brlen_generator	compare_lasso_to_naive	compare_loci_gene_distribution	compute_all_true_ll	compute_per_site_ll_values	const_brlen	constant_sites_pct	curr_job_folder	curr_msa_version_folder	dataset_id	divergence	do_partitioned_lasso_analysis	do_raxml_lasso_nni_optimization	evo_model	exp_brlen	file_ind	file_name	file_type	file_type_biopython	first_msa_ind	full_data_unique_name	full_size_training_evaluation_time	full_training_random_trees_generation_time	gap_pct	greedy_SPR	job_ind	jobs_prefix	lambds	lasso_avg_entropy	lasso_baseline_run_prefix	lasso_brlen_generator	lasso_constant_sites_pct	lasso_gap_positions_pct	lasso_intercept	lasso_mean_rate4site	lasso_running_time	lasso_test_R^2	lasso_test_R^2_no_opt	lasso_test_mse	lasso_test_mse_no_opt	lasso_test_spearmanr	lasso_test_spearmanr_no_opt	lasso_threshold	lasso_thresholds	lasso_thresholds_search	lasso_training_size	local_alignment_path	local_binary_msa	loci_shift	logging_level	mad	max_n_loci	max_n_seq	min_n_loci	min_n_seq	msa_baseline_run_prefix	msa_corrected_model_partition_optimized	msa_orig_model_file	n_MSAs	n_cpus_Lasso	n_cpus_full	n_cpus_nni	n_cpus_per_job	n_cpus_training	n_jobs	n_loci	n_nodes_Lasso	n_nodes_full	n_nodes_training	n_partitions	n_random_starting_trees	n_raxml_parsimony_trees	n_raxml_random_trees	n_seq	n_seq_before_reduction_by_RaxML	no_test_set	number_loci_chosen	only_evaluate_lasso	only_full_search	opt_brlen	optimized_neighbours_per_iter	optimized_test_topologies_path	pars_optimized_model	parsimony_optimized_tree_path	partition_ind_to_name_optimized	queue	random_lasso	random_trees_folder	random_trees_test_size	random_trees_training_size	raxml_parsimony_tree_path	rearr_dist	relaxed_lasso	run_prefix	run_raxml_commands_locally	sample_pct	sampled_alignment_path	search_epsilon	spr_baseline_run_prefix	start_of_starting_tree_ind	test_ll_values	test_set_baseline_run_prefix	top_ind_to_test_per_phase	training_set_baseline_run_prefix	uni_brlen	use_glmnet_lasso	use_modified_final_search	use_parsimony_training_trees	use_raxml_search	use_raxml_standard_starting_trees	use_spr_neighbours_training	use_spr_parsimony_starting_tree	weights_file_path
+../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder	1576.0	33.0	x	1000.0	10.0	0.1	800.0	2.368263	../example_files	0.0	x	0.3604690291333985	exponential	0.0	0.0	0.0	0.0	0.0	0.5670000000000001	../example_results/example_run/job_0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000	../example_files/example_msa.phy	3.280896	0.0	0.0	WAG	1.0	0.0	0	.phy	phylip-relaxed	0.0	0	5.381	0.038	0.5271999999999961	0.0	0.0	example_run	[2.296326437263358, 2.296326437263358]	1.0369137749788029	x	exponential	0.10784313725490197	0.1343137254901961	-26470.946616294932	-1.0	14.18533992767334	0.9728120873496934	0.9836280379590928	59258732.0306093	59998987.78573589	0.9724137931034482	0.9830923248053391	0.1	0.1_0.05_0.025_0.1	0.05	800.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/0.phy	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_PARSE.raxml.rba	0.0	20	-1.0	1000	10	100.0	7.0	x	"[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1]"	msa.raxml.model	1.0	1.0	1.0	2.0	1.0	1.0	1.0	1000.0	1.0	1.0	1.0	1.0	3.0	1.0	1.0	10.0	10.0	0.0	204.0	1.0	0.0	0.0	-1.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.mlTrees	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestModel	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestTree	{1: 'WAG+G4m{2.368263}, noname '}	pupkolab	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation	30.0	800	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars.raxml.startTree	5.0	0.0	example_run	0.0	0.204	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.1_outputs/0_sampled_t_0.1.phy	0.1	x	0.0	[-8178.030182, -8021.564378, -8175.733001, -7752.735581, -8049.327824, -8121.805133, -8007.984739, -8139.367507, -8058.966334, -7977.844041, -7858.079341, -8175.091173, -8191.344141, -8177.74183, -8164.899945, -8088.107619, -7985.152541, -8164.458456, -8017.565365, -8196.476543, -8124.579604, -8029.229159, -8091.691798, -8067.923097, -8039.653276, -8127.830609, -8005.962245, -8075.100918, -7990.549332, -8171.503687]	x	5_10	x	0.0	0.0	0.0	0.0	0.0	1.0	0.0	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.1_outputs/0_weights_t_0.1.txt
+../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder	1576.0	33.0	x	1000.0	10.0	0.05	800.0	2.368263	../example_files	0.0	x	0.3604690291333985	exponential	0.0	0.0	0.0	0.0	0.0	0.5670000000000001	../example_results/example_run/job_0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000	../example_files/example_msa.phy	3.280896	0.0	0.0	WAG	1.0	0.0	0	.phy	phylip-relaxed	0.0	0	5.381	0.038	0.5271999999999961	0.0	0.0	example_run	[6.09924459567269]	1.1602548161824269	x	exponential	0.054545454545454536	0.09636363636363636	-22152.706293859428	-1.0	7.09266996383667	0.8514661628298789	0.9438394445813358	61069.579372364446	27370.07073623061	0.9061179087875416	0.9345939933259176	0.05	0.1_0.05_0.025_0.1	0.05	800.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/0.phy	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_PARSE.raxml.rba	0.0	20	-1.0	1000	10	100.0	7.0	x	"[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1]"	msa.raxml.model	1.0	1.0	1.0	2.0	1.0	1.0	1.0	1000.0	1.0	1.0	1.0	1.0	3.0	1.0	1.0	10.0	10.0	0.0	55.0	1.0	0.0	0.0	-1.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.mlTrees	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestModel	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestTree	{1: 'WAG+G4m{2.368263}, noname '}	pupkolab	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation	30.0	800	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars.raxml.startTree	5.0	0.0	example_run	0.0	0.055	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.05_outputs/0_sampled_t_0.05.phy	0.1	x	0.0	[-8178.030182, -8021.564378, -8175.733001, -7752.735581, -8049.327824, -8121.805133, -8007.984739, -8139.367507, -8058.966334, -7977.844041, -7858.079341, -8175.091173, -8191.344141, -8177.74183, -8164.899945, -8088.107619, -7985.152541, -8164.458456, -8017.565365, -8196.476543, -8124.579604, -8029.229159, -8091.691798, -8067.923097, -8039.653276, -8127.830609, -8005.962245, -8075.100918, -7990.549332, -8171.503687]	x	5_10	x	0.0	0.0	0.0	0.0	0.0	1.0	0.0	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.05_outputs/0_weights_t_0.05.txt
+../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder	1576.0	33.0	x	1000.0	10.0	0.025	800.0	2.368263	../example_files	0.0	x	0.3604690291333985	exponential	0.0	0.0	0.0	0.0	0.0	0.5670000000000001	../example_results/example_run/job_0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000	../example_files/example_msa.phy	3.280896	0.0	0.0	WAG	1.0	0.0	0	.phy	phylip-relaxed	0.0	0	5.381	0.038	0.5271999999999961	0.0	0.0	example_run	[19.06450550381944]	1.1902070769701831	x	exponential	0.1111111111111111	0.1074074074074074	-35397.699644587105	-1.0	7.09266996383667	0.7035170450058829	0.8995612723215878	53574.91581664594	6168.828621642903	0.7397107897664071	0.9092324805339266	0.025	0.1_0.05_0.025_0.1	0.05	800.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/0.phy	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0_PARSE.raxml.rba	0.0	20	-1.0	1000	10	100.0	7.0	x	"[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1]"	msa.raxml.model	1.0	1.0	1.0	2.0	1.0	1.0	1.0	1000.0	1.0	1.0	1.0	1.0	3.0	1.0	1.0	10.0	10.0	0.0	27.0	1.0	0.0	0.0	-1.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/test_30_random_trees_eval/test_opt/test_opt.raxml.mlTrees	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestModel	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars_eval.raxml.bestTree	{1: 'WAG+G4m{2.368263}, noname '}	pupkolab	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/random_tree_generation	30.0	800	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/raxml_full_data_results_0/0pars.raxml.startTree	5.0	0.0	example_run	0.0	0.027000000000000003	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.025_outputs/0_sampled_t_0.025.phy	0.1	x	0.0	[-8178.030182, -8021.564378, -8175.733001, -7752.735581, -8049.327824, -8121.805133, -8007.984739, -8139.367507, -8058.966334, -7977.844041, -7858.079341, -8175.091173, -8191.344141, -8177.74183, -8164.899945, -8088.107619, -7985.152541, -8164.458456, -8017.565365, -8196.476543, -8124.579604, -8029.229159, -8091.691798, -8067.923097, -8039.653276, -8127.830609, -8005.962245, -8075.100918, -7990.549332, -8171.503687]	x	5_10	x	0.0	0.0	0.0	0.0	0.0	1.0	0.0	0.0	../example_results/example_run/job_0/example_msa.phy/n_seq_10/n_loci_1000/Lasso_folder/exponential/training_800_random_tree_eval/trimmed_800/threshold_0.025_outputs/0_weights_t_0.025.txt
