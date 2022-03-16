@@ -65,7 +65,7 @@ def main_parser():
     parser.add_argument('--n_cpus_training', action='store', type=int,
                         default=CPUS_PER_NODE)  # for running in a cluster
     parser.add_argument('--n_nodes_training', action='store', type=int, default=N_NODES)  # for running in a cluster
-    parser.add_argument('--alternative_files_folder', action='store', type=str, default=ALTERNATIVER_FILES_FOLDER)
+    parser.add_argument('--alternative_files_folder', action='store', type=str, default=INPUT_FILES_FOLDER)
     parser.add_argument('--only_full_search', action='store_true')  # CHANGE
     parser.add_argument('--use_parsimony_training_trees', action='store_true', default=False)
     parser.add_argument('--no_test_set', action='store_true')

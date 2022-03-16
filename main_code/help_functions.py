@@ -4,7 +4,7 @@ import shutil
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
-from config import SEED,MSAs_FOLDER,MODULE_LOAD_STR
+from config import SEED,CSV_MSAs_FOLDER,MODULE_LOAD_STR
 import logging
 import subprocess
 import sys
@@ -183,7 +183,7 @@ def extract_alignment_files_from_dir(path):
 def extract_dir_list_from_csv(dir_list_csv_path):
     df = pd.read_csv(dir_list_csv_path)
     df.sort_values(by='nchars', ascending=False, inplace=True)
-    dir_list = [os.path.join(MSAs_FOLDER, path) for path in list(df["path"])]
+    dir_list = [os.path.join(CSV_MSAs_FOLDER, path) for path in list(df["path"])]
     logging.debug("Number of paths in original csv = {n_paths}".format(n_paths=len(df.index)))
     return dir_list
 

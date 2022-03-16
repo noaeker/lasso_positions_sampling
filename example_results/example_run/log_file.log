@@ -4,11 +4,3 @@ INFO:root:There are overall 1 available
 INFO:root:There are 1 MSAs with at least 7 sequences and 100 positions
 INFO:root:Distributing MSAs over jobs: number of files per job=1 
 INFO:root:job number 0 will run on files ['../example_files/example_msa.phy']
-INFO:root:Current time: 03/15/2022, 15:03:39 About to update following jobs local csvs to general csv: ['../example_results/example_run/job_0/0.csv']
-INFO:root:Number of jobs still running is : 0 
-INFO:root:Existing df size is: 0
-INFO:root:Combined df size is: 384
-INFO:root:Existing df size is: 0
-INFO:root:Combined df size is: 384
-INFO:numexpr.utils:NumExpr defaulting to 4 threads.
-INFO:root:All csvs are updated to ../example_results/example_run/spr_raxml.tsv. Done!!!

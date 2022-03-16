@@ -6,7 +6,7 @@ from config import BRLEN_GENERATORS, EXAMPLE_RUN
 from help_functions import get_job_related_files_paths, create_or_clean_dir
 from input_parsers import job_parser
 import pandas as pd
-from config import LOGGING_LEVEL,MSAs_FOLDER
+from config import LOGGING_LEVEL,CSV_MSAs_FOLDER
 
 
 
@@ -48,7 +48,7 @@ def main():
     all_msa_results = pd.DataFrame(
     )
     for file_ind, original_alignment_path in enumerate(curr_job_file_path_list):
-        msa_name = os.path.basename(original_alignment_path) if EXAMPLE_RUN else original_alignment_path.replace(MSAs_FOLDER, "").replace("example_msa.phy", "").replace(os.path.sep,
+        msa_name = os.path.basename(original_alignment_path) if EXAMPLE_RUN else original_alignment_path.replace(CSV_MSAs_FOLDER, "").replace("example_msa.phy", "").replace(os.path.sep,
                                                                                                           "_")
         logging.info(
             f'#running on file name {msa_name} and ind (relativ to job) {file_ind}  original path= {original_alignment_path}')

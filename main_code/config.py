@@ -13,14 +13,13 @@ else:
 if EXAMPLE_RUN:
     RAXML_NG_EXE = "/Users/noa/Programs/Raxml/raxml-ng  " #replace by your installation of RAXML-NG
     RESULTS_FOLDER= "../example_results"
-    MSAs_FOLDER = "../example_files"
-    ALTERNATIVER_FILES_FOLDER = "../example_files"
-    ALTERNATIVE_MSAs = "../example_files"
+    INPUT_FILES_FOLDER = "../example_files"
     MAIN_CODE_PATH = "./MSA_positions_sampling.py"
     MAD_COMMAND_PREFIX = ""
     RATE4SITE_COMMAND_PREFIX= ""
     R_CODE_PATH = ""
     PARTITION_MODELS_FILE = ""
+    CSV_MSAs_FOLDER = ""
     IGNORE_COLS_IN_CSV = ["alignment_data", "MSA_original_alignment_data", "lasso_coeffs", "lasso_chosen_weights",
                           "lasso_chosen_locis", "lasso_predict_func", "lasso_first_phase_ml_trees_objects",
                           "orig_reduced_file_path", "alternative_analysis", "rate4site_scores", "lasso_rates_4_site"]
@@ -30,9 +29,9 @@ elif not LOCAL_RUN:
     RAXML_NG_EXE = "/groups/pupko/noaeker/programs/tree_search_programs/raxml-ng-float/raxml-ng --extra thread-pin "
     MAD_COMMAND_PREFIX = "/groups/pupko/noaeker/programs/other_programs/mad"
     RESULTS_FOLDER = "/groups/pupko/noaeker/lasso_positions_sampling_results"
-    MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
+    CSV_MSAs_FOLDER = "/groups/pupko/noaeker/data/ABC_DR"
     MSAs_CSV_PATH = "/groups/pupko/noaeker/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER = "/groups/pupko/noaeker/data/supermatrices_edited"
+    INPUT_FILES_FOLDER = "/groups/pupko/noaeker/data/supermatrices_edited"
     PARTITION_MODELS_FILE = "/groups/pupko/noaeker/data/partition_models"
     MAIN_CODE_PATH = "/groups/pupko/noaeker/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/groups/pupko/noaeker/main_code/R_code/lasso_glmnet.R"
@@ -45,10 +44,9 @@ elif LOCAL_RUN:
     MAD_COMMAND_PREFIX = "/Users/noa/Programs/mad.osx"
     RATE4SITE_COMMAND_PREFIX = "/Users/noa/Programs/rate4site"
     RESULTS_FOLDER= "/Users/noa/Workspace/lasso_positions_sampling_results"
-    MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
+    CSV_MSAs_FOLDER = "/Users/noa/Workspace/data/ABC_DR"
     MSAs_CSV_PATH = "/Users/noa/Workspace/data/sampled_datasets.csv"
-    ALTERNATIVER_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited_DNA"
-    ALTERNATIVE_MSAs = "/Users/noa/Workspace/data/supermatrices_edited"
+    INPUT_FILES_FOLDER= "/Users/noa/Workspace/data/supermatrices_edited_DNA"
     PARTITION_MODELS_FILE = "/Users/noa/Workspace/data/partition_models"
     MAIN_CODE_PATH = "/Users/noa/Workspace/lasso_positions_sampling/main_code/MSA_positions_sampling.py"
     R_CODE_PATH = "/Users/noa/Workspace/main_code/R_code/lasso_glmnet.R"
