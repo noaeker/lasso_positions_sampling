@@ -3,7 +3,7 @@
 
 ## Basic usage:
 
-### The most basic usage of the code does the following:
+### The most basic usage of the code:
 1.The code calls raxml-ng to generate one parsimony tree for the MSA . Then,  raxml-ng is used to estimate the value of the Gamma shape parameter, alpha, on this parsimony tree.
 2. The code uses raxml-ng to generate many random trees (default = 800). For each random tree, we evaluate per-site log likelihood on the MSA, assuming the same value of alpha we previously estimated for the parsimony tree. The obtained data is used as training data. The code also generates a test set of random trees with optimized branch lengths (default size = 30)
 3. The code then applies Lasso model on the training data and evaluates the entire Lasso path. For each threshold (default =  1%, 2.5%, 5%, 10%), the code generates a corresponding reduced MSA and a weights file, and accuracy is evaluated based on the test-set above.
